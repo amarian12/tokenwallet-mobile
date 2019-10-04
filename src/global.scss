@@ -24,3 +24,9 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+/* added for CSC app*/
+// Font path is used to include ionicons,
+// roboto, and noto sans fonts
+$font-path: "src/assets/csc-font/fonts";
+
+@import "src/assets/csc-font/csc";

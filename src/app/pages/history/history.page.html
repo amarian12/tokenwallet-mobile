@@ -1,0 +1,27 @@
+<ion-header >
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-icon src="/assets/svg/icon_selfie.svg"></ion-icon>
+    <ion-title>History</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button >
+        <span *ngIf="ios">Filter</span>
+        <span *ngIf="!ios">
+          <ion-icon slot="icon-only" name="options"></ion-icon>
+        </span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar   placeholder="Search"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+</ion-content>

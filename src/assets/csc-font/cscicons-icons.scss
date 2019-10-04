@@ -1,0 +1,143 @@
+// CSC Icon Font CSS
+// --------------------------
+
+
+.csc-icons-general {
+    display: inline-block;
+    font: normal normal normal 18px/1 csc;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+}
+
+.csc-icons-old {
+    display: inline-block;
+    font: normal normal normal 18px/1 csco;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+}
+
+.ion-ios-icon-contacts:before, .ion-ios-icon-contacts-outline:before, .ion-md-icon-contacts:before {@extend .csc-icons-general; content: "\e908";}
+.ion-ios-icon-unconfirmed:before, .ion-md-icon-unconfirmed:before {@extend .csc-icons-general; content: "\70";}
+
+.ion-ios-icon-details:before, .ion-md-icon-details:before {@extend .csc-icons-old; content: "\64";}
+.ion-ios-icon-minus:before, .ion-md-icon-minus:before {@extend .csc-icons-old; content: "\68";}
+.ion-ios-icon-info:before, .ion-md-icon-info:before {@extend .csc-icons-old; content: "\66";}
+.ion-ios-icon-menu:before, .ion-md-icon-menu:before {@extend .csc-icons-old; content: "\67";}
+.ion-ios-icon-plus:before, .ion-md-icon-plus:before {@extend .csc-icons-old; content: "\6b";}
+.ion-ios-icon-withdrawal:before, .ion-md-icon-withdrawal:before {@extend .csc-icons-old; content: "\6f";}
+.ion-ios-icon-deposit:before, .ion-md-icon-deposit:before {@extend .csc-icons-old; content: "\63";}
+
+.ion-ios-icon-down:before, .ion-md-icon-down:before {@extend .csc-icons-general; content: "\e906";}
+.ion-ios-icon-csc:before, .ion-md-icon-csc:before {@extend .csc-icons-general; content: "\e005";}
+.ion-ios-icon-receive:before, .ion-ios-icon-receive-outline:before, .ion-md-icon-receive:before {@extend .csc-icons-general;  content: "\e003";}
+.ion-ios-icon-operators:before, .ion-ios-icon-operators-outline:before, .ion-md-icon-operators:before {@extend .csc-icons-general; content: "\e006";}
+.ion-ios-icon-network:before, .ion-md-icon-network:before {@extend .csc-icons-general; content: "\e00a";}
+.ion-ios-icon-up:before, .ion-md-icon-up:before {@extend .csc-icons-general; content: "\e904";}
+.ion-ios-icon-transactions:before, .ion-ios-icon-transactions-outline:before, .ion-md-icon-transactions:before {@extend .csc-icons-general; content: "\e004";;}
+.ion-ios-icon-send:before, .ion-ios-icon-send-outline:before, .ion-md-icon-send:before {@extend .csc-icons-general; content: "\e007";}
+
+.ion-ios-water:before, .ion-ios-water-outline:before, .ion-md-water:before {@extend .csc-icons-general; content: "\e90c";}
+
+
+
+
+/*
+.icon-arrow-right:before {
+  content: "\e903";
+}
+.icon-arrow-up:before {
+  content: "\e904";
+}
+.icon-arrow-left:before {
+  content: "\e905";
+}
+.icon-arrow-down:before {
+  content: "\e906";
+}
+.icon-banknote:before {
+  content: "\e902";
+}
+.icon-save:before {
+  content: "\e90c";
+}
+.icon-id:before {
+  content: "\e90b";
+}
+.icon-exchange:before {
+  content: "\e901";
+}
+.icon-key:before {
+  content: "\e90d";
+}*/
+.icon-users:before {
+  @extend .csc-icons-general;
+  content: "\e908";
+}
+/*
+.icon-tag:before {
+  content: "\e909";
+}
+.icon-text:before {
+  content: "\e90a";
+}
+.icon-search:before {
+  content: "\e907";
+}
+.icon-list-numbered:before {
+  content: "\e900";
+}
+.icon-book:before {
+  content: "\e000";
+}
+.icon-globe:before {
+  content: "\e001";
+}
+*/
+.icon-question:before {
+  @extend .csc-icons-general;
+  content: "\e002";
+}
+/*
+.icon-receive:before {
+  content: "\e003";
+}
+.icon-transactions:before {
+  content: "\e004";
+}
+.icon-chip:before {
+  content: "\e005";
+}
+.icon-operator:before {
+  content: "\e006";
+}
+.icon-send:before {
+  content: "\e007";
+}
+.icon-regulator:before {
+  content: "\e008";
+}
+.icon-gear:before {
+  content: "\e009";
+}
+.icon-network:before {
+  content: "\e00a";
+}
+*/
+.icon-arrows:before {
+  @extend .csc-icons-general;
+  content: "\e00b";
+}
+/*
+.icon-wrench:before {
+  content: "\e00c";
+}
+.icon-user:before {
+  content: "\e00d";
+}
+*/
