@@ -1,9 +1,57 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>contacts</ion-title>
+  <ion-toolbar color="primary">
+    <ion-nav-pop slot="start">
+      <ion-buttons>
+        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
+        <i class="icon-logo icon-chip"></i>
+        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+      </ion-buttons>
+    </ion-nav-pop>
+    <ion-title>Contacts</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content>
+  <ion-grid fixed>
+    <ion-row class="ion-align-items-stretch">
+      <ion-col size="12" size-md="6" >
+        <ion-card class="speaker-card">
+          <ion-card-header>
+            <ion-item detail="false" lines="none" >
+              <ion-avatar slot="start">
+                <img src="/assets/svg/CSC_BRM_user.svg" >
+              </ion-avatar>
+              Alejandro Angel
+            </ion-item>
+          </ion-card-header>
+
+
+          <ion-row class="ion-no-padding ion-justify-content-center">
+            <ion-col size="4" class="ion-text-left">
+              <ion-button fill="clear" size="small" color="primary" >
+                <i class="icon icon-arrows "></i>
+                Tweet
+              </ion-button>
+            </ion-col>
+            <ion-col size="4" class="ion-text-center">
+              <ion-button fill="clear" size="small" color="primary" >
+                <ion-icon name="share-alt" slot="start"></ion-icon>
+                Share
+              </ion-button>
+            </ion-col>
+            <ion-col size="4" class="ion-text-right">
+              <ion-button fill="clear" size="small" color="primary" >
+                <ion-icon name="chatboxes" slot="start"></ion-icon>
+                Contact
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

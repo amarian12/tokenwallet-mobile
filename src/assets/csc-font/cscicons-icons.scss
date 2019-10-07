@@ -45,6 +45,20 @@
 .ion-ios-water:before, .ion-ios-water-outline:before, .ion-md-water:before {@extend .csc-icons-general; content: "\e90c";}
 
 
+.icon-logo{
+font-size: 2.2em;
+    color: var(--ion-color-primary);
+    background:var( --ion-color-dark-contrast);
+    vertical-align: middle;
+    line-height: 0.9em;
+    border-radius: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid;
+    box-shadow: grey 2px 3px 3px;
+}
 
 
 /*
@@ -110,9 +124,12 @@
 .icon-transactions:before {
   content: "\e004";
 }
+*/
 .icon-chip:before {
+@extend .csc-icons-general;
   content: "\e005";
 }
+/*
 .icon-operator:before {
   content: "\e006";
 }

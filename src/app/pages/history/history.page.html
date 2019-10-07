@@ -1,27 +1,23 @@
 <ion-header >
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-icon src="/assets/svg/icon_selfie.svg"></ion-icon>
+    <ion-nav-pop slot="start">
+      <ion-buttons >
+        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
+        <i class="icon-logo icon-chip"></i>
+        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+      </ion-buttons>
+    </ion-nav-pop>
     <ion-title>History</ion-title>
 
     <ion-buttons slot="end">
-      <ion-button >
-        <span *ngIf="ios">Filter</span>
-        <span *ngIf="!ios">
-          <ion-icon slot="icon-only" name="options"></ion-icon>
-        </span>
-      </ion-button>
+      <ion-menu-button></ion-menu-button>
+
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar>
-    <ion-searchbar   placeholder="Search"></ion-searchbar>
-  </ion-toolbar>
+
 </ion-header>
 
 
 <ion-content>
-
 </ion-content>
