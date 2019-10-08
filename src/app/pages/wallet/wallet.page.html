@@ -16,7 +16,7 @@
 
 <ion-content>
   <!--ion-list #scheduleList [hidden]="shownSessions === 0"-->
-  <ion-list #algo>
+  <ion-list #algo lines="full">
     <!-- ion-item-group *ngFor="let group of groups" [hidden]="group.hide" -->
     <ion-item-group >
       <!--ion-item-divider sticky>
@@ -26,26 +26,293 @@
       </ion-item-divider-->
 
       <ion-item-sliding >
-        <ion-item lines="full">
+        <ion-item >
           <ion-avatar slot="start">
-            <img src="/assets/svg/logo_icon.svg" >
+            <img src="/assets/icon/csc_icon_red.png" >
           </ion-avatar>
           <ion-label >
-            <h3>Titulo</h3>
+            <h3>$28,300 (CSC)</h3>
             <p>
-              texto
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
             </p>
           </ion-label>
+          <ion-badge color="success" slot="end"><ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon></ion-badge>
         </ion-item>
         <ion-item-options>
-          <ion-item-option color="favorite" >
-            Favorite
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
           </ion-item-option>
-          <ion-item-option color="danger" >
-            Remove
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/tkn/pcn.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$200 (PCN)</h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="success" slot="end"><ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$347 (CSC)</h3>
+            <p>
+              <small>
+
+                cPn1GuLfqDFx5rn9HgvQhVqCC7qkUCdpqD
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="success" slot="end"><ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/tkn/100.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$0 (100)</h3>
+            <p>
+              <small>
+
+                caqsR8df4ZrugLup2KeZtotm4TAY6R3GD7
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="danger" slot="end"><ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$0 (CSC)</h3>
+            <p>
+              <small>
+
+                cB57KZJFfKQvFPC6DsYZ5jCBreyhTzT2WM
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="danger" slot="end"><ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <!--ion-item-divider sticky>
+        <ion-label>
+          Algo
+        </ion-label>
+      </ion-item-divider-->
+
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$28,300 (CSC)</h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="success" slot="end"><ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/tkn/pcn.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$200 (PCN)</h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="success" slot="end"><ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$347 (CSC)</h3>
+            <p>
+              <small>
+
+                cPn1GuLfqDFx5rn9HgvQhVqCC7qkUCdpqD
+              </small>
+            </p>
+          </ion-label>
+
+          <ion-badge color="success" slot="end">
+            <ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon>
+            </ion-badge>
+          <!--ion-badge color="success" slot="end"><ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon></ion-badge-->
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/tkn/100.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$0 (100)</h3>
+            <p>
+              <small>
+
+                caqsR8df4ZrugLup2KeZtotm4TAY6R3GD7
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="danger" slot="end"><ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding >
+        <ion-item >
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-label >
+            <h3>$0 (CSC)</h3>
+            <p>
+              <small>
+
+                cB57KZJFfKQvFPC6DsYZ5jCBreyhTzT2WM
+              </small>
+            </p>
+          </ion-label>
+          <ion-badge color="danger" slot="end"><ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon></ion-badge>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="success" >
+            send <i class="icon icon-send"></i>
+          </ion-item-option>
+          <ion-item-option color="secondary" >
+            receive <i class="icon icon-receive"></i>
+
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-item-group>
   </ion-list>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button>
+      <!--i class="icon ion-ios-icon-transactions"></i-->
+      <ion-icon src="/assets/svg/casino-coin.svg"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="secondary" >
+        <i  class="primary-text 000icon icon-send"></i>
+      </ion-fab-button>
+      <ion-fab-button color="secondary" >
+        <i class="icon icon-receive"></i>
+      </ion-fab-button>
+      <ion-fab-button color="secondary" >
+        <i class="icon icon-chip"></i>
+      </ion-fab-button>
+
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

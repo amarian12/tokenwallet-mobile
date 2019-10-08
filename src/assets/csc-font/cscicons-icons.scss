@@ -15,6 +15,7 @@
 .csc-icons-old {
     display: inline-block;
     font: normal normal normal 18px/1 csco;
+    font-family: csco !important;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
@@ -55,9 +56,9 @@ font-size: 2.2em;
     width: 1.2em;
     height: 1.2em;
     padding: 0px;
-    margin: 0px;
+    margin: 10px;
     border: 1px solid;
-    box-shadow: grey 2px 3px 3px;
+    box-shadow: rgba(0,0,0,0.5) 4px 4px 4px;
 }
 
 
@@ -117,10 +118,12 @@ font-size: 2.2em;
   @extend .csc-icons-general;
   content: "\e002";
 }
-/*
+
 .icon-receive:before {
   content: "\e003";
+  @extend .csc-icons-general;
 }
+/*
 .icon-transactions:before {
   content: "\e004";
 }
@@ -133,9 +136,12 @@ font-size: 2.2em;
 .icon-operator:before {
   content: "\e006";
 }
+*/
 .icon-send:before {
   content: "\e007";
+  @extend .csc-icons-general;
 }
+/*
 .icon-regulator:before {
   content: "\e008";
 }

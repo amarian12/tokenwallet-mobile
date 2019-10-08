@@ -1,23 +1,242 @@
-<ion-header >
+<ion-header>
   <ion-toolbar color="primary">
     <ion-nav-pop slot="start">
-      <ion-buttons >
+      <ion-buttons>
         <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
         <i class="icon-logo icon-chip"></i>
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
     </ion-nav-pop>
     <ion-title>History</ion-title>
-
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
-
     </ion-buttons>
   </ion-toolbar>
-
-
 </ion-header>
 
 
 <ion-content>
+  <ion-list #algo lines="full">
+    <!-- ion-item-group *ngFor="let group of groups" [hidden]="group.hide" -->
+    <ion-item-group >
+      <!--ion-item-divider sticky>
+        <ion-label>
+          Algo
+        </ion-label>
+      </ion-item-divider-->
+
+
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>10,104 CSC <small>02 oct 18:33</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="danger">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-minus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>300 CSC <small>01 oct 09:33</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>324 CSC <small>01 oct 08:33</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/tkn/pcn.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>657 PCN <small>29 sep 19:53</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/tkn/pcn.png" >
+          </ion-avatar>
+          <ion-text color="danger">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-minus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>28,300 CSC <small>29 sep 13:23</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>20 CSC <small>25 sep 10:43</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="danger">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-minus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>283 CSC <small>23 sep 08:34</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>0,25 CSC <small>21 sep 18:33</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>28,300 CSC <small>02 oct 18:33</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>28,300 CSC <small>02 oct 18:33</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+        <ion-item  detail>
+          <ion-avatar slot="start">
+            <img src="/assets/icon/csc_icon_red.png" >
+          </ion-avatar>
+          <ion-text color="success">
+
+            <i style="font-size:2em;margin:0.3em;" class="icon ion-md-icon-plus"></i>
+          </ion-text>
+          <ion-label >
+            <h3>28,300 CSC <small>02 oct 18:33</small></h3>
+            <p>
+              <small>
+
+                cpAeEYrszt4H4ANiCn75VJHHJABXv1fqZQ
+              </small>
+            </p>
+          </ion-label>
+
+        </ion-item>
+
+    </ion-item-group>
+  </ion-list>
+
 </ion-content>
