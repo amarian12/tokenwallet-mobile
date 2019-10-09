@@ -8,6 +8,16 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: 'dashboard',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../dashboard/dashboard.module').then(m => m.DashboardPageModule)
+          }
+        ]
+      },
+      {
         path: 'wallet',
         children: [
           {
@@ -60,14 +70,14 @@ const routes: Routes = [
 
       {
         path: '',
-        redirectTo: '/tabs/wallet',
+        redirectTo: '/tabs/dashboard',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/wallet',
+    redirectTo: '/tabs/dashboard',
     pathMatch: 'full'
   }
 ];

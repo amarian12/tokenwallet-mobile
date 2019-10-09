@@ -59,7 +59,7 @@ $cscicons-font-path: $font-path !default;
 
 
 @font-face {
-	font-family:"Europa";
+	font-family:"Europa-Bold";
 	src: url('#{$cscicons-font-path}/Europa-Regular.eot');
 	src:url("#{$cscicons-font-path}/Europa-Regular.woff") format("woff"),
 		url("#{$cscicons-font-path}/Europa-Regular.woff2") format("woff2"),
@@ -71,7 +71,7 @@ $cscicons-font-path: $font-path !default;
 
 
 @font-face {
-	font-family:"Europa";
+	font-family:"Europa-Bold";
 	src: url('#{$cscicons-font-path}/Europa-Bold.eot');
 	src:url("#{$cscicons-font-path}/Europa-Bold.woff") format("woff"),
 		url("#{$cscicons-font-path}/Europa-Bold.woff2") format("woff2"),

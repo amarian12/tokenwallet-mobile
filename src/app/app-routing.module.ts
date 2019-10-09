@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'exchanges', loadChildren: './pages/exchanges/exchanges.module#ExchangesPageModule' },
   { path: 'help', loadChildren: './pages/help/help.module#HelpPageModule' },
   { path: 'main', loadChildren: './pages/main/main.module#MainPageModule' },
-  { path: 'contacts', loadChildren: './pages/contacts/contacts.module#ContactsPageModule' }
+  { path: 'contacts', loadChildren: './pages/contacts/contacts.module#ContactsPageModule' },
+  { path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardPageModule' }
 ];
 @NgModule({
   imports: [
