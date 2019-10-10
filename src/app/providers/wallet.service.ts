@@ -6,15 +6,14 @@ import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { AppConstants } from '../domains/app-constants';
 import { CSCUtil } from '../domains/csc-util';
 import { CSCCrypto } from '../domains/csc-crypto';
-import { ElectronService } from '../providers/electron.service';
 import { NotificationService, SeverityType } from '../providers/notification.service';
 import { CasinocoinAPI } from '@casinocoin/libjs';
 import Big from 'big.js';
 
-const path = require('path');
-const fs = require('fs');
+// const path = require('path');
+//const fs = require('fs');
 const crypto = require('crypto');
-const LZString = require('lz-string');
+// const LZString = require('lz-string');
 
 import * as loki from 'lokijs';
 import * as LokiIndexedAdapter from 'lokijs/src/loki-indexed-adapter';
@@ -57,7 +56,7 @@ export class WalletService {
   constructor(private logger: LogService,
               private localStorageService: LocalStorageService,
               private sessionStorageService: SessionStorageService,
-              private electron: ElectronService,
+              // private electron: LogService,
               private notificationService: NotificationService) {
     this.logger.debug('### INIT WalletService ###');
    }
@@ -65,17 +64,17 @@ export class WalletService {
   createWallet(): Observable<any> {
     // create wallet for UUID
     this.logger.debug('### WalletService Create Wallet: ' + JSON.stringify(this.walletSetup.walletUUID));
-    const userPath = this.electron.remote.app.getPath('home');
-    if (this.walletSetup.walletLocation === undefined || this.walletSetup.walletLocation.length === 0) {
-      this.walletSetup.walletLocation = path.join(userPath, '.casinocoin-wlt');
-    }
-    // check if path exists, else create
-    this.logger.debug('### WalletService, check if wallet location exists');
-    if (!fs.existsSync(this.walletSetup.walletLocation)) {
-      this.logger.debug('### WalletService, location does not exist: ' + this.walletSetup.walletLocation);
-      fs.mkdirSync(this.walletSetup.walletLocation);
-    }
-    const dbPath = path.join(this.walletSetup.walletLocation, (this.walletSetup.walletUUID + '.db'));
+    // const userPath = this.electron.remote.app.getPath('home');
+    // if (this.walletSetup.walletLocation === undefined || this.walletSetup.walletLocation.length === 0) {
+    //   this.walletSetup.walletLocation = path.join(userPath, '.casinocoin-wlt');
+    // }
+    // // check if path exists, else create
+    // this.logger.debug('### WalletService, check if wallet location exists');
+    // if (!fs.existsSync(this.walletSetup.walletLocation)) {
+    //   this.logger.debug('### WalletService, location does not exist: ' + this.walletSetup.walletLocation);
+    //   fs.mkdirSync(this.walletSetup.walletLocation);
+    // }
+    const dbPath = (this.walletSetup.walletUUID + '.db');
     this.logger.debug('### WalletService Database File: ' + dbPath);
     this.localStorageService.set(AppConstants.KEY_WALLET_LOCATION, dbPath);
 
@@ -123,8 +122,8 @@ export class WalletService {
     this.logger.debug('### WalletService openWallet: ' + walletUUID);
     this.openWalletSubject.next(AppConstants.KEY_OPENING);
     const dbPath = this.localStorageService.get(AppConstants.KEY_WALLET_LOCATION);
-    const walletLocation = path.join(dbPath, (walletUUID + '.db'));
-    this.logger.debug('### WalletService Database File: ' + walletLocation);
+    // const dbPath = path.join(dbPath, (walletUUID + '.db'));
+    this.logger.debug('### WalletService Database File: ' + dbPath);
 
     const collectionSubject = new Subject<any>();
     const openSubject = new Subject<string>();
@@ -159,7 +158,7 @@ export class WalletService {
     });
 
     this.lokiAdapter = new LokiIndexedAdapter('casinocoin');
-    const walletDB = new loki(walletLocation,
+    const walletDB = new loki(dbPath,
       { adapter: this.lokiAdapter,
         autoload: true,
         autoloadCallback: function openCollections(result) {
@@ -632,7 +631,7 @@ export class WalletService {
       return null;
     }
   }
-
+/*
   getWalletDump(): string {
     return LZString.compressToBase64(this.walletDB.serialize());
   }
@@ -668,5 +667,5 @@ export class WalletService {
     });
     // open the wallet
     this.openWallet(walletUUID);
-  }
+  }*/
 }

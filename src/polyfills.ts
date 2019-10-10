@@ -60,7 +60,12 @@ import './zone-flags.ts';
 
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
-
+// shim global
+// @see https://github.com/angular/angular-cli/issues/8160#issuecomment-386153833
+(window as any).global = window;
+(window as any).global.Buffer = (window as any).global.Buffer || require('buffer').Buffer;
+import * as process from 'process';
+ window['process'] = process;
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */

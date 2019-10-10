@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-
+import { LogService } from './providers/log.service';
 import { Platform } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -13,6 +14,8 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
+    private translate: TranslateService,
+    private logger: LogService,
     private statusBar: StatusBar
   ) {
     this.initializeApp();
@@ -22,6 +25,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.logger.debug('### App initialized::::::::::::::');
+      // debug('### AppConfig: ' + JSON.stringify(AppConfig));
+      this.logger.debug('### Setting default lang: en');
+      this.translate.setDefaultLang('en');
     });
   }
 }
