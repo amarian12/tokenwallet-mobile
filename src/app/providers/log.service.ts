@@ -8,7 +8,7 @@ import { NGXLogger } from 'ngx-logger';
 export class LogService {
 
     electronLogger: any;
-    loglevel = 'error';
+    loglevel = 'debug';
 
     constructor(private logger: NGXLogger
                 // private electronService: ElectronService

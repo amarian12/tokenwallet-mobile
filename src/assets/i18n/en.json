@@ -1,5 +1,8 @@
 {
   "PAGES": {
+      "DASHBOARD": {
+          "TITLE":"Dashboard"
+      },
       "HOME": {
           "TITLE": "CasinoCoin Token Wallet",
           "ICON-FOOTER": "Powered by CasinoCoin",

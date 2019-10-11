@@ -22,13 +22,15 @@ export class AppComponent {
   }
 
   initializeApp() {
+
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
       this.logger.debug('### App initialized::::::::::::::');
       // debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');
       this.translate.setDefaultLang('en');
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+
     });
   }
 }
