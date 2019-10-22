@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-step6',
+  selector: 'wallet-step6',
   templateUrl: './step6.component.html',
   styleUrls: ['./step6.component.scss'],
 })

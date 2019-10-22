@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-step7',
+  selector: 'wallet-step7',
   templateUrl: './step7.component.html',
   styleUrls: ['./step7.component.scss'],
 })

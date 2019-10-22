@@ -23,6 +23,16 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { WalletSetupModule} from './components/wallet-setup/wallet-setup.module';
+// import { WalletSetupComponent } from './components/wallet-setup/wallet-setup.module';
+// import { Step1Component } from './components/wallet-setup/steps/step1/step1.component';
+// import { Step2Component } from './components/wallet-setup/steps/step2/step2.component';
+// import { Step3Component } from './components/wallet-setup/steps/step3/step3.component';
+// import { Step4Component } from './components/wallet-setup/steps/step4/step4.component';
+// import { Step5Component } from './components/wallet-setup/steps/step5/step5.component';
+// import { Step6Component } from './components/wallet-setup/steps/step6/step6.component';
+// import { Step7Component } from './components/wallet-setup/steps/step7/step7.component';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,9 +40,19 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    // Step1Component,
+    // Step2Component,
+    // Step3Component,
+    // Step4Component,
+    // Step5Component,
+    // Step6Component,
+    // Step7Component,
+    AppComponent
+  ],
   entryComponents: [],
   imports: [
+    WalletSetupModule,
     BrowserModule,
     IonicModule.forRoot(),
     HttpClientModule,
@@ -49,6 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
      AppRoutingModule],
+
   providers: [
     StatusBar,
     SplashScreen,

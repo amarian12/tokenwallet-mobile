@@ -1,3 +1,45 @@
-<p>
-  step5 works!
-</p>
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      <ion-label color="primary" class="ion-text-wrap">
+            {{ 'PAGES.SETUP.STEP5-TITLE' | translate }}
+      </ion-label>
+    </ion-card-title>
+    <ion-card-subtitle>
+      <ion-label class="ion-text-wrap">
+            {{ 'PAGES.SETUP.STEP5-SUBTITLE' | translate }}
+      </ion-label>
+    </ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" >
+          <ion-list>
+            <ion-item> <ion-badge color="light" slot="start">1</ion-badge>tree</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">2</ion-badge>flower</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">3</ion-badge>forest</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">4</ion-badge>absent</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">5</ion-badge>queue</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">6</ion-badge>apple</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">7</ion-badge>solid</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">8</ion-badge>stone</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">9</ion-badge>liquid</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">10</ion-badge>final</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">11</ion-badge>true</ion-item>
+            <ion-item> <ion-badge color="light" slot="start">12</ion-badge>master</ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-item >
+          <ion-label position="stacked">{{ 'PAGES.SETUP.STEP5-EMAIL' | translate }}</ion-label>
+          <ion-input readonly disabled type="email" value="angel@halconmedia.com" ></ion-input>
+        </ion-item>
+        </ion-row>
+        <ion-row>
+        <ion-col size="10" offset="1">
+          <ion-button> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
