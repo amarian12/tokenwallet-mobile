@@ -14,20 +14,24 @@
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="12" >
-          <ion-list>
-            <ion-item> <ion-badge color="light" slot="start">1</ion-badge>tree</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">2</ion-badge>flower</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">3</ion-badge>forest</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">4</ion-badge>absent</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">5</ion-badge>queue</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">6</ion-badge>apple</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">7</ion-badge>solid</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">8</ion-badge>stone</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">9</ion-badge>liquid</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">10</ion-badge>final</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">11</ion-badge>true</ion-item>
-            <ion-item> <ion-badge color="light" slot="start">12</ion-badge>master</ion-item>
+        <ion-col size="6" class="ion-no-margin ion-no-padding">
+          <ion-list lines="none"class="ion-no-margin ion-no-padding" >
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">1</ion-badge><small>tree</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">2</ion-badge><small>flower</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">3</ion-badge><small>forest</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">4</ion-badge><small>absent</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">5</ion-badge><small>queue</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">6</ion-badge><small>apple</small></ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col size="6" class="ion-no-margin ion-no-padding" >
+          <ion-list lines="none" class="ion-no-margin ion-no-padding">
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">7</ion-badge><small>solid</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">8</ion-badge><small>stone</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">9</ion-badge><small>liquid</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">10</ion-badge><small>final</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">11</ion-badge><small>true</small></ion-item>
+            <ion-item class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">12</ion-badge><small>master</small></ion-item>
           </ion-list>
         </ion-col>
         <ion-item >
@@ -37,7 +41,7 @@
         </ion-row>
         <ion-row>
         <ion-col size="10" offset="1">
-          <ion-button> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+          <ion-button (click)="swipeNext()"> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

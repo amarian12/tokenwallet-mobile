@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { WalletSetupComponent} from './wallet-setup.component';
 import { Step1Component} from './steps/step1/step1.component';
 import { Step2Component} from './steps/step2/step2.component';
@@ -23,6 +24,7 @@ import { TranslateModule } from '@ngx-translate/core';
     Step7Component
   ],
   imports: [
+    FormsModule,
     CommonModule,
     IonicModule,
     TranslateModule.forChild()

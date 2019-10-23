@@ -35,10 +35,10 @@
 
         </ion-col>
         <ion-col size="2">
-          <ion-checkbox  ></ion-checkbox>
+          <ion-checkbox [(ngModel)]="disclaimerAccepted" (ionChange)="updateDisclaimerAccepted()" ></ion-checkbox>
         </ion-col>
         <ion-col size="10" offset="1">
-          <ion-button> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+          <ion-button (click)="swipeNext()"> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
