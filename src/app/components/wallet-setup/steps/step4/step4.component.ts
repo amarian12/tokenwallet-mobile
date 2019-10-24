@@ -12,17 +12,28 @@ import { IonSlides } from '@ionic/angular';
   styleUrls: ['./step4.component.scss'],
 })
 export class Step4Component implements OnInit {
-
+  developerOptionShow: boolean = false;
   @Input() slider: IonSlides;
-    constructor(private logger: LogService,) { }
+    constructor(
+      private logger: LogService,
+      private walletService: WalletService,
+    ) { }
 
     ngOnInit() {
-      this.logger.debug('### Ready first step. Wallet Setup ');
+      this.logger.debug('### Ready fourth step. Wallet Setup ');
     }
     swipeNext(){
-      this.logger.debug('### Go to step 2 triggered');
+      this.logger.debug('### Go to step 5 triggered');
       this.slider.lockSwipes(false);
       this.slider.slideNext();
       this.slider.lockSwipes(true);
+    }
+    toggleDev(){
+      this.developerOptionShow = !this.developerOptionShow;
+    }
+    onNetworkChanged(event) {
+      console.log(event.detail.checked);
+      this.logger.debug('### Step 3.1 - Test Network?: ' + event.detail.checked);
+      this.walletService.walletSetup.testNetwork = event.detail.checked;
     }
 }

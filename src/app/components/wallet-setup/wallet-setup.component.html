@@ -1,4 +1,4 @@
-<ion-slides pager="true" [options]="slideOpts" #walletSetup  >
+<ion-slides pager="true" [options]="slideOpts" #walletSetup (ionSlideTransitionEnd)="slideChanged()" >
   <ion-slide>
     <wallet-step1 [slider]="walletSetup">
     </wallet-step1>
@@ -19,7 +19,7 @@
   </ion-slide>
 
   <ion-slide>
-    <wallet-step5 [slider]="walletSetup">
+    <wallet-step5 [slider]="walletSetup" >
     </wallet-step5>
   </ion-slide>
 

@@ -11,6 +11,7 @@ import { Step6Component} from './steps/step6/step6.component';
 import { Step7Component} from './steps/step7/step7.component';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { MustMatchDirective } from './helpers/must-match.directive';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TranslateModule } from '@ngx-translate/core';
     Step4Component,
     Step5Component,
     Step6Component,
-    Step7Component
+    Step7Component,
+    MustMatchDirective
   ],
   imports: [
     FormsModule,

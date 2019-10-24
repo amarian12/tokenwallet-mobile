@@ -45,4 +45,7 @@ export class WalletSetupComponent implements OnInit {
     // this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
     this.logger.debug('### WalletSetup: ' + JSON.stringify(this.walletService.walletSetup));
   }
+  slideChanged() {
+  console.log(this.slides.getActiveIndex());
+  }
 }
