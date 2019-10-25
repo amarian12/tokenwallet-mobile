@@ -7,14 +7,15 @@
     </ion-card-title>
     <ion-card-subtitle>
       <ion-label class="ion-text-wrap">
-            {{'PAGES.SETUP.STEP7-STATUS' | translate }}
+            {{'PAGES.SETUP.STEP7-STATUS' | translate }} : {{statusMessage}}
       </ion-label>
     </ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <ion-progress-bar *ngIf="setupFinished" type="determinate" value="100" ></ion-progress-bar>
+    <ion-progress-bar *ngIf="!setupFinished" type="indeterminate" ></ion-progress-bar>
     <ion-col size="10" offset="1">
-      <ion-button (click)="backToStart()"> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+      <ion-button (click)="closeSetup()" [disabled]="!setupFinished"> {{ 'PAGES.SETUP.STEP7-BTN-FINISH-SETUP' | translate }}</ion-button>
     </ion-col>
   </ion-card-content>
 </ion-card>

@@ -17,8 +17,13 @@ export class Step5Component implements OnInit {
   userEmail: string = "";
 
   @Input() slider: IonSlides;
-  @HostListener('ionSlideTransitionEnd') slideChanged() {
-    this.logger.debug('### I did it!!');
+  @HostListener('window:ionSlideTransitionEnd') slideChanged() {
+      this.slider.getActiveIndex().then(
+     (index)=>{
+       if(index == 4){
+          this.onDisplay();
+       }
+      });
   }
     constructor(
       private logger: LogService,
@@ -48,7 +53,7 @@ export class Step5Component implements OnInit {
     }
     onDisplay() {
       this.userEmail = this.walletService.walletSetup.userEmail;
-      this.logger.debug('### asigned email '+ this.userEmail);
+      this.logger.debug('### loaded email '+ this.userEmail);
 
     }
 

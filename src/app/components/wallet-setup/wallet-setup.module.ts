@@ -12,6 +12,7 @@ import { Step7Component} from './steps/step7/step7.component';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { MustMatchDirective } from './helpers/must-match.directive';
+import { MnemonicValidDirective } from './helpers/mnemonic-valid.directive';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MustMatchDirective } from './helpers/must-match.directive';
     Step5Component,
     Step6Component,
     Step7Component,
-    MustMatchDirective
+    MustMatchDirective,
+    MnemonicValidDirective
   ],
   imports: [
     FormsModule,

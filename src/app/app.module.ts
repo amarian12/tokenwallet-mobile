@@ -18,6 +18,7 @@ import { NotificationService } from './providers/notification.service';
 import { MarketService } from './providers/market.service';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -55,6 +56,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletSetupModule,
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
