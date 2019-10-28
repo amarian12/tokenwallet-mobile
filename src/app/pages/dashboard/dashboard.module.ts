@@ -6,8 +6,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { DashboardPage } from './dashboard.page';
 
-import { WalletSetupModule } from '../../components/wallet-setup/wallet-setup.module';
-
 const routes: Routes = [
   {
     path: '',
@@ -21,7 +19,6 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    WalletSetupModule,
     RouterModule.forChild(routes)
   ],
   declarations: [

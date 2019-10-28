@@ -5,7 +5,7 @@ import { WalletSetupComponent } from './wallet-setup.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'wallet-setup',
     component: WalletSetupComponent
   }
 ];

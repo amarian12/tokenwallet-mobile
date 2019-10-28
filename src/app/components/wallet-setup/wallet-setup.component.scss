@@ -1,5 +1,11 @@
+ion-slides div{
+  -webkit-box-align: center !important;
+  align-items: center !important;
+}
+
 ion-slides{
 background: url(/assets/bg/image_pin_720x1480_.jpg) center bottom ;
 background-size: cover;
+min-height: 100%;
 
 }
