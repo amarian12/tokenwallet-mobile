@@ -1,0 +1,89 @@
+
+
+<ion-content fullscreen>
+  <ion-grid class="intro" *ngIf="!loginEntry" >
+		<ion-row class="intro-logo">
+			<ion-img src="assets/svg/logo_icon.svg" ></ion-img>
+		</ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-label color="primary"> CasinoCoin<br>
+          <ion-text color="light">Token Wallet</ion-text>
+        </ion-label>
+      </ion-col>
+    </ion-row>
+
+		<ion-row *ngIf="!displayCustomPin">
+			<ion-col>
+				<ion-button expand="block" (click)="enterPIN()" color="primary"  [disabled]="loginDisable"> Login </ion-button>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="!displayCustomPin">
+			<ion-col (click)="forgotPin()">
+				<ion-text color="light" class="ion-text-center">Forgot PIN Code?</ion-text>
+			</ion-col>
+		</ion-row>
+    <ion-row>
+      <ion-row *ngIf="loginEntry">
+    		<ion-item>
+    		<ion-button type="number" class="mask-text" >login</ion-button>
+    		<ion-text color="light" class="ion-text-center" (click)="forgotPin()">Forgot PIN Code?</ion-text>
+    		</ion-item>
+    	</ion-row>
+    </ion-row>
+	</ion-grid>
+
+
+  <ion-footer>
+    <ion-grid class="ion-text-center">
+      <ion-row>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('1')">1</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('2')">2</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('3')">3</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('4')">4</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('5')">5</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('6')">6</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('7')">7</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('8')">8</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('9')">9</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="cancelPin()">Cancel</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="handlePinInput('0')">0</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button  shape="round" size="large"  (click)="backspacePin()">
+            <ion-icon name="backspace"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-footer>
+
+</ion-content>

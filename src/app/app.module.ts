@@ -9,6 +9,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // LoggerModule
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 // Providers
+
+
+// Pipes
+import { DatePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
 // import { AuthGuard } from './auth-guard';
 import { CasinocoinService } from './providers/casinocoin.service';
 import { LogService } from './providers/log.service';
@@ -78,6 +82,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletService,
     CasinocoinService,
     LogService,
+    DecimalPipe,
+    CurrencyPipe,
     NotificationService,
     MarketService,
     LocalStorageService,
