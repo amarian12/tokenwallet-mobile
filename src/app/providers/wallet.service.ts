@@ -12,7 +12,7 @@ import Big from 'big.js';
 
 // const path = require('path');
 //const fs = require('fs');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 // const LZString = require('lz-string');
 
 import * as loki from 'lokijs';
@@ -459,7 +459,8 @@ export class WalletService {
   // Wallet Methods
   // #########################################
   generateWalletPasswordHash(walletUUID: string, password: string): string {
-    const passwordHash = crypto.createHmac('sha256', password).update(walletUUID).digest('hex');
+    // const passwordHash = crypto.createHmac('sha256', password).update(walletUUID).digest('hex');
+    const passwordHash = CSCCrypto.getPasswordHash();
     return passwordHash;
   }
 
@@ -476,7 +477,8 @@ export class WalletService {
     } else {
       walletHash = this.localStorageService.get(AppConstants.KEY_WALLET_PASSWORD_HASH);
     }
-    const passwordHash = crypto.createHmac('sha256', password).update(walletUUID).digest('hex');
+    const passwordHash = CSCCrypto.getPasswordHash();
+    // const passwordHash = crypto.createHmac('sha256', password).update(walletUUID).digest('hex');
     return (walletHash === passwordHash);
   }
 

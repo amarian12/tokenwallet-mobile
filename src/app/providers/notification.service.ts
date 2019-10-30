@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 // import { ElectronService } from './electron.service';
 
 // var notifier = require('node-notifier');
-const path = require('path');
+// const path = require('path');
 
 export enum SeverityType {
     info = 'Info',
