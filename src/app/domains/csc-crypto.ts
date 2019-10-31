@@ -260,10 +260,80 @@ export class CSCCrypto {
     'wrap', 'wreck', 'wrestle', 'wrist', 'write', 'wrong', 'yard', 'year',
     'yellow', 'you', 'young', 'youth', 'zebra', 'zero', 'zone', 'zoo'
   ];
- constructor(password?: string | Array<string> | undefined, salt?: string){
-   // Works !
-   var test = CryptoJS.lib.WordArray.random(16).toString();
-   alert(test);
+ // constructor(password?: string | Array<string> | undefined, salt?: string){
+ //   // Works !
+ //   var test = CryptoJS.lib.WordArray.random(16).toString();
+ //   alert(test);
+ // }
+
+ static createHash(){
+   const IV_LENGTH = 16; // For AES, this is always 16
+   const SALT_LENGTH = 64;
+   var response;
+   const algorithm = 'aes-256-gcm';
+   const pbkdf2KeyLength = 32;
+   const pbkdf2Digest = 'sha512';
+   const pbkdf2Rounds = 10000;
+   const password = "prueba";
+   const text="algo";
+   const passwordKey = CryptoJS.SHA512(password).toString(CryptoJS.enc.Base64);
+   const passwordKeyWA = CryptoJS.SHA512(password);
+   const passwordSalt = CryptoJS.lib.WordArray.random(SALT_LENGTH).toString(CryptoJS.enc.Base64);
+   const passwordSaltWA = CryptoJS.lib.WordArray.random(SALT_LENGTH);
+   const iv = CryptoJS.lib.WordArray.random(IV_LENGTH).toString(CryptoJS.enc.Base64);
+   const ivWA = CryptoJS.lib.WordArray.random(IV_LENGTH);
+
+
+  // encrypt password
+
+    const key = CryptoJS.PBKDF2(passwordKeyWA, passwordSaltWA, {keySize: pbkdf2KeyLength, iterations: pbkdf2Rounds }).toString(CryptoJS.enc.Base64);
+    const keyWA = CryptoJS.PBKDF2(passwordKeyWA, passwordSaltWA, {keySize: pbkdf2KeyLength, iterations: pbkdf2Rounds });
+    const cipher = CryptoJS.algo.AES.createEncryptor( key, {iv: iv});
+    const uncipher = CryptoJS.algo.AES.createDecryptor( key, {iv: iv});
+
+
+    const keyP = CryptoJS.enc.Base64.parse(key);
+    const ivP = CryptoJS.enc.Base64.parse(iv);
+    // const encryptedData = cipher.process(text).toString('Base64') + cipher.finalize().toString('Base64');
+
+    // const encryptedONE = CryptoJS.AES.encrypt("algo", keyP, { iv: ivP});
+    const encryptedONE = CryptoJS.AES.encrypt("algo", key, { iv: iv});
+    // const decryptedONE = CryptoJS.AES.decrypt(encryptedONE, keyP, { iv: ivP});
+    const decryptedONE = CryptoJS.AES.decrypt(encryptedONE, key, { iv: iv});
+
+    const newenc = cipher.process("algo");
+    // const newdec = uncipher.process(newenc);
+    // const hmac = CryptoJS.HmacSHA256(encryptedData, passwordKeyWA).toString();
+    const algo = {};
+    // const algo = encryptedONE.ciphertext.toString(CryptoJS.enc.Base64);
+    algo.decipher = uncipher;
+    algo.cipher = cipher;
+    algo.salt = passwordSalt;
+    algo.newenc = newenc;
+    // algo.newdec = newdec;
+    algo.key = key;
+    algo.iv = iv;
+    algo.keyp = keyP
+    algo.ivp = ivP
+    algo.keyWA = keyWA
+    algo.ivWA = ivWA
+
+    // algo.enc =  encryptedONE.toString(CryptoJS.enc.Base64);
+    algo.ivcipher = encryptedONE.iv.toString(CryptoJS.enc.Base64);
+    algo.keycipher = encryptedONE.key.toString(CryptoJS.enc.Base64);
+    algo.saltcipher = encryptedONE.salt.toString(CryptoJS.enc.Base64);
+    algo.ctcipher = encryptedONE.ciphertext.toString(CryptoJS.enc.Base64);
+    algo.decryptedONE = CryptoJS.enc.Utf8.stringify(decryptedONE);
+    algo.decryptedONEWA = decryptedONE;
+
+  response = algo;
+  return response;
+
+  //
+  // // const cipher = crypto.createCipheriv(this.algorithm, key, iv);
+  // // const encryptedData = Buffer.concat([Buffer.from(cipher.update(inputValue, 'utf8')), Buffer.from(cipher.final('utf8'))]);
+  //
+
  }
 
  static getPasswordHash(){
@@ -287,13 +357,13 @@ export class CSCCrypto {
     return test;
 
   }
- encrypt(password: string ){
-   // Works !
-   var test = CryptoJS.enc.Base64.parse(password);
-   console.log(password,test);
-    return test;
-
-  }
+ // encrypt(password: string ){
+ //   // Works !
+ //   var test = CryptoJS.enc.Base64.parse(password);
+ //   console.log(password,test);
+ //    return test;
+ //
+ //  }
  generateKeyPair(sequence: number){
    // Works !
    var test = CryptoJS.enc.Base64.parse(sequence);
@@ -307,37 +377,37 @@ export class CSCCrypto {
    return test;
   }
   private static PASSPHRASE_WORD_COUNT = 12;
-  // private IV_LENGTH = 16; // For AES, this is always 16
-  // private SALT_LENGTH = 64;
-  //
-  // private algorithm = 'aes-256-gcm';
-  // private pbkdf2KeyLength = 32;
-  // private pbkdf2Digest = 'sha512';
-  // private pbkdf2Rounds = 10000;
-  // private passwordKey: string;
-  // private passwordSalt: Buffer;
-  //
-  // // accept a password or mnemonic array as input
-  // constructor(password?: string | Array<string> | undefined, salt?: string) {
-  //   if (Array.isArray(password)) {
-  //     // use mnemonic array
-  //     const mnemonicString = password.join();
-  //     const mnemonicHash = crypto.createHash('sha512');
-  //     mnemonicHash.update(mnemonicString);
-  //     this.passwordKey = mnemonicHash.digest('base64');
-  //   } else if (password !== undefined && password.length > 0) {
-  //     this.passwordKey = crypto.createHash('sha512').update(password).digest('base64');
-  //   }
-  //   const saltHash = crypto.createHash('sha512');
-  //   if (salt !== undefined && salt.length > 0) {
-  //     saltHash.update(salt);
-  //     const saltString = saltHash.digest('base64');
-  //     this.passwordSalt = Buffer.from(saltString, 'utf8');
-  //   } else {
-  //     this.passwordSalt = Buffer.from(crypto.randomBytes(this.SALT_LENGTH));
-  //   }
-  // }
-  //
+  private IV_LENGTH = 16; // For AES, this is always 16
+  private SALT_LENGTH = 64;
+
+  private algorithm = 'aes-256-gcm';
+  private pbkdf2KeyLength = 32;
+  private pbkdf2Digest = 'sha512';
+  private pbkdf2Rounds = 10000;
+  private passwordKey: string;
+  private passwordSalt: Buffer;
+
+  // accept a password or mnemonic array as input
+  constructor(password?: string | Array<string> | undefined, salt?: string) {
+    if (Array.isArray(password)) {
+      // use mnemonic array
+      const mnemonicString = password.join();
+      const mnemonicHash = CryptoJS.algo.SHA512.create();
+      mnemonicHash.update(mnemonicString);
+      this.passwordKey = mnemonicHash.finalize().toString(CryptoJS.enc.Base64);
+    } else if (password !== undefined && password.length > 0) {
+      this.passwordKey = CryptoJS.SHA512(password).toString(CryptoJS.enc.Base64);
+    }
+    const saltHash = CryptoJS.algo.SHA512.create();
+    if (salt !== undefined && salt.length > 0) {
+      saltHash.update(salt);
+      const saltString = saltHash.finalize().toString(CryptoJS.enc.Base64);
+      this.passwordSalt = saltString;
+    } else {
+      this.passwordSalt = CryptoJS.lib.WordArray.random(this.SALT_LENGTH).toString(CryptoJS.enc.Base64);
+    }
+  }
+
   static randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
@@ -354,26 +424,27 @@ export class CSCCrypto {
   static isExistingWord(word: string): boolean {
     return (this.english.findIndex( item => item === word) >= 0);
   }
-  //
-  // encrypt(inputValue: string) {
-  //   // Generates cryptographically strong pseudo-random data. The size argument is a number indicating the number of bytes to generate.
-  //   // const iv: Buffer = Buffer.from(crypto.randomBytes(this.IV_LENGTH));
-  //   const iv: Buffer = Buffer.from(CryptoJS.lib.WordArray.random((this.IV_LENGTH)/8);
-  //   // encrypt password
-  //   // const key: Buffer = Buffer.from(crypto.pbkdf2Sync(this.passwordKey, this.passwordSalt, this.pbkdf2Rounds, this.pbkdf2KeyLength, this.pbkdf2Digest));
-  //
-  //   const key: Buffer = CryptoJS.PBKDF2(this.passwordKey, this.passwordSalt, {keySize: 512 / this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds });
-  //
-  //
-  //   // const cipher = crypto.createCipheriv(this.algorithm, key, iv);
-  //   const cipher = CryptoJS.algo.AES.createEncryptor( key, {iv: iv});
-  //
-  //   // const encryptedData = Buffer.concat([Buffer.from(cipher.update(inputValue, 'utf8')), Buffer.from(cipher.final('utf8'))]);
-  //   const encryptedData = Buffer.concat([Buffer.from(cipher.process(inputValue, 'utf8')), Buffer.from(cipher.final('utf8'))]);
-  //
-  //   const authTag: Buffer = Buffer.from(cipher.getAuthTag());
-  //   return this.urlsafe_escape(Buffer.concat([iv, authTag, encryptedData]).toString('base64'));
-  //  }
+
+  encrypt(inputValue: string) {
+    // Generates cryptographically strong pseudo-random data. The size argument is a number indicating the number of bytes to generate.
+    // const iv: Buffer = Buffer.from(crypto.randomBytes(this.IV_LENGTH));
+    const iv: Buffer = Buffer.from(CryptoJS.lib.WordArray.random(this.IV_LENGTH));
+    // encrypt password
+     // const key: Buffer = Buffer.from(crypto.pbkdf2Sync(this.passwordKey, this.passwordSalt, this.pbkdf2Rounds, this.pbkdf2KeyLength, this.pbkdf2Digest));
+
+     const key: Buffer = CryptoJS.PBKDF2(this.passwordKey, this.passwordSalt, {keySize: this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds });
+
+
+    // const cipher = crypto.createCipheriv(this.algorithm, key, iv);
+    const cipher = CryptoJS.algo.AES.createEncryptor( key, {iv: iv});
+
+    // const encryptedData = Buffer.concat([Buffer.from(cipher.update(inputValue, 'utf8')), Buffer.from(cipher.final('utf8'))]);
+    const encryptedData = Buffer.concat([Buffer.from(cipher.process(inputValue).toString()), Buffer.from(cipher.finalize().tostring())]);
+
+    // const authTag: Buffer = Buffer.from(cipher.getAuthTag());
+     const authTag: Buffer = Buffer.from(cipher.process(inputValue));
+    return this.urlsafe_escape(Buffer.concat([iv, authTag, encryptedData]).toString('base64'));
+   }
   //
   // decrypt(encryptedInput: string) {
   //   const rawData = Buffer.from(this.urlsafe_unescape(encryptedInput), 'base64');
@@ -436,14 +507,14 @@ export class CSCCrypto {
   //   return newKeyPair;
   // }
   //
-  // urlsafe_escape(data) {
-  //   // / => _
-  //   // + -> .
-  //   // = => -
-  //     return data.replace(/\//g, '_').replace(/\+/g, '.').replace(/=/g, '-');
-  // }
-  //
-  // urlsafe_unescape(data) {
-  //     return data.replace(/_/g, '/').replace(/\./g, '+').replace(/-/g, '=');
-  // }
+  urlsafe_escape(data) {
+    // / => _
+    // + -> .
+    // = => -
+      return data.replace(/\//g, '_').replace(/\+/g, '.').replace(/=/g, '-');
+  }
+
+  urlsafe_unescape(data) {
+      return data.replace(/_/g, '/').replace(/\./g, '+').replace(/-/g, '=');
+  }
 }

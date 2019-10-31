@@ -29,6 +29,9 @@ export class WalletSetupComponent implements OnInit {
     this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
     this.slides.lockSwipes(true);
     this.logger.debug('### INIT WalletSetup ###');
+    // const buffer="AAAAAAAA";
+    const buffer=CSCCrypto.createHash();
+    console.log("########::::::",buffer,"::::#########");
     // check if we already have a wallet
     const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
     if (availableWallets != null &&  availableWallets.length >= 1) {
@@ -39,9 +42,11 @@ export class WalletSetupComponent implements OnInit {
     this.walletService.walletSetup.recoveryMnemonicWords = CSCCrypto.getRandomMnemonic();
     // set network default to LIVE
     this.walletService.walletSetup.testNetwork = false;
+
     // generate wallet UUID
     this.walletService.walletSetup.walletUUID = UUID.UUID();
     // set backup location
+
     // this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
     this.logger.debug('### WalletSetup: ' + JSON.stringify(this.walletService.walletSetup));
   }
