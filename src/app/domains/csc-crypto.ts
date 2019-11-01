@@ -1,4 +1,5 @@
-import CryptoJS  from 'crypto-js';
+import CryptoJS   from 'crypto-js';
+import WordArray   from 'crypto-js';
 import { generateSeed, deriveKeypair, deriveAddress } from 'casinocoin-libjs-keypairs';
 import { LokiKey } from './lokijs';
 
@@ -260,158 +261,63 @@ export class CSCCrypto {
     'wrap', 'wreck', 'wrestle', 'wrist', 'write', 'wrong', 'yard', 'year',
     'yellow', 'you', 'young', 'youth', 'zebra', 'zero', 'zone', 'zoo'
   ];
- // constructor(password?: string | Array<string> | undefined, salt?: string){
- //   // Works !
- //   var test = CryptoJS.lib.WordArray.random(16).toString();
- //   alert(test);
- // }
 
- static createHash(){
-   const IV_LENGTH = 16; // For AES, this is always 16
-   const SALT_LENGTH = 64;
-   var response;
-   const algorithm = 'aes-256-gcm';
-   const pbkdf2KeyLength = 32;
-   const pbkdf2Digest = 'sha512';
-   const pbkdf2Rounds = 10000;
-   const password = "prueba";
-   const text="algo";
-   const passwordKey = CryptoJS.SHA512(password).toString(CryptoJS.enc.Base64);
-   const passwordKeyWA = CryptoJS.SHA512(password);
-   const passwordSalt = CryptoJS.lib.WordArray.random(SALT_LENGTH).toString(CryptoJS.enc.Base64);
-   const passwordSaltWA = CryptoJS.lib.WordArray.random(SALT_LENGTH);
-   const iv = CryptoJS.lib.WordArray.random(IV_LENGTH).toString(CryptoJS.enc.Base64);
-   const ivWA = CryptoJS.lib.WordArray.random(IV_LENGTH);
-
-
-  // encrypt password
-
-    const key = CryptoJS.PBKDF2(passwordKeyWA, passwordSaltWA, {keySize: pbkdf2KeyLength, iterations: pbkdf2Rounds }).toString(CryptoJS.enc.Base64);
-    const keyWA = CryptoJS.PBKDF2(passwordKeyWA, passwordSaltWA, {keySize: pbkdf2KeyLength, iterations: pbkdf2Rounds });
-    const cipher = CryptoJS.algo.AES.createEncryptor( key, {iv: iv});
-    const uncipher = CryptoJS.algo.AES.createDecryptor( key, {iv: iv});
-
-
-    const keyP = CryptoJS.enc.Base64.parse(key);
-    const ivP = CryptoJS.enc.Base64.parse(iv);
-    // const encryptedData = cipher.process(text).toString('Base64') + cipher.finalize().toString('Base64');
-
-    // const encryptedONE = CryptoJS.AES.encrypt("algo", keyP, { iv: ivP});
-    const encryptedONE = CryptoJS.AES.encrypt("algo", key, { iv: iv});
-    // const decryptedONE = CryptoJS.AES.decrypt(encryptedONE, keyP, { iv: ivP});
-    const decryptedONE = CryptoJS.AES.decrypt(encryptedONE, key, { iv: iv});
-
-    const newenc = cipher.process("algo");
-    // const newdec = uncipher.process(newenc);
-    // const hmac = CryptoJS.HmacSHA256(encryptedData, passwordKeyWA).toString();
-    const algo = {};
-    // const algo = encryptedONE.ciphertext.toString(CryptoJS.enc.Base64);
-    algo.decipher = uncipher;
-    algo.cipher = cipher;
-    algo.salt = passwordSalt;
-    algo.newenc = newenc;
-    // algo.newdec = newdec;
-    algo.key = key;
-    algo.iv = iv;
-    algo.keyp = keyP
-    algo.ivp = ivP
-    algo.keyWA = keyWA
-    algo.ivWA = ivWA
-
-    // algo.enc =  encryptedONE.toString(CryptoJS.enc.Base64);
-    algo.ivcipher = encryptedONE.iv.toString(CryptoJS.enc.Base64);
-    algo.keycipher = encryptedONE.key.toString(CryptoJS.enc.Base64);
-    algo.saltcipher = encryptedONE.salt.toString(CryptoJS.enc.Base64);
-    algo.ctcipher = encryptedONE.ciphertext.toString(CryptoJS.enc.Base64);
-    algo.decryptedONE = CryptoJS.enc.Utf8.stringify(decryptedONE);
-    algo.decryptedONEWA = decryptedONE;
-
-  response = algo;
-  return response;
-
-  //
-  // // const cipher = crypto.createCipheriv(this.algorithm, key, iv);
-  // // const encryptedData = Buffer.concat([Buffer.from(cipher.update(inputValue, 'utf8')), Buffer.from(cipher.final('utf8'))]);
-  //
-
- }
-
- static getPasswordHash(){
-   // Works !
-   var test = CryptoJS.lib.WordArray.random(16).toString();
-   console.log("password",test);
-    return test;
-
-  }
- getPasswordKey(){
-   // Works !
-   var test = CryptoJS.lib.WordArray.random(16).toString();
-   console.log("password",test);
-    return test;
-
-  }
- setPasswordKey(password: string ){
-   // Works !
-   var test = CryptoJS.lib.WordArray.random(16).toString();
-   console.log(password,test);
-    return test;
-
-  }
- // encrypt(password: string ){
- //   // Works !
- //   var test = CryptoJS.enc.Base64.parse(password);
- //   console.log(password,test);
- //    return test;
- //
- //  }
- generateKeyPair(sequence: number){
-   // Works !
-   var test = CryptoJS.enc.Base64.parse(sequence);
-   console.log(sequence,test);
-   return test;
-  }
- decrypt(password: string ){
-   // Works !
-   var test = CryptoJS.enc.Base64.parse(password);
-   console.log(password,test);;
-   return test;
-  }
   private static PASSPHRASE_WORD_COUNT = 12;
   private IV_LENGTH = 16; // For AES, this is always 16
-  private SALT_LENGTH = 64;
+  private SALT_LENGTH = 32;
 
   private algorithm = 'aes-256-gcm';
-  private pbkdf2KeyLength = 32;
+  private pbkdf2KeyLength = 64;
   private pbkdf2Digest = 'sha512';
   private pbkdf2Rounds = 10000;
   private passwordKey: string;
-  private passwordSalt: Buffer;
+  private passwordSalt: WordArray;
+  private passwordSaltString: string;
+  private keyString: string;
+  private ivString: string;
+  private enckeyString: string;
+  private encivString: string;
+  private encCTString: string;
+  private encString: WordArray;
+
 
   // accept a password or mnemonic array as input
   constructor(password?: string | Array<string> | undefined, salt?: string) {
     if (Array.isArray(password)) {
       // use mnemonic array
       const mnemonicString = password.join();
+      console.log("UNO");
       const mnemonicHash = CryptoJS.algo.SHA512.create();
+      console.log("DOS");
       mnemonicHash.update(mnemonicString);
+      console.log("TRES");
       this.passwordKey = mnemonicHash.finalize().toString(CryptoJS.enc.Base64);
+      console.log("CUATRO");
+
     } else if (password !== undefined && password.length > 0) {
       this.passwordKey = CryptoJS.SHA512(password).toString(CryptoJS.enc.Base64);
     }
+    console.log("CINCO");
     const saltHash = CryptoJS.algo.SHA512.create();
+    console.log("SEIS");
     if (salt !== undefined && salt.length > 0) {
       saltHash.update(salt);
       const saltString = saltHash.finalize().toString(CryptoJS.enc.Base64);
       this.passwordSalt = saltString;
     } else {
-      this.passwordSalt = CryptoJS.lib.WordArray.random(this.SALT_LENGTH).toString(CryptoJS.enc.Base64);
+      console.log("SIETE");
+
+      this.passwordSalt = CryptoJS.lib.WordArray.random(this.SALT_LENGTH );
+      this.passwordSaltString = this.passwordSalt.toString(CryptoJS.enc.Base64);
     }
   }
 
   static randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-
+  static getPasswordHash(){
+    return "";
+  }
   static getRandomMnemonic(): Array<string> {
     const mnemonicArray: Array<string> = [];
     for (let i = 0; i < this.PASSPHRASE_WORD_COUNT; i++) {
@@ -428,84 +334,100 @@ export class CSCCrypto {
   encrypt(inputValue: string) {
     // Generates cryptographically strong pseudo-random data. The size argument is a number indicating the number of bytes to generate.
     // const iv: Buffer = Buffer.from(crypto.randomBytes(this.IV_LENGTH));
-    const iv: Buffer = Buffer.from(CryptoJS.lib.WordArray.random(this.IV_LENGTH));
+    const iv: WordArray = CryptoJS.lib.WordArray.random(this.IV_LENGTH);
     // encrypt password
+    this.ivString = iv.toString(CryptoJS.enc.Hex);
+
+
      // const key: Buffer = Buffer.from(crypto.pbkdf2Sync(this.passwordKey, this.passwordSalt, this.pbkdf2Rounds, this.pbkdf2KeyLength, this.pbkdf2Digest));
 
-     const key: Buffer = CryptoJS.PBKDF2(this.passwordKey, this.passwordSalt, {keySize: this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds });
+    const key: WordArray = CryptoJS.PBKDF2(this.passwordKey, this.passwordSalt, {keySize: 512 / this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds });
 
+    this.keyString = key.toString(CryptoJS.enc.Hex);
 
     // const cipher = crypto.createCipheriv(this.algorithm, key, iv);
-    const cipher = CryptoJS.algo.AES.createEncryptor( key, {iv: iv});
+    // const cipher = CryptoJS.algo.AES.createEncryptor( key, {iv: iv});
+     // const encryptedData = CryptoJS.AES.encrypt(inputValue, key, {iv: iv});
+    const encryptedData = CryptoJS.AES.encrypt(inputValue, this.passwordKey);
+
+    this.enckeyString = encryptedData.key.toString(CryptoJS.enc.Hex);
+    this.encivString = encryptedData.iv.toString(CryptoJS.enc.Hex);
+
+    this.encCTString = encryptedData.ciphertext.toString(CryptoJS.enc.Hex);
+
+
+    // const algo = this.enckeyString + this.encivString + this.encCTString + this.encString;
 
     // const encryptedData = Buffer.concat([Buffer.from(cipher.update(inputValue, 'utf8')), Buffer.from(cipher.final('utf8'))]);
-    const encryptedData = Buffer.concat([Buffer.from(cipher.process(inputValue).toString()), Buffer.from(cipher.finalize().tostring())]);
 
     // const authTag: Buffer = Buffer.from(cipher.getAuthTag());
-     const authTag: Buffer = Buffer.from(cipher.process(inputValue));
-    return this.urlsafe_escape(Buffer.concat([iv, authTag, encryptedData]).toString('base64'));
+
+    // return algo;
+     return encryptedData.iv.toString(CryptoJS.enc.Base64)+encryptedData.ciphertext.toString(CryptoJS.enc.base64);
    }
+
+  decrypt(encryptedInput: string) {
+    // const rawData = Buffer.from(this.urlsafe_unescape(encryptedInput), 'base64');\
+    const rawData = CryptoJS.enc.Base64.parse(encryptedInput).toString(CryptoJS.enc.Hex);
+
+    if (rawData.length < 32) {
+        return null;
+    }
+
+    // convert data to buffers
+    const ivHex = rawData.substring(0,32);
+    const ciphertextHex = rawData.substring(32);
+    const iv = CryptoJS.enc.Hex.parse(ivHex);
+    const ciphertext = CryptoJS.enc.Hex.parse(ciphertextHex);
+    // decrypt password
+    const key: WordArray = CryptoJS.PBKDF2(this.passwordKey, this.passwordSalt, {keySize: 512 / this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds });
+
+    const decryptedData = CryptoJS.AES.decrypt(ciphertext, key, {iv: iv});
+
+
+    let plainText = decryptedData.toString(CryptoJS.enc.Utf8);
+
+
+    return plainText;
+  }
+
+  getPasswordKey(): string {
+    return this.passwordKey;
+  }
   //
-  // decrypt(encryptedInput: string) {
-  //   const rawData = Buffer.from(this.urlsafe_unescape(encryptedInput), 'base64');
-  //   if (rawData.length < 28) {
-  //       return null;
-  //   }
+  setPasswordKey(hash: string) {
+    this.passwordKey = hash;
+  }
   //
-  //   // convert data to buffers
-  //   const iv = rawData.slice(0, this.IV_LENGTH);
-  //   const authTag = rawData.slice(this.IV_LENGTH, this.IV_LENGTH + 16);
-  //   const data = rawData.slice(this.IV_LENGTH + 16);
-  //
-  //   // decrypt password
-  //   const key = crypto.pbkdf2Sync(this.passwordKey, this.passwordSalt, this.pbkdf2Rounds, this.pbkdf2KeyLength, this.pbkdf2Digest);
-  //   const decipher = crypto.createDecipheriv(this.algorithm, key, iv);
-  //   decipher.setAuthTag(authTag);
-  //
-  //   let plainText = decipher.update(data, 'binary', 'utf8');
-  //   plainText += decipher.final('utf8');
-  //
-  //   return plainText;
-  // }
-  //
-  // getPasswordKey(): string {
-  //   return this.passwordKey;
-  // }
-  //
-  // setPasswordKey(hash: string) {
-  //   this.passwordKey = hash;
-  // }
-  //
-  // getPasswordSalt(): string {
-  //   return this.passwordSalt.toString('base64');
-  // }
-  //
-  // setPasswordSalt(salt: string) {
-  //   const saltHash = crypto.createHash('sha512');
-  //   saltHash.update(salt);
-  //   const saltString = saltHash.digest('base64');
-  //   this.passwordSalt = Buffer.from(saltString, 'utf8');
-  // }
-  //
-  // generateKeyPair(sequence: number): LokiKey {
-  //   // concat path with mnemonic hash
-  //   const pathWithHash = 'm/0/' + sequence + '/' + this.passwordKey;
-  //   const reHashedHash =  crypto.createHash('sha512');
-  //   reHashedHash.update(pathWithHash);
-  //   // generate hex entropy
-  //   const entropyHex = crypto.pbkdf2Sync(reHashedHash.digest('base64'), this.passwordSalt, this.pbkdf2Rounds, this.pbkdf2KeyLength, this.pbkdf2Digest).toString('hex');
-  //   // convert hex string to array buffer
-  //   const entropyArray = new Uint8Array(entropyHex.match(/[\da-f]{2}/gi).map(function (h) {
-  //     return parseInt(h, 16);
-  //   }));
-  //   const entropy: any = {entropy: entropyArray};
-  //   // generate seed
-  //   const seed: string	=	generateSeed(entropy);
-  //   // derive keypair
-  //   const keypair: any	=	deriveKeypair(seed);
-  //   const newKeyPair: LokiKey	=	{ secret: seed, publicKey: keypair.publicKey, privateKey: keypair.privateKey, accountID: deriveAddress(keypair.publicKey), encrypted: false};
-  //   return newKeyPair;
-  // }
+  getPasswordSalt(): string {
+    return this.passwordSalt.toString(CryptoJS.enc.Base64);
+  }
+
+  setPasswordSalt(salt: string) {
+    const saltHash = CryptoJS.SHA512(salt);
+    this.passwordSalt = saltHash;
+  }
+
+  generateKeyPair(sequence: number): LokiKey {
+    // concat path with mnemonic hash
+    const pathWithHash = 'm/0/' + sequence + '/' + this.passwordKey;
+    const reHashedHash =  CryptoJS.SHA512(pathWithHash);
+    const reHashedHashString = reHashedHash.toString(CryptoJS.enc.Base64);
+    // generate hex entropy
+
+    const entropyHex = CryptoJS.PBKDF2(reHashedHashString, this.passwordSalt, {keySize: this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds }).toString(CryptoJS.enc.Hex);
+        // convert hex string to array buffer
+    const entropyArray = new Uint8Array(entropyHex.match(/[\da-f]{2}/gi).map(function (h) {
+      return parseInt(h, 16);
+    }));
+    const entropy: any = {entropy: entropyArray};
+    // generate seed
+    const seed: string	=	generateSeed(entropy);
+    // derive keypair
+    const keypair: any	=	deriveKeypair(seed);
+    const newKeyPair: LokiKey	=	{ secret: seed, publicKey: keypair.publicKey, privateKey: keypair.privateKey, accountID: deriveAddress(keypair.publicKey), encrypted: false};
+    return newKeyPair;
+  }
   //
   urlsafe_escape(data) {
     // / => _
