@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../../../providers/wallet.service';
 import { CSCCrypto } from '../../../../domains/csc-crypto';
 import { CSCUtil } from '../../../../domains/csc-util';
+import { Router } from '@angular/router';
 import { timer } from 'rxjs';
 import * as LokiTypes from '../../../../domains/lokijs';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
@@ -33,6 +34,7 @@ export class Step7Component implements OnInit {
     constructor(
       private logger: LogService,
       private translate: TranslateService,
+      private router: Router,
       private localStorageService: LocalStorageService,
       private sessionStorageService: SessionStorageService,
       private walletService: WalletService
@@ -149,6 +151,7 @@ export class Step7Component implements OnInit {
           this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletService.walletSetup.userPassword);
           // Close dialog and wallet setup and go to Home screen
           this.logger.debug('### Setup Finished');
+          this.logger.debug('### walletArray Status: ' + JSON.stringify(walletArray) );
 
 
         } //end createResult conditional
@@ -166,5 +169,9 @@ export class Step7Component implements OnInit {
 
       this.logger.debug('### Ready last step. Wallet Setup ');
 
+    }
+    closeSetup() {
+      // navigate user to Home
+      this.router.navigate(['tabs']);
     }
 }

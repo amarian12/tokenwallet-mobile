@@ -266,19 +266,12 @@ export class CSCCrypto {
   private IV_LENGTH = 16; // For AES, this is always 16
   private SALT_LENGTH = 32;
 
-  private algorithm = 'aes-256-gcm';
+
   private pbkdf2KeyLength = 64;
-  private pbkdf2Digest = 'sha512';
+
   private pbkdf2Rounds = 10000;
   private passwordKey: string;
   private passwordSalt: WordArray;
-  private passwordSaltString: string;
-  private keyString: string;
-  private ivString: string;
-  private enckeyString: string;
-  private encivString: string;
-  private encCTString: string;
-  private encString: WordArray;
 
 
   // accept a password or mnemonic array as input
@@ -286,29 +279,20 @@ export class CSCCrypto {
     if (Array.isArray(password)) {
       // use mnemonic array
       const mnemonicString = password.join();
-      console.log("UNO");
-      const mnemonicHash = CryptoJS.algo.SHA512.create();
-      console.log("DOS");
-      mnemonicHash.update(mnemonicString);
-      console.log("TRES");
-      this.passwordKey = mnemonicHash.finalize().toString(CryptoJS.enc.Base64);
-      console.log("CUATRO");
-
+      const mnemonicHash = CryptoJS.SHA512(mnemonicString);
+      this.passwordKey = mnemonicHash.toString(CryptoJS.enc.Base64);
     } else if (password !== undefined && password.length > 0) {
       this.passwordKey = CryptoJS.SHA512(password).toString(CryptoJS.enc.Base64);
     }
-    console.log("CINCO");
+
     const saltHash = CryptoJS.algo.SHA512.create();
-    console.log("SEIS");
     if (salt !== undefined && salt.length > 0) {
       saltHash.update(salt);
       const saltString = saltHash.finalize().toString(CryptoJS.enc.Base64);
       this.passwordSalt = saltString;
     } else {
-      console.log("SIETE");
-
       this.passwordSalt = CryptoJS.lib.WordArray.random(this.SALT_LENGTH );
-      this.passwordSaltString = this.passwordSalt.toString(CryptoJS.enc.Base64);
+
     }
   }
 
@@ -332,61 +316,31 @@ export class CSCCrypto {
   }
 
   encrypt(inputValue: string) {
-    // Generates cryptographically strong pseudo-random data. The size argument is a number indicating the number of bytes to generate.
-    // const iv: Buffer = Buffer.from(crypto.randomBytes(this.IV_LENGTH));
     const iv: WordArray = CryptoJS.lib.WordArray.random(this.IV_LENGTH);
-    // encrypt password
-    this.ivString = iv.toString(CryptoJS.enc.Hex);
-
-
-     // const key: Buffer = Buffer.from(crypto.pbkdf2Sync(this.passwordKey, this.passwordSalt, this.pbkdf2Rounds, this.pbkdf2KeyLength, this.pbkdf2Digest));
 
     const key: WordArray = CryptoJS.PBKDF2(this.passwordKey, this.passwordSalt, {keySize: 512 / this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds });
 
-    this.keyString = key.toString(CryptoJS.enc.Hex);
+    const encryptedData = CryptoJS.AES.encrypt(inputValue, key, {iv: iv});
 
-    // const cipher = crypto.createCipheriv(this.algorithm, key, iv);
-    // const cipher = CryptoJS.algo.AES.createEncryptor( key, {iv: iv});
-     // const encryptedData = CryptoJS.AES.encrypt(inputValue, key, {iv: iv});
-    const encryptedData = CryptoJS.AES.encrypt(inputValue, this.passwordKey);
-
-    this.enckeyString = encryptedData.key.toString(CryptoJS.enc.Hex);
-    this.encivString = encryptedData.iv.toString(CryptoJS.enc.Hex);
-
-    this.encCTString = encryptedData.ciphertext.toString(CryptoJS.enc.Hex);
-
-
-    // const algo = this.enckeyString + this.encivString + this.encCTString + this.encString;
-
-    // const encryptedData = Buffer.concat([Buffer.from(cipher.update(inputValue, 'utf8')), Buffer.from(cipher.final('utf8'))]);
-
-    // const authTag: Buffer = Buffer.from(cipher.getAuthTag());
-
-    // return algo;
-     return encryptedData.iv.toString(CryptoJS.enc.Base64)+encryptedData.ciphertext.toString(CryptoJS.enc.base64);
+    const ivtopass = encryptedData.iv.toString(CryptoJS.enc.Base64);
+    
+     return ivtopass+encryptedData.toString();
    }
 
   decrypt(encryptedInput: string) {
-    // const rawData = Buffer.from(this.urlsafe_unescape(encryptedInput), 'base64');\
-    const rawData = CryptoJS.enc.Base64.parse(encryptedInput).toString(CryptoJS.enc.Hex);
 
-    if (rawData.length < 32) {
-        return null;
-    }
+    const rawData = encryptedInput;
 
-    // convert data to buffers
-    const ivHex = rawData.substring(0,32);
-    const ciphertextHex = rawData.substring(32);
-    const iv = CryptoJS.enc.Hex.parse(ivHex);
-    const ciphertext = CryptoJS.enc.Hex.parse(ciphertextHex);
-    // decrypt password
+     if (rawData.length <= 24) {
+         return null;
+     }
+    const iv = CryptoJS.enc.Base64.parse(rawData.substring(0,24));
+    const ciphertext = rawData.substring(24);
     const key: WordArray = CryptoJS.PBKDF2(this.passwordKey, this.passwordSalt, {keySize: 512 / this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds });
 
     const decryptedData = CryptoJS.AES.decrypt(ciphertext, key, {iv: iv});
 
-
     let plainText = decryptedData.toString(CryptoJS.enc.Utf8);
-
 
     return plainText;
   }
