@@ -52,6 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // Step5Component,
     // Step6Component,
     // Step7Component,
+
     AppComponent
   ],
   entryComponents: [],
@@ -80,8 +81,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletService,
     CasinocoinService,
     LogService,
-    DecimalPipe,
     CurrencyPipe,
+    DecimalPipe,
     NotificationService,
     MarketService,
     LocalStorageService,
