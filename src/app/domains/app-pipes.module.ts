@@ -9,4 +9,12 @@ import {CSCDatePipe, CSCAmountPipe, ToNumberPipe} from "./csc.pipes"; // <---
   exports:[CSCDatePipe, CSCAmountPipe, ToNumberPipe] // <---
 })
 
-export class CSCPipe{}
+export class CSCPipe{
+
+   static forRoot() {
+      return {
+          ngModule: CSCPipe,
+          providers: [],
+      };
+   }
+ }

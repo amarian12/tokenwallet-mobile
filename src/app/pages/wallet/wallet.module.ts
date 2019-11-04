@@ -19,6 +19,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    CSCPipe.forRoot(),
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes)
@@ -26,7 +27,6 @@ const routes: Routes = [
   declarations: [WalletPage],
   providers: [
     DecimalPipe,
-    CSCPipe,
     CurrencyPipe
   ]
 })

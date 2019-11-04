@@ -24,14 +24,14 @@
         </ion-label>
       </ion-item-divider-->
 
-      <ion-item-sliding  *ngFor="let token of tokenlist">
+      <ion-item-sliding *ngFor="let token of tokenlist">
         <ion-item >
           <ion-avatar slot="start">
             <img [src]="token.IconURL" >
           </ion-avatar>
           <ion-label >
-            <h3  *ngIf="token.Token !== 'CSC'">{{ token.TokenBalance | number:'3.1-5'}} ({{token.Token}})</h3>
-            <h3  *ngIf="token.Token === 'CSC'">{{ token.TokenBalance | number:'3.1-5'}} ({{rowData.Token}})</h3>
+            <h3  >{{ token.TokenBalance | cscAmount : false : true}} ({{token.Token}})</h3>
+            <h3  >{{ token.TokenBalance | cscAmount : false : true}} ({{rowData.Token}})</h3>
             <p>
               <small>
 
