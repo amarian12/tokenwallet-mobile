@@ -16,7 +16,7 @@ import { IonSlides } from '@ionic/angular';
 
 export class Step1Component implements OnInit {
   @HostListener('window:ionSlidesDidLoad') slideChanged() {
-
+      this.logger.debug('### INITIAL VALUE IS'+this.initial);
       this.slider.getActiveIndex().then(
      (index)=>{
        if(index == 0){
@@ -25,6 +25,7 @@ export class Step1Component implements OnInit {
       });
   }
 @Input() slider: IonSlides;
+@Input() initial: boolean;
   constructor(private logger: LogService,) { }
 
   ngOnInit() {

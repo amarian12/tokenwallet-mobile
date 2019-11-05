@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular'
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
 // import { MarketService } from '../../providers/market.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
+import { CSCCrypto }  from '../../domains/csc-crypto';
+// import { CSCAmountPipe } from '../../domains/csc.pipes';
 import { AppConstants } from '../../domains/app-constants';
 // import { CSCAmountPipe } from '../../domains/csc.pipes';
 
@@ -20,7 +23,8 @@ import Big from 'big.js';
 })
 export class WalletPage implements OnInit {
   columnCount: number;
-  tokenlist: Array<TokenType>;
+  tokenlist: Array<TokenType>
+
   ledgers: LedgerStreamMessages[] = [];
   receipient: string;
   description: string;
@@ -71,14 +75,14 @@ export class WalletPage implements OnInit {
                private localStorageService: LocalStorageService,
                private currencyPipe: CurrencyPipe,
                private translate: TranslateService,
+              public actionSheetController: ActionSheetController
                // private cscAmountPipe: CSCAmountPipe
              ) { }
 
              ngOnInit() {
 
-               this.logger.debug('### TokenList ngOnInit() ###');
+               this.logger.debug('### Wallet Page: ngOnInit() ###');
                this.columnCount = 5;
-
 
                // refresh server list
                this.casinocoinService.updateServerList();
@@ -88,15 +92,15 @@ export class WalletPage implements OnInit {
                    // translation parameters
                    // this.translateParams = {accountReserve: this.casinocoinService.serverInfo.reserveBaseCSC};
                    // refresh Accounts
-                   this.logger.debug('### Account Refresh');
+                   this.logger.debug('### WalletPage: Account Refresh');
                    this.casinocoinService.refreshAccounts().subscribe(accountRefreshFinished => {
                      if (accountRefreshFinished) {
                        // refresh Token List
-                       this.logger.debug('### TokenList Refresh');
+                       this.logger.debug('### Wallet Page: TokenList Refresh');
                        this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
                          if (finished) {
                            this.tokenlist = this.casinocoinService.tokenlist;
-                           this.logger.debug('### TokenList: ' + JSON.stringify(this.tokenlist));
+                           this.logger.debug('### WalletPage TokenList: ' + JSON.stringify(this.tokenlist));
                            // remove password from session if its still there
                            this.sessionStorageService.remove(AppConstants.KEY_WALLET_PASSWORD);
                          }
@@ -121,8 +125,8 @@ export class WalletPage implements OnInit {
                    // get all CSC accounts for add token dropdown
                    this.walletService.getAllAccounts().forEach( element => {
                      if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
-                       // const accountLabel = element.accountID.substring(0, 20) + '...' + ' [Balance: ' +
-                       //                     this.cscAmountPipe.transform(element.balance, false, true) + ']';
+                        // const accountLabel = element.accountID.substring(0, 20) + '...' + ' [Balance: ' +
+                                           // this.cscAmountPipe.transform(element.balance, false, true) + ']';
                        // this.cscAccounts.push({label: accountLabel, value: element.accountID});
                      }
                    });
@@ -135,14 +139,53 @@ export class WalletPage implements OnInit {
                      this.cscAccounts = [];
                      this.walletService.getAllAccounts().forEach( element => {
                        if (element.currency === 'CSC' && new Big(element.balance) > 0  && element.accountSequence >= 0) {
-                         // const accountLabel = element.accountID.substring(0, 20) + '...' + ' [Balance: ' +
-                         //                     this.cscAmountPipe.transform(element.balance, false, true) + ']';
+                          // const accountLabel = element.accountID.substring(0, 20) + '...' + ' [Balance: ' +
+                                             // this.cscAmountPipe.transform(element.balance, false, true) + ']';
                          // this.cscAccounts.push({label: accountLabel, value: element.accountID});
                        }
                      });
                    });
                  }
                });
+
              }
+             async presentActionSheet() {
+                  const actionSheet = await this.actionSheetController.create({
+                    header: 'Add',
+                    buttons: [{
+                      text: 'Add CSC Account',
+                      role: 'destructive',
+                      icon: 'add',
+                      handler: () => {
+                        console.log('Delete clicked');
+                        this.addCSCAccount();
+                      }
+                    }, {
+                      text: 'Add token',
+                      icon: 'add',
+                      handler: () => {
+                        console.log('Share clicked');
+                      }
+                    }, {
+                      text: 'Show ledgers',
+                      icon: 'casino-coin',
+                      handler: () => {
+                        console.log('Play clicked');
+                      }
+                    }]
+                  });
+                  await actionSheet.present();
+                }
+
+                addCSCAccount(){
+                  const password = '123456';
+                  this.walletService.addCSCAccount(password);
+                  this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
+                    if (refreshResult) {
+                      this.tokenlist = this.casinocoinService.tokenlist;
+                    }
+                  });
+                }
+
 
 }

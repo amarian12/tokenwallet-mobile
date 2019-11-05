@@ -299,8 +299,12 @@ export class CSCCrypto {
   static randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-  static getPasswordHash(){
-    return "";
+  static getPasswordHash(walletUUID: string, password: string){
+
+    // const passwordHash = crypto.createHmac('sha256', password).update(walletUUID).digest('hex');
+     const hash = CryptoJS.HmacSHA256(walletUUID, password).toString(CryptoJS.enc.Hex);
+     console.log("hash",hash);
+    return hash;
   }
   static getRandomMnemonic(): Array<string> {
     const mnemonicArray: Array<string> = [];
@@ -323,7 +327,7 @@ export class CSCCrypto {
     const encryptedData = CryptoJS.AES.encrypt(inputValue, key, {iv: iv});
 
     const ivtopass = encryptedData.iv.toString(CryptoJS.enc.Base64);
-    
+
      return ivtopass+encryptedData.toString();
    }
 

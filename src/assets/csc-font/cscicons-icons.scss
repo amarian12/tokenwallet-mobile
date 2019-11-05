@@ -62,9 +62,12 @@
 .icon-arrow-down:before {
   content: "\e906";
 }
+*/
 .icon-banknote:before {
-  content: "\e902";
+  @extend .csc-icons-general;
+    content: "\e902";
 }
+/*
 .icon-save:before {
   content: "\e90c";
 }

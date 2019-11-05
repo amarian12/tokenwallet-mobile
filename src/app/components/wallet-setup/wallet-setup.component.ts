@@ -29,19 +29,13 @@ export class WalletSetupComponent implements OnInit {
     this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
     this.slides.lockSwipes(true);
     this.logger.debug('### INIT WalletSetup ###');
-    // const buffer="AAAAAAAA";
-    const algo = new CSCCrypto("prueba");
-    const buffer = algo;
-    const otro = buffer.encrypt("otracosaparaprobar");
-    console.log("########::::::",otro,"::::#########");
-    console.log("########::::::",buffer,"::::#########");
-    const des = buffer.decrypt(otro);
-    console.log("########::::::",des,"::::#########");
+
     // check if we already have a wallet
     const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
     if (availableWallets != null &&  availableWallets.length >= 1) {
       this.initialWalletCreation = false;
     }
+    this.logger.debug('### WalletSetup: There are these wallets here ' + JSON.stringify(availableWallets));
     // generate recovery words
     this.walletService.walletSetup = {} as WalletSetup;
     this.walletService.walletSetup.recoveryMnemonicWords = CSCCrypto.getRandomMnemonic();

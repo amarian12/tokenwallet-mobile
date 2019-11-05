@@ -76,7 +76,7 @@ export class WalletService {
     // }
     const dbPath = (this.walletSetup.walletUUID + '.db');
     this.logger.debug('### WalletService Database File: ' + dbPath);
-    this.localStorageService.set(AppConstants.KEY_WALLET_LOCATION, dbPath);
+    this.walletSetup.walletLocation = dbPath;
 
     const collectionSubject = new Subject<any>();
     const createSubject = new Subject<any>();
@@ -460,7 +460,7 @@ export class WalletService {
   // #########################################
   generateWalletPasswordHash(walletUUID: string, password: string): string {
     // const passwordHash = crypto.createHmac('sha256', password).update(walletUUID).digest('hex');
-    const passwordHash = CSCCrypto.getPasswordHash();
+    const passwordHash = CSCCrypto.getPasswordHash(walletUUID,password);
     return passwordHash;
   }
 
@@ -477,7 +477,7 @@ export class WalletService {
     } else {
       walletHash = this.localStorageService.get(AppConstants.KEY_WALLET_PASSWORD_HASH);
     }
-    const passwordHash = CSCCrypto.getPasswordHash();
+    const passwordHash = CSCCrypto.getPasswordHash(walletUUID,password);
     // const passwordHash = crypto.createHmac('sha256', password).update(walletUUID).digest('hex');
     return (walletHash === passwordHash);
   }
@@ -633,6 +633,46 @@ export class WalletService {
       return null;
     }
   }
+
+  addCSCAccount(password: string) {
+          const userEmail = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail;
+          const newAccountSequence = this.getAccountsMaxSequence() + 1;
+          this.logger.debug('### newAccountSequence: ' + newAccountSequence);
+          const cscCrypto = new CSCCrypto(password, userEmail);
+          const decryptedMnemonicHash = cscCrypto.decrypt(this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).mnemonicHash);
+          cscCrypto.setPasswordKey(decryptedMnemonicHash);
+          const newKeyPair: LokiKey = cscCrypto.generateKeyPair(newAccountSequence);
+          this.logger.debug('### newKeyPair: ' + JSON.stringify(newKeyPair));
+          // save key to wallet
+          this.addKey(newKeyPair);
+          // encrypt key
+          this.encryptAllKeys(password, userEmail).subscribe( result => {
+            if (result === AppConstants.KEY_FINISHED) {
+              // create new account
+              const walletAccount: LokiTypes.LokiAccount = {
+                  pk: ('CSC' + newKeyPair.accountID),
+                  accountID: newKeyPair.accountID,
+                  balance: '0',
+                  accountSequence: newAccountSequence,
+                  currency: 'CSC',
+                  tokenBalance: '0',
+                  lastSequence: 0,
+                  label: 'CSC Account',
+                  activated: false,
+                  ownerCount: 0,
+                  lastTxID: '',
+                  lastTxLedger: 0
+              };
+              // save account to wallet
+              this.addAccount(walletAccount);
+              this.logger.debug('### Added new WalletAccount: ' + JSON.stringify(walletAccount));
+
+            }
+          });
+        }
+
+
+
 /*
   getWalletDump(): string {
     return LZString.compressToBase64(this.walletDB.serialize());

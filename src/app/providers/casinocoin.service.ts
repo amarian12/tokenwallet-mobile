@@ -271,12 +271,12 @@ export class CasinocoinService implements OnDestroy {
                   server_name: 'Foundation Wallet Server 3'
                 }
             );
-            this.updateServerListItem(
-                { server_id: 'ws04.casinocoin.org',
-                  server_url: 'wss://ws04.casinocoin.org:4443/',
-                  server_name: 'Foundation Wallet Server 4'
-                }
-            );
+            // this.updateServerListItem(
+            //     { server_id: 'ws04.casinocoin.org',
+            //       server_url: 'wss://ws04.casinocoin.org:4443/',
+            //       server_name: 'Foundation Wallet Server 4'
+            //     }
+            // );
         } else {
             this.updateServerListItem(
                 { server_id: 'wst01.casinocoin.org',
