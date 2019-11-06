@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular'
+import { ActionSheetController, ModalController } from '@ionic/angular';
+import { AddTokenComponent } from './add-token/add-token.component';
+
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
 // import { MarketService } from '../../providers/market.service';
@@ -8,7 +10,7 @@ import { CSCUtil } from '../../domains/csc-util';
 import { CSCCrypto }  from '../../domains/csc-crypto';
 // import { CSCAmountPipe } from '../../domains/csc.pipes';
 import { AppConstants } from '../../domains/app-constants';
-// import { CSCAmountPipe } from '../../domains/csc.pipes';
+import { CSCAmountPipe } from '../../domains/csc.pipes';
 
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
@@ -49,7 +51,7 @@ export class WalletPage implements OnInit {
   addIcon = 'fa fa-plus';
   footer_visible = false;
   error_message: string;
-  cscAccounts: string[] = [];
+  cscAccounts: Array<any> = [];
   selectedCSCAccount: string;
   addTokenAccountSelected: boolean;
   showErrorDialog = false;
@@ -75,8 +77,9 @@ export class WalletPage implements OnInit {
                private localStorageService: LocalStorageService,
                private currencyPipe: CurrencyPipe,
                private translate: TranslateService,
-              public actionSheetController: ActionSheetController
-               // private cscAmountPipe: CSCAmountPipe
+              public actionSheetController: ActionSheetController,
+              public modal: ModalController,
+               private cscAmountPipe: CSCAmountPipe
              ) { }
 
              ngOnInit() {
@@ -125,9 +128,9 @@ export class WalletPage implements OnInit {
                    // get all CSC accounts for add token dropdown
                    this.walletService.getAllAccounts().forEach( element => {
                      if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
-                        // const accountLabel = element.accountID.substring(0, 20) + '...' + ' [Balance: ' +
-                                           // this.cscAmountPipe.transform(element.balance, false, true) + ']';
-                       // this.cscAccounts.push({label: accountLabel, value: element.accountID});
+                        const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
+                                           this.cscAmountPipe.transform(element.balance, false, true) + ']';
+                       this.cscAccounts.push({label: accountLabel, value: element.accountID});
                      }
                    });
                    // subscribe to account updates
@@ -139,9 +142,9 @@ export class WalletPage implements OnInit {
                      this.cscAccounts = [];
                      this.walletService.getAllAccounts().forEach( element => {
                        if (element.currency === 'CSC' && new Big(element.balance) > 0  && element.accountSequence >= 0) {
-                          // const accountLabel = element.accountID.substring(0, 20) + '...' + ' [Balance: ' +
-                                             // this.cscAmountPipe.transform(element.balance, false, true) + ']';
-                         // this.cscAccounts.push({label: accountLabel, value: element.accountID});
+                          const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
+                                             this.cscAmountPipe.transform(element.balance, false, true) + ']';
+                         this.cscAccounts.push({label: accountLabel, value: element.accountID});
                        }
                      });
                    });
@@ -165,6 +168,7 @@ export class WalletPage implements OnInit {
                       icon: 'add',
                       handler: () => {
                         console.log('Share clicked');
+                        this.onAddToken();
                       }
                     }, {
                       text: 'Show ledgers',
@@ -176,16 +180,99 @@ export class WalletPage implements OnInit {
                   });
                   await actionSheet.present();
                 }
-
-                addCSCAccount(){
-                  const password = '123456';
-                  this.walletService.addCSCAccount(password);
-                  this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
-                    if (refreshResult) {
-                      this.tokenlist = this.casinocoinService.tokenlist;
-                    }
-                  });
+                doAddToken() {
+                  // this.logger.debug('### Wallet Page: Add Token: ' + this.addToken.Token + ' for: ' + this.selectedCSCAccount);
+                  // const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
+                  // if (this.walletService.checkWalletPasswordHash(this.walletPassword, walletObject.walletUUID, walletObject.passwordHash)) {
+                  //   this.addIcon = 'pi fa-spin pi-spinner';
+                  //   this.addTokenToAccount(this.addToken, this.walletPassword, this.selectedCSCAccount);
+                  // } else {
+                  //   this.footer_visible = true;
+                  //   this.error_message = 'You entered the wrong wallet password!';
+                  //   this.addIcon = 'fa fa-plus';
+                  //   this.renderer.selectRootElement('#float-input-password').value = '';
+                  //   this.renderer.selectRootElement('#float-input-password').focus();
+                  // }
                 }
+                onAddToken(){
+                    console.log("cscAccounts: ",this.cscAccounts);
+                    console.log("tokens: ",this.availableTokenlist);
+                    this.modal
+                    .create({
+                      component: AddTokenComponent,
+                      componentProps: {
+                        cscAccounts:this.cscAccounts,
+                        availableTokenlist:this.availableTokenlist
+                      }
+                    }).then(
+                      addTokenModal => {
+                        addTokenModal.present();
+                        return addTokenModal.onDidDismiss();
+                      }).then(
+                        resultData => {
+                          if(resultData.role === "addToken"){
+
+                            this.addTokenToAccount(resultData.data.token,resultData.data.account)
+                          }
+                        });
+                }
+                addCSCAccount(){
+                  this.logger.debug('### WalletPage: add CSC account');
+                  const password = '1234567';
+                  this.walletPassword = password;
+                  const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
+                  if (this.walletService.checkWalletPasswordHash(this.walletPassword, walletObject.walletUUID, walletObject.passwordHash)){
+                    this.logger.debug('### WalletPage: password OK adding account');
+                    this.walletService.addCSCAccount(password);
+                    this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
+                      if (refreshResult) {
+                        this.tokenlist = this.casinocoinService.tokenlist;
+                      }
+                    });
+                  }else{
+                    this.logger.debug('### WalletPage: password WRONG not adding account');
+                  }
+
+                }
+
+                addTokenToAccount(token, accountID) {
+                  this.logger.debug('### WalletPage: add Token to CSC account');
+                  const password = '1234567';
+                  this.walletPassword = password;
+                  const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
+
+                  if (this.walletService.checkWalletPasswordHash(this.walletPassword, walletObject.walletUUID, walletObject.passwordHash)){
+
+                    const instructions = { maxLedgerVersionOffset: 3, fee: this.fees };
+                    const trustobject = this.walletService.addTokenToAccount(token, password, accountID);
+
+
+                    this.logger.debug('### WalletPage: password OK adding Token to account');
+                    this.casinocoinService.cscAPI.prepareTrustline(accountID, trustobject.trustline, instructions).then( preparedTrust => {
+                      this.logger.debug('### Trustline Result: ' + JSON.stringify(preparedTrust));
+                      return this.casinocoinService.cscAPI.sign(preparedTrust.txJSON, trustobject.cryptKey);
+                    }).then( trustSignResult => {
+                      this.logger.debug('### Trustline Sign Result: ' + JSON.stringify(trustSignResult));
+                      return this.casinocoinService.cscAPI.submit(trustSignResult.signedTransaction);
+                    }).then( trustSubmitResult => {
+                      this.logger.debug('### Trustline Submit Result: ' + JSON.stringify(trustSubmitResult));
+                      this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
+                        if (refreshResult) {
+                          this.tokenlist = this.casinocoinService.tokenlist;
+                        }
+                      });
+                      // reset addToken, password and close dialog
+                      this.addToken = null;
+                      this.walletPassword = '';
+
+                    });
+
+                    }else{
+                      this.logger.debug('### WalletPage: addtoken password WRONG not adding account');
+                    }
+
+                }
+
 
 
 }

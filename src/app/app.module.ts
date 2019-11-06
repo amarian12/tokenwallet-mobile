@@ -28,6 +28,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WalletSetupModule} from './components/wallet-setup/wallet-setup.module';
+import { CSCPipe } from "./domains/app-pipes.module"
 // import { WalletSetupComponent } from './components/wallet-setup/wallet-setup.module';
 // import { Step1Component } from './components/wallet-setup/steps/step1/step1.component';
 // import { Step2Component } from './components/wallet-setup/steps/step2/step2.component';

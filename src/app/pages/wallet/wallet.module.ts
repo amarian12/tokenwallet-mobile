@@ -8,6 +8,7 @@ import { CSCPipe } from '../../domains/app-pipes.module';
 import { IonicModule } from '@ionic/angular';
 
 import { WalletPage } from './wallet.page';
+import { AddTokenComponent } from './add-token/add-token.component';
 
 const routes: Routes = [
   {
@@ -24,10 +25,13 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [WalletPage],
+  declarations: [WalletPage, AddTokenComponent],
   providers: [
     DecimalPipe,
     CurrencyPipe
+  ],
+  entryComponents:[
+    AddTokenComponent
   ]
 })
 export class WalletPageModule {}

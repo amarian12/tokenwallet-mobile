@@ -671,7 +671,46 @@ export class WalletService {
           });
         }
 
+       addTokenToAccount(token, password, accountID){
 
+          const cscAccount: LokiTypes.LokiAccount = this.getAccount('CSC', accountID);
+          const userEmail = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail;
+          // create new account
+          const walletAccount: LokiTypes.LokiAccount = {
+            pk: (token.Token + cscAccount.accountID),
+            accountID: cscAccount.accountID,
+            balance: '0',
+            accountSequence: cscAccount.accountSequence,
+            currency: token.Token,
+            tokenBalance: '0',
+            lastSequence: cscAccount.lastSequence,
+            label: token.FullName,
+            activated: true,
+            ownerCount: cscAccount.ownerCount,
+            lastTxID: cscAccount.lastTxID,
+            lastTxLedger: cscAccount.lastTxLedger
+          };
+          // save account to wallet
+          this.addAccount(walletAccount);
+          // get the account secret
+          const cscAccountKey = this.getKey(cscAccount.accountID);
+          const secretsCSCCrypto = new CSCCrypto(password, userEmail);
+          const cscDecryptedSecret = secretsCSCCrypto.decrypt(cscAccountKey.secret);
+          // define the trustline
+          const trustline = {
+            currency: token.Token,
+            counterparty: token.Issuer,
+            limit: token.TotalSupply
+          };
+
+          // create, sign and submit trusline tx
+          const result = {
+              trustline: trustline,
+              cryptKey: cscDecryptedSecret,
+              walletAccount: walletAccount
+          }
+           return result;
+        }
 
 /*
   getWalletDump(): string {

@@ -14,7 +14,7 @@ export class CSCPipe{
    static forRoot() {
       return {
           ngModule: CSCPipe,
-          providers: [],
+          providers: [CSCDatePipe, CSCAmountPipe, ToNumberPipe],
       };
    }
  }
