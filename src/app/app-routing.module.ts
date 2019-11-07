@@ -22,7 +22,8 @@ const routes: Routes = [
     path: 'wallet-setup',
     loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule)
   },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' }
+
   // { path: 'wallet', loadChildren: './pages/wallet/wallet.module#WalletPageModule' },
   // { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule' },
   // { path: 'exchanges', loadChildren: './pages/exchanges/exchanges.module#ExchangesPageModule' },

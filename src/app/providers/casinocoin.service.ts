@@ -853,7 +853,9 @@ export class CasinocoinService implements OnDestroy {
             }
         });
     }
-
+    getTokenAccount(tokenId:string){
+      return this.tokenlist.find( item => item.PK === tokenId);
+    }
     updateToken(account: LokiAccount) {
         // find token to update
         const tokenIndex: number = this.tokenlist.findIndex( item => (item.AccountID === account.accountID && item.Token === account.currency));
