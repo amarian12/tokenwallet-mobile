@@ -83,6 +83,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CasinocoinService,
     LogService,
     CurrencyPipe,
+    DatePipe,
     DecimalPipe,
     NotificationService,
     MarketService,

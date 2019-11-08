@@ -379,7 +379,8 @@ export class CasinocoinService implements OnDestroy {
                                 // check if new key pair AccountID exists on the ledger
                                 try {
                                     const accountResult = await this.cscAPI.getAccountInfo(newKeyPair.accountID);
-                                    this.logger.debug('### CasinocoinService -> Account: ' + JSON.stringify(accountResult));
+
+                                   this.logger.debug('### CasinocoinService -> Account: ' + JSON.stringify(accountResult));
                                     // save key to wallet
                                     this.walletService.addKey(newKeyPair);
                                     // get account balances to see if we need to add token accounts
@@ -491,7 +492,75 @@ export class CasinocoinService implements OnDestroy {
         });
         return accountUpdatingSubject.asObservable();
     }
+    async addTransactionsToWallet(accountTxArray:Array<any>){
+      const resultTxs:Array<any> =[];
+      accountTxArray.forEach( tx => {
+          // this.logger.debug('### CasinocoinService -> Add TX: ' + JSON.stringify(tx));
+          if (tx.type === 'payment' && tx.outcome.result === 'tesSUCCESS') {
+              // this.logger.debug('### Recover - transaction: ' + JSON.stringify(tx));
+              let txDirection: string;
+              let txAccountID: string;
+              if (this.walletService.isAccountMine(tx.specification['destination'].address)) {
+                  txDirection = AppConstants.KEY_WALLET_TX_IN;
+                  txAccountID = tx.specification['destination'].address;
+                  if (this.walletService.isAccountMine(tx.specification['source'].address)) {
+                      txDirection = AppConstants.KEY_WALLET_TX_BOTH;
+                      txAccountID = tx.specification['source'].address;
+                  }
+              } else if (this.walletService.isAccountMine(tx.specification['source'].address)) {
+                  txDirection = AppConstants.KEY_WALLET_TX_OUT;
+                  txAccountID = tx.specification['source'].address;
+              }
+              // create new transaction object
+              const dbTX: LokiTransaction = {
+                  accountID: tx.address,
+                  amount: CSCUtil.cscToDrops(tx.outcome['deliveredAmount'].value),
+                  currency: tx.outcome['deliveredAmount'].currency,
+                  destination: tx.specification['destination'].address,
+                  fee: CSCUtil.cscToDrops(tx.outcome.fee),
+                  flags: 0,
+                  lastLedgerSequence: tx.outcome.ledgerVersion,
+                  sequence: tx.sequence,
+                  signingPubKey: '',
+                  timestamp: CSCUtil.iso8601ToCasinocoinTime(tx.outcome.timestamp),
+                  transactionType: tx.type,
+                  txID: tx.id,
+                  txnSignature: '',
+                  direction: txDirection,
+                  validated: (tx.outcome.indexInLedger >= 0),
+                  status: LokiTxStatus.validated,
+                  inLedger: tx.outcome.ledgerVersion
+              };
+              // add Memos if defined
+              if (tx.specification['memos']) {
+                  dbTX.memos = [];
+                  tx.specification['memos'].forEach( memo => {
+                      const newMemo = { memo:
+                          this.removeUndefined({
+                              memoType: memo.type,
+                              memoFormat: memo.format,
+                              memoData: memo.data
+                          })
+                      };
+                      dbTX.memos.push(newMemo);
+                  });
+              }
+              // add Destination Tag if defined
+              if (tx.specification['destination'].tag) {
+                  dbTX.destinationTag = tx.specification['destination'].tag;
+              }
+              // add Invoice ID if defined
+              if (tx.specification['invoiceID'] && tx.specification['invoiceID'].length > 0) {
+                  dbTX.invoiceID = tx.specification['invoiceID'];
+              }
+              // insert into the wallet
 
+              // resultTxs.push(dbTX);
+              this.walletService.addTransaction(dbTX);
+          }
+      });
+      // return resultTxs;
+    }
     refreshAccountTokenList(): Observable<any> {
         const tokenListSubject = new BehaviorSubject<boolean>(false);
         this.connectSubject.subscribe( connectResult => {
@@ -569,6 +638,11 @@ export class CasinocoinService implements OnDestroy {
             }
         });
         return tokenListSubject.asObservable();
+    }
+    async syncDelayedTx(accountID, fromLedger){
+      const accountTxArray = await this.cscAPI.getTransactions(accountID, {earliestFirst: true, minLedgerVersion:1});
+      const txs = await this.addTransactionsToWallet(accountTxArray);
+      // return txs;
     }
 
     addTxToWallet(tx, validated, inLedger, currency): LokiTransaction {
