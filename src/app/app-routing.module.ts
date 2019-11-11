@@ -22,7 +22,13 @@ const routes: Routes = [
     path: 'wallet-setup',
     loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule)
   },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' }
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  // { path: 'history-detail', loadChildren: './pages/history/history-detail/history-detail.module#HistoryDetailPageModule' },
+  // { path: 'add-contact', loadChildren: './pages/contacts/add-contact/add-contact.module#AddContactPageModule' },
+  // { path: 'contact-detail', loadChildren: './pages/contacts/contact-detail/contact-detail.module#ContactDetailPageModule' },
+  // { path: 'contact-send', loadChildren: './pages/contacts/contact-send/contact-send.module#ContactSendPageModule' },
+  // { path: 'token-send', loadChildren: './pages/wallet/token-send/token-send.module#TokenSendPageModule' },
+  // { path: 'token-receive', loadChildren: './pages/wallet/token-receive/token-receive.module#TokenReceivePageModule' }
 
   // { path: 'wallet', loadChildren: './pages/wallet/wallet.module#WalletPageModule' },
   // { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule' },

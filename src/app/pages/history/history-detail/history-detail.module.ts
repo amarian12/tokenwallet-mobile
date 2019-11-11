@@ -7,12 +7,12 @@ import { CSCPipe } from '../../../domains/app-pipes.module';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TokenDetailPage } from './token-detail.page';
+import { HistoryDetailPage } from './history-detail.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: TokenDetailPage
+    component: HistoryDetailPage
   }
 ];
 
@@ -24,6 +24,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [TokenDetailPage]
+  declarations: [HistoryDetailPage]
 })
-export class TokenDetailPageModule {}
+export class HistoryDetailPageModule {}

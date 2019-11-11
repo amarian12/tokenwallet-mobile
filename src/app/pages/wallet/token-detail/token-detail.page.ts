@@ -11,6 +11,9 @@ import { LogService } from '../../../providers/log.service';
 })
 export class TokenDetailPage implements OnInit {
   tokenAccountLoaded: TokenType;
+  fees: string;
+  accountReserve: string;
+  reserveIncrement: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,12 +31,21 @@ export class TokenDetailPage implements OnInit {
         this.logger.debug("Token Detail Page: getting token account object: "+tokenId);
         this.tokenAccountLoaded = this.casinocoinService.getTokenAccount(tokenId);
         this.logger.debug("Token Detail Page: getting token account object right away: "+JSON.stringify(this.tokenAccountLoaded));
+        if(this.casinocoinService.serverInfo){
+          this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
+          this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
+          this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
+
+        }
         if(!this.tokenAccountLoaded){
 
           this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
             if (finished) {
               this.tokenAccountLoaded = this.casinocoinService.getTokenAccount(tokenId);
               this.logger.debug("Token Detail Page: getting token account object after refresh: "+JSON.stringify(this.tokenAccountLoaded));
+              this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
+              this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
+              this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
 
             }
           });
@@ -44,6 +56,9 @@ export class TokenDetailPage implements OnInit {
 
     });
 
+  }
+  getTotalReserved(tokenObject) {
+    return Number(this.accountReserve) + (Number(tokenObject.OwnerCount) *  Number(this.reserveIncrement));
   }
 
 }

@@ -1,0 +1,131 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+      <ion-buttons slot="start">
+        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
+        <i class="icon-logo icon-chip"></i>
+        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+      </ion-buttons>
+      <ion-buttons slot="start">
+        <ion-back-button text=""></ion-back-button>
+      </ion-buttons>
+
+    <ion-title > Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!--
+"accountID":"cLNCn4mauPr8t1deB6UiTD8Mr5o5NwBfq4","amount":"2700000000","currency":"CSC","destination":"cGLxnaKn9XUvUDyLhpaKCUgbZCJ76PTo7W","fee":"25000000","flags":0,"lastLedgerSequence":120318,"sequence":5,"signingPubKey":"","timestamp":626540880,"transactionType":"payment","txID":"D969F0E0DDA4B85EE12F4CCE95706D7346158F2277ECEDE8D2847F954674C31C","txnSignature":"","direction":"incommingTX","validated":true,"status":"txVALIDATED","inLedger":120318,"meta":{"revision":0,"created":1573251246948,"version":0},"$loki":3
+  -->
+
+
+<ion-content>
+  <ion-grid *ngIf="transactionLoaded">
+    <ion-row>
+      <ion-col size="5">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            Account Id
+          </ion-label>
+            <ion-note *ngIf="transactionLoaded.direction === 'incommingTX'">
+              {{transactionLoaded.destination}}
+            </ion-note>
+            <ion-note *ngIf="transactionLoaded.direction !== 'incommingTX'">
+              {{transactionLoaded.accountID}}
+            </ion-note>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+           Status
+          </ion-label>
+            <ion-note color="danger" *ngIf="!transactionLoaded.validated">
+              not validated
+            </ion-note>
+            <ion-note color="success" *ngIf="transactionLoaded.validated">
+              validated
+            </ion-note>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            From:
+          </ion-label>
+            <ion-text color="medium">
+              {{transactionLoaded.accountID}}
+            </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col >
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            To:
+          </ion-label>
+          <ion-text color="medium">
+            {{transactionLoaded.destination}}
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            Fee:
+          </ion-label>
+          <ion-text color="medium">
+              {{transactionLoaded.fee | cscAmount : false : true }} CSC
+          </ion-text>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            Amount:
+          </ion-label>
+          <ion-text color="medium">
+            {{transactionLoaded.amount | cscAmount : false : true }} {{ transactionLoaded.currency}}
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-wrap">
+        <ion-item class="ion-text-wrap">
+          <ion-label position="stacked" color="primary">
+            Transaction ID:
+          </ion-label>
+          <ion-note class="ion-text-wrap">
+            <small>
+
+              {{ transactionLoaded.txID }}
+            </small>
+
+          </ion-note>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            Date of transaction:
+          </ion-label>
+          <ion-text color="medium">
+            {{ transactionLoaded.timestamp | cscDate}}
+
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

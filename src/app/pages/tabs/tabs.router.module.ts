@@ -29,7 +29,7 @@ const routes: Routes = [
             path: ':tokenId',
             loadChildren: () =>
               import('../wallet/token-detail/token-detail.module').then(m => m.TokenDetailPageModule)
-          },
+          }
         ]
       },
       {
@@ -39,6 +39,11 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../history/history.module').then(m => m.HistoryPageModule)
+          },
+          {
+            path: ':transactionId',
+            loadChildren: () =>
+              import('../history/history-detail/history-detail.module').then(m => m.HistoryDetailPageModule)
           }
         ]
       },
@@ -59,6 +64,11 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../contacts/contacts.module').then(m => m.ContactsPageModule)
+          },
+          {
+            path: 'add-contact',
+            loadChildren: () =>
+              import('../contacts/add-contact/add-contact.module').then(m => m.AddContactPageModule)
           }
         ]
       },

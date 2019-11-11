@@ -26,7 +26,7 @@
       </ion-item-divider-->
 
 
-        <ion-item *ngFor="let transaction of transactions" detail>
+        <ion-item *ngFor="let transaction of transactions" detail [routerLink]="'/tabs/history/'+transaction.txID">
           <ion-avatar slot="start">
             <ion-img [src]="getTokenURL(transaction)" >
 

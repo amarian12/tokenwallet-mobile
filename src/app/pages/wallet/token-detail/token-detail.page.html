@@ -1,40 +1,108 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>token-detail</ion-title>
+  <ion-toolbar color="primary">
+
+      <ion-buttons slot="start">
+        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
+        <i class="icon-logo icon-chip"></i>
+        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+      </ion-buttons>
+      <ion-buttons slot="start">
+        <ion-back-button text=""></ion-back-button>
+      </ion-buttons>
+
+    <ion-title *ngIf="tokenAccountLoaded"> {{tokenAccountLoaded.AccountLabel}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-grid *ngIf="tokenAccountLoaded">
     <ion-row>
-      <ion-col>
-        <ion-img [src]= "tokenAccountLoaded.IconURL"></ion-img>
+      <ion-col size="3" offset="1">
+        <ion-avatar>
+
+          <ion-img [src]= "tokenAccountLoaded.IconURL"></ion-img>
+        </ion-avatar>
       </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
+      <ion-col size="5">
         <ion-item>
-          <ion-label color="primary">
-            {{tokenAccountLoaded.AccountID}}
+          <ion-label position="stacked" color="primary">
+            Account Label
           </ion-label>
+            <ion-note>
+              {{tokenAccountLoaded.AccountLabel}}
+            </ion-note>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+           Status
+          </ion-label>
+            <ion-note color="danger" *ngIf="!tokenAccountLoaded.Activated">
+              not activated
+            </ion-note>
+            <ion-note color="success" *ngIf="tokenAccountLoaded.Activated">
+              active
+            </ion-note>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label color="primary">
-            {{tokenAccountLoaded.Token}}
+          <ion-label position="stacked" color="primary">
+            Account Id
           </ion-label>
+            <ion-note>
+              {{tokenAccountLoaded.AccountID}}
+            </ion-note>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
+      <ion-col size="4">
         <ion-item>
-          <ion-label color="primary">
-            {{tokenAccountLoaded.Balance}}
+          <ion-label position="stacked" color="primary">
+            token:
           </ion-label>
+          <ion-note>
+            {{tokenAccountLoaded.FullName}}
+          </ion-note>
+        </ion-item>
+      </ion-col>
+      <ion-col size="8">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            balance:
+          </ion-label>
+          <ion-text color="medium">
+            {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{ tokenAccountLoaded.Token}}
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            fees:
+          </ion-label>
+          <ion-text color="medium">
+            {{ fees }} CSC
+          </ion-text>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked" color="primary">
+            Amount reserved:
+          </ion-label>
+          <ion-text color="medium">
+            {{ getTotalReserved(tokenAccountLoaded) | number : '1.2-2' }} CSC
+          </ion-text>
         </ion-item>
       </ion-col>
     </ion-row>
