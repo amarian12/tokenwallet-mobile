@@ -1,9 +1,88 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>token-send</ion-title>
+  <ion-toolbar color="primary">
+
+      <ion-buttons slot="start">
+        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
+        <i class="icon-logo icon-chip"></i>
+        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+      </ion-buttons>
+      <ion-buttons slot="start">
+        <ion-back-button text=""></ion-back-button>
+      </ion-buttons>
+
+    <ion-title> Send token</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        from Account:
+      </ion-label>
+      <ion-text>
+
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        to Account:
+      </ion-label>
+      <ion-text>
+
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        current Balance:
+      </ion-label>
+      <ion-text>
+        xxxxx (CSC)
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+          Amount
+      </ion-label>
+      <ion-input>
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Destination Account:
+      </ion-label>
+      <ion-input>
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Destination Tag:
+      </ion-label>
+      <ion-input>
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Description:
+      </ion-label>
+      <ion-input>
+
+      </ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button type="submit" expand="block">
+    Send Token
+
+  </ion-button>
+  <ion-button  expand="block">
+    Cancel
+
+  </ion-button>
 
 </ion-content>
