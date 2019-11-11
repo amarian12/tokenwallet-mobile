@@ -1,5 +1,7 @@
 {
   "name": "casinocoin-token-wallet-mobile",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
