@@ -72,5 +72,8 @@ tokenAccountLoaded: any;
       }
     });
   }
+  allBalanceToAmount(){
+    
+  }
 
 }

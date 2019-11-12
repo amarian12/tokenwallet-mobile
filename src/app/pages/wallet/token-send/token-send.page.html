@@ -18,116 +18,117 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="tokenAccountLoaded">
-    <ion-item>
-      <ion-label position="stacked" >
-        from Account:
-      </ion-label>
-      <ion-note>
-        {{tokenAccountLoaded.AccountID}}
-      </ion-note>
-    </ion-item>
-    <ion-item *ngIf="destinationAccount">
-      <ion-label position="stacked">
-        to Account:
-      </ion-label>
-      <ion-note >
-        {{destinationAccount}}
-      </ion-note>
-    </ion-item>
-    <ion-item *ngIf="!destinationAccount">
-      <ion-label position="floating" color="primary">
-        to Account:
-      </ion-label>
-      <ion-input>
+  <form #sendtoken="ngForm">
+    <ion-list *ngIf="tokenAccountLoaded">
+      <ion-item>
+        <ion-label position="stacked" >
+          from Account:
+        </ion-label>
+        <ion-note>
+          {{tokenAccountLoaded.AccountID}}
+        </ion-note>
+      </ion-item>
+      <ion-item *ngIf="destinationAccount">
+        <ion-label position="stacked">
+          to Account:
+        </ion-label>
+        <ion-note >
+          {{destinationAccount}}
+        </ion-note>
+      </ion-item>
+      <ion-item *ngIf="!destinationAccount">
+        <ion-label position="floating" color="primary">
+          to Account:
+        </ion-label>
+        <ion-input>
 
-      </ion-input>
-      <ion-button slot="end">
-        scan
-      </ion-button>
+        </ion-input>
+        <ion-button slot="end">
+          scan
+        </ion-button>
 
-    </ion-item>
-    <ion-item lines="none" color="light">
-      <ion-grid class="ion-no-padding ion-padding-bottom" >
-        <ion-row >
-          <ion-col size="5" class="ion-no-padding">
-            <ion-item class="ion-no-padding" lines="none" color="light">
-              <ion-label position="stacked">
-                Account Balance:
-              </ion-label>
-              <ion-note>
-                {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{tokenAccountLoaded.Token}}
-              </ion-note>
-            </ion-item>
+      </ion-item>
+      <ion-item lines="none" color="light">
+        <ion-grid class="ion-no-padding ion-padding-bottom" >
+          <ion-row >
+            <ion-col size="5" class="ion-no-padding">
+              <ion-item class="ion-no-padding" lines="none" color="light">
+                <ion-label position="stacked">
+                  Account Balance:
+                </ion-label>
+                <ion-note>
+                  {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{tokenAccountLoaded.Token}}
+                </ion-note>
+              </ion-item>
 
-          </ion-col>
-          <ion-col size="4" class="ion-no-padding">
-            <ion-item class="ion-no-padding" lines="none" color="light">
-              <ion-label position="stacked">
-                Reserved:
-              </ion-label>
-              <ion-note>
-                {{accountReserve }} CSC
-              </ion-note>
-            </ion-item>
-          </ion-col>
-          <ion-col size="3" class="ion-no-padding">
-            <ion-item class="ion-no-padding" lines="none" color="light">
-              <ion-label position="stacked">
-                Fees:
-              </ion-label>
-              <ion-note>
-                {{fees  }} CSC
-              </ion-note>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+            </ion-col>
+            <ion-col size="4" class="ion-no-padding">
+              <ion-item class="ion-no-padding" lines="none" color="light">
+                <ion-label position="stacked">
+                  Reserved:
+                </ion-label>
+                <ion-note>
+                  {{accountReserve }} CSC
+                </ion-note>
+              </ion-item>
+            </ion-col>
+            <ion-col size="3" class="ion-no-padding">
+              <ion-item class="ion-no-padding" lines="none" color="light">
+                <ion-label position="stacked">
+                  Fees:
+                </ion-label>
+                <ion-note>
+                  {{fees  }} CSC
+                </ion-note>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
 
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" color="primary">
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" color="primary">
           Amount:
-      </ion-label>
-      <ion-input>
+        </ion-label>
+        <ion-input>
 
-      </ion-input>
-      <ion-button slot="end">
-        ALL
-      </ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" color="primary">
-        Destination Account:
-      </ion-label>
-      <ion-input>
+        </ion-input>
+        <ion-button slot="end" [click]="allBalanceToAmount()" >
+          ALL
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" color="primary">
+          Destination Account:
+        </ion-label>
+        <ion-input>
 
-      </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" color="primary">
-        Destination Tag:
-      </ion-label>
-      <ion-input>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" color="primary">
+          Destination Tag:
+        </ion-label>
+        <ion-input>
 
-      </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" color="primary">
-        Description:
-      </ion-label>
-      <ion-input>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" color="primary">
+          Description:
+        </ion-label>
+        <ion-input>
 
-      </ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-button type="submit" expand="block">
-    Send Token
+        </ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button type="submit" expand="block">
+      Send Token
 
-  </ion-button>
-  <ion-button  expand="block">
-    Cancel
+    </ion-button>
+    <ion-button  expand="block">
+      Cancel
 
-  </ion-button>
-
+    </ion-button>
+  </form>
 </ion-content>
