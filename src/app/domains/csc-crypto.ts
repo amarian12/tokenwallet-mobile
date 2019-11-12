@@ -1,6 +1,6 @@
 import CryptoJS   from 'crypto-js';
 import WordArray   from 'crypto-js';
-import { generateSeed, deriveKeypair, deriveAddress } from 'casinocoin-libjs-keypairs';
+import { CasinocoinAPI } from '@casinocoin/libjs';
 import { LokiKey } from './lokijs';
 
 export class CSCCrypto {
@@ -379,11 +379,12 @@ export class CSCCrypto {
       return parseInt(h, 16);
     }));
     const entropy: any = {entropy: entropyArray};
+    const cscAPI = new CasinocoinAPI();
     // generate seed
-    const seed: string	=	generateSeed(entropy);
+    const seed: string  =   cscAPI.generateSeed(entropy);
     // derive keypair
-    const keypair: any	=	deriveKeypair(seed);
-    const newKeyPair: LokiKey	=	{ secret: seed, publicKey: keypair.publicKey, privateKey: keypair.privateKey, accountID: deriveAddress(keypair.publicKey), encrypted: false};
+    const keypair: any  =   cscAPI.deriveKeypair(seed);
+    const newKeyPair: LokiKey	=	{ secret: seed, publicKey: keypair.publicKey, privateKey: keypair.privateKey, accountID: cscAPI.deriveAddress(keypair.publicKey), encrypted: false};
     return newKeyPair;
   }
   //

@@ -14,6 +14,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { MustMatchDirective } from './helpers/must-match.directive';
 import { WalletSetupModalComponent } from './helpers/wallet-setup-modal/wallet-setup-modal.component';
+import { WalletSetupAlertComponent } from './helpers/wallet-setup-alert/wallet-setup-alert.component';
 import { MnemonicValidDirective } from './helpers/mnemonic-valid.directive';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MnemonicValidDirective } from './helpers/mnemonic-valid.directive';
     Step6Component,
     Step7Component,
     WalletSetupModalComponent,
+    WalletSetupAlertComponent,
     MustMatchDirective,
     MnemonicValidDirective
   ],

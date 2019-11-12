@@ -26,7 +26,12 @@ const routes: Routes = [
               import('../wallet/wallet.module').then(m => m.WalletPageModule)
           },
           {
-            path: 'token-send',
+            path: 'token-send/:origin',
+            loadChildren: () =>
+              import('../wallet/token-send/token-send.module').then(m => m.TokenSendPageModule)
+          },
+          {
+            path: 'token-send/:origin/:destination',
             loadChildren: () =>
               import('../wallet/token-send/token-send.module').then(m => m.TokenSendPageModule)
           },

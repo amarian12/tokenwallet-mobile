@@ -18,41 +18,86 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="tokenAccountLoaded">
     <ion-item>
-      <ion-label>
+      <ion-label position="stacked" >
         from Account:
       </ion-label>
-      <ion-text>
-
-      </ion-text>
+      <ion-note>
+        {{tokenAccountLoaded.AccountID}}
+      </ion-note>
     </ion-item>
-    <ion-item>
-      <ion-label>
+    <ion-item *ngIf="destinationAccount">
+      <ion-label position="stacked">
         to Account:
       </ion-label>
-      <ion-text>
-
-      </ion-text>
+      <ion-note >
+        {{destinationAccount}}
+      </ion-note>
     </ion-item>
-    <ion-item>
-      <ion-label>
-        current Balance:
-      </ion-label>
-      <ion-text>
-        xxxxx (CSC)
-      </ion-text>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">
-          Amount
+    <ion-item *ngIf="!destinationAccount">
+      <ion-label position="floating" color="primary">
+        to Account:
       </ion-label>
       <ion-input>
 
       </ion-input>
+      <ion-button slot="end">
+        scan
+      </ion-button>
+
+    </ion-item>
+    <ion-item lines="none" color="light">
+      <ion-grid class="ion-no-padding ion-padding-bottom" >
+        <ion-row >
+          <ion-col size="5" class="ion-no-padding">
+            <ion-item class="ion-no-padding" lines="none" color="light">
+              <ion-label position="stacked">
+                Account Balance:
+              </ion-label>
+              <ion-note>
+                {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{tokenAccountLoaded.Token}}
+              </ion-note>
+            </ion-item>
+
+          </ion-col>
+          <ion-col size="4" class="ion-no-padding">
+            <ion-item class="ion-no-padding" lines="none" color="light">
+              <ion-label position="stacked">
+                Reserved:
+              </ion-label>
+              <ion-note>
+                {{accountReserve }} CSC
+              </ion-note>
+            </ion-item>
+          </ion-col>
+          <ion-col size="3" class="ion-no-padding">
+            <ion-item class="ion-no-padding" lines="none" color="light">
+              <ion-label position="stacked">
+                Fees:
+              </ion-label>
+              <ion-note>
+                {{fees  }} CSC
+              </ion-note>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
     </ion-item>
     <ion-item>
-      <ion-label position="floating">
+      <ion-label position="floating" color="primary">
+          Amount:
+      </ion-label>
+      <ion-input>
+
+      </ion-input>
+      <ion-button slot="end">
+        ALL
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="primary">
         Destination Account:
       </ion-label>
       <ion-input>
@@ -60,7 +105,7 @@
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">
+      <ion-label position="floating" color="primary">
         Destination Tag:
       </ion-label>
       <ion-input>
@@ -68,7 +113,7 @@
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">
+      <ion-label position="floating" color="primary">
         Description:
       </ion-label>
       <ion-input>

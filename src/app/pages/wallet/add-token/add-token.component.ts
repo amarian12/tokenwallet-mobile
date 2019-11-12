@@ -15,6 +15,7 @@ import { TokenType } from '../../../domains/csc-types';
 })
 export class AddTokenComponent implements OnInit {
   @Input() tokenlist: Array<TokenType>;
+  @Input() cscAccounts: Array<any>;
   availableTokenlist: Array<TokenType> = [];
   addTokenAccountSelected: boolean ;
   selectedCSCAccount: string;

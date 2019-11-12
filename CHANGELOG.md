@@ -1,7 +1,6 @@
 ## 0.1.0 (2019-11-11)
 
-
- *  new README new CHANGELOG
+ *  new README new CHANGELOG ([ab27410] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/ab27410)
  *  adding custom config ([4d6f191] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/4d6f191))
  *  adding custom icon and splash for building app ([33d6cc0] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/33d6cc0))
  *  adding custom icon and splash for building app ([211d4aa] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/211d4aa))

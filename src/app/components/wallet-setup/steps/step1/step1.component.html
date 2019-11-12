@@ -16,8 +16,8 @@
       </ion-row>
 
 
-          <ion-button *ngIf="!initial" expand="block" (click)="this.swipeNext(walletSetup)"> Select account</ion-button>
-          <ion-button expand="block" (click)="this.swipeNext(walletSetup)"> {{ 'PAGES.SETUP.STEP1-BTN-CREATE' | translate }}</ion-button>
+          <ion-button *ngIf="!initial" expand="block" (click)="this.swipeNext()"> Select account</ion-button>
+          <ion-button expand="block" (click)="this.swipeNext()"> {{ 'PAGES.SETUP.STEP1-BTN-CREATE' | translate }}</ion-button>
           <ion-button expand="block"> {{ 'PAGES.SETUP.STEP1-BTN-RESTORE' | translate }}</ion-button>
           <ion-button expand="block"> {{ 'PAGES.SETUP.STEP1-BTN-RECREATE-MNEMONIC' | translate }}</ion-button>
 

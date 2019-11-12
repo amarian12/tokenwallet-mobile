@@ -45,7 +45,7 @@
           <ion-badge *ngIf="!token.Activated" color="danger" slot="end"><ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon></ion-badge>
         </ion-item>
         <ion-item-options>
-          <ion-item-option color="success" >
+          <ion-item-option color="success" [routerLink]="'token-send/'+token.PK " >
             send <i class="icon icon-send"></i>
           </ion-item-option>
           <ion-item-option color="secondary" >
