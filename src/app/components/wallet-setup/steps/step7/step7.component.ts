@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, NgZone } from '@angular/core';
 import { LogService } from '../../../../providers/log.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../../../providers/wallet.service';
@@ -25,13 +25,16 @@ export class Step7Component implements OnInit {
       this.slider.getActiveIndex().then(
      (index)=>{
        if(index == 6){
-          this.initialize();
+         this.zone.run(() => {
+           this.initialize();
+         });
        }
       });
   }
 
   @Input() slider: IonSlides;
     constructor(
+      private zone: NgZone,
       private logger: LogService,
       private translate: TranslateService,
       private router: Router,
@@ -117,6 +120,7 @@ export class Step7Component implements OnInit {
             });
             // we are done
             this.setupFinished = true;
+            this.logger.debug('### finishSetup() - setupFinished to true!!! ');
             this.translate.get('PAGES.SETUP.STEP7-FINISHED').subscribe((res: string) => {
               this.statusMessage = res;
             });

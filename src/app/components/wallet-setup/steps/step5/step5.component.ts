@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, NgZone } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { LogService } from '../../../../providers/log.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,12 +24,20 @@ export class Step5Component implements OnInit {
   @HostListener('window:ionSlideTransitionEnd') slideChanged() {
       this.slider.getActiveIndex().then(
      (index)=>{
+       if(index == 3){
+          this.zone.run(()=>{
+            this.initialize();
+          });
+       }
        if(index == 4){
-          this.onDisplay();
+          this.zone.run(()=>{
+            this.onDisplay()
+          });
        }
       });
   }
     constructor(
+      private zone: NgZone,
       private modal: ModalController,
       private translate: TranslateService,
       private alert: AlertController,
@@ -38,33 +46,15 @@ export class Step5Component implements OnInit {
     ) { }
 
     ngOnInit() {
-      const arr = this.walletService.walletSetup.recoveryMnemonicWords;
-      for (var i = 0 ; i < arr.length; i++){
-          if(i%2 == 0){
-            // take into account that 0 is the 1 element
-            // that's why odd and even is swapped
-            this.odds[i] = arr[i];
-          }else{
-            this.evens[i] = arr[i];
 
-          }
-      }
-      this.odds = this.odds.filter(Boolean);
-      this.evens = this.evens.filter(Boolean);
-
-      this.logger.debug('### Ready fifth step. Wallet Setup ');
-      this.logger.debug('### odds are ready ');
-      console.log(this.odds);
-      this.logger.debug('### evens are ready ');
-      console.log(this.evens);
     }
     onDisplay() {
       this.userEmail = this.walletService.walletSetup.userEmail;
       this.logger.debug('### loaded email '+ this.userEmail);
       this.translate.get('PAGES.SETUP.STEP5-SUBTITLE').subscribe((res: string) => {
         this.alert.create({
-        header: 'Alert',
-        subHeader: 'Subtitle',
+        header: 'Warning',
+        subHeader: 'Please read carefully',
         message: res,
         buttons: ['I understand']
       }).then( alert =>  {
@@ -77,9 +67,9 @@ export class Step5Component implements OnInit {
 
     swipeNext(){
       this.alert.create({
-      header: 'Alert',
-      subHeader: 'Subtitle',
-      message: 'Are you sure?',
+      header: 'Before proceeding',
+      subHeader: 'last reminder',
+      message: 'Are you sure? If you want to go ahead, please make sure you have access to the copy of this word list or you will have to start the setup process again from the beginning',
       buttons: [
         {
           text: 'Go back',
@@ -103,6 +93,29 @@ export class Step5Component implements OnInit {
         alert.present();
       });
 
+    }
+    initialize(){
+      this.odds = [];
+      this.evens = [];
+      const arr = this.walletService.walletSetup.recoveryMnemonicWords;
+      for (var i = 0 ; i < arr.length; i++){
+          if(i%2 == 0){
+            // take into account that 0 is the 1 element
+            // that's why odd and even is swapped
+            this.odds[i] = arr[i];
+          }else{
+            this.evens[i] = arr[i];
+
+          }
+      }
+      this.odds = this.odds.filter(Boolean);
+      this.evens = this.evens.filter(Boolean);
+
+      this.logger.debug('### Ready fifth step. Wallet Setup ');
+      this.logger.debug('### odds are ready ');
+      console.log(this.odds);
+      this.logger.debug('### evens are ready ');
+      console.log(this.evens);
     }
 
 

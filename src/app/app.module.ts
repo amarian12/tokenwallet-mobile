@@ -10,7 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 // Providers
 
-
+import { FormsModule } from '@angular/forms';
 // Pipes
 import { DatePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
 // import { AuthGuard } from './auth-guard';
@@ -60,6 +60,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     WalletSetupModule,
     BrowserModule,
+    FormsModule,
     IonicModule.forRoot(),
     HttpClientModule,
     TranslateModule.forRoot({
