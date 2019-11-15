@@ -40,37 +40,37 @@ export class ContactsPage implements OnInit {
   }
   ionViewWillEnter(){
 
-this.comtactsEmpty = true;
-    //
-    // // get all contact addresses
-    // if(this.walletService.isWalletOpen){
-    //   this.logger.debug("### Contacts Open ###");
-    //   this.contacts = this.walletService.getAllAddresses();
-    //   this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
-    //   this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
-    //   if (this.contacts.length > 0){
-    //     this.contactsEmpty = false;
-    //   }else{
-    //     this.contactsEmpty = true;
-    //
-    //   }
-    // }else{
-    //   this.walletService.openWalletSubject.subscribe( result => {
-    //     if(result == AppConstants.KEY_LOADED){
-    //       this.logger.debug("### Contacts Open ###");
-    //       this.contacts = this.walletService.getAllAddresses();
-    //       this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
-    //       this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
-    //       if (this.contacts.length > 0){
-    //         this.contactsEmpty = false;
-    //       }else{
-    //         this.contactsEmpty = true;
-    //
-    //       }
-    //     }
-    //   });
-    //
-    // }
+
+    
+    // get all contact addresses
+    if(this.walletService.isWalletOpen){
+      this.logger.debug("### Contacts Open ###");
+      this.contacts = this.walletService.getAllAddresses();
+      this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
+      this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
+      if (this.contacts.length > 0){
+        this.contactsEmpty = false;
+      }else{
+        this.contactsEmpty = true;
+
+      }
+    }else{
+      this.walletService.openWalletSubject.subscribe( result => {
+        if(result == AppConstants.KEY_LOADED){
+          this.logger.debug("### Contacts Open ###");
+          this.contacts = this.walletService.getAllAddresses();
+          this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
+          this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
+          if (this.contacts.length > 0){
+            this.contactsEmpty = false;
+          }else{
+            this.contactsEmpty = true;
+
+          }
+        }
+      });
+
+    }
 
   }
 
