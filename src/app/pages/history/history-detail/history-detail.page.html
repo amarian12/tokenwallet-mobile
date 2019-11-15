@@ -6,8 +6,8 @@
         <i class="icon-logo icon-chip"></i>
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
-      <ion-buttons slot="start">
-        <ion-back-button text=""></ion-back-button>
+      <ion-buttons slot="start" >
+        <ion-back-button text="" defaultHref="/tabs/history"></ion-back-button>
       </ion-buttons>
 
     <ion-title > Details</ion-title>
@@ -104,13 +104,13 @@
           <ion-label position="stacked" color="primary">
             Transaction ID:
           </ion-label>
-          <ion-note class="ion-text-wrap">
-            <small>
+          <ion-label  color="medium" class="ion-text-wrap">
+            {{ transactionLoaded.txID }}
+            <!--small>
 
-              {{ transactionLoaded.txID }}
-            </small>
+            </small-->
 
-          </ion-note>
+          </ion-label>
         </ion-item>
       </ion-col>
     </ion-row>

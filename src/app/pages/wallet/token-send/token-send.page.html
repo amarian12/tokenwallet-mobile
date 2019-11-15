@@ -7,7 +7,7 @@
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
       <ion-buttons slot="start">
-        <ion-back-button text=""></ion-back-button>
+        <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
       </ion-buttons>
 
     <ion-title> Send token</ion-title>
@@ -56,8 +56,11 @@
                 <ion-label position="stacked">
                   Account Balance:
                 </ion-label>
-                <ion-note>
+                <ion-note *ngIf="tokenAccountLoaded.Token === 'CSC'">
                   {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{tokenAccountLoaded.Token}}
+                </ion-note>
+                <ion-note *ngIf="tokenAccountLoaded.Token !== 'CSC'">
+                  {{tokenAccountLoaded.TokenBalance | cscAmount : false : true }} {{tokenAccountLoaded.Token}}
                 </ion-note>
               </ion-item>
 

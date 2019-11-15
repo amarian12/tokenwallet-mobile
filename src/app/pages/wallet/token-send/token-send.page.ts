@@ -84,6 +84,8 @@ balanceToSend: any;
         this.logger.debug("### send token page: new balance to send: "+this.balanceToSend);
         // this.sendForm.controls.amount.setValue(sendMax.toString());
       } else {
+        this.balanceToSend  = Number(CSCUtil.dropsToCsc(this.tokenAccountLoaded.TokenBalance));
+        this.logger.debug("### send token page: new balance to send: "+this.balanceToSend);
         // this.sendForm.controls.amount.setValue(CSCUtil.dropsToCsc(rowData.TokenBalance));
       }
   }

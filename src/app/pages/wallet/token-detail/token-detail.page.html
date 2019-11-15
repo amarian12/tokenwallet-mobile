@@ -7,7 +7,7 @@
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
       <ion-buttons slot="start">
-        <ion-back-button text=""></ion-back-button>
+        <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
       </ion-buttons>
 
     <ion-title *ngIf="tokenAccountLoaded"> {{tokenAccountLoaded.AccountLabel}}</ion-title>
@@ -120,7 +120,7 @@
     </ion-row>
   </ion-grid>
   <ion-footer>
-    <ion-toolbar>
+    <ion-toolbar class="ion-text-center">
       <ion-button>Send</ion-button>
       <ion-button>Receive</ion-button>
       <ion-button>Add token</ion-button>

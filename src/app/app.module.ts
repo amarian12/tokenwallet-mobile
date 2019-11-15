@@ -21,6 +21,7 @@ import { WalletService } from './providers/wallet.service';
 import { NotificationService } from './providers/notification.service';
 import { MarketService } from './providers/market.service';
 
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';

@@ -48,8 +48,8 @@
           <ion-item-option color="success" [routerLink]="'token-send/'+token?.PK " >
             send <i class="icon icon-send"></i>
           </ion-item-option>
-          <ion-item-option color="secondary" >
-            receive <i class="icon icon-receive"></i>
+          <ion-item-option color="secondary" [routerLink]="'token-receive/'+token?.PK ">
+            receive <i class="icon icon-receive"  ></i>
 
           </ion-item-option>
         </ion-item-options>
@@ -73,7 +73,7 @@
         <i  class="primary-text icon icon-send"></i>
       </ion-fab-button>
       <ion-fab-button color="primary" >
-        <i class="icon icon-receive"></i>
+        <i class="icon icon-receive" [routerLink]="'token-receive'"></i>
       </ion-fab-button>
       <!--ion-fab-button color="primary" >
         <i class="icon icon-chip"></i>

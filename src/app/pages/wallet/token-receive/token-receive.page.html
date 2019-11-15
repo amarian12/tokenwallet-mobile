@@ -1,9 +1,66 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>token-receive</ion-title>
+  <ion-toolbar color="primary">
+
+      <ion-buttons slot="start">
+        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
+        <i class="icon-logo icon-chip"></i>
+        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+      </ion-buttons>
+      <ion-buttons slot="start" >
+        <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
+      </ion-buttons>
+
+    <ion-title > Receive Token</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-content class="ion-justify-content-center ion-no-padding">
+      <ion-list>
+        <ion-item lines="none" class="ion-margin ion-justify-content-center">
+          <ion-label position="stacked">
+            AccountID:
+          </ion-label>
+          <ion-note >
+            {{ tokenAccountLoaded?.AccountID }}
+          </ion-note>
+        </ion-item>
+        <ion-item lines="none" class="ion-margin ion-justify-content-center">
 
+          <qrcode [qrdata]="cscReceiveURI" [size]="256" [level]="'L'"></qrcode>
+        </ion-item>
+        <ion-item >
+          <ion-label >
+            Label:
+          </ion-label>
+          <ion-input type="text" name="label" [(ngModel)]="label" >
+
+          </ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>
+            Destination Tag
+          </ion-label>
+          <ion-input type="text" name="sendamount" [(ngModel)]="sendAmount" >
+
+          </ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>
+            Amount
+          </ion-label>
+          <ion-input type="text" name="destinationtag" [(ngModel)]="destinationTag" >
+
+          </ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="block" (click)=updateQRCode() >update QR code</ion-button>
+
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>

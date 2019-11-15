@@ -29,12 +29,12 @@ export class HistoryPage implements OnInit {
 
   ngOnInit() {
     this.logger.debug('### History Page:  ngOnInit() ###');
-    this.walletService.openWalletSubject.subscribe( result => {
-      if (result === AppConstants.KEY_LOADED) {
-        // get all transactions
-        this.transactions = this.walletService.getAllTransactions();
-        this.logger.debug('### History ngOnInit() - transactions: ' + JSON.stringify(this.transactions));
-      }
+    this.casinocoinService.transactionSubject.subscribe( tx => {
+        // add new tx
+        this.transactions.unshift(tx);
+        this.logger.debug('### History ngOnInit() - added new tx: ' + JSON.stringify(tx));
+        this.logger.debug('### History ngOnInit() - current tx array : ' + JSON.stringify(this.transactions));
+
     });
     // delayed transactions get:
     // const accounts = this.walletService.getAllAccounts();
@@ -48,14 +48,33 @@ export class HistoryPage implements OnInit {
   }
   ionViewWillEnter(){
     // delayed transactions get:
-    const accounts = this.walletService.getAllAccounts();
-    this.logger.debug("### History ionViewWillEnter:  accounts: "+JSON.stringify(accounts));
-    accounts.forEach(
-      act =>  {
-        if(act.lastTxLedger > 0){
-          this.casinocoinService.syncDelayedTx(act.accountID,1);
-        }
+    if(this.walletService.isWalletOpen){
+      const accounts = this.walletService.getAllAccounts();
+      this.logger.debug("### History ionViewWillEnter:  accounts: "+JSON.stringify(accounts));
+      accounts.forEach(
+        act =>  {
+          if(act.lastTxLedger > 0){
+            this.casinocoinService.syncDelayedTx(act.accountID,1);
+          }
+        });
+    }else{
+      this.walletService.openWalletSubject.subscribe( result => {
+        if (result === AppConstants.KEY_LOADED) {
+          // get all transactions
+          const accounts = this.walletService.getAllAccounts();
+          this.logger.debug('### History Page - retreiving accounts: ' + JSON.stringify(accounts));
+
+              accounts.forEach(
+                act =>  {
+                  if(act.lastTxLedger > 0){
+                    this.casinocoinService.syncDelayedTx(act.accountID,1);
+                  }
+                });
+            }
       });
+    }  
+
+      this.transactions = this.walletService.getAllTransactions();
     }
   getStatusIconColor(tx: LokiTransaction) {
     if (tx.validated) {
