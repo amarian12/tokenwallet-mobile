@@ -78,8 +78,11 @@
           <ion-label position="stacked" color="primary">
             balance:
           </ion-label>
-          <ion-text color="medium">
+          <ion-text color="medium" *ngIf="tokenAccountLoaded.Token === 'CSC'">
             {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{ tokenAccountLoaded.Token}}
+          </ion-text>
+          <ion-text color="medium" *ngIf="tokenAccountLoaded.Token !== 'CSC'">
+            {{tokenAccountLoaded.TokenBalance | cscAmount : false : true }} {{ tokenAccountLoaded.Token}}
           </ion-text>
         </ion-item>
       </ion-col>
@@ -116,6 +119,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button>Send</ion-button>
+      <ion-button>Receive</ion-button>
+      <ion-button>Add token</ion-button>
+      <ion-button>Copy account</ion-button>
+      <ion-button>Explore</ion-button>
+    </ion-toolbar>
+  </ion-footer>
 
 </ion-content>

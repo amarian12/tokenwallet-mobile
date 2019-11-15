@@ -68,7 +68,7 @@
                   Reserved:
                 </ion-label>
                 <ion-note>
-                  {{accountReserve }} CSC
+                  {{ getTotalReserved(tokenAccountLoaded) | number : '1.2-2' }} CSC
                 </ion-note>
               </ion-item>
             </ion-col>
@@ -90,26 +90,19 @@
         <ion-label position="floating" color="primary">
           Amount:
         </ion-label>
-        <ion-input>
+        <ion-input [(ngModel)]="balanceToSend" name="balance" type="number">
 
         </ion-input>
-        <ion-button slot="end" (click)="allBalanceToAmount()" >
+        <ion-button slot="end" (click)="allBalanceToAmount()">
           ALL
         </ion-button>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating" color="primary">
-          Destination Account:
-        </ion-label>
-        <ion-input>
 
-        </ion-input>
-      </ion-item>
       <ion-item>
         <ion-label position="floating" color="primary">
           Destination Tag:
         </ion-label>
-        <ion-input>
+        <ion-input name="destinationtag" type="number">
 
         </ion-input>
       </ion-item>
@@ -117,7 +110,7 @@
         <ion-label position="floating" color="primary">
           Description:
         </ion-label>
-        <ion-input>
+        <ion-input name="description" type="text">
 
         </ion-input>
       </ion-item>

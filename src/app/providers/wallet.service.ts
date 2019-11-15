@@ -36,6 +36,7 @@ export class WalletService {
 
   private accounts;
   private transactions;
+  private addressbook;
   private keys;
 
   public isWalletOpen = false;
@@ -94,6 +95,8 @@ export class WalletService {
         this.transactions = collection;
       } else if (collection.name === 'keys') {
         this.keys = collection;
+      }else if(collection.name === 'addressbook'){
+        this.addressbook = collection;
       }
       this.isWalletOpen = true;
     });
@@ -111,6 +114,7 @@ export class WalletService {
       console.log('### WalletService - createCollections');
       collectionSubject.next(walletDB.addCollection('accounts', {unique: ['pk']}));
       collectionSubject.next(walletDB.addCollection('transactions', {unique: ['txID']}));
+      collectionSubject.next(walletDB.addCollection('addressbook', {unique: ['accountID']}));
       collectionSubject.next(walletDB.addCollection('keys', {unique: ['accountID']}));
       createSubject.next(AppConstants.KEY_FINISHED);
     }
@@ -149,6 +153,9 @@ export class WalletService {
           this.transactions = collection;
         } else if (collection.name === 'keys') {
           this.keys = collection;
+
+        } else if (collection.name === 'addressbook') {
+          this.addressbook = collection;
         }
         this.isWalletOpen = true;
       } else {
@@ -164,6 +171,7 @@ export class WalletService {
         autoloadCallback: function openCollections(result) {
           collectionSubject.next(walletDB.getCollection('accounts'));
           collectionSubject.next(walletDB.getCollection('transactions'));
+          collectionSubject.next(walletDB.getCollection('addressbook'));
           collectionSubject.next(walletDB.getCollection('keys'));
           if (!openError) {
             openSubject.next(AppConstants.KEY_LOADED);
@@ -187,6 +195,7 @@ export class WalletService {
     // reset all collection objects
     this.accounts = null;
     this.transactions = null;
+    this.addressbook = null;
     this.keys = null;
     // set wallet open to false
     this.isWalletOpen = false;
@@ -454,7 +463,49 @@ export class WalletService {
   clearTransactions() {
     this.transactions.clear({removeIndices: true});
   }
+  // #########################################
+  // Contacts Collection
+  // #########################################
 
+
+  addAddress(newAddress: LokiTypes.LokiAddress): LokiTypes.LokiAddress{
+    console.log(this.addressbook)
+    let insertedAddress = this.addressbook.insert(newAddress);
+    return insertedAddress;
+  }
+
+  getAddress(accountID: string): LokiTypes.LokiAddress {
+    if(this.isWalletOpen){
+      if(this.addressbook.count() > 0){
+        return this.addressbook.findOne({'accountID': {'$eq': accountID}});
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  getAllAddresses(): Array<LokiTypes.LokiAddress> {
+    if(this.isWalletOpen){
+      if(this.addressbook.count() > 0){
+        return this.addressbook.find();
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+
+  }
+
+  updateAddress(address: LokiTypes.LokiAddress){
+    this.addressbook.update(address);
+  }
+
+  removeAddress(accountID: string) {
+    this.addressbook.findAndRemove({accountID: accountID});
+  }
   // #########################################
   // Wallet Methods
   // #########################################

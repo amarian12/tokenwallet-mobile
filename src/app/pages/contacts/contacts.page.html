@@ -15,215 +15,78 @@
 </ion-header>
 
 
-<ion-content>
-  <ion-grid fixed>
+<ion-content *ngIf="contactsEmpty">
+
+    <ion-card >
+      <ion-card-header>
+        <ion-title>
+          No contacts
+        </ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-text>
+          You don't have any contact yet
+        </ion-text >
+
+      </ion-card-content>
+    </ion-card>
+
+
+  <ion-button expand="block">
+    Add a contact
+  </ion-button>
+</ion-content>
+
+<ion-content *ngIf="!contactsEmpty">
+  <ion-grid fixed >
+
     <ion-row class="ion-align-items-stretch">
-      <ion-col size="12" size-md="6" >
-        <ion-card class="speaker-card">
+      <ion-col size="12" *ngFor="let contact of contacts">
+        <ion-card>
           <ion-card-header>
             <ion-item detail="false" lines="none" >
-              <ion-avatar slot="start" >
-                <ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_user.svg" ></ion-icon>
-              </ion-avatar>
-              <ion-label>
+              <ion-chip color="medium">
+                <ion-avatar>
+                  <ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_user.svg" ></ion-icon>
+                </ion-avatar>
+                <ion-label>
 
-                <ion-text color="primary">
-                  <h5>
-                    Simon PJ
-                  </h5>
-                </ion-text>
-                <small>
-                  <ion-text>
-                    lsdkflsajdfkjasdfjlsadjkfl;askdfl;
-                  </ion-text>
-                </small>
-              </ion-label>
-              <ion-button fill="clear">
-                <!--ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_a_right.svg">
-                </ion-icon-->
-                  <i style="font-size:2em;" class="icon-large icon-send"></i>
+                    {{contact.label}}
 
-              </ion-button>
+                </ion-label>
+              </ion-chip>
             </ion-item>
-          </ion-card-header>
-
-
-
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="6" >
-        <ion-card class="speaker-card">
-          <ion-card-header>
-            <ion-item detail="false" lines="none" >
-              <ion-avatar slot="start" >
-                <ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_user.svg" ></ion-icon>
-              </ion-avatar>
+            <ion-item>
               <ion-label>
-
-                <ion-text color="primary">
-                  <h5>
-                    Victor M
-                  </h5>
-                </ion-text>
-                <small>
-                  <ion-text>
-                    lsdkflsajdfkjasdfjlsadjkfl;askdfl;
-                  </ion-text>
-                </small>
-              </ion-label>
-              <ion-button fill="clear">
-                <!--ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_a_right.svg">
-                </ion-icon-->
-                  <i style="font-size:2em;" class="icon-large icon-send"></i>
-
-              </ion-button>
-            </ion-item>
-          </ion-card-header>
-
-
-
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-align-items-stretch">
-      <ion-col size="12" size-md="6" >
-        <ion-card class="speaker-card">
-          <ion-card-header>
-            <ion-item detail="false" lines="none" >
-              <ion-avatar slot="start" >
-                <ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_user.svg" ></ion-icon>
-              </ion-avatar>
-              <ion-label>
-
-                <ion-text color="primary">
-                  <h5>
-                    Andre J
-                  </h5>
-                </ion-text>
-                <small>
-                  <ion-text>
-                    lsdkflsajdfkjasdfjlsadjkfl;askdfl;
-                  </ion-text>
-                </small>
-              </ion-label>
-              <ion-button fill="clear">
-                <!--ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_a_right.svg">
-                </ion-icon-->
-                  <i style="font-size:2em;" class="icon-large icon-send"></i>
-
-              </ion-button>
-            </ion-item>
-          </ion-card-header>
-
-
-
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="6" >
-        <ion-card class="speaker-card">
-          <ion-card-header>
-            <ion-item detail="false" lines="none" >
-              <ion-avatar slot="start" >
-                <ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_user.svg" ></ion-icon>
-              </ion-avatar>
-              <ion-label>
-
-                <ion-text color="primary">
-                  <h5>
-                    Andre PCN
-                  </h5>
-                </ion-text>
-                <small>
-                  <ion-text>
-                    lsdkflsajdfkjasdfjlsadjkfl;askdfl;
-                  </ion-text>
-                </small>
-              </ion-label>
-              <ion-button fill="clear">
-                <!--ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_a_right.svg">
-                </ion-icon-->
-                  <i style="font-size:2em;" class="icon-large icon-send"></i>
-
-              </ion-button>
-            </ion-item>
-          </ion-card-header>
-
-
-
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-align-items-stretch">
-      <ion-col size="12" size-md="6" >
-        <ion-card class="speaker-card">
-          <ion-card-header>
-            <ion-item detail="false" lines="none" >
-              <ion-avatar slot="start" >
-                <ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_user.svg" ></ion-icon>
-              </ion-avatar>
-              <ion-label>
-
-                <ion-text color="primary">
-                  <h5>
-                    Alejandro A
-                  </h5>
-                </ion-text>
-                <small>
-                  <ion-text>
-                    lsdkflsajdfkjasdfjlsadjkfl;askdfl;
-                  </ion-text>
-                </small>
+                 {{ contact.accountID}}
               </ion-label>
             </ion-item>
               </ion-card-header>
               <ion-card-content>
-              <ion-button  fill="clear">
-                <!--ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_a_right.svg">
-                </ion-icon-->
+              <ion-button  fill="clear" [routerLink]="'/tabs/wallet/token-send/'+mainCSCAccount.pk+'/'+contact.accountID ">
+
                   <i style="font-size:2em;" class="icon-large icon-send"></i>
 
               </ion-button>
+              <ion-button  fill="clear" >
+
+                  <ion-icon name="clipboard" class="icon-large"></ion-icon>
+
+              </ion-button>
               <ion-button  fill="clear">
-                <!--ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_a_right.svg">
-                </ion-icon-->
-                  <i style="font-size:2em;" class="icon-large icon-arrows"></i>
+
+
+                  <ion-icon name="create" class="icon-large"></ion-icon>
+
+              </ion-button>
+              <ion-button  fill="clear">
+                <ion-icon name="close-circle-outline" class="icon-large" ></ion-icon>
+
+                  <!--i style="font-size:2em;" class="icon-large icon-arrows"></i-->
 
               </ion-button>
             </ion-card-content>
 
-
-
-
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="6" >
-        <ion-card class="speaker-card">
-          <ion-card-header>
-            <ion-item detail="false" lines="none" >
-              <ion-avatar slot="start" >
-                <ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_user.svg" ></ion-icon>
-              </ion-avatar>
-              <ion-label>
-
-                <ion-text color="primary">
-                  <h5>
-                    Alejandro 100
-                  </h5>
-                </ion-text>
-                <small>
-                  <ion-text>
-                    lsdkflsajdfkjasdfjlsadjkfl;askdfl;
-                  </ion-text>
-                </small>
-              </ion-label>
-              <ion-button fill="clear">
-                <!--ion-icon size="large" color="primary" src="/assets/svg/CSC_BRM_a_right.svg">
-                </ion-icon-->
-                  <i style="font-size:2em;" class="icon-large icon-send"></i>
-
-              </ion-button>
-            </ion-item>
-          </ion-card-header>
 
 
 
@@ -234,7 +97,7 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
     <ion-fab-button [routerLink]="'add-contact'">
       <!--i class="icon ion-ios-icon-transactions"></i-->
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="person-add"></ion-icon>
     </ion-fab-button>
 
   </ion-fab>

@@ -98,18 +98,20 @@ export class Step5Component implements OnInit {
       this.odds = [];
       this.evens = [];
       const arr = this.walletService.walletSetup.recoveryMnemonicWords;
-      for (var i = 0 ; i < arr.length; i++){
-          if(i%2 == 0){
-            // take into account that 0 is the 1 element
-            // that's why odd and even is swapped
-            this.odds[i] = arr[i];
-          }else{
-            this.evens[i] = arr[i];
+      if(arr){
+          for (var i = 0 ; i < arr.length; i++){
+            if(i%2 == 0){
+              // take into account that 0 is the 1 element
+              // that's why odd and even is swapped
+              this.odds[i] = arr[i];
+            }else{
+              this.evens[i] = arr[i];
 
+            }
           }
+          this.odds = this.odds.filter(Boolean);
+          this.evens = this.evens.filter(Boolean);
       }
-      this.odds = this.odds.filter(Boolean);
-      this.evens = this.evens.filter(Boolean);
 
       this.logger.debug('### Ready fifth step. Wallet Setup ');
       this.logger.debug('### odds are ready ');

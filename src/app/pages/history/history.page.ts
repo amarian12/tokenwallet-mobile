@@ -25,6 +25,7 @@ export class HistoryPage implements OnInit {
 
   transactions: Array<LokiTransaction> = [];
   currentTX: LokiTransaction;
+  lastRefreshed = "";
 
   ngOnInit() {
     this.logger.debug('### History Page:  ngOnInit() ###');
@@ -45,6 +46,17 @@ export class HistoryPage implements OnInit {
     //     }
     //   });
   }
+  ionViewWillEnter(){
+    // delayed transactions get:
+    const accounts = this.walletService.getAllAccounts();
+    this.logger.debug("### History ionViewWillEnter:  accounts: "+JSON.stringify(accounts));
+    accounts.forEach(
+      act =>  {
+        if(act.lastTxLedger > 0){
+          this.casinocoinService.syncDelayedTx(act.accountID,1);
+        }
+      });
+    }
   getStatusIconColor(tx: LokiTransaction) {
     if (tx.validated) {
       return "success";

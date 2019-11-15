@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
 // import { MarketService } from '../../providers/market.service';
@@ -22,10 +23,19 @@ export class TabsPage implements OnInit{
   walletBalance: string;
   balance: string;
   fiat_balance: string;
+  selectedWallet: WalletDefinition;
+  walletPassword: string;
+  walletCreationDate: string;
+  walletEmail: string;
 
-  constructor(private logger: LogService,
+  public availableWallets: Array<WalletDefinition>;
+
+  constructor(
+               private logger: LogService,
+               private router: Router,
                private walletService: WalletService,
                // private marketService: MarketService,
+               private datePipe: DatePipe,
                private casinocoinService: CasinocoinService,
                private sessionStorageService: SessionStorageService,
                private localStorageService: LocalStorageService,
@@ -34,7 +44,21 @@ export class TabsPage implements OnInit{
              ) { }
 
              ngOnInit() {
-
+               this.availableWallets = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
+               if (this.availableWallets === null) {
+                   this.selectedWallet = { walletUUID: '', creationDate: -1, location: '', mnemonicHash: '', network: '', passwordHash: '', userEmail: ''};
+                   this.router.navigate(['/wallet-setup']);
+               }
+               // set first wallet as selected
+               this.selectedWallet = this.availableWallets[0];
+               const walletCreationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.selectedWallet.creationDate));
+               this.translate.get('PAGES.LOGIN.CREATED-ON').subscribe((res: string) => {
+                   this.walletCreationDate = res + ' ' + this.datePipe.transform(walletCreationDate, 'yyyy-MM-dd HH:mm:ss');
+               });
+               this.walletEmail = this.selectedWallet.userEmail;
+               this.walletPassword = '1234567';
+               this.sessionStorageService.set(AppConstants.KEY_CURRENT_WALLET, this.selectedWallet);
+               this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletPassword);
                // get the complete wallet object
                this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
                this.logger.info('### Main Page: currentWallet: ' + JSON.stringify(this.currentWalletObject));

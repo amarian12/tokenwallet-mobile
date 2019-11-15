@@ -6,6 +6,7 @@ import { LogService } from '../../../providers/log.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { WalletService } from '../../../providers/wallet.service';
 import { AppConstants } from '../../../domains/app-constants';
+import { CSCUtil } from '../../../domains/csc-util';
 
 @Component({
   selector: 'app-token-send',
@@ -20,6 +21,7 @@ accountReserve: string;
 destinationAccount: string;
 reserveIncrement: string;
 tokenAccountLoaded: any;
+balanceToSend: any;
 
   constructor(
     private walletService: WalletService,
@@ -72,8 +74,18 @@ tokenAccountLoaded: any;
       }
     });
   }
+  getTotalReserved(tokenObject) {
+    return Number(this.accountReserve) + (Number(tokenObject.OwnerCount) *  Number(this.reserveIncrement));
+  }
   allBalanceToAmount(){
-    
+
+      if (this.tokenAccountLoaded.Token === 'CSC') {
+        this.balanceToSend  = Number(CSCUtil.dropsToCsc(this.tokenAccountLoaded.Balance)) - this.getTotalReserved(this.tokenAccountLoaded) - Number(this.fees);
+        this.logger.debug("### send token page: new balance to send: "+this.balanceToSend);
+        // this.sendForm.controls.amount.setValue(sendMax.toString());
+      } else {
+        // this.sendForm.controls.amount.setValue(CSCUtil.dropsToCsc(rowData.TokenBalance));
+      }
   }
 
 }
