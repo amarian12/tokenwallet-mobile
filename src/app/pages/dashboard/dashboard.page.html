@@ -15,6 +15,38 @@
 </ion-header>
 
 <ion-content>
+<ion-list>
+  <ion-item>
+    <ion-label> Balance:
+    </ion-label>
+     <ion-text>{{balance | number : '1.2-2'}}
+    </ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{'PAGES.EXCHANGES.EST-COIN-VALUE' | translate}}
+    </ion-label>
+    <ion-text> {{fiatValue}}
+    </ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{'PAGES.EXCHANGES.TOTAL-COIN-SUPPLY' | translate}}
+    </ion-label>
+    <ion-text> {{coinSupply | number : '1.2-2'}}
+    </ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{'PAGES.EXCHANGES.ESTIMATED-CAP' | translate}}
+    </ion-label>
+    <ion-text> {{marketCapital}}
+    </ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{'PAGES.EXCHANGES.24H-VOLUME' | translate}}
+    </ion-label>
+    <ion-text> {{marketVolumeUSD}}
+    </ion-text>
+  </ion-item>
+</ion-list>
 
 
 </ion-content>

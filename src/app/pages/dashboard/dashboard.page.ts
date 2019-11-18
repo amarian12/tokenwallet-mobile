@@ -22,6 +22,10 @@ export class DashboardPage implements OnInit {
   walletBalance: string;
   balance: string;
   fiat_balance: string;
+  fiatValue = '0.00';
+  coinSupply = '40000000000';
+  marketCapital = '0.00';
+  marketVolumeUSD = '0.00';
 
   constructor(private logger: LogService,
                private walletService: WalletService,
@@ -38,6 +42,8 @@ export class DashboardPage implements OnInit {
     // get the complete wallet object
     this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
     this.logger.info('### HOME currentWallet: ' + JSON.stringify(this.currentWalletObject));
+     this.doBalanceUpdate();
+
     // check if wallet is open else open it
   //   this.walletService.openWalletSubject.subscribe( result => {
   //     if (result === AppConstants.KEY_INIT) {
@@ -80,17 +86,17 @@ export class DashboardPage implements OnInit {
   //     }
   //   });
   }
-  
-  // doBalanceUpdate() {
-  //   this.walletBalance = this.walletService.getWalletBalance('CSC') ? this.walletService.getWalletBalance('CSC') : '0';
-  //   this.logger.debug('### HOME - Wallet Balance: ' + this.walletBalance);
-  //   this.balance = CSCUtil.dropsToCsc(this.walletBalance);
-  //   const balanceCSC = new Big(this.balance);
-  //   // if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
-  //   //   this.logger.debug('### CSC Price: ' + this.marketService.cscPrice + ' BTC: ' + this.marketService.btcPrice + ' Fiat: ' + this.marketService.coinMarketInfo.price_fiat);
-  //   //   const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
-  //   //   this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
-  //   // }
-  // }
+
+  doBalanceUpdate() {
+    this.walletBalance = this.walletService.getWalletBalance('CSC') ? this.walletService.getWalletBalance('CSC') : '0';
+    this.logger.debug('### HOME - Wallet Balance: ' + this.walletBalance);
+    this.balance = CSCUtil.dropsToCsc(this.walletBalance);
+    const balanceCSC = new Big(this.balance);
+    // if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
+    //   this.logger.debug('### CSC Price: ' + this.marketService.cscPrice + ' BTC: ' + this.marketService.btcPrice + ' Fiat: ' + this.marketService.coinMarketInfo.price_fiat);
+    //   const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
+    //   this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
+    // }
+  }
 
 }

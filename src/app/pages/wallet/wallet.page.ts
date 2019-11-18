@@ -27,6 +27,7 @@ export class WalletPage implements OnInit {
   columnCount: number;
   tokenlist: Array<TokenType>
 
+  isLoading: boolean;
   ledgers: LedgerStreamMessages[] = [];
   receipient: string;
   description: string;
@@ -66,6 +67,8 @@ export class WalletPage implements OnInit {
   showSecretDialog = false;
   showSecret = false;
   accountSecret: string;
+  // numberOfTokenAccounts: Array<number> =[0];
+  numberOfTokenAccounts: Array<number>;
 
   showEditAccountLabel = false;
   accountLabel = '';
@@ -80,10 +83,13 @@ export class WalletPage implements OnInit {
               public actionSheetController: ActionSheetController,
               public modal: ModalController,
                private cscAmountPipe: CSCAmountPipe
-             ) { }
+             ) {
+               this.numberOfTokenAccounts = new Array(1).fill(0);
+
+             }
 
              ngOnInit() {
-
+               this.isLoading = true;
                this.logger.debug('### Wallet Page: ngOnInit() ###');
                this.columnCount = 5;
 
@@ -103,6 +109,7 @@ export class WalletPage implements OnInit {
                        this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
                          if (finished) {
                            this.tokenlist = this.casinocoinService.tokenlist;
+                           this.numberOfTokenAccounts = new Array(this.tokenlist.length).fill(0);
                            this.logger.debug('### WalletPage TokenList: ' + JSON.stringify(this.tokenlist));
                            // remove password from session if its still there
                            this.sessionStorageService.remove(AppConstants.KEY_WALLET_PASSWORD);
@@ -147,6 +154,7 @@ export class WalletPage implements OnInit {
                          this.cscAccounts.push({label: accountLabel, value: element.accountID});
                        }
                      });
+                     this.isLoading = false;
                    });
                  }
                });

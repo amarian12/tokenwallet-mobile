@@ -41,17 +41,17 @@ export class ContactsPage implements OnInit {
   ionViewWillEnter(){
 
 
-    
+
     // get all contact addresses
     if(this.walletService.isWalletOpen){
       this.logger.debug("### Contacts Open ###");
       this.contacts = this.walletService.getAllAddresses();
       this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
-      this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
-      if (this.contacts.length > 0){
-        this.contactsEmpty = false;
-      }else{
+      if (!this.contacts || this.contacts.length <= 0){
+        // this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
         this.contactsEmpty = true;
+      }else{
+        this.contactsEmpty = false;
 
       }
     }else{

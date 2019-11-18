@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
 // import { MarketService } from '../../providers/market.service';
@@ -22,6 +23,7 @@ export class TabsPage implements OnInit{
   serverVersion: string;
   walletBalance: string;
   balance: string;
+  loadingMessage: string;
   fiat_balance: string;
   selectedWallet: WalletDefinition;
   walletPassword: string;
@@ -31,10 +33,12 @@ export class TabsPage implements OnInit{
   public availableWallets: Array<WalletDefinition>;
 
   constructor(
+               private zone: NgZone,
                private logger: LogService,
                private router: Router,
                private walletService: WalletService,
                // private marketService: MarketService,
+               private loading: LoadingController,
                private datePipe: DatePipe,
                private casinocoinService: CasinocoinService,
                private sessionStorageService: SessionStorageService,
@@ -44,66 +48,103 @@ export class TabsPage implements OnInit{
              ) { }
 
              ngOnInit() {
-               this.availableWallets = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
-               if (this.availableWallets === null) {
-                   this.selectedWallet = { walletUUID: '', creationDate: -1, location: '', mnemonicHash: '', network: '', passwordHash: '', userEmail: ''};
-                   this.router.navigate(['/wallet-setup']);
-               }
-               // set first wallet as selected
-               this.selectedWallet = this.availableWallets[0];
-               const walletCreationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.selectedWallet.creationDate));
-               this.translate.get('PAGES.LOGIN.CREATED-ON').subscribe((res: string) => {
-                   this.walletCreationDate = res + ' ' + this.datePipe.transform(walletCreationDate, 'yyyy-MM-dd HH:mm:ss');
-               });
-               this.walletEmail = this.selectedWallet.userEmail;
-               this.walletPassword = '1234567';
-               this.sessionStorageService.set(AppConstants.KEY_CURRENT_WALLET, this.selectedWallet);
-               this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletPassword);
-               // get the complete wallet object
-               this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
-               this.logger.info('### Main Page: currentWallet: ' + JSON.stringify(this.currentWalletObject));
-               // check if wallet is open else open it
-               this.walletService.openWalletSubject.subscribe( result => {
-                 if (result === AppConstants.KEY_INIT) {
-                   this.logger.debug('### Main Page: Wallet INIT');
-                   // wallet not opened yet so open it
-                   this.walletService.openWallet(this.currentWalletObject.walletUUID);
-                 } else if (result === AppConstants.KEY_OPENING) {
-                   this.logger.debug('### Main Page: Wallet OPENING');
-                 } else if (result === AppConstants.KEY_LOADED) {
-                   this.logger.debug('### Main Page: Wallet LOADED');
-                   // this.doBalanceUpdate();
-                   // this.listenForMainEvents();
-                   // load the account list
-                   this.walletService.getAllAccounts().forEach( element => {
-                     if (element.currency === 'CSC') {
-                       const accountLabel = element.label + ' - ' + element.accountID;
-                       // this.accounts.push({label: accountLabel, value: element.accountID});
-                     }
-                   });
-                 }  else if (result === AppConstants.KEY_CLOSED) {
-                   this.logger.debug('### Main Page: Wallet CLOSED');
-                   // this.electron.ipcRenderer.send('wallet-closed', true);
-                 }
-               });
-               this.casinocoinService.connect().subscribe( result => {
-                 if (result === AppConstants.KEY_CONNECTED) {
-                   this.serverVersion = this.casinocoinService.serverInfo.buildVersion;
-                   // this.setWalletUIConnected();
-                   this.casinocoinService.accountSubject.subscribe( account => {
-                     // one of the accounts got updated so update the balance
-                     // this.doBalanceUpdate();
-                     this.logger.debug('### CONECTED!');
-                   });
-                   // refresh available token list
-                   this.casinocoinService.refreshAvailableTokenList();
+               this.loadingMessage = "Finding Wallets and connecting to blockchain";
+               this.loading
+               .create({
+                 keyboardClose:true,
+                 message:this.loadingMessage
+               })
+               .then( loading => {
+                  loading.present();
+                  console.log(this.loadingMessage);
+                  this.availableWallets = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
+                  if (this.availableWallets === null) {
+                      this.selectedWallet = { walletUUID: '', creationDate: -1, location: '', mnemonicHash: '', network: '', passwordHash: '', userEmail: ''};
+                      this.router.navigate(['/wallet-setup']);
+                  }
+                  // set first wallet as selected
+                  this.selectedWallet = this.availableWallets[0];
+                  const walletCreationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.selectedWallet.creationDate));
+                  this.translate.get('PAGES.LOGIN.CREATED-ON').subscribe((res: string) => {
+                      this.walletCreationDate = res + ' ' + this.datePipe.transform(walletCreationDate, 'yyyy-MM-dd HH:mm:ss');
+                  });
+                  this.walletEmail = this.selectedWallet.userEmail;
+                  this.walletPassword = '1234567';
+                  this.sessionStorageService.set(AppConstants.KEY_CURRENT_WALLET, this.selectedWallet);
+                  this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletPassword);
+                  // get the complete wallet object
+                  this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
+                  this.logger.info('### Main Page: currentWallet: ' + JSON.stringify(this.currentWalletObject));
 
-                 } else {
-                   this.logger.debug('### DISCONECTED!');
-                   // we are not connected or disconnected
-                   // this.setWalletUIDisconnected();
-                 }
-               });
+
+
+                  // check if wallet is open else open it
+                  this.walletService.openWalletSubject.subscribe( result => {
+                    if (result === AppConstants.KEY_INIT) {
+                      this.logger.debug('### Main Page: Wallet INIT');
+
+                      // wallet not opened yet so open it
+                      this.walletService.openWallet(this.currentWalletObject.walletUUID);
+                    } else if (result === AppConstants.KEY_OPENING) {
+                      this.logger.debug('### Main Page: Wallet OPENING');
+
+
+
+                    } else if (result === AppConstants.KEY_LOADED) {
+                      this.logger.debug('### Main Page: Wallet LOADED');
+
+
+                      // this.doBalanceUpdate();
+                      // this.listenForMainEvents();
+                      // load the account list
+                      this.walletService.getAllAccounts().forEach( element => {
+                        if (element.currency === 'CSC') {
+                          const accountLabel = element.label + ' - ' + element.accountID;
+                          // this.accounts.push({label: accountLabel, value: element.accountID});
+
+                        }
+                      });
+                    }  else if (result === AppConstants.KEY_CLOSED) {
+                      this.logger.debug('### Main Page: Wallet CLOSED');
+                      this.loadingMessage = "Wallet Closed";
+                      // this.electron.ipcRenderer.send('wallet-closed', true);
+                    }
+                  });
+                  this.casinocoinService.connect().subscribe( result => {
+                    this.loadingMessage = "Connecting to CasinoCoin Blockchain";
+                    if (result === AppConstants.KEY_CONNECTED) {
+                      this.serverVersion = this.casinocoinService.serverInfo.buildVersion;
+                      // this.setWalletUIConnected();
+                      this.casinocoinService.accountSubject.subscribe( account => {
+                        // one of the accounts got updated so update the balance
+                        // this.doBalanceUpdate();
+                        this.logger.debug('### CONECTED!');
+                        this.loadingMessage = "CasinoCoin Blockchain Online";
+
+
+                      });
+                      // refresh available token list
+                      this.casinocoinService.refreshAvailableTokenList();
+                      this.loadingMessage = "Obtained Token List";
+                      setTimeout(() => {
+                        this.loading.dismiss();
+
+                      }, 1000);
+
+                    } else {
+                      this.logger.debug('### DISCONECTED!');
+                      this.loadingMessage = "CasinoCoin Blockchain Offline";
+                      // we are not connected or disconnected
+                      // this.setWalletUIDisconnected();
+                    }
+                  });
+
+
+
+
+                 });//end of loading
+
+
              }
              doBalanceUpdate() {
                this.walletBalance = this.walletService.getWalletBalance('CSC') ? this.walletService.getWalletBalance('CSC') : '0';

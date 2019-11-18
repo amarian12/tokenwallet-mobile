@@ -14,8 +14,30 @@
 </ion-header>
 
 <ion-content>
+
   <!--ion-list #scheduleList [hidden]="shownSessions === 0"-->
-  <ion-list #algo lines="full">
+  <ion-list #algo lines="full" *ngIf="isLoading">
+    <ion-item *ngFor="let x of numberOfTokenAccounts">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated width="40px"></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label >
+        <h3>
+          <ion-skeleton-text animated width="100px"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-note>
+            <ion-skeleton-text animated width="300px"></ion-skeleton-text>
+
+          </ion-note>
+        </p>
+      </ion-label>
+      <ion-badge  color="medium" slot="end"><ion-skeleton-text animated width="10px"></ion-skeleton-text></ion-badge>
+      </ion-item>
+
+  </ion-list>
+  <ion-list #algo lines="full" *ngIf="!isLoading">
+
     <!-- ion-item-group *ngFor="let group of groups" [hidden]="group.hide" -->
     <ion-item-group >
       <!--ion-item-divider sticky>

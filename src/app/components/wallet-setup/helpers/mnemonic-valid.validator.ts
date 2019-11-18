@@ -6,7 +6,7 @@ export function MnemonicValidate(checkWord1: string, checkWord2: string, checkWo
         const word1 = formGroup.controls[checkWord1];
         const word2 = formGroup.controls[checkWord2];
         const word3 = formGroup.controls[checkWord3];
-        
+
         // return null if controls haven't initialised yet
         if (!word1 || !word2 || !word3) {
           return null;
@@ -24,19 +24,19 @@ export function MnemonicValidate(checkWord1: string, checkWord2: string, checkWo
         }
 
         // set error on word1 if validation fails
-        if (word1.value !== w1) {
+        if (word1.value.trim().toLowerCase() !== w1) {
             word1.setErrors({ notWords: true });
         } else {
             word1.setErrors(null);
         }
         // set error on word2 if validation fails
-        if (word2.value !== w2) {
+        if (word2.value.trim().toLowerCase() !== w2) {
             word2.setErrors({ notWords: true });
         } else {
             word2.setErrors(null);
         }
         // set error on word3 if validation fails
-        if (word3.value !== w3) {
+        if (word3.value.trim().toLowerCase() !== w3) {
             word3.setErrors({ notWords: true });
         } else {
             word3.setErrors(null);
