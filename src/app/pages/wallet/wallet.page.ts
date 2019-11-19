@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { AddTokenComponent } from './add-token/add-token.component';
-
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
-// import { MarketService } from '../../providers/market.service';
+import { MarketService } from '../../providers/market.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
 import { CSCCrypto }  from '../../domains/csc-crypto';
-// import { CSCAmountPipe } from '../../domains/csc.pipes';
 import { AppConstants } from '../../domains/app-constants';
 import { CSCAmountPipe } from '../../domains/csc.pipes';
-
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';

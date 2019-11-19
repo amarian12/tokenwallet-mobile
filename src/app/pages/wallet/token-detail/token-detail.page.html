@@ -121,9 +121,9 @@
   </ion-grid>
   <ion-footer>
     <ion-toolbar class="ion-text-center">
-      <ion-button>Send</ion-button>
-      <ion-button>Receive</ion-button>
-      <ion-button>Add token</ion-button>
+      <ion-button [routerLink]="'/tabs/wallet/token-send/'+tokenAccountLoaded.PK">Send</ion-button>
+      <ion-button [routerLink]="'/tabs/wallet/token-receive/'+tokenAccountLoaded.PK">Receive</ion-button>
+      <ion-button (click)="onAddToken()">Add token</ion-button>
       <ion-button>Copy account</ion-button>
       <ion-button>Explore</ion-button>
     </ion-toolbar>

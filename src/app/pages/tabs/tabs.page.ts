@@ -1,9 +1,9 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
-// import { MarketService } from '../../providers/market.service';
+import { MarketService } from '../../providers/market.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
 import { AppConstants } from '../../domains/app-constants';
@@ -33,11 +33,10 @@ export class TabsPage implements OnInit{
   public availableWallets: Array<WalletDefinition>;
 
   constructor(
-               private zone: NgZone,
                private logger: LogService,
                private router: Router,
                private walletService: WalletService,
-               // private marketService: MarketService,
+               private marketService: MarketService,
                private loading: LoadingController,
                private datePipe: DatePipe,
                private casinocoinService: CasinocoinService,
@@ -151,11 +150,11 @@ export class TabsPage implements OnInit{
                this.logger.debug('### Main Page: - Wallet Balance: ' + this.walletBalance);
                this.balance = CSCUtil.dropsToCsc(this.walletBalance);
                const balanceCSC = new Big(this.balance);
-               // if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
-               //   this.logger.debug('### CSC Price: ' + this.marketService.cscPrice + ' BTC: ' + this.marketService.btcPrice + ' Fiat: ' + this.marketService.coinMarketInfo.price_fiat);
-               //   const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
-               //   this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
-               // }
+               if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
+                 this.logger.debug('### CSC Price: ' + this.marketService.cscPrice + ' BTC: ' + this.marketService.btcPrice + ' Fiat: ' + this.marketService.coinMarketInfo.price_fiat);
+                 const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
+                 this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
+               }
              }
 
 }

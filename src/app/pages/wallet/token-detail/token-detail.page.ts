@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { AddTokenComponent } from '../add-token/add-token.component';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
 import { TokenType } from '../../../domains/csc-types';
 import { LogService } from '../../../providers/log.service';
@@ -18,6 +20,7 @@ export class TokenDetailPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private casinocoinService: CasinocoinService,
+    public modal: ModalController,
     private logger: LogService
   ) { }
 
@@ -57,8 +60,32 @@ export class TokenDetailPage implements OnInit {
     });
 
   }
+  onAddToken(){
+      // console.log("cscAccounts: ",this.cscAccounts);
+      // console.log("tokens: ",this.availableTokenlist);
+      // this.modal
+      // .create({
+      //   component: AddTokenComponent,
+      //   componentProps: {
+      //     cscAccounts:[this.tokenAccountLoaded],
+      //     availableTokenlist:[]
+      //   }
+      // }).then(
+      //   addTokenModal => {
+      //     addTokenModal.present();
+      //     return addTokenModal.onDidDismiss();
+      //   }).then(
+      //     resultData => {
+      //       if(resultData.role === "addToken"){
+      //
+      //         // this.addTokenToAccount(resultData.data.token,resultData.data.account)
+      //
+      //       }
+      //     });
+  }
   getTotalReserved(tokenObject) {
     return Number(this.accountReserve) + (Number(tokenObject.OwnerCount) *  Number(this.reserveIncrement));
   }
+
 
 }

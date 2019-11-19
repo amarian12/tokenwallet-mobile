@@ -6,7 +6,6 @@ import { DatePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
 import { CSCPipe } from '../../../domains/app-pipes.module';
 
 import { IonicModule } from '@ionic/angular';
-
 import { TokenDetailPage } from './token-detail.page';
 
 const routes: Routes = [

@@ -22,14 +22,16 @@ import { NotificationService } from './providers/notification.service';
 import { MarketService } from './providers/market.service';
 
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WalletSetupModule} from './components/wallet-setup/wallet-setup.module';
-import { CSCPipe } from "./domains/app-pipes.module"
+import { CSCPipe } from "./domains/app-pipes.module";
+import { HttpBackend, HttpXhrBackend } from '@angular/common/http';
+import { NativeHttpModule, NativeHttpBackend, NativeHttpFallback } from 'ionic-native-http-connection-backend';
 // import { WalletSetupComponent } from './components/wallet-setup/wallet-setup.module';
 // import { Step1Component } from './components/wallet-setup/steps/step1/step1.component';
 // import { Step2Component } from './components/wallet-setup/steps/step2/step2.component';
@@ -64,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     IonicModule.forRoot(),
     HttpClientModule,
+    NativeHttpModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -92,7 +95,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LocalStorageService,
     SessionStorageService,
     CookiesStorageService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HttpBackend, useClass: NativeHttpFallback, deps: [Platform, NativeHttpBackend, HttpXhrBackend]},
   ],
   bootstrap: [AppComponent]
 })
