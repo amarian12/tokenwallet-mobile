@@ -66,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     IonicModule.forRoot(),
     HttpClientModule,
+    CSCPipe.forRoot(),
     NativeHttpModule,
     TranslateModule.forRoot({
       loader: {

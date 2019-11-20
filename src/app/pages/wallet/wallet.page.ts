@@ -11,6 +11,7 @@ import { AppConstants } from '../../domains/app-constants';
 import { CSCAmountPipe } from '../../domains/csc.pipes';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
+import { AppflowService } from '../../providers/appflow.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { LedgerStreamMessages, TokenType, Payment, WalletDefinition } from '../../domains/csc-types';
 import Big from 'big.js';
@@ -72,6 +73,7 @@ export class WalletPage implements OnInit {
   constructor(private logger: LogService,
                private walletService: WalletService,
                // private marketService: MarketService,
+               private appflow: AppflowService,
                private casinocoinService: CasinocoinService,
                private sessionStorageService: SessionStorageService,
                private localStorageService: LocalStorageService,
@@ -87,75 +89,13 @@ export class WalletPage implements OnInit {
 
              ngOnInit() {
                this.isLoading = true;
-               this.logger.debug('### Wallet Page: ngOnInit() ###');
-               this.columnCount = 5;
-
-               // refresh server list
-               this.casinocoinService.updateServerList();
-               // connect to CasinoCoin network
-               this.casinocoinService.connectSubject.subscribe( result => {
-                 if (result === AppConstants.KEY_CONNECTED) {
-                   // translation parameters
-                   // this.translateParams = {accountReserve: this.casinocoinService.serverInfo.reserveBaseCSC};
-                   // refresh Accounts
-                   this.logger.debug('### WalletPage: Account Refresh');
-                   this.casinocoinService.refreshAccounts().subscribe(accountRefreshFinished => {
-                     if (accountRefreshFinished) {
-                       // refresh Token List
-                       this.logger.debug('### Wallet Page: TokenList Refresh');
-                       this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
-                         if (finished) {
-                           this.tokenlist = this.casinocoinService.tokenlist;
-                           this.numberOfTokenAccounts = new Array(this.tokenlist.length).fill(0);
-                           this.logger.debug('### WalletPage TokenList: ' + JSON.stringify(this.tokenlist));
-                           // remove password from session if its still there
-                           this.sessionStorageService.remove(AppConstants.KEY_WALLET_PASSWORD);
-                         }
-                       });
-                       // Check if user password is still in the session
-                       const userPass = this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD);
-                       if (userPass != null) {
-                           this.sessionStorageService.remove(AppConstants.KEY_WALLET_PASSWORD);
-                       }
-                     }
-                   });
-                   // set fees
-                   this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
-                   this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
-                   this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
-                 }
-               });
-               this.walletService.openWalletSubject.subscribe( result => {
-                 if (result === AppConstants.KEY_LOADED) {
-                   // get the main CSC AccountID
-                   this.mainCSCAccountID = this.walletService.getMainAccount().accountID;
-                   // get all CSC accounts for add token dropdown
-                   this.walletService.getAllAccounts().forEach( element => {
-                     if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
-                        const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
-                                           this.cscAmountPipe.transform(element.balance, false, true) + ']';
-                       this.cscAccounts.push({label: accountLabel, value: element.accountID});
-                     }
-                   });
-                   // subscribe to account updates
-                   this.casinocoinService.accountSubject.subscribe( account => {
-                     this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
-                     this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
-                     this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
-                     // refresh all CSC accounts for add token dropdown
-                     this.cscAccounts = [];
-                     this.walletService.getAllAccounts().forEach( element => {
-                       if (element.currency === 'CSC' && new Big(element.balance) > 0  && element.accountSequence >= 0) {
-                          const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
-                                             this.cscAmountPipe.transform(element.balance, false, true) + ']';
-                         this.cscAccounts.push({label: accountLabel, value: element.accountID});
-                       }
+                   this.appflow.tokenlist.subscribe(
+                     tokenList => {
+                       this.tokenlist = tokenList;
+                       console.log("???????????????????????????????????AAAAAAAAA??????????????????????????????????");
+                       console.log(this.tokenlist);
+                       this.isLoading = false;
                      });
-                     this.isLoading = false;
-                   });
-                 }
-               });
-
              }
              async presentActionSheet() {
                   const actionSheet = await this.actionSheetController.create({

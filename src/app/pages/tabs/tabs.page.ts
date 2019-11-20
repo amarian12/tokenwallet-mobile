@@ -9,6 +9,7 @@ import { CSCUtil } from '../../domains/csc-util';
 import { AppConstants } from '../../domains/app-constants';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
+import { AppflowService } from '../../providers/appflow.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { WalletSettings, WalletDefinition, LedgerStreamMessages } from '../../domains/csc-types';
 import Big from 'big.js';
@@ -36,6 +37,7 @@ export class TabsPage implements OnInit{
                private logger: LogService,
                private router: Router,
                private walletService: WalletService,
+               private appflow: AppflowService,
                private marketService: MarketService,
                private loading: LoadingController,
                private datePipe: DatePipe,
@@ -55,6 +57,13 @@ export class TabsPage implements OnInit{
                })
                .then( loading => {
                   loading.present();
+                  this.appflow.tokenlist.subscribe(
+                    tokenList => {
+                      const tokens = tokenList;
+                      console.log("????////////////////////?KKKKKKKKKKKKKK??????????????????????????????????");
+                      console.log(tokens);
+
+                    });
                   console.log(this.loadingMessage);
                   this.availableWallets = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
                   if (this.availableWallets === null) {

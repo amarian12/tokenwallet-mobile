@@ -62,11 +62,11 @@ export class MarketService {
         let options = {
             headers: new HttpHeaders().set('Content-Type', 'application/json')
         };
-        // if(this.platform.is('mobileweb')) {
-        //     this.coinmarketCapURLCSC = "/cscapi";
-        //     // this.exchangesURL = "/coinmarketCapURLBTCApi";
-        //     this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC);
-        // }
+        if(this.platform.is('mobileweb')) {
+            this.coinmarketCapURLCSC = "http://localhost:8000/";
+            // this.exchangesURL = "/coinmarketCapURLBTCApi";
+            this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC);
+        }
         let serviceResponse = new Subject<CoinMarketCapType>();
         this.http.get(this.coinmarketCapURLCSC + "?convert=" + this.fiatCurrency, options).subscribe(result => {
             this.logger.debug("### MarketService: " + JSON.stringify(result));
@@ -105,11 +105,11 @@ export class MarketService {
         let options = {
             headers: new HttpHeaders().set('Content-Type', 'application/json')
         };
-        // if(this.platform.is('mobileweb')) {
-        //     this.coinmarketCapURLCSC = "/cscapi";
-        //     // this.exchangesURL = "/coinmarketCapURLBTCApi";
-        //     this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC );
-        // }
+        if(this.platform.is('mobileweb')) {
+            this.coinmarketCapURLCSC = "http://localhost:8000/";
+            // this.exchangesURL = "/coinmarketCapURLBTCApi";
+            this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC );
+        }
         this.http.get<Array<ExchangesType>>(this.exchangesURL, options).subscribe(result => {
             this.exchanges = result;
             // get max last price
