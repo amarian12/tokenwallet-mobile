@@ -18,29 +18,33 @@
 </ion-header>
 
 <ion-content>
-  <form #sendtoken="ngForm">
+  <form #sendtoken="ngForm" (ngSubmit)="onSendFormSubmit(sendtoken.form.value)">
     <ion-list *ngIf="tokenAccountLoaded">
       <ion-item>
         <ion-label position="stacked" >
           from Account:
         </ion-label>
-        <ion-note>
+        <!--ion-note>
           {{tokenAccountLoaded.AccountID}}
-        </ion-note>
+        </ion-note-->
+        <ion-input   type="text" [(ngModel)]="tokenAccountLoaded.AccountID" readonly name="from"></ion-input>
       </ion-item>
       <ion-item *ngIf="destinationAccount">
         <ion-label position="stacked">
           to Account:
         </ion-label>
-        <ion-note >
+        <ion-input ngModel #toctl="ngModel" [value]="destinationAccount" type="text" readonly name="to">
+
+        </ion-input>
+        <!--ion-note >
           {{destinationAccount}}
-        </ion-note>
+        </ion-note-->
       </ion-item>
       <ion-item *ngIf="!destinationAccount">
         <ion-label position="floating" color="primary">
           to Account:
         </ion-label>
-        <ion-input>
+        <ion-input ngModel #toctl="ngModel"  type="text" required name="to">
 
         </ion-input>
         <ion-button slot="end">
@@ -93,7 +97,7 @@
         <ion-label position="floating" color="primary">
           Amount:
         </ion-label>
-        <ion-input [(ngModel)]="balanceToSend" name="balance" type="number">
+        <ion-input [(ngModel)]="balanceToSend" name="amount" type="number">
 
         </ion-input>
         <ion-button slot="end" (click)="allBalanceToAmount()">
@@ -105,7 +109,7 @@
         <ion-label position="floating" color="primary">
           Destination Tag:
         </ion-label>
-        <ion-input name="destinationtag" type="number">
+        <ion-input ngModel #dtagctl="ngModel" name="destinationtag" type="number" >
 
         </ion-input>
       </ion-item>
@@ -113,7 +117,7 @@
         <ion-label position="floating" color="primary">
           Description:
         </ion-label>
-        <ion-input name="description" type="text">
+        <ion-input ngModel #descctl="ngModel" name="description" type="text">
 
         </ion-input>
       </ion-item>
@@ -122,7 +126,7 @@
       Send Token
 
     </ion-button>
-    <ion-button  expand="block">
+    <ion-button routerLink="/tabs/wallet" expand="block" >
       Cancel
 
     </ion-button>

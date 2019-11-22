@@ -16,6 +16,8 @@ import Big from 'big.js';
 })
 export class AppflowService {
   private _tokenlist = new BehaviorSubject<TokenType[]>([]);
+  private _cscaccounts = new BehaviorSubject<any[]>([]);
+  private _transctionParams = new BehaviorSubject<any>({});
   // private tokenlist:Array<TokenType>;
   columnCount: number;
   isLoading: boolean;
@@ -43,7 +45,7 @@ export class AppflowService {
   addIcon = 'fa fa-plus';
   footer_visible = false;
   error_message: string;
-  cscAccounts: Array<any> = [];
+  // cscAccounts: Array<any> = [];
   selectedCSCAccount: string;
   addTokenAccountSelected: boolean;
   showErrorDialog = false;
@@ -73,7 +75,7 @@ export class AppflowService {
     private cscAmountPipe: CSCAmountPipe
 
   ) {
-    
+
     this.logger.debug('### Appflow: consturctor() ###');
     this.columnCount = 5;
 
@@ -112,9 +114,14 @@ export class AppflowService {
           }
         });
         // set fees
-        this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
-        this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
-        this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
+        this.transactionParams.pipe(take(1)).subscribe(transactionParams => {
+          this._transctionParams.next({
+            fees: this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC,
+            accountReserve: this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC,
+            reserveIncrement: this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC
+          });
+
+        });
       }
     });
     this.walletService.openWalletSubject.subscribe( result => {
@@ -126,21 +133,36 @@ export class AppflowService {
           if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
              const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
                                 this.cscAmountPipe.transform(element.balance, false, true) + ']';
-            this.cscAccounts.push({label: accountLabel, value: element.accountID});
+            this.cscaccounts.pipe(take(1)).subscribe(cscaccounts => {
+              this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
+
+            });
+            // this.cscAccounts.push({label: accountLabel, value: element.accountID});
           }
         });
         // subscribe to account updates
         this.casinocoinService.accountSubject.subscribe( account => {
-          this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
-          this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
-          this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
+          this.transactionParams.pipe(take(1)).subscribe(transactionParams => {
+            this._transctionParams.next({
+              fees: this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC,
+              accountReserve: this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC,
+              reserveIncrement: this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC
+            });
+
+          });
+          // this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
+          // this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
+          // this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
           // refresh all CSC accounts for add token dropdown
-          this.cscAccounts = [];
+          this._cscaccounts.next([]);
           this.walletService.getAllAccounts().forEach( element => {
             if (element.currency === 'CSC' && new Big(element.balance) > 0  && element.accountSequence >= 0) {
                const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
                                   this.cscAmountPipe.transform(element.balance, false, true) + ']';
-              this.cscAccounts.push({label: accountLabel, value: element.accountID});
+                this.cscaccounts.pipe(take(1)).subscribe(cscaccounts => {
+                  this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
+
+                });
             }
           });
           this.isLoading = false;
@@ -158,6 +180,33 @@ export class AppflowService {
      return this.tokenlist.pipe(take(1),map(tokenList => {
         return {...tokenList.find( token => token.PK === pkID)};
      }));
+   }
+   get cscaccounts(){
+     return this._cscaccounts.asObservable()
+   }
+   getCSCAccount( pkID: string){
+     return this.cscaccounts.pipe(take(1),map(cscAccounts => {
+        return {...cscAccounts.find( account => account.PK === pkID)};
+     }));
+   }
+   get transactionParams(){
+     return this._transctionParams.asObservable()
+   }
+   getFees(){
+     return this.transactionParams.pipe(take(1),map(transactionParams => {
+        return transactionParams.fees;
+     }));
+   }
+   getAccountReserve(){
+     return this.transactionParams.pipe(take(1),map(transactionParams => {
+       return transactionParams.accountReserve;
+     }));
+   }
+   getReserveIncrement(){
+     return this.transactionParams.pipe(take(1),map(transactionParams => {
+       return transactionParams.reserveIncrement;
+     }));
+
    }
 
 

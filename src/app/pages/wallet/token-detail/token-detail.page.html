@@ -124,8 +124,8 @@
       <ion-button [routerLink]="'/tabs/wallet/token-send/'+tokenAccountLoaded.PK">Send</ion-button>
       <ion-button [routerLink]="'/tabs/wallet/token-receive/'+tokenAccountLoaded.PK">Receive</ion-button>
       <ion-button (click)="onAddToken()">Add token</ion-button>
-      <ion-button>Copy account</ion-button>
-      <ion-button>Explore</ion-button>
+      <ion-button (click)="copyAccountID()">Copy account</ion-button>
+      <ion-button [href]="getExploreURL()">Explore</ion-button>
     </ion-toolbar>
   </ion-footer>
 

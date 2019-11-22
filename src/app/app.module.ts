@@ -13,6 +13,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { FormsModule } from '@angular/forms';
 // Pipes
 import { DatePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 // import { AuthGuard } from './auth-guard';
 import { CasinocoinService } from './providers/casinocoin.service';
 import { LogService } from './providers/log.service';
@@ -88,6 +89,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletService,
     CasinocoinService,
     LogService,
+    Clipboard,
     CurrencyPipe,
     DatePipe,
     DecimalPipe,

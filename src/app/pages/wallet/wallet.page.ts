@@ -92,9 +92,12 @@ export class WalletPage implements OnInit {
                    this.appflow.tokenlist.subscribe(
                      tokenList => {
                        this.tokenlist = tokenList;
-                       console.log("???????????????????????????????????AAAAAAAAA??????????????????????????????????");
-                       console.log(this.tokenlist);
                        this.isLoading = false;
+                     });
+                   this.appflow.cscaccounts.subscribe(
+                     cscAccounts => {
+                       this.cscAccounts = cscAccounts;
+
                      });
              }
              async presentActionSheet() {
