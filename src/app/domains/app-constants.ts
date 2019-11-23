@@ -28,6 +28,7 @@ export class AppConstants {
     public static KEY_WALLET_TX_IN = 'incommingTX';
     public static KEY_WALLET_TX_OUT = 'outgoingTX';
     public static KEY_WALLET_TX_BOTH = 'walletInternalTX';
+    public static KEY_LAST_UPDATED_COININFO = 'lastUpdatedCoininfo';
     public static KEY_TX_STATUS_NEW = 'txNEW';
     public static KEY_TX_STATUS_SEND = 'txSEND';
     public static KEY_TX_STATUS_ERROR = 'txERROR';

@@ -657,9 +657,17 @@ export class WalletService {
     if (this.isWalletOpen) {
       // loop over all accounts
       const accounts: Array<LokiTypes.LokiAccount> = this.accounts.find({'currency': {'$eq': token}});
-      accounts.forEach(element => {
-        totalBalance = totalBalance.plus(element.balance);
-      });
+      if(token === 'CSC'){
+        accounts.forEach(element => {
+          totalBalance = totalBalance.plus(element.balance);
+        });
+
+      }else{
+        accounts.forEach(element => {
+          totalBalance = totalBalance.plus(element.tokenBalance);
+        });
+
+      }
     }
     return totalBalance.toString();
   }

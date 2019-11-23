@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CasinocoinService } from '../../providers/casinocoin.service';
+import { AppflowService } from '../../providers/appflow.service';
 import { LogService } from '../../providers/log.service';
 import { MarketService } from '../../providers/market.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
@@ -30,6 +31,7 @@ export class DashboardPage implements OnInit {
   constructor(private logger: LogService,
                private walletService: WalletService,
                private marketService: MarketService,
+               private appflow: AppflowService,
                private casinocoinService: CasinocoinService,
                private sessionStorageService: SessionStorageService,
                private localStorageService: LocalStorageService,
@@ -38,11 +40,36 @@ export class DashboardPage implements OnInit {
              ) { }
 
   ngOnInit() {
+    this.appflow.tokenlist.subscribe(
+      tokenList => {
+        this.tokenlist = tokenList;
+        this.appflow.updateBalance(tokenList);
+        if(tokenList){
+          this.appflow.getTokenConsolidatedBalance('CSC').subscribe(walletBalance => {
+            this.walletBalance = walletBalance;
+            this.logger.debug('### HOME - Wallet Balance: ' + this.walletBalance);
+            if(this.walletBalance){
+              this.balance = CSCUtil.dropsToCsc(this.walletBalance);
+            }else{
+              this.balance = "0";
+
+            }
+            const coinInfo = this.marketService.getCoinInfo();
+            this.fiatValue  = coinInfo.price_usd ;
+            this.coinSupply = coinInfo.total_supply;
+            this.marketCapital = coinInfo.market_cap_usd;
+            this.marketVolumeUSD = coinInfo.market_24h_volume_usd;
+
+          });
+
+        }
+
+      });
 
     // get the complete wallet object
-    this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
-    this.logger.info('### HOME currentWallet: ' + JSON.stringify(this.currentWalletObject));
-     this.doBalanceUpdate();
+    // this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
+    // this.logger.info('### HOME currentWallet: ' + JSON.stringify(this.currentWalletObject));
+     // this.doBalanceUpdate();
 
     // check if wallet is open else open it
   //   this.walletService.openWalletSubject.subscribe( result => {
@@ -88,9 +115,12 @@ export class DashboardPage implements OnInit {
   }
 
   doBalanceUpdate() {
-    this.walletBalance = this.walletService.getWalletBalance('CSC') ? this.walletService.getWalletBalance('CSC') : '0';
-    this.logger.debug('### HOME - Wallet Balance: ' + this.walletBalance);
-    this.balance = CSCUtil.dropsToCsc(this.walletBalance);
+    this.appflow.getTokenConsolidatedBalance('CSC').subscribe(walletBalance => {
+      this.walletBalance = walletBalance;
+      this.logger.debug('### HOME - Wallet Balance: ' + this.walletBalance);
+      this.balance = CSCUtil.dropsToCsc(this.walletBalance);
+    });
+    // this.walletBalance = this.walletService.getWalletBalance('CSC') ? this.walletService.getWalletBalance('CSC') : '0';
     const balanceCSC = new Big(this.balance);
     if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
       this.logger.debug('### CSC Price: ' + this.marketService.cscPrice + ' BTC: ' + this.marketService.btcPrice + ' Fiat: ' + this.marketService.coinMarketInfo.price_fiat);

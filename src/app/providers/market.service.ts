@@ -34,16 +34,29 @@ export class MarketService {
         // get the stored coin info from localstorage
         this.coinMarketInfo = this.localStorageService.get(AppConstants.KEY_COININFO);
         // this.fiatCurrency = this.localStorageService.get(AppConstants.KEY_BRM_USER).Currency;
+
         this.fiatCurrency = "USD"
         this.initAutoUpdateServices();
     }
 
     initAutoUpdateServices(){
         // run the getCoinInfo method
-        this.getCoinInfo();
+        // this.getCoinInfo();
         // run a timer to get the coininfo every set interval of 120 seconds
         this.checkInterval = setInterval(() => {
-            this.getCoinInfo();
+            if(!this.localStorageService.get(AppConstants.KEY_LAST_UPDATED_COININFO)){
+              this.localStorageService.set(AppConstants.KEY_LAST_UPDATED_COININFO, 0 );
+            }
+            const lastupdated = this.localStorageService.get(AppConstants.KEY_LAST_UPDATED_COININFO);
+            const thishour = Math.floor(Date.now() / 900000);
+
+            if( thishour > lastupdated){
+              this.logger.debug("### MarketService - updating states :  lastupdated: " + lastupdated);
+              this.localStorageService.set(AppConstants.KEY_LAST_UPDATED_COININFO,thishour);
+              this.updateCoinInfo();
+
+            }
+
         }, 120000);
         // get exchanges
         this.getExchanges();
@@ -58,7 +71,11 @@ export class MarketService {
         this.getCoinInfo();
     }
 
-    getCoinInfo(): Observable<CoinMarketCapType> {
+    getCoinInfo():CoinMarketCapType {
+        return this.localStorageService.set(AppConstants.KEY_COININFO, this.coinMarketInfo)
+    }
+
+    updateCoinInfo(): Observable<CoinMarketCapType> {
         let options = {
             headers: new HttpHeaders().set('Content-Type', 'application/json')
         };
