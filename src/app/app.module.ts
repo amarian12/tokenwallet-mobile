@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -90,6 +91,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CasinocoinService,
     LogService,
     Clipboard,
+    AppVersion,
     CurrencyPipe,
     DatePipe,
     DecimalPipe,

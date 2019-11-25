@@ -162,6 +162,7 @@ export interface CSCURI {
 export interface WalletSetup {
     userEmail: string;
     userPassword: string;
+    userName:string;
     recoveryMnemonicWords: string[];
     walletUUID: string;
     walletPasswordHash: string;

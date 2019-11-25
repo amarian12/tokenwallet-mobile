@@ -22,6 +22,7 @@ export class DashboardPage implements OnInit {
   serverVersion: string;
   walletBalance: string;
   balance: string;
+  walletBalances: any[];
   fiat_balance: string;
   fiatValue = '0.00';
   coinSupply = '40000000000';
@@ -42,25 +43,20 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
     this.appflow.tokenlist.subscribe(
       tokenList => {
-        this.tokenlist = tokenList;
+        // this.tokenlist = tokenList;
         this.appflow.updateBalance(tokenList);
         if(tokenList){
-          this.appflow.getTokenConsolidatedBalance('CSC').subscribe(walletBalance => {
-            this.walletBalance = walletBalance;
-            this.logger.debug('### HOME - Wallet Balance: ' + this.walletBalance);
-            if(this.walletBalance){
-              this.balance = CSCUtil.dropsToCsc(this.walletBalance);
-            }else{
-              this.balance = "0";
-
-            }
+          this.appflow.getAllTokenBalances().subscribe(walletBalances => {
+            this.walletBalances = walletBalances;
+            this.logger.debug('### HOME - Wallet Balances: ' + JSON.stringify(this.walletBalance));
+            // this.balance = CSCUtil.dropsToCsc(this.walletBalance);
             const coinInfo = this.marketService.getCoinInfo();
             this.fiatValue  = coinInfo.price_usd ;
             this.coinSupply = coinInfo.total_supply;
             this.marketCapital = coinInfo.market_cap_usd;
             this.marketVolumeUSD = coinInfo.market_24h_volume_usd;
-
           });
+
 
         }
 
@@ -113,13 +109,18 @@ export class DashboardPage implements OnInit {
   //     }
   //   });
   }
+  renderCSCAmount(amount){
+    return CSCUtil.dropsToCsc(amount);
+  }
 
+
+  // not USED???
   doBalanceUpdate() {
-    this.appflow.getTokenConsolidatedBalance('CSC').subscribe(walletBalance => {
-      this.walletBalance = walletBalance;
-      this.logger.debug('### HOME - Wallet Balance: ' + this.walletBalance);
-      this.balance = CSCUtil.dropsToCsc(this.walletBalance);
+    this.appflow.getAllTokenBalances().subscribe(walletBalances => {
+      // this.balance = walletBalances;
+      this.logger.debug('### HOME - All Wallet Balances: ' + this.walletBalance);
     });
+
     // this.walletBalance = this.walletService.getWalletBalance('CSC') ? this.walletService.getWalletBalance('CSC') : '0';
     const balanceCSC = new Big(this.balance);
     if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {

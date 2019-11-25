@@ -15,38 +15,75 @@
 </ion-header>
 
 <ion-content>
-<ion-list>
-  <ion-item>
-    <ion-label> Balance:
-    </ion-label>
-     <ion-text>{{balance | number : '1.2-2'}}
-    </ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-label>{{'PAGES.EXCHANGES.EST-COIN-VALUE' | translate}}
-    </ion-label>
-    <ion-text> {{fiatValue}}
-    </ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-label>{{'PAGES.EXCHANGES.TOTAL-COIN-SUPPLY' | translate}}
-    </ion-label>
-    <ion-text> {{coinSupply | number : '1.2-2'}}
-    </ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-label>{{'PAGES.EXCHANGES.ESTIMATED-CAP' | translate}}
-    </ion-label>
-    <ion-text> {{marketCapital}}
-    </ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-label>{{'PAGES.EXCHANGES.24H-VOLUME' | translate}}
-    </ion-label>
-    <ion-text> {{marketVolumeUSD}}
-    </ion-text>
-  </ion-item>
-</ion-list>
+
+  <!--ion-item -->
+  <ion-list>
+    <ion-list-header>
+      Wallet balances:
+    </ion-list-header>
+    <ion-item >
+      <ion-chip color="primary" *ngFor="let balance of walletBalances">
+        <ion-avatar >
+          <!--ion-img [src]="balance.img">
+          </ion-img-->
+          <ion-img [src]="balance.img">
+          </ion-img>
+        </ion-avatar>
+        <ion-label>
+          <small>
+
+            {{balance.token}} Balance:
+          </small>
+          <p>
+            <ion-text >
+              {{renderCSCAmount(balance.balance) | number : '1.2-2'}}
+            </ion-text>
+
+          </p>
+
+        </ion-label>
+      </ion-chip>
+
+      </ion-item>
+  </ion-list>
+  <!--/ion-item-->
+<ion-card size="8" offset="4">
+  <ion-card-content>
+    <ion-list lines="none">
+      <ion-list-header>
+        CSC Details:
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>{{'PAGES.EXCHANGES.EST-COIN-VALUE' | translate}}:
+        </ion-label>
+        <ion-text> {{fiatValue}}
+        </ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{'PAGES.EXCHANGES.TOTAL-COIN-SUPPLY' | translate}}:
+        </ion-label>
+        <ion-text> {{coinSupply | number : '1.2-2'}}
+        </ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{'PAGES.EXCHANGES.ESTIMATED-CAP' | translate}}:
+        </ion-label>
+        <ion-text> {{marketCapital}}
+        </ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{'PAGES.EXCHANGES.24H-VOLUME' | translate}}:
+        </ion-label>
+        <ion-text> {{marketVolumeUSD}}
+        </ion-text>
+      </ion-item>
+
+    </ion-list>
+
+  </ion-card-content>
+</ion-card>
+
 
 
 </ion-content>

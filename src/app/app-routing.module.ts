@@ -23,6 +23,7 @@ const routes: Routes = [
     loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule)
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
   // { path: 'history-detail', loadChildren: './pages/history/history-detail/history-detail.module#HistoryDetailPageModule' },
   // { path: 'add-contact', loadChildren: './pages/contacts/add-contact/add-contact.module#AddContactPageModule' },
   // { path: 'contact-detail', loadChildren: './pages/contacts/contact-detail/contact-detail.module#ContactDetailPageModule' },

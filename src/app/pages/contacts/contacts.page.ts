@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { CSCURI } from '../../domains/csc-types';
 import { CSCUtil } from '../../domains/csc-util';
 import { LokiAddress, LokiAccount } from '../../domains/lokijs';
 import { LogService } from '../../providers/log.service';
 import { AppConstants } from '../../domains/app-constants';
 import { WalletService } from '../../providers/wallet.service';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 
 @Component({
@@ -19,7 +21,8 @@ export class ContactsPage implements OnInit {
   mainCSCAccount:LokiAccount;
   constructor(
     private logger: LogService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private alert: AlertController
   ) { }
 
   ngOnInit() {
@@ -73,6 +76,30 @@ export class ContactsPage implements OnInit {
     }
 
   }
-
+  onDeleteContact(accountID){
+    this.alert.create({
+    header: 'Deleting Contact',
+    subHeader: 'Confirm action',
+    message: 'Are you sure? this action cannot be undone, your contact will be lost and you will have to create it again',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          this.logger.debug('### Cancel Deletion!!');
+        }
+      }, {
+        text: 'Delete anyway',
+        handler: () => {
+          this.walletService.removeAddress(accountID);
+          this.logger.debug('### Contact '+accountID+' Deleted!!');
+        }
+      }
+    ]
+  }).then( alert =>  {
+      alert.present();
+    });
+  }
 
 }
