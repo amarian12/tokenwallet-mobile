@@ -40,6 +40,7 @@ export class AppflowService {
   cscBalance: string;
   canActivateToken: boolean;
   currentToken: TokenType;
+  connectedStatus= false;
 
   userName: string;
   mainCSCAccountID: string;
@@ -87,6 +88,7 @@ export class AppflowService {
     // connect to CasinoCoin network
     this.casinocoinService.connectSubject.subscribe( result => {
       if (result === AppConstants.KEY_CONNECTED) {
+        this.connectedStatus = true;
         // translation parameters
         // this.translateParams = {accountReserve: this.casinocoinService.serverInfo.reserveBaseCSC};
         // refresh Accounts
@@ -127,6 +129,8 @@ export class AppflowService {
           });
 
         });
+      }else{
+        this.connectedStatus = false;
       }
     });
     this.walletService.openWalletSubject.subscribe( result => {

@@ -72,7 +72,7 @@ export class HistoryPage implements OnInit {
                 });
             }
       });
-    }  
+    }
 
       this.transactions = this.walletService.getAllTransactions();
     }
@@ -94,6 +94,36 @@ export class HistoryPage implements OnInit {
       return "icon ion-md-icon-minus";
     }
   }
+  getTXDirectionColor(tx: LokiTransaction) {
+    if (tx.direction === AppConstants.KEY_WALLET_TX_OUT) {
+      // outgoing tx
+      return 'danger';
+    } else if (tx.direction === AppConstants.KEY_WALLET_TX_IN) {
+      // incomming tx
+      return 'success';
+    } else {
+      // wallet tx
+      return 'warning';
+    }
+  }
+
+  getDirectionIcon(tx: LokiTransaction) {
+    if (tx.direction === AppConstants.KEY_WALLET_TX_OUT) {
+      // outgoing tx
+      return "icon ion-md-icon-minus";
+    } else if (tx.direction === AppConstants.KEY_WALLET_TX_IN) {
+      // incomming tx
+      if (tx.transactionType === 'SetCRNRound') {
+        return "icon ion-md-icon-plus";
+      } else {
+        return "icon ion-md-icon-plus";
+      }
+    } else {
+      // wallet tx
+      return "icon ion-md-icon-minus";
+    }
+  }
+
 
   getStatusTooltipText(tx: LokiTransaction) {
     if (tx.validated) {

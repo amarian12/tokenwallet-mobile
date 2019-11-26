@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { LogService } from './providers/log.service';
 import { AppflowService } from './providers/appflow.service';
-
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+// import { EloMenuController } from './providers/custommenu.service';
+
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AppComponent {
   dark = false;
   userName = "";
+  isConnected = false;
 
   constructor(
     private appflow: AppflowService,
@@ -38,6 +40,11 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
+
     });
+
+  }
+  ionViewWillEnter(){
+    this.isConnected = this.appflow.connectedStatus;
   }
 }

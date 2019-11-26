@@ -1,9 +1,59 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>exchanges</ion-title>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
+        <i class="icon-logo icon-chip"></i>
+        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+      </ion-buttons>
+
+    <ion-title>Exchanges</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
+  <ion-list *ngIf="marketService">
+    <ion-item *ngFor="let exchange of marketService.exchanges">
+      <!--ion-grid>
+        <ion-row><ion-col col-4>Name</ion-col><ion-col col-6><b>{{exchange.name}}</b></ion-col></ion-row>
+        <ion-row><ion-col col-4>Buy</ion-col><ion-col col-6><b>{{exchange.buy | number : '1.1-8'}}</b></ion-col></ion-row>
+        <ion-row><ion-col col-4>Sell</ion-col><ion-col col-6><b>{{exchange.sell | number : '1.1-8'}}</b></ion-col></ion-row>
+        <ion-row><ion-col col-4>Last</ion-col><ion-col col-6><b>{{exchange.last | number : '1.1-8'}}</b></ion-col></ion-row>
+        <ion-row><ion-col col-4>Volume</ion-col><ion-col col-6><b>{{exchange.volume24H | number : '1.0'}}</b></ion-col></ion-row>
+      </ion-grid-->
+    <ion-grid>
+        <ion-row>
+          <ion-col col-12 class="vcenter">
 
+
+              <img width="100" [src]="exchange.imageBase64">
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            <button class="mybtn-red" (click)="visitExchange(exchange.tradeURL)">
+              visit {{exchange.name}}
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            Buy<br><b>{{exchange.buy | number : '1.1-8'}}</b>
+          </ion-col>
+          <ion-col col-6>Sell<br><b>{{exchange.sell | number : '1.1-8'}}</b>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            Last<br><b>{{exchange.last | number : '1.1-8'}}</b>
+          </ion-col>
+          <ion-col col-6>
+            Volume<br><b>{{exchange.volume24H | number : '1.0'}}</b>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -6,7 +6,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+// import { EloMenuController } from './providers/custommenu.service';
 // LoggerModule
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 // Providers
@@ -24,10 +24,10 @@ import { NotificationService } from './providers/notification.service';
 import { MarketService } from './providers/market.service';
 
 
-import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WalletSetupModule} from './components/wallet-setup/wallet-setup.module';
@@ -94,7 +94,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppVersion,
     CurrencyPipe,
     DatePipe,
+    InAppBrowser,
     DecimalPipe,
+    MenuController,
     NotificationService,
     MarketService,
     LocalStorageService,
@@ -105,4 +107,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+
+}
