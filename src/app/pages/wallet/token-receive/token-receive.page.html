@@ -10,7 +10,7 @@
         <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
       </ion-buttons>
 
-    <ion-title > Receive Token</ion-title>
+    <ion-title > {{ 'PAGES.WALLET.RECEIVETOKEN' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -23,7 +23,7 @@
       <ion-list>
         <ion-item lines="none" class="ion-margin ion-justify-content-center">
           <ion-label position="stacked">
-            AccountID:
+             {{ 'PAGES.WALLET.ACCOUNTID' | translate }}
           </ion-label>
           <ion-note >
             {{ tokenAccountLoaded?.AccountID }}
@@ -35,7 +35,7 @@
         </ion-item>
         <ion-item >
           <ion-label >
-            Label:
+             {{ 'PAGES.WALLET.LABEL' | translate }}
           </ion-label>
           <ion-input type="text" name="label" [(ngModel)]="label" >
 
@@ -43,7 +43,7 @@
         </ion-item>
         <ion-item >
           <ion-label>
-            Destination Tag
+             {{ 'PAGES.WALLET.DESTTAG' | translate }}
           </ion-label>
           <ion-input type="text" name="sendamount" [(ngModel)]="sendAmount" >
 
@@ -51,14 +51,14 @@
         </ion-item>
         <ion-item >
           <ion-label>
-            Amount
+             {{ 'PAGES.WALLET.AMOUNT' | translate }}
           </ion-label>
           <ion-input type="text" name="destinationtag" [(ngModel)]="destinationTag" >
 
           </ion-input>
         </ion-item>
       </ion-list>
-      <ion-button expand="block" (click)=updateQRCode() >update QR code</ion-button>
+      <ion-button expand="block" (click)=updateQRCode() >{{ 'PAGES.WALLET.UPDATEQR' | translate }}</ion-button>
 
 
     </ion-card-content>

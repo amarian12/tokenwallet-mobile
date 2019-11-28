@@ -14,7 +14,7 @@
       <ion-content>
         <ion-list lines="none">
           <ion-list-header>
-            <ion-title>Hi, {{userName}}</ion-title>
+            <ion-title>{{ 'PAGES.MENU.GREETING' | translate:{ name: userName } }}</ion-title>
 
 
           </ion-list-header>
@@ -27,14 +27,14 @@
               <ion-icon name="flash" color="success" *ngIf="isConnected">
 
               </ion-icon>
-              <ion-icon name="flash" color="danger" *ngIf="!isConnected">
+              <ion-icon name="flash-off" color="danger" *ngIf="!isConnected">
 
               </ion-icon>
               <ion-label *ngIf="isConnected">
-                connected
+                {{ 'PAGES.MENU.CONNECTED' | translate }}
               </ion-label>
               <ion-label *ngIf="!isConnected">
-                not connected
+                {{ 'PAGES.MENU.DISCONNECTED' | translate }}
               </ion-label>
               <ion-button slot="end" size="small">
                 <ion-icon slot="icon-only" name="person"></ion-icon>
@@ -51,28 +51,28 @@
 
               <ion-icon slot="start" src="/assets/svg/icon_exchanges.svg" ></ion-icon>
               <ion-label>
-                Exchanges
+                {{ 'PAGES.EXCHANGES.TITLE' | translate }}
               </ion-label>
             </ion-item>
             <ion-item  routerLink="/about">
 
               <ion-icon slot="start" src="/assets/svg/logo_icon.svg" ></ion-icon>
               <ion-label>
-                About
+                {{ 'PAGES.ABOUT.TITLE' | translate }}
               </ion-label>
             </ion-item>
             <ion-item routerLink="/tabs/help">
 
               <ion-icon slot="start" name="help-circle" color="primary"></ion-icon>
               <ion-label>
-                Help
+                {{ 'PAGES.HELP.TITLE' | translate }}
               </ion-label>
             </ion-item>
             <ion-item routerLink="/tabs/settings">
 
               <ion-icon slot="start"  src="/assets/svg/icon_settings_side_menu.svg"></ion-icon>
               <ion-label>
-                Settings
+                {{ 'PAGES.SETTINGS.TITLE' | translate }}
               </ion-label>
             </ion-item>
 
@@ -114,12 +114,12 @@
 
         <ion-list lines="none">
           <ion-list-header>
-            Tutorial
+            {{ 'PAGES.MENU.TUTORIAL' | translate }}
           </ion-list-header>
           <ion-menu-toggle autoHide="false">
             <ion-item button >
               <ion-icon slot="start" name="hammer"></ion-icon>
-              <ion-label>Show Tutorial</ion-label>
+              <ion-label>{{ 'PAGES.MENU.SHOW-TUTORIAL' | translate }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
@@ -127,7 +127,7 @@
         <ion-list lines="none">
           <ion-item>
             <ion-label>
-              Dark Theme
+              {{ 'PAGES.MENU.DARKTHEME' | translate }}
             </ion-label>
 
             <ion-toggle [(ngModel)]="dark"></ion-toggle>

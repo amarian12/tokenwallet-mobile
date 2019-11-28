@@ -10,7 +10,7 @@
         <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
       </ion-buttons>
 
-    <ion-title> Send token</ion-title>
+    <ion-title>  {{ 'PAGES.WALLET.SENDTOKEN' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -22,7 +22,7 @@
     <ion-list *ngIf="tokenAccountLoaded">
       <ion-item>
         <ion-label position="stacked" >
-          from Account:
+           {{ 'PAGES.WALLET.FROMACCOUNT' | translate }}
         </ion-label>
         <!--ion-note>
           {{tokenAccountLoaded.AccountID}}
@@ -31,7 +31,7 @@
       </ion-item>
       <ion-item *ngIf="destinationAccount">
         <ion-label position="stacked">
-          to Account:
+           {{ 'PAGES.WALLET.TOACCOUNT' | translate }}
         </ion-label>
         <ion-input ngModel #toctl="ngModel" [value]="destinationAccount" type="text" readonly name="to">
 
@@ -42,13 +42,13 @@
       </ion-item>
       <ion-item *ngIf="!destinationAccount">
         <ion-label position="floating" color="primary">
-          to Account:
+           {{ 'PAGES.WALLET.TOACCOUNT' | translate }}
         </ion-label>
         <ion-input ngModel #toctl="ngModel"  type="text" required name="to">
 
         </ion-input>
         <ion-button slot="end">
-          scan
+           {{ 'PAGES.CONTACTS.ADD-CONTACTS-SCAN-BTN' | translate }}
         </ion-button>
 
       </ion-item>
@@ -58,7 +58,7 @@
             <ion-col size="5" class="ion-no-padding">
               <ion-item class="ion-no-padding" lines="none" color="light">
                 <ion-label position="stacked">
-                  Account Balance:
+                   {{ 'PAGES.WALLET.ACCOUNT-BALANCE' | translate }}
                 </ion-label>
                 <ion-note *ngIf="tokenAccountLoaded.Token === 'CSC'">
                   {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{tokenAccountLoaded.Token}}
@@ -72,7 +72,7 @@
             <ion-col size="4" class="ion-no-padding">
               <ion-item class="ion-no-padding" lines="none" color="light">
                 <ion-label position="stacked">
-                  Reserved:
+                   {{ 'PAGES.WALLET.RESERVED' | translate }}
                 </ion-label>
                 <ion-note>
                   {{ getTotalReserved(tokenAccountLoaded) | number : '1.2-2' }} CSC
@@ -82,7 +82,7 @@
             <ion-col size="3" class="ion-no-padding">
               <ion-item class="ion-no-padding" lines="none" color="light">
                 <ion-label position="stacked">
-                  Fees:
+                   {{ 'PAGES.WALLET.FEES' | translate }}
                 </ion-label>
                 <ion-note>
                   {{fees  }} CSC
@@ -95,19 +95,19 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating" color="primary">
-          Amount:
+           {{ 'PAGES.WALLET.AMOUNT' | translate }}
         </ion-label>
         <ion-input [(ngModel)]="balanceToSend" name="amount" type="number">
 
         </ion-input>
         <ion-button slot="end" (click)="allBalanceToAmount()">
-          ALL
+           {{ 'PAGES.WALLET.SEND-ALL' | translate }}
         </ion-button>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating" color="primary">
-          Destination Tag:
+           {{ 'PAGES.WALLET.DESTTAG' | translate }}
         </ion-label>
         <ion-input ngModel #dtagctl="ngModel" name="destinationtag" type="number" >
 
@@ -115,7 +115,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating" color="primary">
-          Description:
+           {{ 'PAGES.WALLET.DESCRIPTION' | translate }}
         </ion-label>
         <ion-input ngModel #descctl="ngModel" name="description" type="text">
 
@@ -123,11 +123,11 @@
       </ion-item>
     </ion-list>
     <ion-button type="submit" expand="block">
-      Send Token
+       {{ 'PAGES.WALLET.SENDTOKEN' | translate }}
 
     </ion-button>
     <ion-button routerLink="/tabs/wallet" expand="block" >
-      Cancel
+       {{ 'PAGES.WALLET.CANCEL' | translate }}
 
     </ion-button>
   </form>

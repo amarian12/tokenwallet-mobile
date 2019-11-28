@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { DatePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
 import { CSCPipe } from '../../../domains/app-pipes.module';
 
@@ -21,6 +22,7 @@ const routes: Routes = [
     FormsModule,
     CSCPipe.forRoot(),
     IonicModule,
+    TranslateModule.forChild(),
     RouterModule.forChild(routes)
   ],
   declarations: [TokenDetailPage]

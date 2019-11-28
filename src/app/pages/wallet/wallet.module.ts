@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { DatePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
 import { CSCPipe } from '../../domains/app-pipes.module';
 import { IonicModule } from '@ionic/angular';
@@ -23,6 +24,7 @@ const routes: Routes = [
     CSCPipe.forRoot(),
     FormsModule,
     IonicModule,
+    TranslateModule.forChild(),
     RouterModule.forChild(routes)
   ],
   declarations: [WalletPage, AddTokenComponent],

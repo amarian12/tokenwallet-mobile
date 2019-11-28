@@ -29,7 +29,7 @@
       <ion-col size="5">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            Account Label
+            {{ 'PAGES.WALLET.ACCOUNT-LABEL' | translate }}
           </ion-label>
             <ion-note>
               {{tokenAccountLoaded.AccountLabel}}
@@ -39,13 +39,13 @@
       <ion-col size="3">
         <ion-item>
           <ion-label position="stacked" color="primary">
-           Status
+            {{ 'PAGES.WALLET.STATUS' | translate }}
           </ion-label>
             <ion-note color="danger" *ngIf="!tokenAccountLoaded.Activated">
-              not activated
+               {{ 'PAGES.WALLET.INACTIVE' | translate }}
             </ion-note>
             <ion-note color="success" *ngIf="tokenAccountLoaded.Activated">
-              active
+               {{ 'PAGES.WALLET.ACTIVE' | translate }}
             </ion-note>
         </ion-item>
       </ion-col>
@@ -54,7 +54,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked" color="primary">
-            Account Id
+             {{ 'PAGES.WALLET.ACCOUNTID' | translate }}
           </ion-label>
             <ion-note>
               {{tokenAccountLoaded.AccountID}}
@@ -66,7 +66,7 @@
       <ion-col size="4">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            token:
+            {{ 'PAGES.WALLET.TOKEN' | translate }}
           </ion-label>
           <ion-note>
             {{tokenAccountLoaded.FullName}}
@@ -76,7 +76,7 @@
       <ion-col size="8">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            balance:
+             {{ 'PAGES.WALLET.BALANCE' | translate }}
           </ion-label>
           <ion-text color="medium" *ngIf="tokenAccountLoaded.Token === 'CSC'">
             {{tokenAccountLoaded.Balance | cscAmount : false : true }} {{ tokenAccountLoaded.Token}}
@@ -91,7 +91,7 @@
       <ion-col size="6">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            fees:
+             {{ 'PAGES.WALLET.FEES' | translate }}
           </ion-label>
           <ion-text color="medium">
             {{ fees }} CSC
@@ -101,7 +101,7 @@
       <ion-col size="6">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            Amount reserved:
+             {{ 'PAGES.WALLET.AMOUNTRESERVED' | translate }}
           </ion-label>
           <ion-text color="medium">
             {{ getTotalReserved(tokenAccountLoaded) | number : '1.2-2' }} CSC
@@ -121,11 +121,11 @@
   </ion-grid>
   <ion-footer>
     <ion-toolbar class="ion-text-center">
-      <ion-button [routerLink]="'/tabs/wallet/token-send/'+tokenAccountLoaded.PK">Send</ion-button>
-      <ion-button [routerLink]="'/tabs/wallet/token-receive/'+tokenAccountLoaded.PK">Receive</ion-button>
-      <ion-button (click)="onAddToken()">Add token</ion-button>
-      <ion-button (click)="copyAccountID()">Copy account</ion-button>
-      <ion-button [href]="getExploreURL()">Explore</ion-button>
+      <ion-button [routerLink]="'/tabs/wallet/token-send/'+tokenAccountLoaded.PK"> {{ 'PAGES.WALLET.SEND' | translate }}</ion-button>
+      <ion-button [routerLink]="'/tabs/wallet/token-receive/'+tokenAccountLoaded.PK"> {{ 'PAGES.WALLET.RECEIVE' | translate }}</ion-button>
+      <ion-button [routerLink]="'/tabs/wallet/add-token/'+tokenAccountLoaded.AccountID" *ngIf="tokenAccountLoaded.Token === 'CSC' && tokenAccountLoaded.Activated" > {{ 'PAGES.WALLET.SHOW-ADD-TOKEN' | translate }}</ion-button>
+      <ion-button (click)="copyAccountID()"> {{ 'PAGES.WALLET.ACCOUNT-COPY-CBOARD' | translate }}</ion-button>
+      <ion-button [href]="getExploreURL()" *ngIf="tokenAccountLoaded.Activated" > {{ 'PAGES.WALLET.EXPLORE' | translate }}</ion-button>
     </ion-toolbar>
   </ion-footer>
 

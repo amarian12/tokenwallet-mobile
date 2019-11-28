@@ -10,7 +10,7 @@
         <ion-back-button text="" defaultHref="/tabs/history"></ion-back-button>
       </ion-buttons>
 
-    <ion-title > Details</ion-title>
+    <ion-title > {{ 'PAGES.HISTORY.DETAILS' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -28,7 +28,7 @@
       <ion-col size="5">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            Account Id
+            {{ 'PAGES.WALLET.ACCOUNTID' | translate }}
           </ion-label>
             <ion-note *ngIf="transactionLoaded.direction === 'incommingTX'">
               {{transactionLoaded.destination}}
@@ -41,13 +41,13 @@
       <ion-col size="3">
         <ion-item>
           <ion-label position="stacked" color="primary">
-           Status
+           {{ 'PAGES.WALLET.STATUS' | translate }}
           </ion-label>
             <ion-note color="danger" *ngIf="!transactionLoaded.validated">
-              not validated
+              {{ 'PAGES.HISTORY.NOT-VALIDATED' | translate }}
             </ion-note>
             <ion-note color="success" *ngIf="transactionLoaded.validated">
-              validated
+               {{ 'PAGES.HISTORY.VALIDATED' | translate }}
             </ion-note>
         </ion-item>
       </ion-col>
@@ -56,7 +56,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked" color="primary">
-            From:
+            {{ 'PAGES.HISTORY.FROM' | translate }}:
           </ion-label>
             <ion-text color="medium">
               {{transactionLoaded.accountID}}
@@ -68,7 +68,7 @@
       <ion-col >
         <ion-item>
           <ion-label position="stacked" color="primary">
-            To:
+            {{ 'PAGES.HISTORY.TO' | translate }}
           </ion-label>
           <ion-text color="medium">
             {{transactionLoaded.destination}}
@@ -80,7 +80,7 @@
       <ion-col size="6">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            Fee:
+            {{ 'PAGES.HISTORY.FEE' | translate }}
           </ion-label>
           <ion-text color="medium">
               {{transactionLoaded.fee | cscAmount : false : true }} CSC
@@ -90,7 +90,7 @@
       <ion-col size="6">
         <ion-item>
           <ion-label position="stacked" color="primary">
-            Amount:
+            {{ 'PAGES.WALLET.AMOUNT' | translate }}
           </ion-label>
           <ion-text color="medium">
             {{transactionLoaded.amount | cscAmount : false : true }} {{ transactionLoaded.currency}}
@@ -102,7 +102,7 @@
       <ion-col class="ion-text-wrap">
         <ion-item class="ion-text-wrap">
           <ion-label position="stacked" color="primary">
-            Transaction ID:
+            {{ 'PAGES.HISTORY.TRANSACTIONID' | translate }}
           </ion-label>
           <ion-label  color="medium" class="ion-text-wrap">
             {{ transactionLoaded.txID }}
@@ -118,11 +118,10 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked" color="primary">
-            Date of transaction:
+            {{ 'PAGES.HISTORY.DOT' | translate }}
           </ion-label>
           <ion-text color="medium">
             {{ transactionLoaded.timestamp | cscDate : ' EEEE, MMMM  d of y,  h:MM'}}
-
           </ion-text>
         </ion-item>
       </ion-col>

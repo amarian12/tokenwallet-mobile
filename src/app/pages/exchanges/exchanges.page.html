@@ -6,7 +6,7 @@
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
 
-    <ion-title>Exchanges</ion-title>
+    <ion-title>{{ 'PAGES.EXCHANGES.TITLE' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -34,23 +34,23 @@
         <ion-row>
           <ion-col col-6>
             <button class="mybtn-red" (click)="visitExchange(exchange.tradeURL)">
-              visit {{exchange.name}}
+              {{ 'PAGES.EXCHANGES.VISIT' | translate }} {{exchange.name}}
             </button>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-6>
-            Buy<br><b>{{exchange.buy | number : '1.1-8'}}</b>
+            {{ 'PAGES.EXCHANGES.BUY' | translate }}<br><b>{{exchange.buy | number : '1.1-8'}}</b>
           </ion-col>
-          <ion-col col-6>Sell<br><b>{{exchange.sell | number : '1.1-8'}}</b>
+          <ion-col col-6>{{ 'PAGES.EXCHANGES.SELL' | translate }}<br><b>{{exchange.sell | number : '1.1-8'}}</b>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-6>
-            Last<br><b>{{exchange.last | number : '1.1-8'}}</b>
+            {{ 'PAGES.EXCHANGES.LAST' | translate }}<br><b>{{exchange.last | number : '1.1-8'}}</b>
           </ion-col>
           <ion-col col-6>
-            Volume<br><b>{{exchange.volume24H | number : '1.0'}}</b>
+            {{ 'PAGES.EXCHANGES.VOLUME' | translate }}<br><b>{{exchange.volume24H | number : '1.0'}}</b>
           </ion-col>
         </ion-row>
       </ion-grid>

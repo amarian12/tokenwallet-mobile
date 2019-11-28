@@ -7,7 +7,7 @@
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
 
-    <ion-title>History</ion-title>
+    <ion-title>{{ 'PAGES.HISTORY.TITLE' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -45,12 +45,13 @@
               </ion-chip>
             </h3>
               <small>
-                  From:
+                  {{ 'PAGES.HISTORY.FROM' | translate }}
                 {{transaction.accountID}}
               </small>
 
               <small>
-                to:
+                {{ 'PAGES.HISTORY.TO' | translate }}
+
                 {{transaction.destination}}
 
               </small>

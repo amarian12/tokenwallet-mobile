@@ -10,7 +10,7 @@
         <ion-back-button text=""></ion-back-button>
       </ion-buttons>
 
-    <ion-title> Add New Contact</ion-title>
+    <ion-title> {{ 'PAGES.CONTACTS.ADD-CONTACTS-TITLE' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -21,7 +21,7 @@
   <ion-list>
     <ion-item>
       <ion-label position="floating">
-        Name:
+      {{ 'PAGES.CONTACTS.ADD-CONTACTS-NAME-LABEL' | translate }}
       </ion-label>
       <ion-input type="text" name="contactname" [(ngModel)]="contactName">
 
@@ -29,26 +29,28 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">
-        AccountID:
+        {{ 'PAGES.CONTACTS.ADD-CONTACTS-ACCOUNT-LABEL' | translate }}
+
       </ion-label>
       <ion-input type="text" name="accountid" [(ngModel)]="accountID">
 
       </ion-input>
       <ion-button slot="end">
-        scan
+        {{ 'PAGES.CONTACTS.ADD-CONTACTS-SCAN-BTN' | translate }}
       </ion-button>
     </ion-item>
     <ion-item>
       <ion-label position="floating">
-        Tokens:
+        {{ 'PAGES.CONTACTS.ADD-CONTACTS-DESTINATION-TAG-LABEL' | translate }}
       </ion-label>
-      <ion-input type="text">
+      <ion-input type="number" name="destination-tag">
 
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">
-        Notes:
+        {{ 'PAGES.CONTACTS.ADD-CONTACTS-NOTES-LABEL' | translate }}
+
       </ion-label>
       <ion-input type="text">
 
@@ -57,12 +59,13 @@
 
   </ion-list>
   <ion-button type="submit" expand="block" (click)="addContact() " >
-    Add contact
+    {{ 'PAGES.CONTACTS.ADD-CONTACTS-ADD-BTN' | translate }}
 
   </ion-button>
 
   <ion-button  expand="block">
-    Cancel
+    {{ 'PAGES.CONTACTS.ADD-CONTACTS-CANCEL-BTN' | translate }}
+
 
   </ion-button>
 

@@ -26,6 +26,11 @@ const routes: Routes = [
               import('../wallet/wallet.module').then(m => m.WalletPageModule)
           },
           {
+            path: 'add-token/:toAccount',
+            loadChildren: () =>
+              import('../wallet/wallet.module').then(m => m.WalletPageModule)
+          },
+          {
             path: 'token-receive/:tokenId',
             loadChildren: () =>
               import('../wallet/token-receive/token-receive.module').then(m => m.TokenReceivePageModule)

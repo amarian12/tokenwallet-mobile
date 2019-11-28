@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { DatePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { HistoryPage } from './history.page';
 
@@ -21,6 +22,7 @@ const routes: Routes = [
     CSCPipe.forRoot(),
     FormsModule,
     IonicModule,
+    TranslateModule.forChild(),
     RouterModule.forChild(routes)
   ],
   providers: [

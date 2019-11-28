@@ -17,7 +17,7 @@
 <ion-content>
 
     <ion-list-header>
-      Wallet balances:
+    {{ 'PAGES.DASHBOARD.BALANCES-TITLE' | translate }}:
     </ion-list-header>
       <ion-grid>
         <ion-row  *ngFor="let balance of walletBalances" >
@@ -34,7 +34,7 @@
               <ion-card-header class="ion-float-end">
                 <ion-card-subtitle >
                   <ion-text color="primary">
-                    {{balance.token}} Balance:
+                    {{balance.token}} {{ 'PAGES.DASHBOARD.TOKEN-BALANCE' | translate }}:
                   </ion-text>
                 </ion-card-subtitle>
                 <ion-card-title>
@@ -63,7 +63,7 @@
 
                   <ion-label>
                     <small>
-                      <ion-text>{{'PAGES.EXCHANGES.EST-COIN-VALUE' | translate}}:
+                      <ion-text>{{'PAGES.DASHBOARD.EST-COIN-VALUE' | translate}}:
                       </ion-text>
                       <p>
                         <ion-text> {{fiatValue}}
@@ -83,7 +83,7 @@
               <ion-col size="5">
 
                   <small>
-                    <ion-label>{{'PAGES.EXCHANGES.TOTAL-COIN-SUPPLY' | translate}}:
+                    <ion-label>{{'PAGES.DASHBOARD.TOTAL-COIN-SUPPLY' | translate}}:
                     </ion-label>
                     <p>
                       <ion-text> {{coinSupply | number : '1.2-2'}}
@@ -102,7 +102,7 @@
               <ion-col size="5">
 
                   <small>
-                    <ion-label>{{'PAGES.EXCHANGES.ESTIMATED-CAP' | translate}}:
+                    <ion-label>{{'PAGES.DASHBOARD.ESTIMATED-CAP' | translate}}:
                     </ion-label>
                     <p>
                       <ion-text> {{marketCapital}}
@@ -118,7 +118,7 @@
               <ion-col size="5">
 
                   <small>
-                    <ion-label>{{'PAGES.EXCHANGES.24H-VOLUME' | translate}}:
+                    <ion-label>{{'PAGES.DASHBOARD.24H-VOLUME' | translate}}:
                     </ion-label>
                     <p>
                       <ion-text> {{marketVolumeUSD}}

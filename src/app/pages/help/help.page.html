@@ -7,7 +7,7 @@
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
 
-    <ion-title>Help</ion-title>
+    <ion-title>{{ 'PAGES.HELP.TITLE' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -17,12 +17,12 @@
 <ion-list lines="none">
   <ion-list-header>
     <ion-title color="primary">
-      Where to get help?
+      {{ 'PAGES.HELP.INTRO' | translate }}
     </ion-title>
   </ion-list-header>
   <ion-item-divider class="ion-padding">
     <ion-text>
-      If you experience any issues with the CasinoCoin Token Wallet, there are multiple ways to contact the team:
+      {{ 'PAGES.HELP.MESSAGE' | translate }}
     </ion-text>
 
   </ion-item-divider>
@@ -30,11 +30,11 @@
     <ion-card>
       <ion-card-header slot="start"><ion-title color="primary">
 
-        Discord:
+        {{ 'PAGES.HELP.DISCORD-TITLE' | translate }}
       </ion-title>
-    </ion-card-header> <ion-card-content>
+    </ion-card-header> <ion-card-content [innerHTML]="'PAGES.HELP.DISCORD-MESSAGE' | translate ">
 
-        Live chat with the community and foundation.
+
       </ion-card-content>
 
     </ion-card>
@@ -43,11 +43,9 @@
     <ion-card>
       <ion-card-header slot="start"><ion-title color="primary">
 
-        Github:
+        {{ 'PAGES.HELP.GITHUB-TITLE' | translate }}:
       </ion-title>
-    </ion-card-header> <ion-card-content >
-
-        Report an error or bug on the <ion-text color="primary" >CasinoCoin project site</ion-text>.
+    </ion-card-header> <ion-card-content  [innerHTML]="'PAGES.HELP.GITHUB-MESSAGE' | translate ">
       </ion-card-content>
 
   </ion-card>
@@ -56,11 +54,9 @@
     <ion-card>
       <ion-card-header slot="start"><ion-title color="primary">
 
-        FAQ:
+        {{ 'PAGES.HELP.FAQ-TITLE' | translate }}
       </ion-title>
-    </ion-card-header> <ion-card-content>
-
-        Go to the <ion-text color="primary" >CasinoCoin FAQ page</ion-text> on the website. The answer may already be there.
+    </ion-card-header> <ion-card-content  [innerHTML]="'PAGES.HELP.FAQ-MESSAGE' | translate ">
       </ion-card-content>
 
     </ion-card>
@@ -69,11 +65,9 @@
     <ion-card>
       <ion-card-header slot="start"><ion-title color="primary">
 
-        Email:
+        {{ 'PAGES.HELP.EMAIL-TITLE' | translate }}
       </ion-title>
-    </ion-card-header> <ion-card-content>
-
-        Write to us at <ion-text color="primary">support@casinocoin.org</ion-text> and a support agent will get back to you.
+    </ion-card-header> <ion-card-content  [innerHTML]="'PAGES.HELP.EMAIL-MESSAGE' | translate ">
       </ion-card-content>
 
     </ion-card>
@@ -82,11 +76,9 @@
     <ion-card>
       <ion-card-header slot="start"><ion-title color="primary">
 
-        Reddit:
+        {{ 'PAGES.HELP.REDDIT-TITLE' | translate }}
       </ion-title>
-    </ion-card-header> <ion-card-content>
-
-        Join our official subreddit and post your question.
+    </ion-card-header> <ion-card-content  [innerHTML]="'PAGES.HELP.REDDIT-MESSAGE' | translate ">
       </ion-card-content>
 
     </ion-card>
@@ -95,11 +87,9 @@
     <ion-card>
       <ion-card-header slot="start"><ion-title color="primary">
 
-        Social media:
+        {{ 'PAGES.HELP.SOCIAL-MEDIA-TITLE' | translate }}
       </ion-title>
-    </ion-card-header> <ion-card-content>
-
-        Like us on <ion-text color="primary" >Facebook</ion-text> and follow us on <ion-text color="primary" >Twitter</ion-text>.
+    </ion-card-header> <ion-card-content  [innerHTML]="'PAGES.HELP.SOCIAL-MEDIA-MESSAGE' | translate ">
       </ion-card-content>
 
     </ion-card>
@@ -108,11 +98,9 @@
     <ion-card>
       <ion-card-header slot="start"><ion-title color="primary">
 
-        BitcoinTalk:
+        {{ 'PAGES.HELP.BTC-TALK-TITLE' | translate }}
       </ion-title>
-    </ion-card-header> <ion-card-content>
-
-        Share your comments and ideas on whats latest @casinocoin.
+    </ion-card-header> <ion-card-content  [innerHTML]="'PAGES.HELP.BTC-TALK-MESSAGE' | translate ">
       </ion-card-content>
 
     </ion-card>

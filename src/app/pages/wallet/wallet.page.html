@@ -6,7 +6,7 @@
         <i class="icon-logo icon-chip"></i>
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
       </ion-buttons>
-    <ion-title>Wallet</ion-title>
+    <ion-title>{{ 'PAGES.WALLET.TITLE' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -68,10 +68,10 @@
         </ion-item>
         <ion-item-options>
           <ion-item-option color="success" [routerLink]="'token-send/'+token?.PK " >
-            send <i class="icon icon-send"></i>
+            {{ 'PAGES.WALLET.SEND' | translate }} <i class="icon icon-send"></i>
           </ion-item-option>
           <ion-item-option color="secondary" [routerLink]="'token-receive/'+token?.PK ">
-            receive <i class="icon icon-receive"  ></i>
+            {{ 'PAGES.WALLET.RECEIVE' | translate }} <i class="icon icon-receive"  ></i>
 
           </ion-item-option>
         </ion-item-options>

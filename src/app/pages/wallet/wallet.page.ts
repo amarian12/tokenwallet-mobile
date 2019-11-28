@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import { AddTokenComponent } from './add-token/add-token.component';
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
@@ -72,6 +73,7 @@ export class WalletPage implements OnInit {
   accountLabel = '';
   constructor(private logger: LogService,
                private walletService: WalletService,
+               private activatedRoute: ActivatedRoute,
                // private marketService: MarketService,
                private appflow: AppflowService,
                private casinocoinService: CasinocoinService,
@@ -101,32 +103,34 @@ export class WalletPage implements OnInit {
                      });
              }
              async presentActionSheet() {
-                  const actionSheet = await this.actionSheetController.create({
-                    header: 'Add',
-                    buttons: [{
-                      text: 'Add CSC Account',
-                      role: 'destructive',
-                      icon: 'add',
-                      handler: () => {
-                        console.log('Delete clicked');
-                        this.addCSCAccount();
-                      }
-                    }, {
-                      text: 'Add token',
-                      icon: 'add',
-                      handler: () => {
-                        console.log('Share clicked');
-                        this.onAddToken();
-                      }
-                    }, {
-                      text: 'Show ledgers',
-                      icon: 'casino-coin',
-                      handler: () => {
-                        console.log('Play clicked');
-                      }
-                    }]
-                  });
-                  await actionSheet.present();
+               await this.translate.get(["PAGES.WALLET.SHOW-ADD-ACCOUNT",
+                                   "PAGES.WALLET.SHOW-ADD-TOKEN",
+                                   "PAGES.WALLET.SHOW-LEDGERS"]).subscribe( async (res: string) => {
+                        const actionSheet = await this.actionSheetController.create({
+                          header: 'Add',
+                          buttons: [{
+                            text: res['PAGES.WALLET.SHOW-ADD-ACCOUNT'],
+                            role: 'destructive',
+                            icon: 'add-circle-outline',
+                            handler: () => {
+                              this.addCSCAccount();
+                            }
+                          }, {
+                            text: res['PAGES.WALLET.SHOW-ADD-TOKEN'],
+                            icon: 'add-circle',
+                            handler: () => {
+                              this.onAddToken('1');
+                            }
+                          }, {
+                            text: res['PAGES.WALLET.SHOW-LEDGERS'],
+                            icon: 'add',
+                            handler: () => {
+
+                            }
+                          }]
+                        });
+                        await actionSheet.present();
+                });
                 }
                 doAddToken() {
                   // this.logger.debug('### Wallet Page: Add Token: ' + this.addToken.Token + ' for: ' + this.selectedCSCAccount);
@@ -142,14 +146,20 @@ export class WalletPage implements OnInit {
                   //   this.renderer.selectRootElement('#float-input-password').focus();
                   // }
                 }
-                onAddToken(){
+                onAddToken(accountID){
+                    var accountsAval = {};
+                    if(accountID !== "1" ){
+                      accountsAval = [{ label:"provided Account", value:accountID}];
+                    }else{
+                      accountsAval = this.cscAccounts;
+                    }
                     console.log("cscAccounts: ",this.cscAccounts);
                     console.log("tokens: ",this.availableTokenlist);
                     this.modal
                     .create({
                       component: AddTokenComponent,
                       componentProps: {
-                        cscAccounts:this.cscAccounts,
+                        cscAccounts:accountsAval,
                         availableTokenlist:this.availableTokenlist
                       }
                     }).then(
@@ -182,6 +192,18 @@ export class WalletPage implements OnInit {
                   }
 
                 }
+                ionViewWillEnter(){
+                  this.activatedRoute.paramMap.subscribe(paramMap => {
+                    if(!paramMap.has('toAccount')){
+                      //redirect
+
+                      return;
+                    }else{
+                      const accountID = paramMap.get('toAccount');
+                      this.onAddToken(accountID);
+                    }
+                });
+              }
 
                 addTokenToAccount(token, accountID) {
                   this.logger.debug('### WalletPage: add Token to CSC account');

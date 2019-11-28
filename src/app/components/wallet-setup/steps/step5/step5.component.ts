@@ -51,11 +51,14 @@ export class Step5Component implements OnInit {
     onDisplay() {
       this.userEmail = this.walletService.walletSetup.userEmail;
       this.logger.debug('### loaded email '+ this.userEmail);
-      this.translate.get('PAGES.SETUP.STEP5-SUBTITLE').subscribe((res: string) => {
+      this.translate.get(['PAGES.SETUP.STEP5-REMINDER-HEADER',
+                          'PAGES.SETUP.STEP5-REMINDER-SUBHEADER',
+                          'PAGES.SETUP.STEP5-REMINDER-MESSAGE']).subscribe((res: string) => {
+
         this.alert.create({
-        header: 'Warning',
-        subHeader: 'Please read carefully',
-        message: res,
+        header: res['PAGES.SETUP.STEP5-REMINDER-HEADER'],
+        subHeader: res['PAGES.SETUP.STEP5-REMINDER-SUBHEADER'],
+        message: res['PAGES.SETUP.STEP5-REMINDER-MESSAGE'],
         buttons: ['I understand']
       }).then( alert =>  {
           alert.present();
@@ -66,32 +69,39 @@ export class Step5Component implements OnInit {
     }
 
     swipeNext(){
-      this.alert.create({
-      header: 'Before proceeding',
-      subHeader: 'last reminder',
-      message: 'Are you sure? If you want to go ahead, please make sure you have access to the copy of this word list or you will have to start the setup process again from the beginning',
-      buttons: [
-        {
-          text: 'Go back',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        }, {
-          text: 'I already made a copy',
-          handler: () => {
-            this.logger.debug('### Go to step 6 triggered');
-            this.slider.lockSwipes(false);
-            this.slider.slideNext();
-            this.slider.lockSwipes(true);
-            console.log('Confirm Ok');
-          }
-        }
-      ]
-    }).then( alert =>  {
-        alert.present();
-      });
+      this.translate.get(["PAGES.SETUP.STEP5-LASTWARNING-HEADER",
+                          "PAGES.SETUP.STEP5-LASTWARNING-SUBHEADER",
+                          "PAGES.SETUP.STEP5-LASTWARNING-MESSAGE",
+                          "PAGES.SETUP.STEP5-LASTWARNING-BTN-CANCEL",
+                          "PAGES.SETUP.STEP5-LASTWARNING-BTN-CONFIRM"]).subscribe((res: string) => {
+              this.alert.create({
+
+              header: res['PAGES.SETUP.STEP5-LASTWARNING-HEADER'],
+              subHeader: res['PAGES.SETUP.STEP5-LASTWARNING-SUBHEADER'],
+              message: res['PAGES.SETUP.STEP5-LASTWARNING-MESSAGE'],
+              buttons: [
+                {
+                  text: res['PAGES.SETUP.STEP5-LASTWARNING-BTN-CANCEL'],
+                  role: 'cancel',
+                  cssClass: 'secondary',
+                  handler: () => {
+
+                  }
+                }, {
+                  text: res['PAGES.SETUP.STEP5-LASTWARNING-BTN-CONFIRM'],
+                  handler: () => {
+                    this.logger.debug('### Go to step 6 triggered');
+                    this.slider.lockSwipes(false);
+                    this.slider.slideNext();
+                    this.slider.lockSwipes(true);
+
+                  }
+                }
+              ]
+            }).then( alert =>  {
+                alert.present();
+              });
+    });
 
     }
     initialize(){
