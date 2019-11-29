@@ -36,7 +36,7 @@ export class AppComponent {
       // debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');
       this.userName = this.appflow.userName;
-      this.translate.setDefaultLang('es');
+      this.translate.setDefaultLang('en');
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.appflow.connectedStatus.subscribe(
