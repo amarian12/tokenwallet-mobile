@@ -20,6 +20,7 @@ export class AppflowService {
   private _transctionParams = new BehaviorSubject<any>({});
   private _transctionList = new BehaviorSubject<any>({});
   private _walletBalances = new BehaviorSubject<any[]>([]);
+  private _connectedStatus = new BehaviorSubject<boolean>(false);
   // private tokenlist:Array<TokenType>;
   columnCount: number;
   isLoading: boolean;
@@ -40,7 +41,7 @@ export class AppflowService {
   cscBalance: string;
   canActivateToken: boolean;
   currentToken: TokenType;
-  connectedStatus= false;
+  // connectedStatus= false;
 
   userName: string;
   mainCSCAccountID: string;
@@ -83,12 +84,23 @@ export class AppflowService {
     this.logger.debug('### Appflow: consturctor() ###');
     this.columnCount = 5;
 
+
+
+
+
+
+
+
     // refresh server list
     this.casinocoinService.updateServerList();
     // connect to CasinoCoin network
     this.casinocoinService.connectSubject.subscribe( result => {
       if (result === AppConstants.KEY_CONNECTED) {
-        this.connectedStatus = true;
+        this.connectedStatus.pipe(take(1)).subscribe(connected => {
+          this._connectedStatus.next(true);
+          this.logger.debug('### Appflow: connectedStatus is true CONNECTED');
+
+        });
         // translation parameters
         // this.translateParams = {accountReserve: this.casinocoinService.serverInfo.reserveBaseCSC};
         // refresh Accounts
@@ -130,7 +142,11 @@ export class AppflowService {
 
         });
       }else{
-        this.connectedStatus = false;
+        this.connectedStatus.pipe(take(1)).subscribe(connected => {
+          this._connectedStatus.next(false);
+          this.logger.debug('### Appflow: connectedStatus is false DISCONNECTED');
+
+        });
       }
     });
     this.walletService.openWalletSubject.subscribe( result => {
@@ -198,6 +214,14 @@ export class AppflowService {
         return {...cscAccounts.find( account => account.PK === pkID)};
      }));
    }
+   get connectedStatus(){
+     return this._connectedStatus.asObservable()
+   }
+   getConectedStatus(){
+     return this.connectedStatus.pipe(take(1),map(connectedStatus => {
+        return connectedStatus;
+     }));
+   }
    get transactionParams(){
      return this._transctionParams.asObservable()
    }
@@ -239,7 +263,45 @@ export class AppflowService {
      }));
 
    }
+   addTokenToAccount(token, accountID){
+     this.logger.debug('### WalletPage: add Token to CSC account');
+     const password = '1234567';
+     this.walletPassword = password;
+     const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
 
+     if (this.walletService.checkWalletPasswordHash(this.walletPassword, walletObject.walletUUID, walletObject.passwordHash)){
+
+       const instructions = { maxLedgerVersionOffset: 3, fee: this.fees };
+       const trustobject = this.walletService.addTokenToAccount(token, password, accountID);
+
+
+       this.logger.debug('### WalletPage: password OK adding Token to account');
+       this.casinocoinService.cscAPI.prepareTrustline(accountID, trustobject.trustline, instructions).then( preparedTrust => {
+         this.logger.debug('### Trustline Result: ' + JSON.stringify(preparedTrust));
+         return this.casinocoinService.cscAPI.sign(preparedTrust.txJSON, trustobject.cryptKey);
+       }).then( trustSignResult => {
+         this.logger.debug('### Trustline Sign Result: ' + JSON.stringify(trustSignResult));
+         return this.casinocoinService.cscAPI.submit(trustSignResult.signedTransaction);
+       }).then( trustSubmitResult => {
+         this.logger.debug('### Trustline Submit Result: ' + JSON.stringify(trustSubmitResult));
+         this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
+           if (refreshResult) {
+             this.tokenlist.pipe(take(1)).subscribe(tokenlist => {
+               this._tokenlist.next(this.casinocoinService.tokenlist);
+
+
+             });
+
+           }
+         });
+
+
+       });
+
+       }else{
+         this.logger.debug('### WalletPage: addtoken password WRONG not adding account');
+       }
+   }
 
 
    updateBalance(tokenlist){

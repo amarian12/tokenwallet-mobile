@@ -41,10 +41,17 @@
                   {{renderCSCAmount(balance.balance) | number : '1.2-2'}}
                 </ion-card-title>
               </ion-card-header>
+
+
+              <ion-badge color="medium" *ngIf="balance.token === 'CSC'" > Fiat Value:</ion-badge>
+              <ion-badge *ngIf="balance.token === 'CSC'">
+                {{fiat_balance}}
+              </ion-badge>
             </ion-card>
           </ion-col>
         </ion-row>
       </ion-grid>
+
 
   <!--/ion-item-->
 

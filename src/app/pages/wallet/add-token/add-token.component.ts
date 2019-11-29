@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
 import { LogService } from '../../../providers/log.service';
@@ -25,7 +26,8 @@ export class AddTokenComponent implements OnInit {
     private logger: LogService,
     private translate: TranslateService,
     private walletService: WalletService,
-    private modal: ModalController
+    private modal: ModalController,
+    private router: Router
   ) { }
 
   ngOnInit() {}
@@ -55,6 +57,7 @@ export class AddTokenComponent implements OnInit {
   }
   onCancelAddToken(){
     this.modal.dismiss(null, "cancel");
+    this.router.navigate(['/tabs/wallet'], { replaceUrl: true });
   }
 
 }

@@ -60,8 +60,9 @@ export class TabsPage implements OnInit{
                   this.appflow.tokenlist.subscribe(
                     tokenList => {
                       const tokens = tokenList;
-                      console.log("????////////////////////?KKKKKKKKKKKKKK??????????????????????????????????");
-                      console.log(tokens);
+
+                      this.logger.info('### Tabs Page: loading tokenlist: ' + JSON.stringify(tokens));
+
 
                     });
                   console.log(this.loadingMessage);
@@ -82,7 +83,7 @@ export class TabsPage implements OnInit{
                   this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletPassword);
                   // get the complete wallet object
                   this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
-                  this.logger.info('### Main Page: currentWallet: ' + JSON.stringify(this.currentWalletObject));
+                  this.logger.info('### Tabs Page: currentWallet: ' + JSON.stringify(this.currentWalletObject));
 
 
 

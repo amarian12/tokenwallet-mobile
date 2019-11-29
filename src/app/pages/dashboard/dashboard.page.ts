@@ -48,16 +48,27 @@ export class DashboardPage implements OnInit {
         if(tokenList){
           this.appflow.getAllTokenBalances().subscribe(walletBalances => {
             this.walletBalances = walletBalances;
-            this.logger.debug('### HOME - Wallet Balances: ' + JSON.stringify(this.walletBalance));
+            this.logger.debug('### ***************************************************************HOME - Wallet Balances: ' + JSON.stringify(this.walletBalances));
             // this.balance = CSCUtil.dropsToCsc(this.walletBalance);
             const coinInfo = this.marketService.getCoinInfo();
             this.fiatValue  = coinInfo.price_usd ;
             this.coinSupply = coinInfo.total_supply;
             this.marketCapital = coinInfo.market_cap_usd;
             this.marketVolumeUSD = coinInfo.market_24h_volume_usd;
+            if(walletBalances){
+                walletBalances.forEach( wallet =>{
+                  if(wallet.token == 'CSC'){
+                    const balanceCSC = new Big(CSCUtil.dropsToCsc(wallet.balance));
+                    if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
+                      const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
+                      this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
+                      this.logger.debug('### **************************************************************************wallet balance: ' + wallet.balance + ' BTC: ' + this.marketService.btcPrice + ' FiatValue: ' + this.fiatValue);
+                    }
+
+                  }
+                })
+            }
           });
-
-
         }
 
       });
@@ -114,20 +125,6 @@ export class DashboardPage implements OnInit {
   }
 
 
-  // not USED???
-  doBalanceUpdate() {
-    this.appflow.getAllTokenBalances().subscribe(walletBalances => {
-      // this.balance = walletBalances;
-      this.logger.debug('### HOME - All Wallet Balances: ' + this.walletBalance);
-    });
 
-    // this.walletBalance = this.walletService.getWalletBalance('CSC') ? this.walletService.getWalletBalance('CSC') : '0';
-    const balanceCSC = new Big(this.balance);
-    if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
-      this.logger.debug('### CSC Price: ' + this.marketService.cscPrice + ' BTC: ' + this.marketService.btcPrice + ' Fiat: ' + this.marketService.coinMarketInfo.price_fiat);
-      const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
-      this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
-    }
-  }
 
 }

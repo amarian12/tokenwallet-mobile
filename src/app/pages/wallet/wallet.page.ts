@@ -206,40 +206,8 @@ export class WalletPage implements OnInit {
               }
 
                 addTokenToAccount(token, accountID) {
-                  this.logger.debug('### WalletPage: add Token to CSC account');
-                  const password = '1234567';
-                  this.walletPassword = password;
-                  const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
-
-                  if (this.walletService.checkWalletPasswordHash(this.walletPassword, walletObject.walletUUID, walletObject.passwordHash)){
-
-                    const instructions = { maxLedgerVersionOffset: 3, fee: this.fees };
-                    const trustobject = this.walletService.addTokenToAccount(token, password, accountID);
-
-
-                    this.logger.debug('### WalletPage: password OK adding Token to account');
-                    this.casinocoinService.cscAPI.prepareTrustline(accountID, trustobject.trustline, instructions).then( preparedTrust => {
-                      this.logger.debug('### Trustline Result: ' + JSON.stringify(preparedTrust));
-                      return this.casinocoinService.cscAPI.sign(preparedTrust.txJSON, trustobject.cryptKey);
-                    }).then( trustSignResult => {
-                      this.logger.debug('### Trustline Sign Result: ' + JSON.stringify(trustSignResult));
-                      return this.casinocoinService.cscAPI.submit(trustSignResult.signedTransaction);
-                    }).then( trustSubmitResult => {
-                      this.logger.debug('### Trustline Submit Result: ' + JSON.stringify(trustSubmitResult));
-                      this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
-                        if (refreshResult) {
-                          this.tokenlist = this.casinocoinService.tokenlist;
-                        }
-                      });
-                      // reset addToken, password and close dialog
-                      this.addToken = null;
-                      this.walletPassword = '';
-
-                    });
-
-                    }else{
-                      this.logger.debug('### WalletPage: addtoken password WRONG not adding account');
-                    }
+                  this.appflow.addTokenToAccount(token,accountID);
+                  
 
                 }
 

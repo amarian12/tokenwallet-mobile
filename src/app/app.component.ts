@@ -39,12 +39,19 @@ export class AppComponent {
       this.translate.setDefaultLang('es');
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.appflow.connectedStatus.subscribe(
+        connected => {
+          this.isConnected = connected;
+          this.logger.debug('### App component: connected to casinocoin::::::::::::::::: connected: '+connected);
+
+        }
+      );
 
 
     });
 
   }
   ionViewWillEnter(){
-    this.isConnected = this.appflow.connectedStatus;
+
   }
 }
