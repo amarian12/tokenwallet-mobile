@@ -80,7 +80,7 @@ export class AppflowService {
     private cscAmountPipe: CSCAmountPipe
 
   ) {
-    this.userName = this.localStorageService.get(AppConstants.KEY_BRM_USER);
+    this.userName = this.localStorageService.get(AppConstants.KEY_BRM_USER) || "";
     this.logger.debug('### Appflow: consturctor() ###');
     this.columnCount = 5;
 
@@ -322,6 +322,15 @@ export class AppflowService {
 
 
            });
+         }else{
+           if(token.Token === 'CSC'){
+             this.walletBalances.pipe(take(1)).subscribe(walletBalances => {
+               this._walletBalances.next(walletBalances.concat({token: token.Token, balance: balance, img: token.IconURL}));
+               this.logger.debug('### Appflow:  added to array even if 0 cause it is CSC :'+token.Token+" is: "+balance );
+
+
+             });
+           }
          }
 
        }else{

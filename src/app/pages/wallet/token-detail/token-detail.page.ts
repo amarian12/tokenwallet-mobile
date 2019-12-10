@@ -103,8 +103,8 @@ export class TokenDetailPage implements OnInit {
   getTotalReserved(tokenObject) {
     return Number(this.accountReserve) + (Number(tokenObject.OwnerCount) *  Number(this.reserveIncrement));
   }
-  copyAccountID(){
-    this.clipboard.copy(this.tokenAccountLoaded.AccountID);
+  copyAccountID(text){
+    this.clipboard.copy(text);
   }
   getExploreURL(){
     return  'http://testexplorer.casinocoin.org/address/' + this.tokenAccountLoaded.AccountID;

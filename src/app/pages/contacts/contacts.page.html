@@ -31,9 +31,20 @@
     </ion-card>
 
 
-  <ion-button expand="block" [routerLink]="'add-contact'">
+  <!--ion-button expand="block" [routerLink]="'add-contact'">
     {{ 'PAGES.CONTACTS.ADD-CONTACTS-BUTTON' | translate }}
-  </ion-button>
+  </ion-button-->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button [routerLink]="'add-contact'">
+      <!--i class="icon ion-ios-icon-transactions"></i-->
+      <ion-icon name="qr-scanner"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button [routerLink]="'add-contact'">
+      <!--i class="icon ion-ios-icon-transactions"></i-->
+      <ion-icon name="person-add"></ion-icon>
+    </ion-fab-button>
+
+  </ion-fab>
 </ion-content>
 
 <ion-content *ngIf="!contactsEmpty">

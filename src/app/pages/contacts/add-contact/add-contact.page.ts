@@ -38,7 +38,7 @@ export class AddContactPage implements OnInit {
       //add address in lokijs
       console.log(this.walletService.isWalletOpen);
       this.walletService.addAddress(newAddress);
-      this.router.navigate(['./contacts'], { relativeTo: this.activeRoute.parent });
+      this.router.navigate(['./tabs/contacts'], { relativeTo: this.activeRoute.parent });
     } catch (error) {
       this.logger.debug("Account ID Already added in Contacts or..."+error);
       return;

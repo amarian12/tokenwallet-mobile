@@ -119,7 +119,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-footer>
+  <!--ion-footer>
     <ion-toolbar class="ion-text-center">
       <ion-button [routerLink]="'/tabs/wallet/token-send/'+tokenAccountLoaded.PK"> {{ 'PAGES.WALLET.SEND' | translate }}</ion-button>
       <ion-button [routerLink]="'/tabs/wallet/token-receive/'+tokenAccountLoaded.PK"> {{ 'PAGES.WALLET.RECEIVE' | translate }}</ion-button>
@@ -127,6 +127,31 @@
       <ion-button (click)="copyAccountID()"> {{ 'PAGES.WALLET.ACCOUNT-COPY-CBOARD' | translate }}</ion-button>
       <ion-button [href]="getExploreURL()" *ngIf="tokenAccountLoaded.Activated" > {{ 'PAGES.WALLET.EXPLORE' | translate }}</ion-button>
     </ion-toolbar>
-  </ion-footer>
+  </ion-footer-->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button >
+      <!--i class="icon ion-ios-icon-transactions"></i-->
+      <ion-icon src="/assets/svg/casino-coin.svg"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="primary" [routerLink]="'/tabs/wallet/add-token/'+tokenAccountLoaded.AccountID" *ngIf="tokenAccountLoaded.Token === 'CSC' && tokenAccountLoaded.Activated">
+        <i  class="primary-text icon ion-md-icon-plus"></i>
+      </ion-fab-button>
+      <ion-fab-button color="primary" [routerLink]="'/tabs/wallet/token-send/'+tokenAccountLoaded.PK" >
+        <i  class="primary-text icon icon-send"></i>
+      </ion-fab-button>
+      <ion-fab-button color="primary" [routerLink]="'/tabs/wallet/token-receive/'+tokenAccountLoaded.PK" >
+        <i class="icon icon-receive" ></i>
+      </ion-fab-button>
+      <ion-fab-button color="primary" [href]="getExploreURL()" *ngIf="tokenAccountLoaded.Activated">
+        <ion-icon name="search"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="primary" (click)="copyAccountID()">
+        <ion-icon name="copy"></ion-icon>
+      </ion-fab-button>
+
+
+    </ion-fab-list>
+  </ion-fab>
 
 </ion-content>
