@@ -28,10 +28,10 @@
       <form #userform="ngForm" (ngSubmit)="onSubmit(userform)" [mustMatch]="['pincode', 'pincodeconfirm']" novalidate>
         <ion-row>
           <ion-col size-sm="6" offset-sm="3">
-            <ion-item >
+            <!--ion-item >
               <ion-label position="floating">{{'PAGES.SETUP.STEP3-NAME' | translate }}</ion-label>
               <ion-input autoFocus ngModel #nctl="ngModel" clearInput required name="name" type="text" inputmode="text" ></ion-input>
-            </ion-item>
+            </ion-item-->
             <ion-item >
               <ion-label position="floating">{{'PAGES.SETUP.STEP3-EMAIL' | translate }}</ion-label>
               <ion-input autoFocus ngModel #ectl="ngModel" clearInput required name="email" type="email" inputmode="email" email></ion-input>

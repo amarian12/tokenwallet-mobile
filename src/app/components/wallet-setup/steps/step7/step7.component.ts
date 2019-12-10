@@ -149,7 +149,7 @@ export class Step7Component implements OnInit {
           this.localStorageService.set(AppConstants.KEY_BACKUP_LOCATION, this.walletService.walletSetup.backupLocation);
           this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, !this.walletService.walletSetup.testNetwork);
           this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.walletService.walletSetup.walletPasswordHash);
-          this.localStorageService.set(AppConstants.KEY_BRM_USER, this.walletService.walletSetup.userName);
+          // this.localStorageService.set(AppConstants.KEY_BRM_USER, this.walletService.walletSetup.userName);
           this.localStorageService.set(AppConstants.KEY_SETUP_COMPLETED, true);
           // set session data
           this.sessionStorageService.set(AppConstants.KEY_CURRENT_WALLET, walletDefinition);

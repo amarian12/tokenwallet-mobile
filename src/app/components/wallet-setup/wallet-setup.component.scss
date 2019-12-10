@@ -4,8 +4,12 @@ ion-slides div{
 }
 
 ion-slides{
-background: url(/assets/bg/image_pin_720x1480_.jpg) center bottom ;
-background-size: cover;
-min-height: 100%;
+  background: url(/assets/bg/image_pin_720x1480_.jpg) center bottom ;
+  background-size: cover;
+  min-height: 100%;
+  display: flex;
 
+}
+ion-card {
+    min-height: 80vh;
 }

@@ -41,7 +41,7 @@ export class Step3Component implements OnInit {
         this.userFormIsValid = true;
         this.walletService.walletSetup.userEmail = form.form.value.email;
         this.walletService.walletSetup.userPassword = form.form.value.pincode;
-        this.walletService.walletSetup.userName = form.form.value.name;
+        // this.walletService.walletSetup.userName = form.form.value.name;
         this.logger.debug('### Wallet setup updated:');
         console.log(this.walletService);
         this.swipeNext();
