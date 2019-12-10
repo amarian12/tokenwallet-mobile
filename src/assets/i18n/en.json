@@ -26,11 +26,11 @@
 			"24H-VOLUME": "24 Hour Volume",
 			"BALANCES-TITLE": "Wallet balances",
 			"COININFO": "Coin Information",
-			"EST-COIN-VALUE": "Estimated coin value",
+			"EST-COIN-VALUE": "Estimated CSC value",
 			"ESTIMATED-CAP": "Estimated market capital",
 			"TITLE": "Dashboard",
 			"TOKEN-BALANCE": "Balance",
-			"TOTAL-COIN-SUPPLY": "Total Coin supply"
+			"TOTAL-COIN-SUPPLY": "Total CSC supply"
 		},
 		"EXCHANGES": {
 			"BUY": "Buy",
@@ -111,7 +111,28 @@
 			"TITLE-INSTRUCTIONS": "Paper Wallet Instructions"
 		},
 		"SETTINGS": {
-			"TITLE": "Settings"
+			"TITLE": "Settings",
+			"LANGUAGE":"Language",
+			"OS-DETECTED":"System settings",
+			"LANGUAGES":{
+					"EN":"English",
+					"ES":"Spanish",
+					"FR":"French",
+					"DE":"German"
+			},
+			"SETTINGS-SAVED":"Your settings were updated correctly",
+			"NAME":"Display name",
+			"NAME-ENTER":"Enter your prefered display name or discord handle",
+			"DISPLAY-MODE":"Display theme",
+			"THEMES":{
+				"LIGHT":"Light theme",
+				"DARK":"Dark theme"
+
+			},
+			"DISPLAY-MODE-ENTER":"Select your prefered theme",
+
+			"SAVE-SETTINGS":"Save changes",
+			"DISCARD-SETTINGS":"Discard changes"
 		},
 		"SETUP": {
 			"BTN-CONTINUE": "Continue",
@@ -155,6 +176,7 @@
 			"STEP5-REMINDER-HEADER": "Warning!!",
 			"STEP5-REMINDER-MESSAGE": "In case you lose access to your wallet or your password, it can be recovered using the Recovery Passphrase and the Email Address you used creating the wallet. Please write down the shown words in the exact order as they appear, together with your email address on a piece of paper or otherwise and keep it safe.",
 			"STEP5-REMINDER-SUBHEADER": "Please read carefully",
+			"STEP5-TITLE": "Wallet Recovery Passphrase",
 			"STEP5-SUBTITLE": "remember to make your copy.",
 			"STEP6-SUBTITLE": "Please enter the requested words",
 			"STEP6-TITLE": "Wallet Recovery Passphrase Check",

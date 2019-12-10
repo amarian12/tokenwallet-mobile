@@ -24,6 +24,7 @@ const routes: Routes = [
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
+  { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   // { path: 'history-detail', loadChildren: './pages/history/history-detail/history-detail.module#HistoryDetailPageModule' },
   // { path: 'add-contact', loadChildren: './pages/contacts/add-contact/add-contact.module#AddContactPageModule' },
   // { path: 'contact-detail', loadChildren: './pages/contacts/contact-detail/contact-detail.module#ContactDetailPageModule' },

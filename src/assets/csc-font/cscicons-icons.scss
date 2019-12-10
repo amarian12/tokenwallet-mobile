@@ -88,18 +88,24 @@
 .icon-tag:before {
   content: "\e909";
 }
+*/
 .icon-text:before {
   content: "\e90a";
 }
+/*
 .icon-search:before {
   content: "\e907";
 }
 .icon-list-numbered:before {
   content: "\e900";
 }
+*/
+
 .icon-book:before {
+  @extend .csc-icons-general;
   content: "\e000";
 }
+/*
 .icon-globe:before {
   content: "\e001";
 }
