@@ -34,7 +34,7 @@
             </ion-item-->
             <ion-item >
               <ion-label position="floating">{{'PAGES.SETUP.STEP3-EMAIL' | translate }}</ion-label>
-              <ion-input autoFocus ngModel #ectl="ngModel" clearInput required name="email" type="email" inputmode="email" email></ion-input>
+              <ion-input ngModel #ectl="ngModel" clearInput required name="email" type="email" inputmode="email" email></ion-input>
             </ion-item>
             <ion-item *ngIf="ectl.invalid && ectl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-EMAIL' | translate }}</small></ion-item>
             <ion-item >
