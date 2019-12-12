@@ -184,6 +184,9 @@ export interface WalletDefinition {
 export interface WalletSettings {
     showNotifications: boolean;
     fiatCurrency: string;
+    walletUser: string;
+    walletLanguage: string;
+    styleTheme: string;
 }
 
 export interface LedgerStreamMessages {

@@ -23,7 +23,7 @@
       <ion-label position="floating">
       {{ 'PAGES.SETTINGS.NAME' | translate }}
       </ion-label>
-      <ion-input type="text" name="contactname" [(ngModel)]="contactName" >
+      <ion-input type="text" name="contactname" [(ngModel)]="walletSettings.walletUser" >
 
       </ion-input>
     </ion-item>
@@ -33,8 +33,23 @@
       </ion-note>
     </ion-item-divider>
     <ion-item>
+      <ion-label>{{ 'PAGES.SETTINGS.CURRENCY' | translate }}</ion-label>
+      <ion-select value="USD" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.fiatCurrency">
+        <ion-select-option value="USD">{{ 'PAGES.SETTINGS.CURRENCIES.USD' | translate }}</ion-select-option>
+        <ion-select-option value="EUR">{{ 'PAGES.SETTINGS.CURRENCIES.EUR' | translate }}</ion-select-option>
+        <ion-select-option value="GBP">{{ 'PAGES.SETTINGS.CURRENCIES.GBP' | translate }}</ion-select-option>
+        <ion-select-option value="JPY">{{ 'PAGES.SETTINGS.CURRENCIES.JPY' | translate }}</ion-select-option>
+        <ion-select-option value="CAD">{{ 'PAGES.SETTINGS.CURRENCIES.CAD' | translate }}</ion-select-option>
+        <ion-select-option value="AUD">{{ 'PAGES.SETTINGS.CURRENCIES.AUD' | translate }}</ion-select-option>
+        <ion-select-option value="BRL">{{ 'PAGES.SETTINGS.CURRENCIES.BRL' | translate }}</ion-select-option>
+        <ion-select-option value="CHF">{{ 'PAGES.SETTINGS.CURRENCIES.CHF' | translate }}</ion-select-option>
+        <ion-select-option value="NZD">{{ 'PAGES.SETTINGS.CURRENCIES.NZD' | translate }}</ion-select-option>
+        <ion-select-option value="RUB">{{ 'PAGES.SETTINGS.CURRENCIES.RUB' | translate }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.LANGUAGE' | translate }}</ion-label>
-      <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+      <ion-select value="en" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.walletLanguage">
         <ion-select-option value="en">{{ 'PAGES.SETTINGS.LANGUAGES.EN' | translate }}</ion-select-option>
         <ion-select-option value="es">{{ 'PAGES.SETTINGS.LANGUAGES.ES' | translate }}</ion-select-option>
         <ion-select-option value="de">{{ 'PAGES.SETTINGS.LANGUAGES.DE' | translate }}</ion-select-option>
@@ -43,7 +58,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.DISPLAY-MODE' | translate }}</ion-label>
-      <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+      <ion-select value="light" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.styleTheme">
         <ion-select-option value="light">{{ 'PAGES.SETTINGS.THEMES.LIGHT' | translate }}</ion-select-option>
         <ion-select-option value="dark">{{ 'PAGES.SETTINGS.THEMES.DARK' | translate }}</ion-select-option>
 
@@ -55,10 +70,10 @@
         {{ 'PAGES.SETTINGS.DISPLAY-MODE-ENTER' | translate }}
       </ion-note>
     </ion-item-divider>
-  
+
 
   </ion-list>
-  <ion-button type="submit" expand="block" (click)="addContact() " >
+  <ion-button type="submit" expand="block" (click)="saveSettings() " >
     {{ 'PAGES.SETTINGS.SAVE-SETTINGS' | translate }}
 
   </ion-button>

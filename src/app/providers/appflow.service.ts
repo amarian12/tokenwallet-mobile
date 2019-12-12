@@ -8,7 +8,7 @@ import { AppConstants } from '../domains/app-constants';
 import { CasinocoinService } from './casinocoin.service';
 import { WalletService } from './wallet.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
-import { LedgerStreamMessages, TokenType, Payment, WalletDefinition } from '../domains/csc-types';
+import { LedgerStreamMessages, TokenType, Payment, WalletDefinition, WalletSettings } from '../domains/csc-types';
 import Big from 'big.js';
 
 @Injectable({
@@ -22,6 +22,14 @@ export class AppflowService {
   private _walletBalances = new BehaviorSubject<any[]>([]);
   private _connectedStatus = new BehaviorSubject<boolean>(false);
   // private tokenlist:Array<TokenType>;
+
+  walletSettings: WalletSettings = {
+    showNotifications: false,
+    fiatCurrency: 'USD',
+    walletUser: "",
+    walletLanguage: "en",
+    styleTheme:"light"
+  };
   columnCount: number;
   isLoading: boolean;
   ledgers: LedgerStreamMessages[] = [];
@@ -80,7 +88,20 @@ export class AppflowService {
     private cscAmountPipe: CSCAmountPipe
 
   ) {
-    this.userName = this.localStorageService.get(AppConstants.KEY_BRM_USER) || "";
+    // load wallet settings
+    this.walletSettings = this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
+    if (this.walletSettings == null){
+      // settings do not exist yet so create
+      this.walletSettings = {
+        showNotifications: false,
+        fiatCurrency: 'USD',
+        walletUser: "",
+        walletLanguage: "en",
+        styleTheme:"light"
+      };
+      this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
+    }
+    this.userName = this.walletSettings.walletUser || "";
     this.logger.debug('### Appflow: consturctor() ###');
     this.columnCount = 5;
 
@@ -244,6 +265,9 @@ export class AppflowService {
        return transactionParams.reserveIncrement;
      }));
 
+   }
+   saveWalletSettings(settings:WalletSettings){
+     this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, settings);
    }
    getTokenConsolidatedBalance(token){
      return this.walletBalances.pipe(take(1),map(walletBalances => {
