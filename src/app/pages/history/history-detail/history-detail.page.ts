@@ -6,6 +6,7 @@ import { LogService } from '../../../providers/log.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { WalletService } from '../../../providers/wallet.service';
 import { AppConstants } from '../../../domains/app-constants';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 @Component({
   selector: 'app-history-detail',
@@ -19,6 +20,7 @@ export class HistoryDetailPage implements OnInit {
   constructor(
     private walletService: WalletService,
     private activatedRoute: ActivatedRoute,
+    private clipboard: Clipboard,
     private casinocoinService: CasinocoinService,
     private sessionStorageService: SessionStorageService,
     private localStorageService: LocalStorageService,
@@ -72,5 +74,8 @@ export class HistoryDetailPage implements OnInit {
 
       }
     });
+  }
+  copyAccountID(text){
+    this.clipboard.copy(text);
   }
 }

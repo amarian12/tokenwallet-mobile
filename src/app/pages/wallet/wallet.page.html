@@ -82,20 +82,21 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
     <ion-fab-button >
       <!--i class="icon ion-ios-icon-transactions"></i-->
-      <ion-icon src="/assets/svg/casino-coin.svg"></ion-icon>
+      <i  class="white-text icon-big icon-chip" ></i>
+      <!--ion-icon src="/assets/svg/casino-coin.svg"></ion-icon-->
     </ion-fab-button>
     <ion-fab-list side="top">
       <!--ion-fab-button color="primary" >
         <i  class="primary-text icon icon-banknote"></i>
       </ion-fab-button-->
-      <ion-fab-button color="primary" >
-        <i  class="primary-text icon ion-md-icon-plus" (click) = "presentActionSheet()"></i>
+      <ion-fab-button color="primary" (click) = "presentActionSheet()">
+        <i  class="primary-text icon ion-md-icon-plus" ></i>
       </ion-fab-button>
       <ion-fab-button color="primary" [routerLink]="'token-send'" >
         <i  class="primary-text icon icon-send"></i>
       </ion-fab-button>
-      <ion-fab-button color="primary" >
-        <i class="icon icon-receive" [routerLink]="'token-receive'"></i>
+      <ion-fab-button color="primary" [routerLink]="'token-receive'" >
+        <i class="icon icon-receive" ></i>
       </ion-fab-button>
       <!--ion-fab-button color="primary" >
         <i class="icon icon-chip"></i>

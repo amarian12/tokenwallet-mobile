@@ -196,7 +196,7 @@ export class LoginPage implements OnInit {
                        this.walletService.openWallet(this.selectedWallet.walletUUID);
                        this.router.navigate(['/']);
 
-                       
+
 
                        this.error_message = '';
 
@@ -206,6 +206,7 @@ export class LoginPage implements OnInit {
                        this.error_message = 'You entered an invalid PIN. Please retry!';
                    }
                    if(this.error_message  == ""){
+                     this.loading.dismiss();
                      return;
                    }else {
                      this.loading.dismiss();

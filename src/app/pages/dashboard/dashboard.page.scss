@@ -1,4 +1,10 @@
 
 .balances{
-  min-height: 45vh;
+  max-height: 45vh;
+  overflow: scroll;
+}
+ion-footer {
+    position: fixed;
+    bottom: 0px;
+
 }
