@@ -23,7 +23,7 @@
       <ion-label position="floating">
       {{ 'PAGES.CONTACTS.ADD-CONTACTS-NAME-LABEL' | translate }}
       </ion-label>
-      <ion-input type="text" name="contactname" [(ngModel)]="contactName">
+      <ion-input type="text" required name="contactname" [(ngModel)]="contact.label">
 
       </ion-input>
     </ion-item>
@@ -32,10 +32,11 @@
         {{ 'PAGES.CONTACTS.ADD-CONTACTS-ACCOUNT-LABEL' | translate }}
 
       </ion-label>
-      <ion-input type="text" name="accountid" [(ngModel)]="accountID">
+      <ion-input type="text" required name="accountid" [(ngModel)]="contact.accountID" minlength="25"
+        maxlength="35">
 
       </ion-input>
-      <ion-button slot="end">
+      <ion-button slot="end" (click)="scanQRCode()">
         {{ 'PAGES.CONTACTS.ADD-CONTACTS-SCAN-BTN' | translate }}
       </ion-button>
     </ion-item>
@@ -43,7 +44,7 @@
       <ion-label position="floating">
         {{ 'PAGES.CONTACTS.ADD-CONTACTS-DESTINATION-TAG-LABEL' | translate }}
       </ion-label>
-      <ion-input type="number" name="destination-tag">
+      <ion-input type="number" name="destination-tag" [(ngModel)]="contact.destinationTag">
 
       </ion-input>
     </ion-item>
@@ -52,7 +53,7 @@
         {{ 'PAGES.CONTACTS.ADD-CONTACTS-NOTES-LABEL' | translate }}
 
       </ion-label>
-      <ion-input type="text">
+      <ion-input type="text" name="notes" [(ngModel)]="contact.notes">
 
       </ion-input>
     </ion-item>

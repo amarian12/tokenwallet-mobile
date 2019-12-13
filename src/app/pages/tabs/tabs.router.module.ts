@@ -89,6 +89,11 @@ const routes: Routes = [
             path: 'add-contact',
             loadChildren: () =>
               import('../contacts/add-contact/add-contact.module').then(m => m.AddContactPageModule)
+          },
+          {
+            path: 'add-contact/:action',
+            loadChildren: () =>
+              import('../contacts/add-contact/add-contact.module').then(m => m.AddContactPageModule)
           }
         ]
       },

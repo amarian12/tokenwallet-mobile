@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
 import { LogService } from '../../../providers/log.service';
 // import { LokiTransaction } from '../../../domains/csc-types';
@@ -28,6 +29,7 @@ balanceToSend: any;
   constructor(
     private walletService: WalletService,
     private activatedRoute: ActivatedRoute,
+    private nav: NavController,
     private casinocoinService: CasinocoinService,
     private sessionStorageService: SessionStorageService,
     private localStorageService: LocalStorageService,
@@ -99,7 +101,7 @@ balanceToSend: any;
     const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
     if (this.walletService.checkWalletPasswordHash(password, walletObject.walletUUID, walletObject.passwordHash)) {
       // check the destination account id
-      if (this.casinocoinService.cscAPI.isValidAddress(value.from.trim())) {
+      if (this.casinocoinService.isValidAccountID(value.from.trim())) {
         if (!isNaN(value.amount)) {
           // get the account secret for the CSC account
           const accountKey = this.walletService.getKey(this.tokenAccountLoaded.AccountID);
@@ -142,6 +144,7 @@ balanceToSend: any;
             return this.casinocoinService.cscAPI.submit(signResult.signedTransaction);
           }).then( submitResult => {
             this.logger.debug('### Submit Result: ' + JSON.stringify(submitResult));
+            this.nav.navigateBack("/tabs/wallet");
             // this.sendForm.reset();
           }).catch( error => {
             this.logger.debug('### ERROR: ' + JSON.stringify(error));
@@ -165,6 +168,9 @@ balanceToSend: any;
     //   this.renderer.selectRootElement('#float-input-password').value = '';
     //   this.renderer.selectRootElement('#float-input-password').focus();
     }
+  }
+  onCancel(){
+    this.nav.navigateBack("/tabs/wallet");
   }
 
 }

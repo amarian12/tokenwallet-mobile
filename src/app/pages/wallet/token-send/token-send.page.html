@@ -5,6 +5,7 @@
         <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
         <i class="icon-logo icon-chip"></i>
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
+          
       </ion-buttons>
       <ion-buttons slot="start">
         <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
@@ -126,7 +127,7 @@
        {{ 'PAGES.WALLET.SENDTOKEN' | translate }}
 
     </ion-button>
-    <ion-button routerLink="/tabs/wallet" expand="block" >
+    <ion-button (click)="onCancel()" expand="block" >
        {{ 'PAGES.WALLET.CANCEL' | translate }}
 
     </ion-button>

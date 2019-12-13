@@ -113,12 +113,25 @@
 		"SETTINGS": {
 			"TITLE": "Settings",
 			"LANGUAGE":"Language",
+			"CURRENCY":"Currency",
 			"OS-DETECTED":"System settings",
 			"LANGUAGES":{
 					"EN":"English",
 					"ES":"Spanish",
 					"FR":"French",
 					"DE":"German"
+			},
+			"CURRENCIES":{
+				"USD":"USD",
+				"EUR":"EUR",
+				"GBP":"GBP",
+				"JPY":"JPY",
+				"CAD":"CAD",
+				"AUD":"AUD",
+				"BRL":"BRL",
+				"CHF":"CHF",
+				"NZD":"NZD",
+				"RUB":"RUB"
 			},
 			"SETTINGS-SAVED":"Your settings were updated correctly",
 			"NAME":"Display name",

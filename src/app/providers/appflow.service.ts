@@ -4,8 +4,11 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, take, filter, map } from 'rxjs/operators';
 import { CSCAmountPipe } from '../domains/csc.pipes';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { AppConstants } from '../domains/app-constants';
 import { CasinocoinService } from './casinocoin.service';
+import { CSCUtil } from '../domains/csc-util';
+import { CSCURI } from '../domains/csc-types';
 import { WalletService } from './wallet.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { LedgerStreamMessages, TokenType, Payment, WalletDefinition, WalletSettings } from '../domains/csc-types';
@@ -78,16 +81,32 @@ export class AppflowService {
 
   showEditAccountLabel = false;
   accountLabel = '';
+  barcodeScannerOptions: BarcodeScannerOptions;
 
   constructor(
     private logger: LogService,
     private localStorageService: LocalStorageService,
+    private barcodeScanner: BarcodeScanner,
     private sessionStorageService: SessionStorageService,
     private casinocoinService: CasinocoinService,
     private walletService: WalletService,
     private cscAmountPipe: CSCAmountPipe
 
   ) {
+    // barcodeScanner options
+
+    // this.barcodeScannerOptions = {
+    //      preferFrontCamera : true, // iOS and Android
+    //      showFlipCameraButton : true, // iOS and Android
+    //      showTorchButton : true, // iOS and Android
+    //      torchOn: false, // Android, launch with the torch switched on (if available)
+    //      prompt : "Scan a QR with Account info", // Android
+    //      resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+    //      formats : "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED
+    //      orientation : "portrait", // Android only (portrait|landscape), default unset so it rotates with the device
+    //      disableAnimations : true, // iOS
+    //      disableSuccessBeep: false // iOS and Android
+    //  };
     // load wallet settings
     this.walletSettings = this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
     if (this.walletSettings == null){
@@ -327,7 +346,19 @@ export class AppflowService {
        }
    }
 
-
+   async scanQRCode(){
+     // Scan CasinoCoin QRCode
+     const result = await this.barcodeScanner.scan().then((barcodeData) => {
+       this.logger.debug('### SEND - QR Scanned: ' + JSON.stringify(barcodeData));
+       const cscUri: CSCURI = CSCUtil.decodeCSCQRCodeURI(barcodeData.text);
+       return cscUri;
+     }, (err) => {
+       // An error occurred
+       this.logger.error('### SEND QR Error: ' + JSON.stringify(err));
+       return err;
+     });
+     return result;
+   }
    updateBalance(tokenlist){
      var tokenArray =[];
      tokenlist.forEach( token => {

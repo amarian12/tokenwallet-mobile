@@ -78,6 +78,8 @@ export interface LokiAddress {
     $loki?: number;
     meta?: LokiMeta;
     accountID: string;
+    destinationTag: number;
+    notes: string;
     label: string;
     owner: boolean;
 }

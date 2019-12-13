@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { CSCURI } from '../../domains/csc-types';
 import { CSCUtil } from '../../domains/csc-util';
 import { LokiAddress, LokiAccount } from '../../domains/lokijs';
 import { LogService } from '../../providers/log.service';
+import { AppflowService } from '../../providers/appflow.service';
 import { AppConstants } from '../../domains/app-constants';
 import { WalletService } from '../../providers/wallet.service';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
@@ -22,6 +22,8 @@ export class ContactsPage implements OnInit {
   constructor(
     private logger: LogService,
     private walletService: WalletService,
+    private appflow: AppflowService,
+    private clipboard: Clipboard,
     private alert: AlertController
   ) { }
 
@@ -75,6 +77,10 @@ export class ContactsPage implements OnInit {
 
     }
 
+  }
+
+  copyAccountID(text){
+    this.clipboard.copy(text);
   }
   onDeleteContact(accountID){
     this.alert.create({

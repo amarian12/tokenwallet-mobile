@@ -692,7 +692,9 @@ export class CasinocoinService implements OnDestroy {
         this.walletService.addTransaction(dbTX);
         return dbTX;
     }
-
+    isValidAccountID(accountID){
+       return this.cscAPI.isValidAddress(accountID);
+    }
     handlePayment(tx) {
         this.logger.debug('### CasinocoinService - handlePayment: ' + JSON.stringify(tx));
         if (tx.engine_result === 'tesSUCCESS') {
