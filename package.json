@@ -1,9 +1,9 @@
 {
-  "name": "@casinocoin/token-wallet-mobile",
-  "version": "0.0.1",
-  "description": "CSC and token wallet for mobile",
+  "name": "@casinocoin/tokenwallet-mobile",
+  "version": "0.0.6",
+  "description": "CSC and Token wallet for mobile",
   "author": "CasinoCoin Foundation",
-  "homepage": "http://www.casinocoin.org/",
+  "homepage": "https://casinocoin.org/",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
