@@ -6,6 +6,7 @@ import { LokiAddress } from '../../../domains/lokijs';
 import { LogService } from '../../../providers/log.service';
 import { AppflowService } from '../../../providers/appflow.service';
 import { WalletService } from '../../../providers/wallet.service';
+import { CasinocoinService } from '../../../providers/casinocoin.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class AddContactPage implements OnInit {
       private appflow: AppflowService,
       private logger: LogService,
       private walletService: WalletService,
+      private casinocoinService: CasinocoinService,
       private activeRoute: ActivatedRoute,
       private router: Router
   ) { }
@@ -87,8 +89,14 @@ export class AddContactPage implements OnInit {
     try {
       //add address in lokijs
       console.log(this.walletService.isWalletOpen);
-      this.walletService.addAddress(this.contact);
-      this.router.navigate(['./tabs/contacts'], { relativeTo: this.activeRoute.parent });
+      if(this.casinocoinService.isValidAccountID(this.contact.accountID)){
+        this.walletService.addAddress(this.contact);
+        this.logger.debug("Contact added Successfully");
+        this.router.navigate(['./tabs/contacts'], { relativeTo: this.activeRoute.parent });
+      }else{
+        this.logger.debug("This is not a valid account ID. Please check it and try again");
+
+      }
     } catch (error) {
       this.logger.debug("Account ID Already added in Contacts or..."+error);
       return;

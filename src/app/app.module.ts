@@ -23,6 +23,7 @@ import { WalletService } from './providers/wallet.service';
 import { NotificationService } from './providers/notification.service';
 import { MarketService } from './providers/market.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 import { IonicModule, IonicRouteStrategy, Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -99,6 +100,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MenuController,
     NotificationService,
     BarcodeScanner,
+    SocialSharing,
     MarketService,
     LocalStorageService,
     SessionStorageService,
