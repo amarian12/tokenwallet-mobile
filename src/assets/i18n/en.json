@@ -264,7 +264,9 @@
 			"TOACCOUNT": "To account",
 			"TOKEN": "Token",
 			"TX": "TX",
-			"UPDATEQR": "update QR code"
+			"UPDATEQR": "update QR code",
+			"SHAREQR": "share QR code",
+			"SHARESTRING": "share account ID string"
 		}
 	}
 }

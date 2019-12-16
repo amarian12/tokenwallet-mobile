@@ -154,6 +154,7 @@ export class AppflowService {
               if (finished) {
                 this.tokenlist.pipe(take(1)).subscribe(tokenlist => {
                   this._tokenlist.next(this.casinocoinService.tokenlist);
+                  
 
 
                 });
