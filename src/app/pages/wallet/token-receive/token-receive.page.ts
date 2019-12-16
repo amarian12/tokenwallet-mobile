@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
 import { TokenType } from '../../../domains/csc-types';
 import { LogService } from '../../../providers/log.service';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-token-receive',
@@ -20,6 +21,7 @@ export class TokenReceivePage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private social: SocialSharing,
     private casinocoinService: CasinocoinService,
     private logger: LogService
   ) { }
@@ -54,7 +56,7 @@ export class TokenReceivePage implements OnInit {
 
             }
           });
-          
+
         }
         // this.cscReceiveURI = CSCUtil.generateCSCQRCodeURI({ address: this.accountID });
 
@@ -64,6 +66,11 @@ export class TokenReceivePage implements OnInit {
       }
     });
   }
+  shareAccountID(){
+     this.logger.debug("### Share: " + this.tokenAccountLoaded.AccountID +" and token: "+this.tokenAccountLoaded.Token  );
+     this.social.share("CasinoCoin "+this.tokenAccountLoaded.Token+" AccountID: " + this.tokenAccountLoaded.AccountID, "CasinoCoin BRM Account");
+  }
+
   updateQRCode() {
     const uriObject = {
       address: this.tokenAccountLoaded.AccountID,
