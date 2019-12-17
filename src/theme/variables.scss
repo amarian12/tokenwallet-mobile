@@ -4,7 +4,7 @@
 /** Ionic CSS Variables **/
 
   :root {
-    --ion-font-family: Europa-Bold, Europa-Regular;
+    --ion-font-family: Europa-Regular, Europa-Bold;
     --ion-color-primary: #be0a09;
     --ion-color-primary-rgb: 190,10,9;
     --ion-color-primary-contrast: #ffffff;
@@ -68,7 +68,12 @@
     --ion-color-light-shade: #d9dadd;
     --ion-color-light-tint: #f8f9fb;
   }
-
+  :root[mode=md] {
+     --ion-font-family: Europa-Regular, Europa-Bold;
+   }
+   :root[mode=ios] {
+     --ion-font-family: Europa-Regular, Europa-Bold;
+   }
   /*
    * App Theme
    * ----------------------------------------------------------------------------
@@ -83,7 +88,7 @@
    */
 
   .dark-theme {
-    --ion-font-family: Europa-Bold, Europa-Regular;
+    --ion-font-family:  Europa-Regular, Europa-Bold;
     --ion-color-primary: #be0a09;
     --ion-color-primary-rgb: 190,10,9;
     --ion-color-primary-contrast: #ffffff;

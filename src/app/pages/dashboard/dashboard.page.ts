@@ -23,7 +23,7 @@ export class DashboardPage implements OnInit {
   walletBalance: string;
   balance: string;
   walletBalances: any[];
-  fiat_balance: string;
+  fiat_balance = "0" ;
   fiatValue = '0.00';
   coinSupply = '40000000000';
   marketCapital = '0.00';
@@ -41,37 +41,50 @@ export class DashboardPage implements OnInit {
              ) { }
 
   ngOnInit() {
+    this.appflow.getAllTokenBalances().subscribe(walletBalances => {
+      this.walletBalances = walletBalances;
+      this.logger.debug('### ***************************************************************HOME - Wallet Balances: ' + JSON.stringify(this.walletBalances));
+      // this.balance = CSCUtil.dropsToCsc(this.walletBalance);
+      this.marketService.updateCoinInfo();
+      const coinInfo = this.marketService.getCoinInfo();
+      this.logger.debug('### ***************************************************************HOME - Wallet coinInfo: ' + JSON.stringify(coinInfo));
+      if(coinInfo){
+        this.fiatValue  = coinInfo.price_usd ;
+        this.coinSupply = coinInfo.total_supply;
+        this.marketCapital = coinInfo.market_cap_usd;
+        this.marketVolumeUSD = coinInfo.market_24h_volume_usd;
+      }
+      if(walletBalances){
+          walletBalances.forEach( wallet =>{
+            if(wallet.token == 'CSC'){
+              const balanceCSC = new Big(CSCUtil.dropsToCsc(wallet.balance));
+              if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
+                const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
+                this.balance = balanceCSC.toString();
+                this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
+                this.logger.debug('### **************************************************************************wallet balance: ' + wallet.balance + ' BTC: ' + this.marketService.btcPrice + ' FiatValue: ' + this.fiatValue);
+              }
+
+            }
+          })
+      }
+    });
     this.appflow.tokenlist.subscribe(
       tokenList => {
         // this.tokenlist = tokenList;
-        this.appflow.updateBalance(tokenList);
+       // this.appflow.updateBalance(tokenList);
+       this.logger.debug('### ************************************************************************** tokenlist updated!!! token list is:'+JSON.stringify(tokenList));
         if(tokenList){
-          this.appflow.getAllTokenBalances().subscribe(walletBalances => {
-            this.walletBalances = walletBalances;
-            this.logger.debug('### ***************************************************************HOME - Wallet Balances: ' + JSON.stringify(this.walletBalances));
-            // this.balance = CSCUtil.dropsToCsc(this.walletBalance);
-            const coinInfo = this.marketService.getCoinInfo();
-            this.fiatValue  = coinInfo.price_usd ;
-            this.coinSupply = coinInfo.total_supply;
-            this.marketCapital = coinInfo.market_cap_usd;
-            this.marketVolumeUSD = coinInfo.market_24h_volume_usd;
-            if(walletBalances){
-                walletBalances.forEach( wallet =>{
-                  if(wallet.token == 'CSC'){
-                    const balanceCSC = new Big(CSCUtil.dropsToCsc(wallet.balance));
-                    if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
-                      const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
-                      this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
-                      this.logger.debug('### **************************************************************************wallet balance: ' + wallet.balance + ' BTC: ' + this.marketService.btcPrice + ' FiatValue: ' + this.fiatValue);
-                    }
 
-                  }
-                })
-            }
-          });
+          this.appflow.updateBalance(tokenList);
         }
 
       });
+      this.casinocoinService.transactionSubject.subscribe(
+        tx => {
+          this.logger.debug('### ************************************************************************** tx updated!!! token list is:'+this.casinocoinService.tokenlist);
+          this.appflow.updateBalance(this.casinocoinService.tokenlist);
+        });
 
     // get the complete wallet object
     // this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);

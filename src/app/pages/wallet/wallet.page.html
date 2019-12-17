@@ -47,7 +47,7 @@
       </ion-item-divider-->
 
       <ion-item-sliding *ngFor="let token of tokenlist">
-        <ion-item routerDirection="forward" [routerLink]="'/tabs/wallet/'+token.PK">
+        <ion-item routerDirection="forward" [routerLink]="'/tabs/wallet/'+token.PK" *ngIf="token.Token == filterToken || filterToken == 'ALL'">
           <ion-avatar slot="start">
             <img [src]="token.IconURL" >
           </ion-avatar>

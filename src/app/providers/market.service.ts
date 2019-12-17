@@ -51,7 +51,7 @@ export class MarketService {
             const thishour = Math.floor(Date.now() / 900000);
 
             if( thishour > lastupdated){
-              this.logger.debug("### MarketService - updating states :  lastupdated: " + lastupdated);
+              this.logger.debug("### MarketService - updating states :  lastupdated: " + lastupdated +" thishour "+ thishour);
               this.localStorageService.set(AppConstants.KEY_LAST_UPDATED_COININFO,thishour);
               this.updateCoinInfo();
 
@@ -68,14 +68,14 @@ export class MarketService {
 
     changeCurrency(currency) {
         this.fiatCurrency = currency;
-        this.getCoinInfo();
+        this.updateCoinInfo();
     }
 
     getCoinInfo():CoinMarketCapType {
-        return this.localStorageService.set(AppConstants.KEY_COININFO, this.coinMarketInfo)
+        return this.localStorageService.get(AppConstants.KEY_COININFO);
     }
 
-    updateCoinInfo(): Observable<CoinMarketCapType> {
+    updateCoinInfo(){
         let options = {
             headers: new HttpHeaders().set('Content-Type', 'application/json')
         };
@@ -84,7 +84,7 @@ export class MarketService {
             // this.exchangesURL = "/coinmarketCapURLBTCApi";
             this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC);
         }
-        let serviceResponse = new Subject<CoinMarketCapType>();
+        // let serviceResponse = new Subject<CoinMarketCapType>();
         this.http.get(this.coinmarketCapURLCSC + "?convert=" + this.fiatCurrency, options).subscribe(result => {
             this.logger.debug("### MarketService: " + JSON.stringify(result));
             let coinInfo = result[0];
@@ -105,8 +105,9 @@ export class MarketService {
                 }
                 // store in localstorage
                 this.localStorageService.set(AppConstants.KEY_COININFO, this.coinMarketInfo);
+                this.logger.debug("### KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK   MarketService - Recorded new coininfo: " + JSON.stringify(this.coinMarketInfo));
                 // put onto subject
-                serviceResponse.next(this.coinMarketInfo);
+                // serviceResponse.next(this.coinMarketInfo);
             }
         });
         // this.http.get(this.coinmarketCapURLBTC, options).subscribe(result => {
@@ -115,7 +116,7 @@ export class MarketService {
         //         this.btcPrice = Number(coinInfo.price_usd);
         //     }
         // });
-        return serviceResponse.asObservable();
+        // return serviceResponse.asObservable();
     }
 
     getExchanges() {

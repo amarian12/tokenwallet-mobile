@@ -154,7 +154,10 @@ export class AppflowService {
               if (finished) {
                 this.tokenlist.pipe(take(1)).subscribe(tokenlist => {
                   this._tokenlist.next(this.casinocoinService.tokenlist);
-                  
+                  this.logger.debug('### Appflow: TokenList Refresh: new tokenlist: '+JSON.stringify(this.casinocoinService.tokenlist));
+                  this._walletBalances.pipe(take(1)).subscribe(wallet =>{
+                       this.updateBalance(this.casinocoinService.tokenlist);
+                  });
 
 
                 });
@@ -361,52 +364,33 @@ export class AppflowService {
      return result;
    }
    updateBalance(tokenlist){
-     var tokenArray =[];
-     tokenlist.forEach( token => {
+      this.walletBalances.pipe(take(1)).subscribe(walletBalances => {
+        var tokenArray = walletBalances ? walletBalances : [];
+        this.logger.debug('### Appflow: We will update general balances :'+ JSON.stringify(walletBalances));
+        tokenlist.forEach( token => {
+          var balance = this.walletService.getWalletBalance(token.Token) ? this.walletService.getWalletBalance(token.Token) : "0";
+          if(parseInt(balance) > 0 || token.Token === 'CSC'){
+              if(tokenArray.findIndex( object => object.token === token.Token ) < 0 ){
+                var i = tokenArray.findIndex( object => object.token === token.Token );
+                this.logger.debug('### Appflow: adding balance for token:'+token.Token);
+                tokenArray.push({token:token.Token,balance:balance,img:token.IconURL});
 
-       this.logger.debug('### Appflow: We will update general balances');
-       if(!tokenArray.includes(token.Token)){
-         this.logger.debug('### Appflow: adding balance for token:'+token.Token);
-         tokenArray.push(token.Token);
-         var balance = this.walletService.getWalletBalance(token.Token) ? this.walletService.getWalletBalance(token.Token) : "0";
-         this.logger.debug('### Appflow:  balance reported for token:'+token.Token+" is: "+balance );
+              }else{
+                var i = tokenArray.findIndex( object => object.token === token.Token );
+                tokenArray[i].balance = balance;
+                this.logger.debug('### Appflow:  updated on array cause we found balance:'+token.Token+" is: "+balance );
 
-         if(parseInt(balance) > 0){
-           this.walletBalances.pipe(take(1)).subscribe(walletBalances => {
-             this._walletBalances.next(walletBalances.concat({token: token.Token, balance: balance, img: token.IconURL}));
-             this.logger.debug('### Appflow:  added to array cause we found balance:'+token.Token+" is: "+balance );
+              }
+          }
 
+          this._walletBalances.next(tokenArray);
+          this.logger.debug('### Appflow:  updated with a new balance array:'+JSON.stringify(tokenArray)+" is: "+balance );
 
-           });
-         }else{
-           if(token.Token === 'CSC'){
-             this.walletBalances.pipe(take(1)).subscribe(walletBalances => {
-               this._walletBalances.next(walletBalances.concat({token: token.Token, balance: balance, img: token.IconURL}));
-               this.logger.debug('### Appflow:  added to array even if 0 cause it is CSC :'+token.Token+" is: "+balance );
-
-
-             });
-           }
-         }
-
-       }else{
-         var balance = this.walletService.getWalletBalance(token.Token) ? this.walletService.getWalletBalance(token.Token) : "0";
-         if(parseInt(balance) > 0){
-           this.walletBalances.pipe(take(1)).subscribe(walletBalances => {
-             var i = walletBalances.findIndex( object => object.token === token.Token );
-             walletBalances[i].balance = balance;
-             this._walletBalances.next(walletBalances);
-             this.logger.debug('### Appflow:  updated on array cause we found balance:'+token.Token+" is: "+balance );
+        });
 
 
-           });
-         }
-       }
+      });
 
-
-
-
-     });
    }
 
 }

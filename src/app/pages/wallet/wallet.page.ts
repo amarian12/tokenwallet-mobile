@@ -33,6 +33,7 @@ export class WalletPage implements OnInit {
   amount: string;
   fees: string;
   accountReserve: string;
+  filterToken = "ALL";
   reserveIncrement: string;
   walletPassword: string;
   showPasswordDialog: boolean;
@@ -202,12 +203,23 @@ export class WalletPage implements OnInit {
                       const accountID = paramMap.get('toAccount');
                       this.onAddToken(accountID);
                     }
+                    if(!paramMap.has('filterToken')){
+                      this.filterToken = 'ALL';
+                      console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS NOT FOUND FILTER:::::: ", this.filterToken);
+
+                      return;
+                    }else{
+                      this.filterToken = paramMap.get('filterToken');
+                      console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS FOUND FILTER:::::: ", this.filterToken);
+
+                    }
+
                 });
               }
 
                 addTokenToAccount(token, accountID) {
                   this.appflow.addTokenToAccount(token,accountID);
-                  
+
 
                 }
 

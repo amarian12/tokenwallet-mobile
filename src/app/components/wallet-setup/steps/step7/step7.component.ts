@@ -168,7 +168,7 @@ export class Step7Component implements OnInit {
       this.setupFinished = false;
       this.translate.get('PAGES.SETUP.STEP7-STATUS-FINALIZING').subscribe((res: string) => {
         this.statusMessage = res;
-        const finishTimer = timer(1000);
+        const finishTimer = timer(100);
         finishTimer.subscribe(val => this.finishSetup());
       });
 
