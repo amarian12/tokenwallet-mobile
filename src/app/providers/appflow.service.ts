@@ -196,19 +196,24 @@ export class AppflowService {
     this.walletService.openWalletSubject.subscribe( result => {
       if (result === AppConstants.KEY_LOADED) {
         // get the main CSC AccountID
-        this.mainCSCAccountID = this.walletService.getMainAccount().accountID;
-        // get all CSC accounts for add token dropdown
-        this.walletService.getAllAccounts().forEach( element => {
-          if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
-             const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
-                                this.cscAmountPipe.transform(element.balance, false, true) + ']';
-            this.cscaccounts.pipe(take(1)).subscribe(cscaccounts => {
-              this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
+        if( this.localStorageService.get(AppConstants.KEY_SETUP_COMPLETED)){
+          this.mainCSCAccountID = this.walletService.getMainAccount().accountID;
+          // this.logger.debug('### Appflow: cscmain account resulted in this '+ this.mainCSCAccount);
+          // get all CSC accounts for add token dropdown
+          this.walletService.getAllAccounts().forEach( element => {
+            if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
+               const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
+                                  this.cscAmountPipe.transform(element.balance, false, true) + ']';
+              this.cscaccounts.pipe(take(1)).subscribe(cscaccounts => {
+                this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
 
-            });
-            // this.cscAccounts.push({label: accountLabel, value: element.accountID});
-          }
-        });
+              });
+              // this.cscAccounts.push({label: accountLabel, value: element.accountID});
+            }
+          });
+
+        }
+
         // subscribe to account updates
         this.casinocoinService.accountSubject.subscribe( account => {
           this.transactionParams.pipe(take(1)).subscribe(transactionParams => {

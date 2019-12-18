@@ -25,7 +25,17 @@
         </ion-label>
       </ion-item-divider-->
 
+        <ion-card *ngIf="transactions.length < 1">
+          <ion-card-header>
+            <ion-card-title color="primary"> History is empty </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              You don't have any transaction yet.
+            </ion-text>
+          </ion-card-content>
 
+        </ion-card>
         <ion-item *ngFor="let transaction of transactions" detail [routerLink]="'/tabs/history/'+transaction.txID">
           <ion-avatar slot="start">
             <ion-img [src]="getTokenURL(transaction)" >

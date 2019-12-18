@@ -33,7 +33,7 @@ export class WalletPage implements OnInit {
   amount: string;
   fees: string;
   accountReserve: string;
-  filterToken = "ALL";
+  filterToken = "100";
   reserveIncrement: string;
   walletPassword: string;
   showPasswordDialog: boolean;
@@ -147,6 +147,14 @@ export class WalletPage implements OnInit {
                   //   this.renderer.selectRootElement('#float-input-password').focus();
                   // }
                 }
+                filterFunction(token){
+                  if(token.Token == this.filterToken.toUpperCase() || this.filterToken.toUpperCase() == 'ALL'){
+                    return true;
+
+                  }else{
+                    return false;
+                  }
+                }
                 onAddToken(accountID){
                     var accountsAval = {};
                     if(accountID !== "1" ){
@@ -198,7 +206,7 @@ export class WalletPage implements OnInit {
                     if(!paramMap.has('toAccount')){
                       //redirect
 
-                      return;
+
                     }else{
                       const accountID = paramMap.get('toAccount');
                       this.onAddToken(accountID);
@@ -207,7 +215,7 @@ export class WalletPage implements OnInit {
                       this.filterToken = 'ALL';
                       console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS NOT FOUND FILTER:::::: ", this.filterToken);
 
-                      return;
+
                     }else{
                       this.filterToken = paramMap.get('filterToken');
                       console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS FOUND FILTER:::::: ", this.filterToken);
@@ -216,6 +224,7 @@ export class WalletPage implements OnInit {
 
                 });
               }
+
 
                 addTokenToAccount(token, accountID) {
                   this.appflow.addTokenToAccount(token,accountID);

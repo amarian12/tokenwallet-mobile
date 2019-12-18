@@ -82,7 +82,7 @@ export class DashboardPage implements OnInit {
       });
       this.casinocoinService.transactionSubject.subscribe(
         tx => {
-          this.logger.debug('### ************************************************************************** tx updated!!! token list is:'+this.casinocoinService.tokenlist);
+          this.logger.debug('### ************************************************************************** tx updated!!! token list is:'+JSON.stringify(this.casinocoinService.tokenlist));
           this.appflow.updateBalance(this.casinocoinService.tokenlist);
         });
 

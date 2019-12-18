@@ -1,10 +1,23 @@
 
 .balances{
-  max-height: 45vh;
+  max-height: 55vh;
   overflow: scroll;
 }
 ion-footer {
     position: fixed;
+    max-height: 35vh;
     bottom: 0px;
 
+}
+.balances ion-card-content{
+  padding-left: 0;
+}
+.balances ion-card-header{
+  padding: 0;
+}
+.balances ion-card-title{
+  font-size: 3vh;
+}
+.balances ion-card-subtitle{
+  font-size: 2vh;
 }

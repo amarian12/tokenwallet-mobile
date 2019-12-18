@@ -47,7 +47,7 @@
       </ion-item-divider-->
 
       <ion-item-sliding *ngFor="let token of tokenlist">
-        <ion-item routerDirection="forward" [routerLink]="'/tabs/wallet/'+token.PK" *ngIf="token.Token == filterToken || filterToken == 'ALL'">
+        <ion-item routerDirection="forward" [routerLink]="'/tabs/wallet/'+token.PK" *ngIf="filterFunction(token)">
           <ion-avatar slot="start">
             <img [src]="token.IconURL" >
           </ion-avatar>
@@ -80,15 +80,15 @@
     </ion-item-group>
   </ion-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
-    <ion-fab-button >
+    <ion-fab-button (click) = "presentActionSheet()">
       <!--i class="icon ion-ios-icon-transactions"></i-->
       <i  class="white-text icon-big icon-chip" ></i>
       <!--ion-icon src="/assets/svg/casino-coin.svg"></ion-icon-->
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <!--ion-fab-button color="primary" >
+    <!--ion-fab-list side="top">
+      <ion-fab-button color="primary" >
         <i  class="primary-text icon icon-banknote"></i>
-      </ion-fab-button-->
+      </ion-fab-button>
       <ion-fab-button color="primary" (click) = "presentActionSheet()">
         <i  class="primary-text icon ion-md-icon-plus" ></i>
       </ion-fab-button>
@@ -98,10 +98,10 @@
       <ion-fab-button color="primary" [routerLink]="'token-receive'" >
         <i class="icon icon-receive" ></i>
       </ion-fab-button>
-      <!--ion-fab-button color="primary" >
+      <ion-fab-button color="primary" >
         <i class="icon icon-chip"></i>
-      </ion-fab-button-->
+      </ion-fab-button>
 
-    </ion-fab-list>
+    </ion-fab-list-->
   </ion-fab>
 </ion-content>
