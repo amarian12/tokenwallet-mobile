@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LogService } from './providers/log.service';
 import { AppflowService } from './providers/appflow.service';
+import { WalletService } from './providers/wallet.service';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -17,9 +18,11 @@ export class AppComponent {
   dark = false;
   userName = "";
   isConnected = false;
+    versionNumber:string;
 
   constructor(
     private appflow: AppflowService,
+    private walletService: WalletService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private translate: TranslateService,
@@ -27,6 +30,7 @@ export class AppComponent {
     private statusBar: StatusBar
   ) {
     this.initializeApp();
+
   }
 
   initializeApp() {
@@ -35,6 +39,7 @@ export class AppComponent {
       this.logger.debug('### App initialized::::::::::::::');
       // debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');
+      this.versionNumber = this.walletService.appVersionString;
       this.userName = this.appflow.userName;
       this.translate.setDefaultLang('en');
       this.statusBar.styleDefault();

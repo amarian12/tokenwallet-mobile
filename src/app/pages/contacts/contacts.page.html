@@ -15,8 +15,9 @@
 
 
 <ion-content >
-
-    <ion-card *ngIf="contactsEmpty">
+<ion-list *ngIf="contactsEmpty">
+  <ion-item-group>
+    <ion-card >
       <ion-card-header>
         <ion-card-title color="primary">
           {{ 'PAGES.CONTACTS.NO-CONTACTS' | translate }}
@@ -26,9 +27,10 @@
         <ion-text>
           {{ 'PAGES.CONTACTS.NO-CONTACTS-MESSAGE' | translate }}
         </ion-text >
-
       </ion-card-content>
     </ion-card>
+  </ion-item-group>
+</ion-list>
 
 
 

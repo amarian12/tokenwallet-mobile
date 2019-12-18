@@ -133,6 +133,9 @@
             <ion-toggle [(ngModel)]="dark"></ion-toggle>
           </ion-item>
         </ion-list>
+        <ion-item-divider>
+          <p> {{ 'PAGES.ABOUT.VERSIONTITLE' | translate }}{{versionNumber}} {{ 'PAGES.ABOUT.VERSIONMESSAGE' | translate }}</p>
+        </ion-item-divider>
       </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
