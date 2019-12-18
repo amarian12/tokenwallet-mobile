@@ -67,41 +67,52 @@
           <ion-badge *ngIf="!token.Activated" color="danger" slot="end"><ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon></ion-badge>
         </ion-item>
         <ion-item-options>
-          <ion-item-option color="success" [routerLink]="'token-send/'+token?.PK " >
-            {{ 'PAGES.WALLET.SEND' | translate }} <i class="icon icon-send"></i>
+          <ion-item-option color="tertiary" [routerLink]="'token-send/'+token?.PK " >
+             <i class="icon icon-send" slot="icon-only"></i>
+          </ion-item-option>
+          <ion-item-option color="primary" [routerLink]="'token-receive/'+token?.PK ">
+             <i class="icon icon-receive" slot="icon-only" ></i>
+
+          </ion-item-option>
+          <ion-item-option color="secondary" [routerLink]="'token-receive/'+token?.PK ">
+             <ion-icon name="copy" slot="icon-only" ></ion-icon >
+
+          </ion-item-option>
+          <!--ion-item-option color="success" [routerLink]="'token-send/'+token?.PK " >
+            {{ 'PAGES.WALLET.SEND' | translate }} <i class="icon icon-send" slot="icon"></i>
           </ion-item-option>
           <ion-item-option color="secondary" [routerLink]="'token-receive/'+token?.PK ">
             {{ 'PAGES.WALLET.RECEIVE' | translate }} <i class="icon icon-receive"  ></i>
 
-          </ion-item-option>
+          </ion-item-option-->
         </ion-item-options>
       </ion-item-sliding>
+      <ion-item-divider lines="none"></ion-item-divider>
 
     </ion-item-group>
   </ion-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
-    <ion-fab-button (click) = "presentActionSheet()">
+    <ion-fab-button >
       <!--i class="icon ion-ios-icon-transactions"></i-->
       <i  class="white-text icon-big icon-chip" ></i>
       <!--ion-icon src="/assets/svg/casino-coin.svg"></ion-icon-->
     </ion-fab-button>
-    <!--ion-fab-list side="top">
+    <ion-fab-list side="top">
       <ion-fab-button color="primary" >
         <i  class="primary-text icon icon-banknote"></i>
       </ion-fab-button>
-      <ion-fab-button color="primary" (click) = "presentActionSheet()">
+      <ion-fab-button color="primary" (click) = "onAddToken()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="primary" (click) = "addCSCAccount()">
+
         <i  class="primary-text icon ion-md-icon-plus" ></i>
-      </ion-fab-button>
-      <ion-fab-button color="primary" [routerLink]="'token-send'" >
-        <i  class="primary-text icon icon-send"></i>
-      </ion-fab-button>
-      <ion-fab-button color="primary" [routerLink]="'token-receive'" >
-        <i class="icon icon-receive" ></i>
+
       </ion-fab-button>
       <ion-fab-button color="primary" >
         <i class="icon icon-chip"></i>
       </ion-fab-button>
 
-    </ion-fab-list-->
+    </ion-fab-list>
   </ion-fab>
 </ion-content>
