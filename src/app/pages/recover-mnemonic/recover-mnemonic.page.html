@@ -1,0 +1,88 @@
+<ion-content fullscreen>
+  <ion-card class="setup">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-label color="primary" class="ion-text-wrap">
+              {{ 'PAGES.RECOVER.TITLE' | translate }}
+        </ion-label>
+      </ion-card-title>
+      <ion-card-subtitle>
+        <ion-label class="ion-text-wrap">
+              {{ 'PAGES.RECOVER.INTRO' | translate }}
+        </ion-label>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" class="ion-no-margin ion-no-padding">
+            <ion-list lines="none"class="ion-no-margin ion-no-padding" >
+              <ion-item *ngFor="let odd of [1,3,5,7,9,11]; let i=index" class="ion-no-margin ion-no-padding">
+                <ion-badge color="light" slot="start">{{(i+1)*2-1}}</ion-badge>
+                <ion-input  [tabIndex]="odd" required [name]= "'word'+odd" [type]="text" ngModel [(ngModel)]= "words[odd]"></ion-input>
+                </ion-item>
+            </ion-list>
+          </ion-col>
+          <ion-col size="6" class="ion-no-margin ion-no-padding" >
+            <ion-list lines="none" class="ion-no-margin ion-no-padding">
+              <ion-item *ngFor="let even of [2,4,6,8,10,12]; let i=index"  class="ion-no-margin ion-no-padding">
+                <ion-badge color="light" slot="start">{{(i+1)*2}}</ion-badge>
+                <ion-input  [tabIndex]="even" required [name]= "'word'+even" [type]="text" ngModel [(ngModel)]= "words[even]"></ion-input>
+                </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-list>
+              <ion-item >
+                <ion-label position="stacked">{{ 'PAGES.RECOVER.EMAIL' | translate }}</ion-label>
+                <ion-input [tabIndex]="'13'" required type="email" value="{{userEmail}}" ></ion-input>
+              </ion-item>
+              <ion-item >
+                <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN' | translate }}</ion-label>
+                <ion-input [tabIndex]="'14'" required  type="password" minlength="6" maxlength="6"  ></ion-input>
+              </ion-item>
+              <ion-item >
+                <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN-CONFIRM' | translate }}</ion-label>
+                <ion-input [tabIndex]="'15'" required  type="password" minlength="6" maxlength="6"  ></ion-input>
+              </ion-item>
+            </ion-list>
+          </ion-col >
+            <ion-col size="6">
+              <ion-list>
+                  <ion-radio-group [tabIndex]="'16'">
+                    <ion-list-header>
+                      <ion-label>{{ 'PAGES.RECOVER.NETWORK.CHOICE' | translate }}</ion-label>
+                    </ion-list-header>
+
+                    <ion-item>
+                      <ion-label>{{ 'PAGES.RECOVER.NETWORK.LIVE' | translate }}</ion-label>
+                      <ion-radio  slot="start" value="live" checked></ion-radio>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label>{{ 'PAGES.RECOVER.NETWORK.TEST' | translate }}</ion-label>
+                      <ion-radio slot="start" value="test"></ion-radio>
+                    </ion-item>
+                  </ion-radio-group>
+                </ion-list>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+
+        </ion-row>
+
+        <ion-row>
+          <ion-col offset="1" size="4" >
+            <ion-button [tabIndex]="'17'" (click)="cancel()" color="medium"> {{ 'PAGES.RECOVER.CANCEL-BTN' | translate }}</ion-button>
+          </ion-col>
+          <ion-col size="7">
+            <ion-button [tabIndex]="'18'" (click)="recover()"> {{ 'PAGES.RECOVER.RECOVER-BTN' | translate }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

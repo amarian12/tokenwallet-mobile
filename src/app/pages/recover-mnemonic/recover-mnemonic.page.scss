@@ -1,0 +1,11 @@
+ion-content{
+  --background: url(/assets/bg/image_pin_720x1480_.jpg) center bottom ;
+  background-size: cover;
+  min-height: 100%;
+  display: flex;
+
+}
+ion-card{
+  margin: 20px;
+  --background: #fff;
+}

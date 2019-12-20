@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener, NgZone } from '@angular/core';
 import { LogService } from '../../../../providers/log.service';
 import { WalletService } from '../../../../providers/wallet.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { CSCCrypto } from '../../../../domains/csc-crypto';
 import { SessionStorageService, LocalStorageService } from 'ngx-store';
@@ -35,7 +36,10 @@ export class Step1Component implements OnInit {
     private logger: LogService,
     private walletService: WalletService,
     private zone: NgZone,
+    private route: ActivatedRoute,
+    private router: Router,
     private localStorageService: LocalStorageService
+
   ) { }
 
   ngOnInit() {
@@ -65,7 +69,7 @@ export class Step1Component implements OnInit {
     this.walletService.walletSetup.walletUUID = UUID.UUID();
     // set backup location
 
-    // this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
+     this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
     this.logger.debug('### WalletSetup: ' + JSON.stringify(this.walletService.walletSetup));
   }
   startSlider() {
@@ -76,5 +80,8 @@ export class Step1Component implements OnInit {
          this.initialize();
        }
       });
+  }
+  goToRestore(){
+      this.router.navigate(['/recover-mnemonic']);
   }
 }
