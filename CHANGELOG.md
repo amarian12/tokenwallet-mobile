@@ -1,4 +1,4 @@
-## 0.1.0 (2019-11-11)
+## 0.0.6 (2019-11-11)
 
  *  new README new CHANGELOG ([ab27410] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/ab27410)
  *  adding custom config ([4d6f191] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/4d6f191))
@@ -32,3 +32,9 @@
  *  testing vmany methods for creating a fast graphic interface ([bc13e6d] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/bc13e6d))
  *  initial state ([982ce5c] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/982ce5c))
  *  Initial commit ([a742feb] (https://github.com/t3nshi/casinocoin-token-wallet-mobile/commit/a742feb))
+
+## 0.0.7 (2019-12-07)
+
+## 0.0.8 (2019-12-16)
+
+## 0.0. (2019-12-21)
