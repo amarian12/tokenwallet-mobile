@@ -68,8 +68,8 @@ export class Step1Component implements OnInit {
     // generate wallet UUID
     this.walletService.walletSetup.walletUUID = UUID.UUID();
     // set backup location
+    // this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
 
-     this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
     this.logger.debug('### WalletSetup: ' + JSON.stringify(this.walletService.walletSetup));
   }
   startSlider() {
