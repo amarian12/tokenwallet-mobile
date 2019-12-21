@@ -5,6 +5,7 @@ import { LocalStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
 import { CSCCrypto } from '../../domains/csc-crypto';
 import { AppConstants } from '../../domains/app-constants';
+import { ModalController, AlertController } from '@ionic/angular';
 import { LogService } from '../../providers/log.service';
 import { BehaviorSubject } from 'rxjs';
 import { CasinocoinService } from '../../providers/casinocoin.service';
@@ -52,6 +53,7 @@ export class RecoverMnemonicPage implements OnInit {
   constructor(  private logger: LogService,
                 private route: ActivatedRoute,
                 private router: Router,
+                private alert: AlertController,
                 private walletService: WalletService,
                 private casinocoinService: CasinocoinService,
                 private localStorageService: LocalStorageService
@@ -278,6 +280,25 @@ removeUndefined(obj: Object): Object {
                                 this.localStorageService.set(AppConstants.KEY_WALLET_LOCATION, this.walletService.walletSetup.walletLocation);
                                 this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.walletService.walletSetup.walletPasswordHash);
                                 this.localStorageService.set(AppConstants.KEY_SETUP_COMPLETED, true);
+                                this.alert.create({
+
+                                header: 'recover finished',
+                                message: resultMessage,
+                                buttons: [
+                                 {
+                                    text: 'ok',
+                                    handler: () => {
+                                      cscSubscription.unsubscribe();
+                                      this.casinocoinService.disconnect();
+                                      this.router.navigate(['login']);
+
+
+                                    }
+                                  }
+                                ]
+                              }).then( alert =>  {
+                                  alert.present();
+                                });
                             }
 
                         }
