@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LogService } from '../../providers/log.service';
 import { WalletService } from '../../providers/wallet.service';
+import { AppflowService } from '../../providers/appflow.service';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { timer, Subscription } from 'rxjs';
 import { CSCUtil } from '../../domains/csc-util';
@@ -55,6 +56,7 @@ export class LoginPage implements OnInit {
       private alertCtrl: AlertController,
       private statusBar: StatusBar,
       private walletService: WalletService,
+      private appflow: AppflowService,
       private datePipe: DatePipe,
       private translate: TranslateService,
       private decimalPipe: DecimalPipe,
@@ -102,7 +104,17 @@ export class LoginPage implements OnInit {
     this.displayCustomPin = true;
   }
   forgotPin(){
+    this.router.navigate(['/wallet-setup']);
+  }
+  ionViewWillEnter(){
+    if(this.appflow.loggedIn){
+      this.displayCustomPin = true;
+      // this.loginEntry = false;
+    }else{
+      this.displayCustomPin = false;
+      // this.loginEntry = true;
 
+    }
   }
   verifyPinAndLogin(decryptedPIN) {
 
@@ -148,8 +160,8 @@ export class LoginPage implements OnInit {
   handlePinInput(pin:string){
     this.enteredPinCode += pin;
     this.logger.debug("##### Log in Page: Entered PIN: "+ this.enteredPinCode);
-    if (this.enteredPinCode.length === 7) {
-      this.logger.debug("##### HOLAAAAAA ");
+    if (this.enteredPinCode.length === 6) {
+      this.logger.debug("##### Log in Page: Validate PIN ");
       this.validatePincode();
     }
   }
@@ -158,7 +170,7 @@ export class LoginPage implements OnInit {
     this.logger.debug("##### Log in Page: Entered PIN: "+ this.enteredPinCode);
   }
   validatePincode() {
-    if(this.enteredPinCode.length === 7){
+    if(this.enteredPinCode.length === 6){
       // this.pinCodeViewChild.setBlur();
       // this.loader = this.loader.create({spinner: 'crescent', content: 'Validating PIN', duration: 60000});
       this.loading
@@ -194,6 +206,10 @@ export class LoginPage implements OnInit {
                        this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.selectedWallet.passwordHash);
 
                        this.walletService.openWallet(this.selectedWallet.walletUUID);
+                       this.appflow.authCorrect = true;
+                       // if(!this.appflow.loggedIn){
+                       //   this.appflow.loggedIn = true;
+                       // }
                        this.router.navigate(['/']);
 
 

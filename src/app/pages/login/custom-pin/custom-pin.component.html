@@ -1,45 +1,61 @@
-<ion-content >
+
+
+<ion-content fullscreen>
   <ion-grid class="intro" *ngIf="!loginEntry" >
 		<ion-row class="intro-logo">
-			<ion-img src="assets/svg/logo_icon.svg" ></ion-img>
+
+      <ion-col  size="2" offset="5" class="ion-text-center">
+        <ion-img src="assets/svg/logo_icon.svg" ></ion-img>
+      </ion-col>
 		</ion-row>
     <ion-row>
-      <ion-col>
-        <ion-label color="primary"> Enter your PIN <br>
+      <ion-col class="ion-text-center">
+        <ion-label color="primary"> CasinoCoin<br>
+          <ion-text color="primary">Enter you PIN</ion-text>
         </ion-label>
       </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-row *ngIf="loginEntry">
+    		<ion-item>
+    		<ion-button type="number" class="mask-text" >login</ion-button>
+    		<ion-text color="light" class="ion-text-center" (click)="forgotPin()">Forgot PIN Code?</ion-text>
+    		</ion-item>
+    	</ion-row>
     </ion-row>
 	</ion-grid>
 
 
-  <ion-footer>
+  <ion-footer >
     <ion-grid class="ion-text-center">
       <ion-row>
-        <ion-col size="2" >
+        <ion-col size="3" >
 
         </ion-col>
         <ion-col size="1" *ngIf="enteredPinCode.length > 0">
-          <ion-icon color="primary" name="checkmark-circle" ></ion-icon>
+          <ion-icon color="primary" name="square" ></ion-icon>
         </ion-col>
         <ion-col size="1" *ngIf="enteredPinCode.length > 1">
-          <ion-icon color="primary" name="checkmark-circle"></ion-icon>
+          <ion-icon color="primary" name="square"></ion-icon>
         </ion-col>
         <ion-col size="1" *ngIf="enteredPinCode.length > 2">
-          <ion-icon color="primary" name="checkmark-circle"></ion-icon>
+          <ion-icon color="primary" name="square"></ion-icon>
         </ion-col>
         <ion-col size="1" *ngIf="enteredPinCode.length > 3">
-          <ion-icon color="primary" name="checkmark-circle"></ion-icon>
+          <ion-icon color="primary" name="square"></ion-icon>
         </ion-col>
         <ion-col size="1" *ngIf="enteredPinCode.length > 4">
-          <ion-icon color="primary" name="checkmark-circle"></ion-icon>
+          <ion-icon color="primary" name="square"></ion-icon>
         </ion-col>
         <ion-col size="1" *ngIf="enteredPinCode.length > 5">
-          <ion-icon color="primary" name="checkmark-circle"></ion-icon>
+          <ion-icon color="primary" name="square"></ion-icon>
         </ion-col>
-        <ion-col size="1" *ngIf="enteredPinCode.length > 6">
-          <ion-icon color="primary" name="checkmark-circle"></ion-icon>
-        </ion-col>
-        <ion-col size="2" >
+        <!--ion-col size="1" *ngIf="enteredPinCode.length > 6">
+          <ion-icon color="primary" name="square"></ion-icon>
+        </ion-col-->
+        <ion-col size="3" >
           <!-- simple divider --->
         </ion-col>
       </ion-row>

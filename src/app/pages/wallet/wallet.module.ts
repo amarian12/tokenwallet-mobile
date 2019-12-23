@@ -10,6 +10,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { WalletPage } from './wallet.page';
 import { AddTokenComponent } from './add-token/add-token.component';
+import { CustomPinComponent } from '../login/custom-pin/custom-pin.component';
 
 const routes: Routes = [
   {
@@ -27,13 +28,14 @@ const routes: Routes = [
     TranslateModule.forChild(),
     RouterModule.forChild(routes)
   ],
-  declarations: [WalletPage, AddTokenComponent],
+  declarations: [WalletPage, AddTokenComponent,CustomPinComponent],
   providers: [
     DecimalPipe,
     CurrencyPipe
   ],
   entryComponents:[
-    AddTokenComponent
+    AddTokenComponent,
+    CustomPinComponent
   ]
 })
 export class WalletPageModule {}

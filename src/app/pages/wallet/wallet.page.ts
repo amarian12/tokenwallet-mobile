@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AddTokenComponent } from './add-token/add-token.component';
+import { CustomPinComponent } from '../login/custom-pin/custom-pin.component';
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
 import { MarketService } from '../../providers/market.service';
@@ -32,6 +33,7 @@ export class WalletPage implements OnInit {
   description: string;
   amount: string;
   fees: string;
+  txResult: string;
   accountReserve: string;
   filterToken = "100";
   reserveIncrement: string;
@@ -183,8 +185,35 @@ export class WalletPage implements OnInit {
                           }
                         });
                 }
+                onValidateTx(transaction){
+
+
+                    console.log("cscAccounts: ",this.cscAccounts);
+                    console.log("tokens: ",this.availableTokenlist);
+                    this.modal
+                    .create({
+                      component: CustomPinComponent,
+                      componentProps: {
+                        transaction:transaction
+                    }}).then(
+                      customPinModal => {
+                        customPinModal.present();
+                        return customPinModal.onDidDismiss();
+                      }).then(
+                        resultData => {
+                          if(resultData.role === "txResult"){
+                            this.logger.debug("#### wallet: txREsult: " + JSON.stringify(resultData.data))
+                            // this.addTokenToAccount(resultData.data.token,resultData.data.account)
+                          }
+                        });
+                }
                 addCSCAccount(){
                   this.logger.debug('### WalletPage: add CSC account');
+                 this.onValidateTx("addCSCAccount").then(
+                   result => {
+                     console.log(result);
+                   }
+                 );
                   const password = '1234567';
                   this.walletPassword = password;
                   const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
@@ -203,6 +232,8 @@ export class WalletPage implements OnInit {
                 }
                 ionViewWillEnter(){
                   this.activatedRoute.paramMap.subscribe(paramMap => {
+
+
                     if(!paramMap.has('toAccount')){
                       //redirect
 
@@ -220,6 +251,10 @@ export class WalletPage implements OnInit {
                       this.filterToken = paramMap.get('filterToken');
                       console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS FOUND FILTER:::::: ", this.filterToken);
 
+                    }
+                    if(!paramMap.has('result')){
+                      this.txResult = paramMap.get('filterToken');
+                      console.log("@@@@@@@@@@@@@@@@@@@@    RESULT ", this.txResult);
                     }
 
                 });

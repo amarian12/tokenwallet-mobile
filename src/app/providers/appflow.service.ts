@@ -44,7 +44,8 @@ export class AppflowService {
   reserveIncrement: string;
   walletPassword: string;
   showPasswordDialog: boolean;
-  loggedIn: true;
+  loggedIn = false;
+  authCorrect = false;
   showLedgerDialog: boolean;
   showAddTokenDialog: boolean;
   showAddCSCDialog: boolean;
