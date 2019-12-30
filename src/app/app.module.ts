@@ -3,6 +3,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { CustomPinComponent } from './pages/login/custom-pin/custom-pin.component';
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -60,9 +61,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     // Step6Component,
     // Step7Component,
 
+    CustomPinComponent,
     AppComponent
   ],
-  entryComponents: [],
+  entryComponents:[
+    CustomPinComponent
+  ],
   imports: [
     WalletSetupModule,
     BrowserModule,

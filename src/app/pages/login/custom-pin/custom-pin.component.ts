@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LogService } from '../../../providers/log.service';
 import { WalletService } from '../../../providers/wallet.service';
-import { AppflowService } from '../../../providers/appflow.service';
 import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 import { timer, Subscription } from 'rxjs';
 import { CSCUtil } from '../../../domains/csc-util';
@@ -21,6 +20,8 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 })
 export class CustomPinComponent implements OnInit {
 
+  @Input()  transaction: string;
+  @Input()  actionMessage: string;
   selectedWallet: WalletDefinition;
   walletPassword: string;
   walletCreationDate: string;
@@ -57,7 +58,6 @@ export class CustomPinComponent implements OnInit {
       private alertCtrl: AlertController,
       private statusBar: StatusBar,
       private walletService: WalletService,
-      private appflow: AppflowService,
       private datePipe: DatePipe,
       private modal: ModalController,
       private translate: TranslateService,
@@ -71,7 +71,7 @@ export class CustomPinComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.logger.debug('### LoginComponent onInit');
+    this.logger.debug('### %%%%%%%%%%%%%%%%%Custom PIN page  onInit');
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     // get available wallets (we switched to a single wallet for WLT wallet)
@@ -79,19 +79,6 @@ export class CustomPinComponent implements OnInit {
     if (this.availableWallets === null) {
         this.selectedWallet = { walletUUID: '', creationDate: -1, location: '', mnemonicHash: '', network: '', passwordHash: '', userEmail: ''};
         this.router.navigate(['/wallet-setup']);
-    } else if (this.availableWallets.length >= 1) {
-        this.logger.debug('### LOGIN Wallet Count: ' + this.availableWallets.length);
-        for (let i = 0; i < this.availableWallets.length; i++) {
-            this.logger.debug('### LOGIN Wallet: ' + JSON.stringify(this.availableWallets[i]));
-            let walletLabel = this.availableWallets[i]['walletUUID'].substring(0, 12);
-            const creationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.availableWallets[i]['creationDate']));
-            walletLabel = walletLabel + '... [Created: ' + this.datePipe.transform(creationDate, 'yyyy-MM-dd') + ']';
-            if (this.availableWallets[i]['network']) {
-                walletLabel = walletLabel + ' ' + this.availableWallets[i]['network'];
-            }
-            this.logger.debug('### LOGIN Wallet Label: ' + walletLabel);
-            this.wallets.push({label: walletLabel, value: this.availableWallets[i]['walletUUID']});
-        }
     }
     // set first wallet as selected
     this.selectedWallet = this.availableWallets[0];
@@ -109,14 +96,7 @@ export class CustomPinComponent implements OnInit {
     this.router.navigate(['/wallet-setup']);
   }
   ionViewWillEnter(){
-    if(this.appflow.loggedIn){
-      this.displayCustomPin = true;
-      // this.loginEntry = false;
-    }else{
-      this.displayCustomPin = false;
-      // this.loginEntry = true;
 
-    }
   }
   verifyPinAndLogin(decryptedPIN) {
 
@@ -171,7 +151,7 @@ export class CustomPinComponent implements OnInit {
     this.enteredPinCode = this.enteredPinCode.substring(0, this.enteredPinCode.length - 1);
     this.logger.debug("##### Log in Page: Entered PIN: "+ this.enteredPinCode);
   }
-  validatePincode() {
+  async validatePincode() {
     if(this.enteredPinCode.length === 6){
       // this.pinCodeViewChild.setBlur();
       // this.loader = this.loader.create({spinner: 'crescent', content: 'Validating PIN', duration: 60000});
@@ -195,24 +175,9 @@ export class CustomPinComponent implements OnInit {
                    this.logger.debug('### LoginComponent - Check Wallet Password ###');
                    if (this.walletService.checkWalletPasswordHash(this.enteredPinCode, this.selectedWallet.walletUUID, this.selectedWallet.passwordHash)) {
                        this.logger.debug('### checkWalletHash: OK');
-                       this.loginFinished = true;
-                       // const walletIndex = this.availableWallets.findIndex( item => item['walletUUID'] === this.selectedWallet);
-                       this.sessionStorageService.set(AppConstants.KEY_CURRENT_WALLET, this.selectedWallet);
-                       this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletPassword);
-                       this.localStorageService.set(AppConstants.KEY_WALLET_LOCATION, this.selectedWallet.location);
-                       if (this.selectedWallet.network === 'LIVE') {
-                           this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, true);
-                       } else {
-                           this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, false);
-                       }
-                       this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.selectedWallet.passwordHash);
 
-                       this.walletService.openWallet(this.selectedWallet.walletUUID);
-                       this.appflow.authCorrect = true;
-                       // if(!this.appflow.loggedIn){
-                       //   this.appflow.loggedIn = true;
-                       // }
-                       this.modal.dismiss();
+
+                       this.modal.dismiss( {state:true, password: this.enteredPinCode, message:"hola" }, "txResult" );
 
 
 
@@ -225,6 +190,7 @@ export class CustomPinComponent implements OnInit {
                    }
                    if(this.error_message  == ""){
                      this.loading.dismiss();
+                     this.modal.dismiss( true, "success" );
                      return;
                    }else {
                      this.loading.dismiss();

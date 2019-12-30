@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, ModalController } from '@ionic/angular';
+import { ActionSheetController, ModalController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AddTokenComponent } from './add-token/add-token.component';
 import { CustomPinComponent } from '../login/custom-pin/custom-pin.component';
@@ -79,6 +79,7 @@ export class WalletPage implements OnInit {
                private activatedRoute: ActivatedRoute,
                // private marketService: MarketService,
                private appflow: AppflowService,
+               private alertCtrl: AlertController,
                private casinocoinService: CasinocoinService,
                private sessionStorageService: SessionStorageService,
                private localStorageService: LocalStorageService,
@@ -157,8 +158,8 @@ export class WalletPage implements OnInit {
                     return false;
                   }
                 }
-                onAddToken(accountID){
-                    var accountsAval = {};
+                async onAddToken(accountID){
+                    var accountsAval = [];
                     if(accountID !== "1" ){
                       accountsAval = [{ label:"provided Account", value:accountID}];
                     }else{
@@ -166,6 +167,24 @@ export class WalletPage implements OnInit {
                     }
                     console.log("cscAccounts: ",this.cscAccounts);
                     console.log("tokens: ",this.availableTokenlist);
+                    if(accountsAval.length == 0){
+                      console.log("ERROR NO ACCOUNTS ACTIVE: ",this.availableTokenlist);
+                      this.logger.debug("#### wallet: There are not active account for adding a token");
+                      let alert = await this.alertCtrl.create({
+                        header: 'ERROR',
+                        subHeader: "You don't have any active account for adding a token.",
+                        buttons: ['OK']
+                      });
+                      await alert.present();
+
+                      return await alert.onDidDismiss().then(() => {
+                        return false;
+                        // setTimeout(() => {
+                        //   this.pinCodeViewChild.setFocus();
+                        // }, 200);
+                      });
+
+                    }
                     this.modal
                     .create({
                       component: AddTokenComponent,
@@ -178,56 +197,40 @@ export class WalletPage implements OnInit {
                         addTokenModal.present();
                         return addTokenModal.onDidDismiss();
                       }).then(
-                        resultData => {
+                        async resultData => {
                           if(resultData.role === "addToken"){
-
-                            this.addTokenToAccount(resultData.data.token,resultData.data.account)
+                            const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to add selected token to Account");
+                            if(result.data.state){
+                              this.addTokenToAccount(resultData.data.token,resultData.data.account, result.data.password);
+                            }
                           }
                         });
                 }
-                onValidateTx(transaction){
+                async onValidateTx(transaction,actionMessage){
 
+                  return await this.appflow.onValidateTx(transaction,actionMessage);
 
-                    console.log("cscAccounts: ",this.cscAccounts);
-                    console.log("tokens: ",this.availableTokenlist);
-                    this.modal
-                    .create({
-                      component: CustomPinComponent,
-                      componentProps: {
-                        transaction:transaction
-                    }}).then(
-                      customPinModal => {
-                        customPinModal.present();
-                        return customPinModal.onDidDismiss();
-                      }).then(
-                        resultData => {
-                          if(resultData.role === "txResult"){
-                            this.logger.debug("#### wallet: txREsult: " + JSON.stringify(resultData.data))
-                            // this.addTokenToAccount(resultData.data.token,resultData.data.account)
-                          }
-                        });
                 }
-                addCSCAccount(){
+                async addCSCAccount(){
                   this.logger.debug('### WalletPage: add CSC account');
-                 this.onValidateTx("addCSCAccount").then(
-                   result => {
-                     console.log(result);
+                   const result = await this.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account");
+                   this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
+                   if(result.data.state){
+                     const password = result.data.password;
+                     this.walletPassword = password;
+                     this.logger.debug('### WalletPage: password OK adding account');
+                     this.walletService.addCSCAccount(password);
+                     this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
+                       if (refreshResult) {
+                         this.tokenlist = this.casinocoinService.tokenlist;
+                       }
+                     });
+
+                   }else{
+                     this.logger.debug('### WalletPage: password WRONG not adding account');
+
                    }
-                 );
-                  const password = '1234567';
-                  this.walletPassword = password;
-                  const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
-                  if (this.walletService.checkWalletPasswordHash(this.walletPassword, walletObject.walletUUID, walletObject.passwordHash)){
-                    this.logger.debug('### WalletPage: password OK adding account');
-                    this.walletService.addCSCAccount(password);
-                    this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
-                      if (refreshResult) {
-                        this.tokenlist = this.casinocoinService.tokenlist;
-                      }
-                    });
-                  }else{
-                    this.logger.debug('### WalletPage: password WRONG not adding account');
-                  }
+
 
                 }
                 ionViewWillEnter(){
@@ -261,8 +264,8 @@ export class WalletPage implements OnInit {
               }
 
 
-                addTokenToAccount(token, accountID) {
-                  this.appflow.addTokenToAccount(token,accountID);
+                addTokenToAccount(token, accountID, password) {
+                  this.appflow.addTokenToAccount(token,accountID,password);
 
 
                 }

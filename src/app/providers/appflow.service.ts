@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LogService } from './log.service';
+import { CustomPinComponent } from '../pages/login/custom-pin/custom-pin.component';
+import { ActionSheetController, ModalController, AlertController } from '@ionic/angular';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, take, filter, map } from 'rxjs/operators';
 import { CSCAmountPipe } from '../domains/csc.pipes';
@@ -91,6 +93,8 @@ export class AppflowService {
     private barcodeScanner: BarcodeScanner,
     private sessionStorageService: SessionStorageService,
     private casinocoinService: CasinocoinService,
+    private alertCtrl: AlertController,
+    public modal: ModalController,
     private walletService: WalletService,
     private cscAmountPipe: CSCAmountPipe
 
@@ -317,9 +321,9 @@ export class AppflowService {
      }));
 
    }
-   addTokenToAccount(token, accountID){
+   addTokenToAccount(token, accountID,password){
      this.logger.debug('### WalletPage: add Token to CSC account');
-     const password = '1234567';
+     // const password = '1234567';
      this.walletPassword = password;
      const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
 
@@ -356,7 +360,28 @@ export class AppflowService {
          this.logger.debug('### WalletPage: addtoken password WRONG not adding account');
        }
    }
-
+   async onValidateTx(transaction,actionMessage){
+     // console.log("cscAccounts: ",this.cscAccounts);
+     // console.log("tokens: ",this.availableTokenlist);
+     return this.modal
+     .create({
+       component: CustomPinComponent,
+       componentProps: {
+         transaction:transaction,
+         actionMessage:actionMessage
+     }}).then(
+       async customPinModal => {
+         customPinModal.present();
+         return await customPinModal.onDidDismiss();
+       }).then(
+         async resultData => {
+           if(resultData.role === "txResult"){
+             this.logger.debug("#### wallet: txREsult: " + JSON.stringify(resultData.data))
+             return await resultData;
+             // this.addTokenToAccount(resultData.data.token,resultData.data.account)
+           }
+         });
+   }
    async scanQRCode(){
      // Scan CasinoCoin QRCode
      const result = await this.barcodeScanner.scan().then((barcodeData) => {

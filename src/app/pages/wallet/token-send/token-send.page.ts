@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
+import { AppflowService } from '../../../providers/appflow.service';
 import { LogService } from '../../../providers/log.service';
 // import { LokiTransaction } from '../../../domains/csc-types';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
@@ -33,6 +34,7 @@ balanceToSend: any;
     private casinocoinService: CasinocoinService,
     private sessionStorageService: SessionStorageService,
     private localStorageService: LocalStorageService,
+    private appflow: AppflowService,
     private logger: LogService
   ) { }
 
@@ -93,13 +95,15 @@ balanceToSend: any;
         // this.sendForm.controls.amount.setValue(CSCUtil.dropsToCsc(rowData.TokenBalance));
       }
   }
-  onSendFormSubmit(value) {
+  async onSendFormSubmit(value) {
 
     this.logger.debug('### onSendFormSubmit: ' + JSON.stringify(value));
-    const password ='1234567';
+    // const password ='1234567';
     // check password
     const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
-    if (this.walletService.checkWalletPasswordHash(password, walletObject.walletUUID, walletObject.passwordHash)) {
+    const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to authorize transaction");
+    if(result.data.state){
+
       // check the destination account id
       if (this.casinocoinService.isValidAccountID(value.from.trim())) {
         if (!isNaN(value.amount)) {
@@ -136,7 +140,7 @@ balanceToSend: any;
           this.logger.debug('### Payment object: ' + JSON.stringify(payment));
           this.casinocoinService.cscAPI.preparePayment(this.tokenAccountLoaded.AccountID, payment, instructions).then(prepared => {
             this.logger.debug('### Prepared: ' + JSON.stringify(prepared));
-            const cscCrypto = new CSCCrypto(password, this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail);
+            const cscCrypto = new CSCCrypto(result.data.password, this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail);
             const decryptedSecret = cscCrypto.decrypt(accountKey.secret);
             return this.casinocoinService.cscAPI.sign(prepared.txJSON, decryptedSecret);
           }).then( signResult => {
