@@ -81,7 +81,7 @@ export class CustomPinComponent implements OnInit {
         this.router.navigate(['/wallet-setup']);
     }
     // set first wallet as selected
-    this.selectedWallet = this.availableWallets[0];
+    this.selectedWallet = this.availableWallets[this.availableWallets.length - 1];
     const walletCreationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.selectedWallet.creationDate));
     this.translate.get('PAGES.LOGIN.CREATED-ON').subscribe((res: string) => {
         this.walletCreationDate = res + ' ' + this.datePipe.transform(walletCreationDate, 'yyyy-MM-dd HH:mm:ss');

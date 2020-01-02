@@ -91,8 +91,8 @@ export class LoginPage implements OnInit {
             this.wallets.push({label: walletLabel, value: this.availableWallets[i]['walletUUID']});
         }
     }
-    // set first wallet as selected
-    this.selectedWallet = this.availableWallets[0];
+    // set last wallet as selected
+    this.selectedWallet = this.availableWallets[this.availableWallets.length - 1];
     const walletCreationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.selectedWallet.creationDate));
     this.translate.get('PAGES.LOGIN.CREATED-ON').subscribe((res: string) => {
         this.walletCreationDate = res + ' ' + this.datePipe.transform(walletCreationDate, 'yyyy-MM-dd HH:mm:ss');
