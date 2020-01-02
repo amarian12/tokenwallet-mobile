@@ -158,7 +158,7 @@ export class CustomPinComponent implements OnInit {
       this.loading
       .create({
         keyboardClose:true,
-        message:"validando PIN"
+        message:"validating PIN"
       })
       .then( loading => {
          loading.present().then( async () => {

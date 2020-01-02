@@ -29,6 +29,7 @@ export class LoginPage implements OnInit {
   returnUrl: string;
   footer_visible = false;
   error_message: string;
+  errorMessageList: string[];
   displayCustomPin = false;
   defaultAccount: string;
   loginDisable = false;
@@ -96,6 +97,10 @@ export class LoginPage implements OnInit {
     const walletCreationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.selectedWallet.creationDate));
     this.translate.get('PAGES.LOGIN.CREATED-ON').subscribe((res: string) => {
         this.walletCreationDate = res + ' ' + this.datePipe.transform(walletCreationDate, 'yyyy-MM-dd HH:mm:ss');
+    });
+    this.translate.get('PAGES.LOGIN.ERRORS').subscribe((res: string[]) => {
+        this.errorMessageList = res;
+        this.logger.debug('### Errors list: ' + JSON.stringify(this.errorMessageList));
     });
     this.walletEmail = this.selectedWallet.userEmail;
 
@@ -176,14 +181,15 @@ export class LoginPage implements OnInit {
       this.loading
       .create({
         keyboardClose:true,
-        message:"validando PIN"
+        message:this.errorMessageList['VALIDATINGPIN']
       })
       .then( loading => {
          loading.present().then( async () => {
            // setTimeout(() => {
            this.logger.debug('### Login Page ::: OpenWallet: ' + JSON.stringify(this.selectedWallet));
            if (this.enteredPinCode == null || this.enteredPinCode.length === 0) {
-               this.error_message = 'Unkown and very strange error!';
+
+               this.error_message = this.errorMessageList['IMPOSSIBLE'];
 
 
            } else {
@@ -219,7 +225,7 @@ export class LoginPage implements OnInit {
                    } else {
                        // Invalid Wallet Password !!!
 
-                       this.error_message = 'You entered an invalid PIN. Please retry!';
+                       this.error_message = this.errorMessageList['INVALIDPIN'];
                    }
                    if(this.error_message  == ""){
                      this.loading.dismiss();

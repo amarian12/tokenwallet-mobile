@@ -59,7 +59,7 @@ export class Step5Component implements OnInit {
         header: res['PAGES.SETUP.STEP5-REMINDER-HEADER'],
         subHeader: res['PAGES.SETUP.STEP5-REMINDER-SUBHEADER'],
         message: res['PAGES.SETUP.STEP5-REMINDER-MESSAGE'],
-        buttons: ['I understand']
+        buttons: res['PAGES.SETUP.STEP5-REMINDER-BUTTON']
       }).then( alert =>  {
           alert.present();
         });

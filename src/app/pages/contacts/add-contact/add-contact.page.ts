@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CSCURI } from '../../../domains/csc-types';
 import { CSCUtil } from '../../../domains/csc-util';
@@ -7,6 +8,7 @@ import { LogService } from '../../../providers/log.service';
 import { AppflowService } from '../../../providers/appflow.service';
 import { WalletService } from '../../../providers/wallet.service';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class AddContactPage implements OnInit {
 
   action = "";
   contactName = "";
+  errorMessageList: string[];
 
 
   constructor(
@@ -33,11 +36,17 @@ export class AddContactPage implements OnInit {
       private logger: LogService,
       private walletService: WalletService,
       private casinocoinService: CasinocoinService,
+      private alert: AlertController,
+      private translate: TranslateService,
       private activeRoute: ActivatedRoute,
       private router: Router
   ) { }
 
   ngOnInit() {
+    this.translate.get('PAGES.CONTACTS.ADD-CONTACTS-ERRORS').subscribe((res: string[]) => {
+        this.errorMessageList = res;
+        this.logger.debug('### Errors list: ' + JSON.stringify(this.errorMessageList));
+    });
     this.activeRoute.paramMap.subscribe(paramMap => {
       if(!paramMap.has('action')){
         this.action = "";
@@ -76,14 +85,48 @@ export class AddContactPage implements OnInit {
     this.resetContact();
     this.router.navigate(['./tabs/contacts'], { relativeTo: this.activeRoute.parent });
   }
+  displayError(error){
+    this.alert.create({
+
+        header: error.header,
+        subHeader: error.subheader,
+        message: error.message,
+        buttons: [
+          {
+            text: error.okbtn,
+            role: 'ok',
+            cssClass: 'secondary',
+            handler: () => {
+              this.alert.dismiss();
+            }
+          }
+        ]
+      }).then( alert =>  {
+           return alert.present();
+      });
+  }
   addContact() {
     // create addressbook entry
     if(this.contact.accountID == ""){
       this.logger.debug("Account ID must be entered.");
+      const errorActID = {
+        header:this.errorMessageList['HEADER'],
+        subheader:this.errorMessageList['SUBHEADER'],
+        message:this.errorMessageList['MSGACCTIDREQUIRED'],
+        okbtn:this.errorMessageList['OK']
+      }
+      this.displayError(errorActID);
       return false;
     }
     if(this.contact.label == ""){
       this.logger.debug("You must enter a name for the contact");
+      const errorName = {
+        header:this.errorMessageList['HEADER'],
+        subheader:this.errorMessageList['SUBHEADER'],
+        message:this.errorMessageList['MSGNAMEREQUIRED'],
+        okbtn:this.errorMessageList['OK']
+      }
+      this.displayError(errorName);
       return false;
     }
     try {
@@ -95,10 +138,24 @@ export class AddContactPage implements OnInit {
         this.router.navigate(['./tabs/contacts'], { relativeTo: this.activeRoute.parent });
       }else{
         this.logger.debug("This is not a valid account ID. Please check it and try again");
+        const errorInvalid = {
+          header:this.errorMessageList['HEADER'],
+          subheader:this.errorMessageList['SUBHEADER'],
+          message:this.errorMessageList['MSGINVALIDACCTID'],
+          okbtn:this.errorMessageList['OK']
+        }
+        this.displayError(errorInvalid);
 
       }
     } catch (error) {
       this.logger.debug("Account ID Already added in Contacts or..."+error);
+      const errorAlreadyAdded = {
+        header:this.errorMessageList['HEADER'],
+        subheader:this.errorMessageList['SUBHEADER'],
+        message:this.errorMessageList['MSGALREADYADDED'],
+        okbtn:this.errorMessageList['OK']
+      }
+      this.displayError(errorAlreadyAdded);
       return;
     }
 

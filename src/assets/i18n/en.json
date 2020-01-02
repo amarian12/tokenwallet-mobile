@@ -16,11 +16,21 @@
 			"ADD-CONTACTS-DESTINATION-TAG-LABEL": "Destination Tag:",
 			"ADD-CONTACTS-NAME-LABEL": "Name:",
 			"ADD-CONTACTS-NOTES-LABEL": "Notes:",
+			"ADD-CONTACTS-ERRORS":{
+				"HEADER":"ERROR",
+				"SUBHEADER":"Contact not added",
+				"MSGACCTIDREQUIRED":"Account ID must be entered",
+				"MSGNAMEREQUIRED":"You must enter a name for the contact",
+				"MSGINVALIDACCTID":"This is not a valid account ID. Please check it and try again",
+				"MSGALREADYADDED":"Account ID was already added to Contacts",
+				"OK":"Ok"
+			},
 			"ADD-CONTACTS-SCAN-BTN": "Scan",
 			"ADD-CONTACTS-TITLE": "Add new contact",
 			"NO-CONTACTS": "No contacts",
 			"NO-CONTACTS-MESSAGE": "You don't have any contact yet",
 			"TITLE": "Contacts"
+
 		},
 		"DASHBOARD": {
 			"24H-VOLUME": "24 Hour Volume",
@@ -79,6 +89,11 @@
 			"RECOVER-MNEMONIC": "RECOVER FROM WORDS",
 			"SELECT": "Select Wallet",
 			"TITLE": "Open Wallet",
+			"ERRORS":{
+				"IMPOSSIBLE":"Unkown and very strange error!",
+				"INVALIDPIN":"You entered an invalid PIN. Please retry!",
+				"VALIDATINGPIN":"Validating PIN"
+			},
 			"UPDATE-TITLE": "Token Wallet Update"
 		},
 		"MENU": {
