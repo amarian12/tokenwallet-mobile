@@ -7,7 +7,7 @@ import { AppflowService } from '../../providers/appflow.service';
 import { AppConstants } from '../../domains/app-constants';
 import { WalletService } from '../../providers/wallet.service';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contacts',
@@ -18,16 +18,22 @@ export class ContactsPage implements OnInit {
 
   contacts: Array<LokiAddress> = []
   contactsEmpty = true;
+  errorMessageList: string[];
   mainCSCAccount:LokiAccount;
   constructor(
     private logger: LogService,
     private walletService: WalletService,
+    private translate: TranslateService,
     private appflow: AppflowService,
     private clipboard: Clipboard,
     private alert: AlertController
   ) { }
 
   ngOnInit() {
+    this.translate.get('PAGES.CONTACTS.DELETE-CONTACT').subscribe((res: string[]) => {
+        this.errorMessageList = res;
+        this.logger.debug('### Errors list: ' + JSON.stringify(this.errorMessageList));
+    });
     if(this.walletService.isWalletOpen){
       this.mainCSCAccount = this.walletService.getMainAccount();
       this.logger.debug("### Main account Found :"+JSON.stringify(this.mainCSCAccount));
@@ -84,19 +90,19 @@ export class ContactsPage implements OnInit {
   }
   onDeleteContact(accountID){
     this.alert.create({
-    header: 'Deleting Contact',
-    subHeader: 'Confirm action',
-    message: 'Are you sure? this action cannot be undone, your contact will be lost and you will have to create it again',
+    header: this.errorMessageList['HEADER'],
+    subHeader: this.errorMessageList['SUBHEADER'],
+    message: this.errorMessageList['MSG'],
     buttons: [
       {
-        text: 'Cancel',
+        text: this.errorMessageList['CANCELBTN'],
         role: 'cancel',
         cssClass: 'secondary',
         handler: () => {
           this.logger.debug('### Cancel Deletion!!');
         }
       }, {
-        text: 'Delete anyway',
+        text: this.errorMessageList['DELETEBTN'],
         handler: () => {
           this.walletService.removeAddress(accountID);
           this.logger.debug('### Contact '+accountID+' Deleted!!');
