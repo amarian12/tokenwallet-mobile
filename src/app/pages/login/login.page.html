@@ -23,11 +23,13 @@
 				<ion-button expand="block" (click)="enterPIN()" color="primary"  [disabled]="loginDisable"> Login </ion-button>
 			</ion-col>
 		</ion-row>
+    <!--
 		<ion-row *ngIf="!displayCustomPin">
 			<ion-col (click)="forgotPin()">
 				<ion-text color="light" class="ion-text-center">Forgot PIN Code?</ion-text>
 			</ion-col>
 		</ion-row>
+    -->
     <ion-row>
       <ion-row *ngIf="loginEntry">
     		<ion-item>
