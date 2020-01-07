@@ -286,7 +286,7 @@ export class CasinocoinService implements OnDestroy {
             );
             this.updateServerListItem(
                 { server_id: 'wst02.casinocoin.org',
-                  server_url: 'ws://wst02.casinocoin.org:7006/',
+                  server_url: 'ws://wst02.casinocoin.org:7007/',
                   server_name: 'Foundation TEST Wallet Server 2'
                 }
             );

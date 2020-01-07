@@ -97,6 +97,7 @@ export class WalletPage implements OnInit {
                this.isLoading = true;
                    this.appflow.tokenlist.subscribe(
                      tokenList => {
+                       this.logger.debug('### Wallet TokenList Subject ###');
                        this.tokenlist = tokenList;
                        this.isLoading = false;
                      });

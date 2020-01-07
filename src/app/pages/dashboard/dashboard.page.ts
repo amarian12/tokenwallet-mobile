@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { WalletSettings, WalletDefinition, LedgerStreamMessages } from '../../domains/csc-types';
+import { takeUntil, take, filter, map } from 'rxjs/operators';
 import Big from 'big.js';
 
 @Component({
@@ -41,13 +42,13 @@ export class DashboardPage implements OnInit {
              ) { }
 
   ngOnInit() {
-    this.appflow.getAllTokenBalances().subscribe(walletBalances => {
+    this.appflow.walletBalances.subscribe(walletBalances => {
       this.walletBalances = walletBalances;
-      this.logger.debug('### ***************************************************************HOME - Wallet Balances: ' + JSON.stringify(this.walletBalances));
+      this.logger.debug('### Dashboard - Wallet Balances: ' + JSON.stringify(this.walletBalances));
       // this.balance = CSCUtil.dropsToCsc(this.walletBalance);
       this.marketService.updateCoinInfo();
       const coinInfo = this.marketService.getCoinInfo();
-      this.logger.debug('### ***************************************************************HOME - Wallet coinInfo: ' + JSON.stringify(coinInfo));
+      this.logger.debug('### Dashboard - Wallet coinInfo: ' + JSON.stringify(coinInfo));
       if(coinInfo){
         this.fiatValue  = coinInfo.price_usd ;
         this.coinSupply = coinInfo.total_supply;
@@ -62,7 +63,7 @@ export class DashboardPage implements OnInit {
                 const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
                 this.balance = balanceCSC.toString();
                 this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
-                this.logger.debug('### **************************************************************************wallet balance: ' + wallet.balance + ' BTC: ' + this.marketService.btcPrice + ' FiatValue: ' + this.fiatValue);
+                this.logger.debug('### Dashboard - wallet balance: ' + wallet.balance + ' BTC: ' + this.marketService.btcPrice + ' FiatValue: ' + this.fiatValue);
               }
 
             }
@@ -73,7 +74,7 @@ export class DashboardPage implements OnInit {
       tokenList => {
         // this.tokenlist = tokenList;
        // this.appflow.updateBalance(tokenList);
-       this.logger.debug('### ************************************************************************** tokenlist updated!!! token list is:'+JSON.stringify(tokenList));
+       this.logger.debug('### Dashboard - tokenlist updated!!! token list is:'+JSON.stringify(tokenList));
         if(tokenList){
 
           this.appflow.updateBalance(tokenList);
@@ -82,8 +83,10 @@ export class DashboardPage implements OnInit {
       });
       this.casinocoinService.transactionSubject.subscribe(
         tx => {
-          this.logger.debug('### ************************************************************************** tx updated!!! token list is:'+JSON.stringify(this.casinocoinService.tokenlist));
-          this.appflow.updateBalance(this.casinocoinService.tokenlist);
+          this.logger.debug('### Dashboard - tx updated!!! token list is:'+JSON.stringify(this.casinocoinService.tokenlist));
+          this.casinocoinService.accountSubject.pipe(take(1)).subscribe( account => {
+            this.appflow.updateBalance(this.casinocoinService.tokenlist);
+          });
         });
 
     // get the complete wallet object

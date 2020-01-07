@@ -308,6 +308,11 @@ removeUndefined(obj: Object): Object {
         }
     });
   }
+
+  cancel() {
+      this.logger.debug('### RecoverMnemonic - Cancel ###');
+      this.router.navigate(['login']);
+  }
   ngOnInit() {
     this.logger.debug('### RecoverMnemonic onInit');
     // get return url from route parameters or default to '/'
