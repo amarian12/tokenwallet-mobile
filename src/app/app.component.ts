@@ -4,6 +4,7 @@ import { AppflowService } from './providers/appflow.service';
 import { WalletService } from './providers/wallet.service';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { EloMenuController } from './providers/custommenu.service';
@@ -17,6 +18,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AppComponent {
   dark = false;
   userName = "";
+  language = "";
+  currency = "";
   isConnected = false;
     versionNumber:string;
 
@@ -24,6 +27,7 @@ export class AppComponent {
     private appflow: AppflowService,
     private walletService: WalletService,
     private platform: Platform,
+    private router: Router,
     private splashScreen: SplashScreen,
     private translate: TranslateService,
     private logger: LogService,
@@ -41,7 +45,10 @@ export class AppComponent {
       this.logger.debug('### Setting default lang: en');
       this.versionNumber = this.walletService.appVersionString;
       this.userName = this.appflow.userName;
-      this.translate.setDefaultLang('en');
+      this.dark = this.appflow.dark;
+      this.language = this.appflow.language;
+      this.currency = this.appflow.currency;
+      this.translate.setDefaultLang(this.language);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.appflow.connectedStatus.subscribe(
@@ -55,6 +62,13 @@ export class AppComponent {
 
     });
 
+  }
+  logOut(){
+
+    this.logger.debug('### App component: LOGOUT!!!: ');
+    this.appflow.authCorrect = false;
+    this.appflow.loggedIn = false;
+    this.router.navigate(['/login']);
   }
   ionViewWillEnter(){
 

@@ -112,6 +112,7 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/wallet-setup']);
   }
   ionViewWillEnter(){
+    this.enteredPinCode = "";
     if(this.appflow.loggedIn){
       this.displayCustomPin = true;
       // this.loginEntry = false;

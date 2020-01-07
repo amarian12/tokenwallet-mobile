@@ -256,6 +256,13 @@ export class WalletPage implements OnInit {
                       console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS FOUND FILTER:::::: ", this.filterToken);
 
                     }
+                    const newTokenList = [];
+                    this.tokenlist.forEach(token => {
+                      if(this.filterFunction(token)){
+                        newTokenList.push(token);
+                      }
+                    });
+                    this.tokenlist = newTokenList;
                     if(!paramMap.has('result')){
                       this.txResult = paramMap.get('filterToken');
                       console.log("@@@@@@@@@@@@@@@@@@@@    RESULT ", this.txResult);

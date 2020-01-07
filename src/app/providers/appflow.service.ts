@@ -59,6 +59,9 @@ export class AppflowService {
   // connectedStatus= false;
 
   userName: string;
+  dark: boolean;
+  language = "en";
+  currency = "USD";
   mainCSCAccountID: string;
   availableTokenlist: Array<TokenType> = [];
   addToken: TokenType;
@@ -127,6 +130,9 @@ export class AppflowService {
       this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
     }
     this.userName = this.walletSettings.walletUser || "";
+    this.dark = (this.walletSettings.styleTheme == "dark")?true:false;
+    this.language = this.walletSettings.walletLanguage ;
+    this.currency = this.walletSettings.fiatCurrency ;
     this.logger.debug('### Appflow: consturctor() ###');
     this.columnCount = 5;
 
