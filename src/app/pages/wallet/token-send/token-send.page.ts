@@ -23,6 +23,8 @@ fees: string;
 originAccount: string;
 accountReserve: string;
 destinationAccount: string;
+destinationTag: string;
+destinationLabel: string;
 reserveIncrement: string;
 tokenAccountLoaded: any;
 balanceToSend: any;
@@ -82,6 +84,19 @@ balanceToSend: any;
   }
   getTotalReserved(tokenObject) {
     return Number(this.accountReserve) + (Number(tokenObject.OwnerCount) *  Number(this.reserveIncrement));
+  }
+  async scanQRCode(){
+    let data = await this.appflow.scanQRCode();
+    this.logger.debug("#### DATA ON QR::: "+JSON.stringify(data));
+    this.destinationAccount = data.address;
+    if(data.label){
+      this.destinationLabel = data.label;
+    }
+    if(data.destinationTag){
+      this.destinationTag = data.destinationTag;
+    }
+
+
   }
   allBalanceToAmount(){
 

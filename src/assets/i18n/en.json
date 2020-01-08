@@ -29,7 +29,14 @@
 			"ADD-CONTACTS-TITLE": "Add new contact",
 			"NO-CONTACTS": "No contacts",
 			"NO-CONTACTS-MESSAGE": "You don't have any contact yet",
-			"TITLE": "Contacts"
+			"TITLE": "Contacts",
+			"DELETE-CONTACT":{
+				"HEADER":"Deleting Contact",
+				"SUBHEADER":"Confirm action",
+				"MSG":"Are you sure? this action cannot be undone, your contact will be lost and you will have to create it again",
+				"CANCELBTN":"Cancel",
+				"DELETEBTN":"Delete anyway"
+			}
 
 		},
 		"DASHBOARD": {

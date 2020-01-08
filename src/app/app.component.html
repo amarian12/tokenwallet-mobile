@@ -1,6 +1,6 @@
 <ion-app [class.dark-theme]="dark">
-  <ion-split-pane>
-    <ion-menu #mainMenu side="end" swipeGesture="false" type="overlay">
+  <ion-split-pane contentId="main-content">
+    <ion-menu #mainMenu contentId="main-content" side="end" swipeGesture="false" type="overlay">
       <!--ion-header>
       </ion-header-->
       <ion-toolbar class="ion-padding-top">
@@ -21,7 +21,7 @@
 
           <ion-menu-toggle autoHide="false" >
 
-          </ion-menu-toggle>
+
 
           <ion-item-divider color="light">
               <ion-icon name="flash" color="success" *ngIf="isConnected">
@@ -39,13 +39,14 @@
               <ion-button slot="end" size="small">
                 <ion-icon slot="icon-only" name="person"></ion-icon>
               </ion-button>
-              <ion-button slot="end"  size="small" color="medium">
+
+              <ion-button slot="end"  size="small" color="medium" (click)="logOut()">
                 <!--ion-icon slot="icon-only" name="log-out"></ion-icon-->
-                <ion-icon slot="icon-only" src="/assets/svg/logout.svg"></ion-icon>
+                <ion-icon slot="icon-only" src="/assets/svg/logout.svg" ></ion-icon>
               </ion-button>
 
           </ion-item-divider>
-
+          </ion-menu-toggle>
           <ion-menu-toggle >
             <ion-item routerLink="/tabs/exchanges">
 
@@ -138,7 +139,7 @@
         </ion-item-divider>
       </ion-content>
     </ion-menu>
-    <ion-router-outlet main></ion-router-outlet>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 
 </ion-app>

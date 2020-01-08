@@ -5,7 +5,7 @@
         <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
         <i class="icon-logo icon-chip"></i>
         <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
-          
+
       </ion-buttons>
       <ion-buttons slot="start">
         <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
@@ -34,7 +34,7 @@
         <ion-label position="stacked">
            {{ 'PAGES.WALLET.TOACCOUNT' | translate }}
         </ion-label>
-        <ion-input ngModel #toctl="ngModel" [value]="destinationAccount" type="text" readonly name="to">
+        <ion-input ngModel #toctl="ngModel" [(ngModel)]="destinationAccount" type="text" readonly name="to">
 
         </ion-input>
         <!--ion-note >
@@ -48,7 +48,7 @@
         <ion-input ngModel #toctl="ngModel"  type="text" required name="to">
 
         </ion-input>
-        <ion-button slot="end">
+        <ion-button slot="end" (click)="scanQRCode()">
            {{ 'PAGES.CONTACTS.ADD-CONTACTS-SCAN-BTN' | translate }}
         </ion-button>
 
@@ -110,7 +110,7 @@
         <ion-label position="floating" color="primary">
            {{ 'PAGES.WALLET.DESTTAG' | translate }}
         </ion-label>
-        <ion-input ngModel #dtagctl="ngModel" name="destinationtag" type="number" >
+        <ion-input ngModel #dtagctl="ngModel" [(ngModel)]="destinationTag" name="destinationtag" type="number" >
 
         </ion-input>
       </ion-item>
@@ -118,7 +118,7 @@
         <ion-label position="floating" color="primary">
            {{ 'PAGES.WALLET.DESCRIPTION' | translate }}
         </ion-label>
-        <ion-input ngModel #descctl="ngModel" name="description" type="text">
+        <ion-input ngModel #descctl="ngModel" [(ngModel)]="destinationLabel" name="description" type="text">
 
         </ion-input>
       </ion-item>
