@@ -59,8 +59,13 @@
     </ion-item>
 
   </ion-list>
-  <ion-button type="submit" expand="block" (click)="addContact() " >
+
+  <ion-button type="submit" expand="block" (click)="addContact() " *ngIf="!editMode">
     {{ 'PAGES.CONTACTS.ADD-CONTACTS-ADD-BTN' | translate }}
+
+  </ion-button>
+  <ion-button type="submit" expand="block" (click)="addContact() " *ngIf="editMode">
+    {{ 'PAGES.CONTACTS.ADD-CONTACTS-UPD-BTN' | translate }}
 
   </ion-button>
 

@@ -47,7 +47,7 @@
                 </ion-avatar>
                 <ion-label>
 
-                    {{contact.label}}
+                    {{contact.label}} {{contact.$loki}}
 
                 </ion-label>
               </ion-chip>
@@ -69,7 +69,7 @@
                   <ion-icon name="clipboard"  class="icon-large"></ion-icon>
 
               </ion-button>
-              <ion-button  fill="clear">
+              <ion-button  fill="clear" [routerLink]="'/tabs/contacts/edit/'+contact.accountID ">
 
 
                   <ion-icon name="create" class="icon-large"></ion-icon>

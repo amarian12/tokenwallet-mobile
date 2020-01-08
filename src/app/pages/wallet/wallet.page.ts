@@ -9,6 +9,7 @@ import { MarketService } from '../../providers/market.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
 import { CSCCrypto }  from '../../domains/csc-crypto';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { AppConstants } from '../../domains/app-constants';
 import { CSCAmountPipe } from '../../domains/csc.pipes';
 import { TranslateService } from '@ngx-translate/core';
@@ -87,6 +88,7 @@ export class WalletPage implements OnInit {
                private translate: TranslateService,
               public actionSheetController: ActionSheetController,
               public modal: ModalController,
+              private clipboard: Clipboard,
                private cscAmountPipe: CSCAmountPipe
              ) {
                this.numberOfTokenAccounts = new Array(1).fill(0);
@@ -150,6 +152,9 @@ export class WalletPage implements OnInit {
                   //   this.renderer.selectRootElement('#float-input-password').value = '';
                   //   this.renderer.selectRootElement('#float-input-password').focus();
                   // }
+                }
+                copyAccountID(text){
+                  this.clipboard.copy(text);
                 }
                 filterFunction(token){
                   if(token.Token == this.filterToken.toUpperCase() || this.filterToken.toUpperCase() == 'ALL'){
