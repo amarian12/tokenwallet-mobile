@@ -10,7 +10,8 @@
 		},
 		"CONTACTS": {
 			"ADD-CONTACTS-ACCOUNT-LABEL": "AccountID:",
-			"ADD-CONTACTS-ADD-BTN": "Add contact:",
+			"ADD-CONTACTS-ADD-BTN": "Add contact",
+			"ADD-CONTACTS-UPD-BTN": "Update contact",
 			"ADD-CONTACTS-BUTTON": "Add a contact",
 			"ADD-CONTACTS-CANCEL-BTN": "Cancel",
 			"ADD-CONTACTS-DESTINATION-TAG-LABEL": "Destination Tag:",
@@ -185,6 +186,8 @@
 			"PIN-CONFIRM":"Confirm PIN",
 			"ERROR":"Error: ",
 			"RECOVER-BTN":"Recover Wallet",
+			"BACK-BTN":"Back to words",
+			"NEXT-BTN":"Set a PIN",
 			"CANCEL-BTN":"Cancel"
 		},
 		"SETUP": {

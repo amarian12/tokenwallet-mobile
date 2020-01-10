@@ -27,6 +27,7 @@ export class AddContactPage implements OnInit {
   };
 
   action = "";
+  editMode = false;
   contactName = "";
   errorMessageList: string[];
 
@@ -50,12 +51,21 @@ export class AddContactPage implements OnInit {
     this.activeRoute.paramMap.subscribe(paramMap => {
       if(!paramMap.has('action')){
         this.action = "";
-        return;
       }else{
           this.action = paramMap.get('action');
           if(this.action == "scan"){
             this.scanQRCode();
           }
+      }
+      if(!paramMap.has('loki')){
+        this.editMode = false;
+
+      }else{
+        this.logger.debug("### Add Contact Page: Edit a contact.");
+        this.editMode = true;
+        const accountID = paramMap.get('loki');
+        this.contact = this.walletService.getAddress(accountID);
+        this.logger.debug("### Add Contact Page: will edit contact: "+JSON.stringify(this.contact));
       }
     });
   }
@@ -133,8 +143,13 @@ export class AddContactPage implements OnInit {
       //add address in lokijs
       console.log(this.walletService.isWalletOpen);
       if(this.casinocoinService.isValidAccountID(this.contact.accountID)){
-        this.walletService.addAddress(this.contact);
-        this.logger.debug("Contact added Successfully");
+        if(this.editMode){
+          this.walletService.updateAddress(this.contact);
+          this.logger.debug("Contact updated Successfully");
+        }else{
+          this.walletService.addAddress(this.contact);
+          this.logger.debug("Contact added Successfully");
+        }
         this.router.navigate(['./tabs/contacts'], { relativeTo: this.activeRoute.parent });
       }else{
         this.logger.debug("This is not a valid account ID. Please check it and try again");

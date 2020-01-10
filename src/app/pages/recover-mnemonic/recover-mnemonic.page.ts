@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { IonSlides } from '@ionic/angular';
 import { WalletService } from '../../providers/wallet.service';
 import { LocalStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
@@ -23,7 +24,7 @@ export class RecoverMnemonicPage implements OnInit {
   walletLocation: string;
   walletTestNetwork: boolean;
   networkChoice = 'LIVE';
-
+  slideOpts = {};
   returnUrl: string;
   footer_visible = false;
   error_message: string;
@@ -49,6 +50,7 @@ export class RecoverMnemonicPage implements OnInit {
 
   paswordConfirmationEnabled = false;
   passwordsEqual = false;
+  @ViewChild('recoverFromWords', { static: true }) slides: IonSlides;
   // passwordPattern = '(?=.*[0-9])(?=.*[a-z]).{8,}';
   constructor(  private logger: LogService,
                 private route: ActivatedRoute,
@@ -62,6 +64,21 @@ removeUndefined(obj: Object): Object {
     // return _.omit(obj, _.isUndefined)
     Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key]);
     return obj;
+}
+slideChanged() {
+console.log(this.slides.getActiveIndex());
+}
+next(){
+  this.logger.debug('### Go to step 2 triggered');
+  this.slides.lockSwipes(false);
+  this.slides.slideNext();
+  this.slides.lockSwipes(true);
+}
+back(){
+  this.logger.debug('### Go to step 1 triggered');
+  this.slides.lockSwipes(false);
+  this.slides.slidePrev();
+  this.slides.lockSwipes(true);
 }
   recover(){
     console.log(this.words);
@@ -314,6 +331,9 @@ removeUndefined(obj: Object): Object {
       this.router.navigate(['login']);
   }
   ngOnInit() {
+    this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
+    this.slides.lockSwipes(true);
+    this.logger.debug('### INIT WalletSetup ###');
     this.logger.debug('### RecoverMnemonic onInit');
     // get return url from route parameters or default to '/'
     this.selectedWallet = this.route.snapshot.queryParams['walletUUID'];

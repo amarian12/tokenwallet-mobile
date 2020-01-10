@@ -365,7 +365,10 @@ export class CasinocoinService implements OnDestroy {
                             const userEmail = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail;
                             // prepare cscCrypto for key generation
                             const cscCrypto = new CSCCrypto(walletPassword, userEmail);
-                            const decryptedMnemonicHash = cscCrypto.decrypt(this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).mnemonicHash);
+                            const hash = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).mnemonicHash;
+                            this.logger.debug('### CasinocoinService -> mnemonichash found: ' + hash);
+
+                            const decryptedMnemonicHash = cscCrypto.decrypt(JSON.stringify({ hash }));
                             cscCrypto.setPasswordKey(decryptedMnemonicHash);
                             // get the max account sequence
                             let newAccountSequence = this.walletService.getAccountsMaxSequence();

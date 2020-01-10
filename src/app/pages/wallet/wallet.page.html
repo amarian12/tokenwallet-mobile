@@ -74,7 +74,7 @@
              <i class="icon icon-receive" slot="icon-only" ></i>
 
           </ion-item-option>
-          <ion-item-option color="secondary" [routerLink]="'token-receive/'+token?.PK ">
+          <ion-item-option color="secondary" (click)= "copyAccountID(token?.AccountID)">
              <ion-icon name="copy" slot="icon-only" ></ion-icon >
 
           </ion-item-option>

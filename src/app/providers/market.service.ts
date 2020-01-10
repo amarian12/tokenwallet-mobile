@@ -79,7 +79,7 @@ export class MarketService {
         let options = {
             headers: new HttpHeaders().set('Content-Type', 'application/json')
         };
-        if(this.platform.is('mobileweb')) {
+        if(!this.platform.is('cordova')) {
             this.coinmarketCapURLCSC = "http://localhost:8000/";
             // this.exchangesURL = "/coinmarketCapURLBTCApi";
             this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC);
@@ -123,7 +123,7 @@ export class MarketService {
         let options = {
             headers: new HttpHeaders().set('Content-Type', 'application/json')
         };
-        if(this.platform.is('mobileweb')) {
+        if(!this.platform.is('cordova')) {
             this.coinmarketCapURLCSC = "http://localhost:8000/";
             // this.exchangesURL = "/coinmarketCapURLBTCApi";
             this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC );
