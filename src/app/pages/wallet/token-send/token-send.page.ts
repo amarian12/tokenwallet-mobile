@@ -110,8 +110,14 @@ balanceToSend: any;
         // this.sendForm.controls.amount.setValue(CSCUtil.dropsToCsc(rowData.TokenBalance));
       }
   }
-  async onSendFormSubmit(value) {
+  async onSendFormSubmit(form) {
+    const value = form.value;
+    const status  = form.status;
+    if(status == "INVALID"){
 
+      console.log(form);
+      return false;
+    }
     this.logger.debug('### onSendFormSubmit: ' + JSON.stringify(value));
     // const password ='1234567';
     // check password
@@ -148,7 +154,9 @@ balanceToSend: any;
             payment.destination.tag = value.destinationtag;
           }
           // add description if present
-          if (value.description !== null && value.description.length > 0) {
+          this.logger.debug('### Payment object:  value.description resulted in ' + value.description);
+
+          if (value.description !== undefined && value.description !== null  && value.description.length > 0) {
             payment.memos = [{data: value.description, format: 'plain/text'}];
           }
 

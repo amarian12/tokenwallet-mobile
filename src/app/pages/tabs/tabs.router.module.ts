@@ -18,6 +18,26 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'dashboard/settings',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../settings/settings.module').then(m => m.SettingsPageModule)
+          }
+        ]
+      },
+      {
+        path: 'dashboard/about',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../about/about.module').then(m => m.AboutPageModule)
+          }
+        ]
+      },
+      {
         path: 'wallet',
         children: [
           {

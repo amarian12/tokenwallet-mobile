@@ -21,7 +21,7 @@ export class AppComponent {
   language = "";
   currency = "";
   isConnected = false;
-    versionNumber:string;
+
 
   constructor(
     private appflow: AppflowService,
@@ -43,7 +43,15 @@ export class AppComponent {
       this.logger.debug('### App initialized::::::::::::::');
       // debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');
-      this.versionNumber = this.walletService.appVersionString;
+      if (this.platform.is('cordova')) {
+        this.appVersion.getVersionNumber().then(value => {
+          this.appflow.versionNumber = value;
+
+        });
+      } else {
+
+        this.appflow.versionNumber = "0.1.0.browser";
+      }
       this.userName = this.appflow.userName;
       this.dark = this.appflow.dark;
       this.language = this.appflow.language;

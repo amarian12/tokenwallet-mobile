@@ -56,6 +56,7 @@ export class AppflowService {
   cscBalance: string;
   canActivateToken: boolean;
   currentToken: TokenType;
+  versionNumber:string;
   // connectedStatus= false;
 
   userName: string;

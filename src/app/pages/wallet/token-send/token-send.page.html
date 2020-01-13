@@ -19,7 +19,7 @@
 </ion-header>
 
 <ion-content>
-  <form #sendtoken="ngForm" (ngSubmit)="onSendFormSubmit(sendtoken.form.value)">
+  <form #sendtoken="ngForm" (ngSubmit)="onSendFormSubmit(sendtoken.form)" novalidate>
     <ion-list *ngIf="tokenAccountLoaded">
       <ion-item>
         <ion-label position="stacked" >
@@ -28,13 +28,13 @@
         <!--ion-note>
           {{tokenAccountLoaded.AccountID}}
         </ion-note-->
-        <ion-input   type="text" [(ngModel)]="tokenAccountLoaded.AccountID" readonly name="from"></ion-input>
+        <ion-input   type="text" [(ngModel)]="tokenAccountLoaded.AccountID" readonly required name="from"></ion-input>
       </ion-item>
       <ion-item *ngIf="destinationAccount">
         <ion-label position="stacked">
            {{ 'PAGES.WALLET.TOACCOUNT' | translate }}
         </ion-label>
-        <ion-input ngModel #toctl="ngModel" [(ngModel)]="destinationAccount" type="text" readonly name="to">
+        <ion-input ngModel #toctl="ngModel" [(ngModel)]="destinationAccount" type="text" required readonly name="to">
 
         </ion-input>
         <!--ion-note >
@@ -123,7 +123,7 @@
         </ion-input>
       </ion-item>
     </ion-list>
-    <ion-button type="submit" expand="block">
+    <ion-button  type="submit"  expand="block">
        {{ 'PAGES.WALLET.SENDTOKEN' | translate }}
 
     </ion-button>
@@ -131,5 +131,8 @@
        {{ 'PAGES.WALLET.CANCEL' | translate }}
 
     </ion-button>
+    <ion-label *ngIf="sendtoken.form.invalid && !sendtoken.form.untouched " color="warning">
+      WARNING!!
+    </ion-label>
   </form>
 </ion-content>
