@@ -3,7 +3,7 @@
 <ion-content fullscreen>
   <ion-grid class="intro" *ngIf="!loginEntry" >
 		<ion-row class="intro-logo">
-      <ion-col  *ngIf="!displayCustomPin"size="6" offset="3" class="ion-text-center">
+      <ion-col  *ngIf="!displayCustomPin"size="2" offset="5" class="ion-text-center">
         <ion-img src="assets/svg/logo_icon.svg" ></ion-img>
       </ion-col>
       <ion-col *ngIf="displayCustomPin" size="2" offset="5" class="ion-text-center">
@@ -12,17 +12,15 @@
 		</ion-row>
     <ion-row>
       <ion-col class="ion-text-center">
-        <ion-label color="primary"> CasinoCoin<br>
-          <ion-text color="light">Token Wallet</ion-text>
-        </ion-label>
+        <ion-title size="large">
+          <ion-label color="primary"> CasinoCoin<br>
+            <ion-text color="light">Token Wallet</ion-text>
+          </ion-label>
+        </ion-title>
       </ion-col>
     </ion-row>
 
-		<ion-row *ngIf="!displayCustomPin">
-			<ion-col>
-				<ion-button expand="block" (click)="enterPIN()" color="primary"  [disabled]="loginDisable"> Login </ion-button>
-			</ion-col>
-		</ion-row>
+
     <!--
 		<ion-row *ngIf="!displayCustomPin">
 			<ion-col (click)="forgotPin()">
@@ -40,8 +38,14 @@
     </ion-row>
 	</ion-grid>
 
+  <ion-footer class="trans ion-padding-bottom ion-margin-bottom" *ngIf="!displayCustomPin">
 
-  <ion-footer *ngIf="displayCustomPin">
+
+      <ion-button expand="block" (click)="enterPIN()" color="primary"  [disabled]="loginDisable"> Login </ion-button>
+
+
+  </ion-footer>
+  <ion-footer class="custompin" *ngIf="displayCustomPin">
     <ion-grid class="ion-text-center ion-no-padding">
       <ion-row>
         <ion-col size="3" >

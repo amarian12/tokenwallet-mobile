@@ -11,6 +11,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // LoggerModule
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 // Providers
+import { LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 import { FormsModule } from '@angular/forms';
 // Pipes
@@ -107,6 +108,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SocialSharing,
     MarketService,
     LocalStorageService,
+    LocalNotifications,
     SessionStorageService,
     CookiesStorageService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
