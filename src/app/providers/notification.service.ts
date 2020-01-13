@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LogService } from './log.service';
 import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs';
-import { LocalNotifications} from '@ionic-native/local-notifications/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 // import { MessageService } from 'primeng/components/common/messageservice';
 // import { ElectronService } from './electron.service';
 
@@ -28,10 +28,11 @@ export class NotificationService {
 
     private messagesSubject = new Subject<NotificationType>();
     private nativeNotificationSupported: boolean;
-    private localNotifications: LocalNotifications;
 
     constructor(private router: Router,
-                private logger: LogService) {
+                private logger: LogService,
+                private localNotifications: LocalNotifications
+              ) {
         this.logger.debug('### INIT NotificationService');
         this.nativeNotificationSupported = false;
         // this.electronService.remote.Notification.isSupported();
@@ -44,6 +45,8 @@ export class NotificationService {
         this.localNotifications.schedule([{
            id: 1,
            foreground:true,
+           icon:'res://ic_launcher',
+           smallIcon:'res://ic_launcher',
            title: msg.title,
            text: msg.body
          }]);
