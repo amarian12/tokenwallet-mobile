@@ -342,5 +342,14 @@ back(){
     this.logger.debug('### RecoverMnemonic for: ' + this.selectedWallet + ' and path: ' + this.walletLocation);
     this.error_message = '';
   }
+  onSubmit(form){
+    //  TODO: validation
+    if(form.form.status == "INVALID"){
 
+      console.log(form.form);
+      return false;
+    }
+
+    this.recover();
+  }
 }

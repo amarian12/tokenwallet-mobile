@@ -4,7 +4,12 @@ ion-content{
   background-size: cover;
 
 }
-ion-footer{
+ion-footer.custompin{
+  background:var(--ion-color-light);
+  position:absolute;
+  bottom:0;
+}
+ion-footer.trans{
   position:absolute;
   bottom:0;
 }
