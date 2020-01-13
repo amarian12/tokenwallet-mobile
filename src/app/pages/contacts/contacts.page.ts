@@ -56,7 +56,7 @@ export class ContactsPage implements OnInit {
     // get all contact addresses
     if(this.walletService.isWalletOpen){
       this.logger.debug("### Contacts Open ###");
-      this.contacts = this.walletService.getAllAddresses();
+      this.contacts = this.walletService.getAllAddresses(); // TODO: move this to a subject on appflow
       this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
       if (!this.contacts || this.contacts.length <= 0){
         // this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
