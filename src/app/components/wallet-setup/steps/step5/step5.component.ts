@@ -53,13 +53,23 @@ export class Step5Component implements OnInit {
       this.logger.debug('### loaded email '+ this.userEmail);
       this.translate.get(['PAGES.SETUP.STEP5-REMINDER-HEADER',
                           'PAGES.SETUP.STEP5-REMINDER-SUBHEADER',
-                          'PAGES.SETUP.STEP5-REMINDER-MESSAGE']).subscribe((res: string) => {
+                          'PAGES.SETUP.STEP5-REMINDER-MESSAGE',
+                        'PAGES.SETUP.STEP5-REMINDER-BUTTON']).subscribe((res: string) => {
 
         this.alert.create({
         header: res['PAGES.SETUP.STEP5-REMINDER-HEADER'],
         subHeader: res['PAGES.SETUP.STEP5-REMINDER-SUBHEADER'],
         message: res['PAGES.SETUP.STEP5-REMINDER-MESSAGE'],
-        buttons: res['PAGES.SETUP.STEP5-REMINDER-BUTTON']
+        buttons: [
+          {
+            text:res['PAGES.SETUP.STEP5-REMINDER-BUTTON'],
+            role: 'ok',
+            cssClass: 'primary',
+            handler: () => {
+
+            }
+          }
+        ]
       }).then( alert =>  {
           alert.present();
         });

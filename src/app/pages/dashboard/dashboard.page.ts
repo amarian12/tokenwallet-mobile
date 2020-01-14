@@ -46,7 +46,7 @@ export class DashboardPage implements OnInit {
       this.walletBalances = walletBalances;
       this.logger.debug('### Dashboard - Wallet Balances: ' + JSON.stringify(this.walletBalances));
       // this.balance = CSCUtil.dropsToCsc(this.walletBalance);
-      this.marketService.updateCoinInfo();
+      // this.marketService.updateCoinInfo();
       const coinInfo = this.marketService.getCoinInfo();
       this.logger.debug('### Dashboard - Wallet coinInfo: ' + JSON.stringify(coinInfo));
       if(coinInfo){

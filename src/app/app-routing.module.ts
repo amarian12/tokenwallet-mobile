@@ -24,8 +24,8 @@ const routes: Routes = [
     loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule)
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
-  { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
-  { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
+  // { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
+  // { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'recover-mnemonic', loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule' },
   // { path: 'history-detail', loadChildren: './pages/history/history-detail/history-detail.module#HistoryDetailPageModule' },
   // { path: 'add-contact', loadChildren: './pages/contacts/add-contact/add-contact.module#AddContactPageModule' },

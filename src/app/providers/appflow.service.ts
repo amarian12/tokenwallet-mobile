@@ -26,6 +26,7 @@ export class AppflowService {
   private _transctionList = new BehaviorSubject<any>({});
   private _walletBalances = new BehaviorSubject<any[]>([]);
   private _connectedStatus = new BehaviorSubject<boolean>(false);
+  private _contacts = new BehaviorSubject<any[]>([]);
   // private tokenlist:Array<TokenType>;
 
   walletSettings: WalletSettings = {
@@ -221,6 +222,10 @@ export class AppflowService {
                 this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
 
               });
+              this.contacts.pipe(take(1)).subscribe(contacts => {
+                this._contacts.next(this.walletService.getAllAddresses());
+
+              });
               // this.cscAccounts.push({label: accountLabel, value: element.accountID});
             }
           });
@@ -262,6 +267,7 @@ export class AppflowService {
    }
    get tokenlist(){
      return this._tokenlist.asObservable()
+
    }
    getTokenAccount( pkID: string){
      return this.tokenlist.pipe(take(1),map(tokenList => {
@@ -276,6 +282,22 @@ export class AppflowService {
         return {...cscAccounts.find( account => account.PK === pkID)};
      }));
    }
+
+   get contacts(){
+     return this._contacts.asObservable()
+   }
+   getContact(accountID:string){
+     return this.contacts.pipe(take(1),map(contacts => {
+        return {...contacts.find( contact => contact.AccountID === accountID)};
+     }));
+   }
+   deleteContact(accountID:string){
+     this.walletService.removeAddress(accountID);
+     this._contacts.next(this.walletService.getAllAddresses());
+     
+   }
+
+
    get connectedStatus(){
      return this._connectedStatus.asObservable()
    }

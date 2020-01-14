@@ -51,37 +51,49 @@ export class ContactsPage implements OnInit {
   }
   ionViewWillEnter(){
 
-
-
-    // get all contact addresses
-    if(this.walletService.isWalletOpen){
-      this.logger.debug("### Contacts Open ###");
-      this.contacts = this.walletService.getAllAddresses(); // TODO: move this to a subject on appflow
-      this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
-      if (!this.contacts || this.contacts.length <= 0){
-        // this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
-        this.contactsEmpty = true;
-      }else{
-        this.contactsEmpty = false;
-
-      }
-    }else{
-      this.walletService.openWalletSubject.subscribe( result => {
-        if(result == AppConstants.KEY_LOADED){
-          this.logger.debug("### Contacts Open ###");
-          this.contacts = this.walletService.getAllAddresses();
-          this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
-          this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
-          if (this.contacts.length > 0){
-            this.contactsEmpty = false;
-          }else{
+    this.appflow.contacts.subscribe(
+      contacts => {
+        this.logger.debug('### Contacts. Contacts found through subject: '+ JSON.stringify(contacts));
+        this.contacts = contacts || [];
+        if (!this.contacts || this.contacts.length <= 0){
+           this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
             this.contactsEmpty = true;
+          }else{
+            this.contactsEmpty = false;
 
           }
-        }
-      });
 
-    }
+    });
+
+    // // get all contact addresses
+    // if(this.walletService.isWalletOpen){
+    //   this.logger.debug("### Contacts Open ###");
+    //   this.contacts = this.walletService.getAllAddresses(); // TODO: move this to a subject on appflow
+    //   this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
+    //   if (!this.contacts || this.contacts.length <= 0){
+    //     // this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
+    //     this.contactsEmpty = true;
+    //   }else{
+    //     this.contactsEmpty = false;
+    //
+    //   }
+    // }else{
+    //   this.walletService.openWalletSubject.subscribe( result => {
+    //     if(result == AppConstants.KEY_LOADED){
+    //       this.logger.debug("### Contacts Open ###");
+    //       this.contacts = this.walletService.getAllAddresses();
+    //       this.logger.debug("### Contacts Found :"+JSON.stringify(this.contacts));
+    //       this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
+    //       if (this.contacts.length > 0){
+    //         this.contactsEmpty = false;
+    //       }else{
+    //         this.contactsEmpty = true;
+    //
+    //       }
+    //     }
+    //   });
+    //
+    // }
 
   }
 
@@ -104,7 +116,7 @@ export class ContactsPage implements OnInit {
       }, {
         text: this.errorMessageList['DELETEBTN'],
         handler: () => {
-          this.walletService.removeAddress(accountID);
+          this.appflow.deleteContact(accountID);
           this.logger.debug('### Contact '+accountID+' Deleted!!');
         }
       }

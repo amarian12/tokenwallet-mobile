@@ -7,6 +7,7 @@ export class AppConstants {
     public static KEY_BACKUP_LOCATION = 'backupLocation';
     public static KEY_WALLET_MNEMONIC_RECOVERY = 'mnemonicRecovery';
     public static KEY_WALLET_MNEMONIC_HASH = 'mnemonicHash';
+    public static KEY_WALLET_MNEMONIC_WORDS = 'mnemonicWords';
     public static KEY_WALLET_PASSWORD_HASH = 'walletPasswordHash';
     public static KEY_WALLET_EMAIL = 'walletEmailAddress';
     public static KEY_PRODUCTION_NETWORK = 'productionNetwork';

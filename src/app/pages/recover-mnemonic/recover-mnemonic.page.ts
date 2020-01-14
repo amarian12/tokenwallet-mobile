@@ -148,6 +148,10 @@ back(){
                          accountFindFinishedSubject.subscribe( finished => {
                              if (!finished) {
                                  const keyPair: LokiKey = cscCrypto.generateKeyPair(sequence);
+                                 //save encrypted seed to db
+                                 let crypto = new CSCCrypto(keyPair.accountID, this.walletService.walletSetup.userEmail);
+                                 let encryptedMnemonicWords = crypto.encrypt(JSON.stringify(this.walletService.walletSetup.recoveryMnemonicWords));
+                                 this.localStorageService.set(AppConstants.KEY_WALLET_MNEMONIC_WORDS, encryptedMnemonicWords);
                                  let accountInfo: any;
                                  this.logger.debug('### Recover Keypair(' + sequence + '): ' + JSON.stringify(keyPair));
                                  this.casinocoinService.cscAPI.getAccountInfo(keyPair.accountID).then( accountInfoResult => {
@@ -373,12 +377,67 @@ back(){
   }
   onSubmit(form){
     //  TODO: validation
+    let error = "";
     if(form.form.status == "INVALID"){
+      if (!form.value.word1 || !form.value.word2 || !form.value.word3 || !form.value.word4 || !form.value.word5 || !form.value.word6 || !form.value.word7 || !form.value.word8 || !form.value.word9 || !form.value.word10 || !form.value.word11 || !form.value.word12) {
+        this.logger.debug('### RecoverMnemonic ERROR you need to input all 12 words');
+        error += "you need to input all 12 words\n";
+      }
+      if (!form.value.email) {
+        this.logger.debug('### RecoverMnemonic ERROR you need to enter an email');
+        error += "you need to enter an email\n";
+      }
+      if (!form.value.pin) {
+        this.logger.debug('### RecoverMnemonic ERROR you need to enter PIN');
+        error += "you need to enter a PIN\n";
+      }else{
+        if ( form.value.pin.length != 6 ) {
+          this.logger.debug('### RecoverMnemonic PIN should be 6 digits');
+          error += "PIN should be 6 digits\n";
 
+        }
+      }
+      if (!form.value.pinconfirm) {
+        this.logger.debug('### RecoverMnemonic ERROR you need to enter PIN again');
+        error += "you need to enter PIN again\n";
+
+      }
+      if (form.value.pinconfirm != form.value.pin) {
+        this.logger.debug('### RecoverMnemonic both pins should be equal');
+        error += "both pins should be equal\n";
+
+      }
+      const errorMessage = {
+        header:"Error",
+        subheader:"Form Validation",
+        message:error,
+        okbtn:'OK'
+      }
+      this.displayError(errorMessage);
       console.log(form.form);
       return false;
     }
 
     this.recover();
+  }
+  displayError(error){
+    this.alert.create({
+
+        header: error.header,
+        subHeader: error.subheader,
+        message: error.message,
+        buttons: [
+          {
+            text: error.okbtn,
+            role: 'ok',
+            cssClass: 'secondary',
+            handler: () => {
+              this.alert.dismiss();
+            }
+          }
+        ]
+      }).then( alert =>  {
+           return alert.present();
+      });
   }
 }
