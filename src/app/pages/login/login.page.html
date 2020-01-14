@@ -39,11 +39,8 @@
 	</ion-grid>
 
   <ion-footer class="trans ion-padding-bottom ion-margin-bottom" *ngIf="!displayCustomPin">
-
-
-      <ion-button expand="block" (click)="enterPIN()" color="primary"  [disabled]="loginDisable"> Login </ion-button>
-
-
+        <ion-button expand="block" (click)="enterPIN()" color="primary"  [disabled]="loginDisable"> Login </ion-button>
+        <p style="text-align: center; color: white;">{{ 'PAGES.LOGIN.VERSIONTITLE' | translate }}{{versionNumber}} {{ 'PAGES.LOGIN.VERSIONMESSAGE' | translate }}</p>
   </ion-footer>
   <ion-footer class="custompin" *ngIf="displayCustomPin">
     <ion-grid class="ion-text-center ion-no-padding">

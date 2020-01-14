@@ -49,6 +49,8 @@ export class RecoverMnemonicPage implements OnInit {
   walletRecoveryEnabled = false;
   paswordConfirmationEnabled = false;
   passwordsEqual = false;
+  maxActNotFound = 5;
+
   @ViewChild('recoverFromWords', { static: true }) slides: IonSlides;
   // passwordPattern = '(?=.*[0-9])(?=.*[a-z]).{8,}';
   constructor(  private logger: LogService,
@@ -134,7 +136,9 @@ back(){
          // regenerate accounts
          const accountFindFinishedSubject = new BehaviorSubject<Boolean>(false);
          let sequence = 0;
+         let actNotFoundCount = 0;
          let accountsFound = false;
+         let emptyAccountSequences = [];
          // connect to a daemon
          const cscSubscription = this.casinocoinService.connect().subscribe( result => {
              if (result === AppConstants.KEY_CONNECTED) {
@@ -266,13 +270,21 @@ back(){
                                      accountFindFinishedSubject.next(false);
                                  }).catch(error => {
                                      this.logger.debug('### Recover Catched: ' + JSON.stringify(error));
-                                     this.logger.debug('### Recover - We found our last account sequence that exists on the ledger ###');
-                                     accountFindFinishedSubject.next(true);
+                                     actNotFoundCount++;
+                                     emptyAccountSequences.push(sequence);
+                                     sequence ++;
+                                     if (actNotFoundCount > this.maxActNotFound) {
+                                        this.logger.debug('### Recover - We found our last account sequence that exists on the ledger ###');
+                                        this.logger.debug('### Recover - emptyAccountSequences: ' + JSON.stringify(emptyAccountSequences));
+                                        accountFindFinishedSubject.next(true);
+                                     } else {
+                                         accountFindFinishedSubject.next(false);
+                                     }
                                  });
                              } else {
                                  // we are finished, disconnect
                                  this.logger.debug('### Recover - Account Find Finished');
-                                 let resultMessage = 'Total accounts recovered: ' + sequence;
+                                 let resultMessage = 'Total accounts recovered: ' + (sequence - emptyAccountSequences.length);
                                  if (!accountsFound && sequence === 0) {
                                      // No accounts found !
                                      resultMessage = 'No accounts could be restored during recover.';

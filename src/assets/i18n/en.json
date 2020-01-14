@@ -102,7 +102,9 @@
 				"INVALIDPIN":"You entered an invalid PIN. Please retry!",
 				"VALIDATINGPIN":"Validating PIN"
 			},
-			"UPDATE-TITLE": "Token Wallet Update"
+			"UPDATE-TITLE": "Token Wallet Update",
+			"VERSIONMESSAGE": "Version (Testnet)",
+			"VERSIONTITLE": "Token Wallet:"
 		},
 		"MENU": {
 			"ACCOUNT-SECRET": "Account Secret",

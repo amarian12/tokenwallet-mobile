@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 // import { EloMenuController } from './providers/custommenu.service';
 
 
@@ -21,6 +22,7 @@ export class AppComponent {
   language = "";
   currency = "";
   isConnected = false;
+  versionNumber = "";
 
 
   constructor(
@@ -31,7 +33,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private translate: TranslateService,
     private logger: LogService,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private appVersion: AppVersion
   ) {
     this.initializeApp();
 
@@ -46,7 +49,7 @@ export class AppComponent {
       if (this.platform.is('cordova')) {
         this.appVersion.getVersionNumber().then(value => {
           this.appflow.versionNumber = value;
-
+          this.versionNumber = this.appflow.versionNumber;
         });
       } else {
 

@@ -1,6 +1,6 @@
 {
   "name": "@casinocoin/tokenwallet-mobile",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "CSC and Token wallet for mobile",
   "author": "CasinoCoin Foundation",
   "homepage": "https://casinocoin.org/",
@@ -129,8 +129,8 @@
       "cordova-plugin-local-notification": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

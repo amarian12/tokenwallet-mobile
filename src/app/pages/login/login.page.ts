@@ -48,6 +48,7 @@ export class LoginPage implements OnInit {
   downloadVersion = '';
   downloadCompleted = false;
   public availableWallets: Array<WalletDefinition>;
+  versionNumber = '';
 
   constructor(
       public logger: LogService,
@@ -67,6 +68,7 @@ export class LoginPage implements OnInit {
     ) {
       this.defaultAccount = this.localStorageService.get(AppConstants.KEY_DEFAULT_ACCOUNT_ID);
       this.statusBar.styleLightContent();
+      this.versionNumber = this.appflow.versionNumber;
     }
 
   ngOnInit() {

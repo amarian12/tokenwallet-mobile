@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { LogService } from './log.service';
-import { AppVersion } from '@ionic-native/app-version/ngx';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
@@ -48,7 +47,6 @@ export class WalletService {
   public txCount: number = this.getWalletTxCount();
   public lastTx: LokiTypes.LokiTransaction = this.getWalletLastTx();
 
-  public appVersionString: string;
   public walletPIN: string;
   public contactAccountID: string;
   public selectedTableAccount: any;
@@ -60,21 +58,9 @@ export class WalletService {
               private localStorageService: LocalStorageService,
               private sessionStorageService: SessionStorageService,
               // private electron: LogService,
-              private appVersion: AppVersion,
               private platform: Platform,
               private notificationService: NotificationService) {
-
-
                 this.logger.debug("### INIT WalletService ###");
-                console.log("### Platform Cordova: " + this.platform.is('cordova'));
-                if (this.platform.is('cordova')) {
-                  this.appVersion.getVersionNumber().then(value => {
-                    this.appVersionString = value;
-                  });
-                } else {
-                  this.appVersionString = "0.1.0.browser";
-                }
-
    }
 
   createWallet(): Observable<any> {
