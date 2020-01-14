@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController  } from '@ionic/angular';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
 import { AppflowService } from '../../../providers/appflow.service';
 import { LogService } from '../../../providers/log.service';
@@ -33,6 +33,7 @@ balanceToSend: any;
     private walletService: WalletService,
     private activatedRoute: ActivatedRoute,
     private nav: NavController,
+    private alert: AlertController,
     private casinocoinService: CasinocoinService,
     private sessionStorageService: SessionStorageService,
     private localStorageService: LocalStorageService,
@@ -98,6 +99,26 @@ balanceToSend: any;
 
 
   }
+  displayError(error){
+    this.alert.create({
+
+        header: error.header,
+        subHeader: error.subheader,
+        message: error.message,
+        buttons: [
+          {
+            text: error.okbtn,
+            role: 'ok',
+            cssClass: 'secondary',
+            handler: () => {
+              this.alert.dismiss();
+            }
+          }
+        ]
+      }).then( alert =>  {
+           return alert.present();
+      });
+  }
   allBalanceToAmount(){
 
       if (this.tokenAccountLoaded.Token === 'CSC') {
@@ -115,8 +136,19 @@ balanceToSend: any;
     const status  = form.status;
     if(status == "INVALID"){
 
-      console.log(form);
-      return false;
+      console.log("####### Send Token Page: ERROR: send form is not valid")
+      if(value.to == ""){
+        this.logger.debug("You must enter a destination account");
+        const errorName = {
+          header:"Error",
+          subheader:"Information Incomplete",
+          message:"you cannot send coins without a destination Account",
+          okbtn:"OK"
+        }
+        this.displayError(errorName);
+        return false;
+      }
+
     }
     this.logger.debug('### onSendFormSubmit: ' + JSON.stringify(value));
     // const password ='1234567';
@@ -125,8 +157,20 @@ balanceToSend: any;
     const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to authorize transaction");
     if(result.data.state){
 
-      // check the destination account id
-      if (this.casinocoinService.isValidAccountID(value.from.trim())) {
+      // check the origin account id
+      if (!this.casinocoinService.isValidAccountID(value.from.trim())) {
+        const errorName = {
+          header:"ERROR:",
+          subheader:"Not processed",
+          message:"AccountID you are tryng to send from is not valid",
+          okbtn:'OK'
+        }
+        this.displayError(errorName);
+        console.log("####### Invalid origin AccountID");
+        return false;
+      }
+        // check the destination account id
+      if (this.casinocoinService.isValidAccountID(value.to.trim())) {
         if (!isNaN(value.amount)) {
           // get the account secret for the CSC account
           const accountKey = this.walletService.getKey(this.tokenAccountLoaded.AccountID);
@@ -175,21 +219,54 @@ balanceToSend: any;
             // this.sendForm.reset();
           }).catch( error => {
             this.logger.debug('### ERROR: ' + JSON.stringify(error));
+            const errorName = {
+              header:"ERROR:",
+              subheader:"Unexpected error",
+              message:error,
+              okbtn:'OK'
+            }
+            this.displayError(errorName);
+            return false;
+
             // this.error_message = error;
             // this.sendForm.reset();
           });
         } else {
           // this.error_message = 'Entered value for amount is not valid';
-          console.log("####### entered value for amount is not valid")
+          const errorName = {
+            header:"ERROR:",
+            subheader:"Not processed",
+            message:"Entered amount is not valid",
+            okbtn:'OK'
+          }
+          this.displayError(errorName);
+          console.log("####### entered value for amount is not valid");
+          return false;
     //       this.showErrorDialog = true;
         }
       } else {
         // this.error_message = 'Invalid destination AccountID';
         // this.showErrorDialog = true;
-        console.log("####### Invalid destination AccountID")
+        const errorName = {
+          header:"ERROR:",
+          subheader:"Not processed",
+          message:"Destination AccountID is not valid",
+          okbtn:'OK'
+        }
+        this.displayError(errorName);
+        console.log("####### Invalid destination AccountID");
+        return false;
       }
     } else {
-      console.log("####### Wrong wallet password")
+      console.log("####### Wrong wallet password");
+      const errorName = {
+        header:"ERROR:",
+        subheader:"Not processed",
+        message:"Wrong PIN entered",
+        okbtn:'OK'
+      }
+      this.displayError(errorName);
+      return false;
     //   this.error_message = 'You entered the wrong wallet password!';
     //   this.showErrorDialog = true;
     //   this.renderer.selectRootElement('#float-input-password').value = '';

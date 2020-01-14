@@ -20,6 +20,7 @@ import { WalletDefinition } from '../../../../domains/csc-types';
 export class Step7Component implements OnInit {
 
   statusMessage: string;
+  defaultKeyPair: LokiTypes.LokiKey;
   setupFinished: boolean;
   @HostListener('window:ionSlideTransitionEnd') slideChanged() {
       this.slider.getActiveIndex().then(
@@ -97,6 +98,11 @@ export class Step7Component implements OnInit {
               lastTxID: '',
               lastTxLedger: 0
             };
+            //save encrypted seed to db
+            let crypto = new CSCCrypto(newKeyPair.accountID, this.walletService.walletSetup.userEmail);
+            let encryptedMnemonicWords = crypto.encrypt(JSON.stringify(this.walletService.walletSetup.recoveryMnemonicWords));
+            this.localStorageService.set(AppConstants.KEY_WALLET_MNEMONIC_WORDS, encryptedMnemonicWords);
+
             // save account to wallet
             this.walletService.addAccount(walletAccount);
             this.logger.debug('### WalletSetup - Encrypt Wallet Password');

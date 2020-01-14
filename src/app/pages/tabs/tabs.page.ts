@@ -71,16 +71,15 @@ export class TabsPage implements OnInit{
                       this.selectedWallet = { walletUUID: '', creationDate: -1, location: '', mnemonicHash: '', network: '', passwordHash: '', userEmail: ''};
                       this.router.navigate(['/wallet-setup']);
                   }
-                  // set first wallet as selected
-                  this.selectedWallet = this.availableWallets[0];
+                  // set last wallet as selected
+                  this.selectedWallet = this.availableWallets[this.availableWallets.length - 1];
                   const walletCreationDate = new Date(CSCUtil.casinocoinToUnixTimestamp(this.selectedWallet.creationDate));
                   this.translate.get('PAGES.LOGIN.CREATED-ON').subscribe((res: string) => {
                       this.walletCreationDate = res + ' ' + this.datePipe.transform(walletCreationDate, 'yyyy-MM-dd HH:mm:ss');
                   });
                   this.walletEmail = this.selectedWallet.userEmail;
-                  this.walletPassword = '1234567';
                   this.sessionStorageService.set(AppConstants.KEY_CURRENT_WALLET, this.selectedWallet);
-                  this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletPassword);
+
                   // get the complete wallet object
                   this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
                   this.logger.info('### Tabs Page: currentWallet: ' + JSON.stringify(this.currentWalletObject));
