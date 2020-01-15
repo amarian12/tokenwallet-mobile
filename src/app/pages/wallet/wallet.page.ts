@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, ModalController, AlertController } from '@ionic/angular';
+import { ActionSheetController, ModalController, AlertController, LoadingController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AddTokenComponent } from './add-token/add-token.component';
 import { CustomPinComponent } from '../login/custom-pin/custom-pin.component';
@@ -82,6 +82,7 @@ export class WalletPage implements OnInit {
                private appflow: AppflowService,
                private alertCtrl: AlertController,
                private casinocoinService: CasinocoinService,
+                private loading: LoadingController,
                private sessionStorageService: SessionStorageService,
                private localStorageService: LocalStorageService,
                private currencyPipe: CurrencyPipe,
@@ -220,8 +221,18 @@ export class WalletPage implements OnInit {
                 async addCSCAccount(){
                   this.logger.debug('### WalletPage: add CSC account');
                    const result = await this.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account");
-                   this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
-                   if(result.data.state){
+
+                    const msg = "Adding CSC account to Wallet";
+                     this.loading
+                     .create({
+                       keyboardClose:true,
+                       message:msg
+                     })
+                     .then( loading => {
+
+                      loading.present();
+                      this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
+                      if(result.data.state){
                      const password = result.data.password;
                      this.walletPassword = password;
                      this.logger.debug('### WalletPage: password OK adding account');
@@ -234,13 +245,15 @@ export class WalletPage implements OnInit {
                        if (refreshResult) {
                          this.tokenlist = this.casinocoinService.tokenlist;
                          this.appflow.setTokenlist(this.casinocoinService.tokenlist);
+                         this.loading.dismiss();
                        }
                      });
-
                    }else{
                      this.logger.debug('### WalletPage: password WRONG not adding account');
 
                    }
+                });//end of loading
+
 
 
                 }

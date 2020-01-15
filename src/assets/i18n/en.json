@@ -38,7 +38,6 @@
 				"CANCELBTN":"Cancel",
 				"DELETEBTN":"Delete anyway"
 			}
-
 		},
 		"DASHBOARD": {
 			"24H-VOLUME": "24 Hour Volume",
@@ -105,6 +104,9 @@
 			"UPDATE-TITLE": "Token Wallet Update",
 			"VERSIONMESSAGE": "Version (Testnet)",
 			"VERSIONTITLE": "Token Wallet:"
+		},
+		"TABS":{
+			"FINDING-WALLETS":"Finding Wallets and connecting to blockchain"
 		},
 		"MENU": {
 			"ACCOUNT-SECRET": "Account Secret",
@@ -174,7 +176,8 @@
 		},
 		"RECOVER": {
 			"TITLE":"Recover Wallet with Words",
-			"INTRO":"Enter the words and email, and choose a new PIN to start the wallet recovery process",
+			"INTRO":"Enter all the words in the same order they were provided and the associated email, and then tap on SELECT A PIN",
+			"INTRO2":"Choose a new PIN, select the network and tap  RECOVER WALLET to start the wallet recovery process",
 			"MSG":"Please enter the 12 words given during wallet setup in the same order as they appeared. Then enter the email address used during wallet setup. Finally enter a password for the new wallet that will be created during this recovery",
 			"WARNING":"Remember that wallet will get overwitten with the wallet that's being recovered. So if you didn't make a backup, or you don't have the words safely stored, or you had imported external accounts, all might be lost and unrecoverable after you restore another wallet.",
 			"ACCEPT-BUTTON":"I Understand and want to procced",
@@ -260,6 +263,20 @@
 			"ACTIVATE-CSC": "Please send a minimal amount of {{accountReserve}} CSC to your account to activate it.",
 			"ACTIVE": "Active",
 			"ADD-ACCOUNT": "Add Account",
+			"TOKEN-SEND":{
+				"ERRORS":{
+					"HEADER":"ERROR",
+					"SUBHEADER-NP":"Not processed",
+					"SUBHEADER-UE":"Unexpected error",
+					"SUBHEADER-IN":"Information incomplete",
+					"MSG-DESTEMPTY":"You cannot send coins without a destination Account",
+					"MSG-ACTINVALID":"AccountID you are tryng to send from is not valid",
+					"MSG-AMTINVALID":"Entered amount is not valid",
+					"MSG-DESTINVALID":"Destination AccountID is not valid",
+					"MSG-PININVALID":"Wrong PIN entered",
+					"BTN-OK":"OK"		
+				}
+			},
 			"ADD-NEW-CSC-PASSWORD": "Please supply your current wallet password",
 			"ADD-NEW-CSC-TITTLE": "Add new CasinoCoin account",
 			"ADD-NEW-TOKEN-TITTLE": "Add new token account",

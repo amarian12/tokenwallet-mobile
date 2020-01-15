@@ -144,10 +144,10 @@ export class AddContactPage implements OnInit {
       console.log(this.walletService.isWalletOpen);
       if(this.casinocoinService.isValidAccountID(this.contact.accountID)){
         if(this.editMode){
-          this.walletService.updateAddress(this.contact);
+          this.appflow.updateContact(this.contact);
           this.logger.debug("Contact updated Successfully");
         }else{
-          this.walletService.addAddress(this.contact);
+          this.appflow.addContact(this.contact);
           this.logger.debug("Contact added Successfully");
         }
         this.router.navigate(['./tabs/contacts'], { relativeTo: this.activeRoute.parent });
