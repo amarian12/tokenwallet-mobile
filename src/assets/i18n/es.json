@@ -11,16 +11,33 @@
 		"CONTACTS": {
 			"ADD-CONTACTS-ACCOUNT-LABEL": "ID de la cuenta:",
 			"ADD-CONTACTS-ADD-BTN": "Agregar contacto:",
+			"ADD-CONTACTS-UPD-BTN": "Actualizar contacto",
 			"ADD-CONTACTS-BUTTON": "Añade un contacto",
 			"ADD-CONTACTS-CANCEL-BTN": "Cancelar",
 			"ADD-CONTACTS-DESTINATION-TAG-LABEL": "Etiqueta de destino:",
 			"ADD-CONTACTS-NAME-LABEL": "Nombre:",
 			"ADD-CONTACTS-NOTES-LABEL": "Notas:",
+			"ADD-CONTACTS-ERRORS":{
+				"HEADER":"ERROR",
+				"SUBHEADER":"Contacto no agregado",
+				"MSGACCTIDREQUIRED":"debe ingresar el ID de la cuenta",
+				"MSGNAMEREQUIRED":"Debe ingresar un nombre de contacto",
+				"MSGINVALIDACCTID":"Este no es un ID de cuenta valido. Por favor verifique e intente nuevamente",
+				"MSGALREADYADDED":"El ID de cuenta ya se habia agregado a los Constactos",
+				"OK":"Ok"
+			},
 			"ADD-CONTACTS-SCAN-BTN": "Escanear",
 			"ADD-CONTACTS-TITLE": "Añadir nuevo contacto",
 			"NO-CONTACTS": "Sin contactos",
 			"NO-CONTACTS-MESSAGE": "Aún no tienes ningún contacto",
-			"TITLE": "Contactos"
+			"TITLE": "Contactos",
+			"DELETE-CONTACT":{
+				"HEADER":"Eliminando Contacto",
+				"SUBHEADER":"Confirmar accion",
+				"MSG":"Esta seguro? Esta accion no se puede deshacer, su contacto se perdera y debera agregarlo de nuevo",
+				"CANCELBTN":"Cancelar",
+				"DELETEBTN":"Eliminar igualmente"
+			}
 		},
 		"DASHBOARD": {
 			"24H-VOLUME": "Volumen de 24 horas",
@@ -78,8 +95,18 @@
 			"RECOVER-BACKUP": "RECUPERAR DEL RESPALDO",
 			"RECOVER-MNEMONIC": "RECUPERAR DESDE PALABRAS",
 			"SELECT": "Seleccionar billetera",
-			"TITLE": "Cartera abierta",
-			"UPDATE-TITLE": "Actualización"
+			"TITLE": "Billetera abierta",
+			"ERRORS":{
+				"IMPOSSIBLE":"Error desconocido y sumamente extrano!",
+				"INVALIDPIN":"Ingreso un PIN invalido. Intente de nuevo!",
+				"VALIDATINGPIN":"Validando PIN"
+			},
+			"UPDATE-TITLE": "Actualización",
+			"VERSIONMESSAGE": "Version (Testnet)",
+			"VERSIONTITLE": "Token Wallet:"
+		},
+		"TABS":{
+			"FINDING-WALLETS":"Encontrando billetera y conectando a la cadena de bloques"
 		},
 		"MENU": {
 			"ACCOUNT-SECRET": "Secreto de cuenta",
@@ -111,7 +138,62 @@
 			"TITLE-INSTRUCTIONS": "Instrucciones de billetera de papel"
 		},
 		"SETTINGS": {
-			"TITLE": "Ajustes"
+			"TITLE": "Ajustes",
+			"LANGUAGE":"Lenguaje",
+			"CURRENCY":"Moneda",
+			"OS-DETECTED":"Ajustes del sistema",
+			"LANGUAGES":{
+					"EN":"Ingles",
+					"ES":"Espanol",
+					"FR":"Frances",
+					"DE":"Aleman"
+			},
+			"CURRENCIES":{
+				"USD":"USD",
+				"EUR":"EUR",
+				"GBP":"GBP",
+				"JPY":"JPY",
+				"CAD":"CAD",
+				"AUD":"AUD",
+				"BRL":"BRL",
+				"CHF":"CHF",
+				"NZD":"NZD",
+				"RUB":"RUB"
+			},
+			"SETTINGS-SAVED":"Sus ajustes se guardaron correctamente",
+			"NAME":"Apodo",
+			"NAME-ENTER":"Ingrese su apodo favorito or handle de discord",
+			"DISPLAY-MODE":"Tema visual",
+			"THEMES":{
+				"LIGHT":"Tema iluminado",
+				"DARK":"Tema Oscuro"
+
+			},
+			"DISPLAY-MODE-ENTER":"Seleccione su tema preferido",
+
+			"SAVE-SETTINGS":"Guardar cambios",
+			"DISCARD-SETTINGS":"Descartar cambios"
+		},
+		"RECOVER": {
+			"TITLE":"Recuperar billetera usando las palabras",
+			"INTRO":"Ingrese todas las palabras en el mismo orden que se le suministraron y el email asociado, entonces toque ASIGNAR PIN",
+			"INTRO2":"Elija un nuevo PIN, seleccione la red y toque RECUPERAR BILLETERA para iniciar el proceso de recuperacion de la billetera",
+			"MSG":"Por favor ingrese las 12 palabras que fueron suministradas en el mismo orden que aparecian. Luego ingrese la cuenta email usada en la configuracion. Finalmente ingrese un nuevo PIN para ser usado para acceder a la billetera que se recuperara",
+			"WARNING":"Recuerde que esta billetera se sobreescribira con la billetera que esta siendo recuperada. Si usted no ha hecho un respaldo, si no tiene las palabras escritas, si ha importado cuentas externas,  todo puede perderse de manera irrecuperable luego que usted restaure otra billetera.",
+			"ACCEPT-BUTTON":"Entiendo y deseo continuar",
+			"EMAIL":"Direccion Email",
+			"NETWORK":{
+				"CHOICE":"Network",
+				"LIVE":"LIVE",
+				"TEST":"TEST"
+			},
+			"PIN":"Nuevo PIN",
+			"PIN-CONFIRM":"Confirmar PIN",
+			"ERROR":"Error: ",
+			"RECOVER-BTN":"Recuperar billetera",
+			"BACK-BTN":"Regresar a palabras",
+			"NEXT-BTN":"Asignar PIN",
+			"CANCEL-BTN":"Cancelar"
 		},
 		"SETUP": {
 			"BTN-CONTINUE": "Continuar",
@@ -155,6 +237,7 @@
 			"STEP5-REMINDER-HEADER": "¡¡Advertencia!!",
 			"STEP5-REMINDER-MESSAGE": "En caso que pierda acceso a su billetera o su contraseña, podrá recuperarse usando la frase de recuperación y el la dirección Email que usted usó para crear la billetera. Por favor escriba las palabras mostradas en el orden exacto en el que aparecen, junto con su dirección email en una hoja de papel o similar y mantenga esta información en un lugar seguro.",
 			"STEP5-REMINDER-SUBHEADER": "Por favor lea cuidadosamente",
+			"STEP5-TITLE": "Frase de recuperacion de billetera",
 			"STEP5-SUBTITLE": "recuerda hacer tu copia.",
 			"STEP6-SUBTITLE": "Por favor ingrese las palabras solicitadas",
 			"STEP6-TITLE": "Comprobación de frase de contraseña de recuperación de billetera",
@@ -180,6 +263,20 @@
 			"ACTIVATE-CSC": "Envíe una cantidad mínima de {{accountReserve}} CSC a su cuenta para activarla.",
 			"ACTIVE": "Activo",
 			"ADD-ACCOUNT": "Añadir cuenta",
+			"TOKEN-SEND":{
+				"ERRORS":{
+					"HEADER":"ERROR",
+					"SUBHEADER-NP":"No procesado",
+					"SUBHEADER-UE":"Error inesperado",
+					"SUBHEADER-IN":"Informacion incompleta",
+					"MSG-DESTEMPTY":"No puede enviar monedas sin una cuenta de destino",
+					"MSG-ACTINVALID":"Esta intentando enviar monedas desde una cuenta invalida",
+					"MSG-AMTINVALID":"La cantidad ingresada no es valida",
+					"MSG-DESTINVALID":"Destination AccountID is not valid",
+					"MSG-PININVALID":"PIN ingresado no es correcto",
+					"BTN-OK":"Aceptar"
+				}
+			},
 			"ADD-NEW-CSC-PASSWORD": "Proporcione su contraseña de billetera actual",
 			"ADD-NEW-CSC-TITTLE": "Agregar nueva cuenta de CasinoCoin",
 			"ADD-NEW-TOKEN-TITTLE": "Agregar nueva cuenta de token",
@@ -229,7 +326,9 @@
 			"TOACCOUNT": "A la cuenta",
 			"TOKEN": "Token",
 			"TX": "Tx",
-			"UPDATEQR": "Actualizar el QR"
+			"UPDATEQR": "Actualizar el QR",
+			"SHAREQR": "compartir QR",
+			"SHARESTRING": "compartir ID de la cuenta "
 		}
 	}
 }

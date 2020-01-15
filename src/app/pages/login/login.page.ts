@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
   walletCreationDate: string;
   walletEmail: string;
   wallets: any[] = [];
-
+  theme: string;
   returnUrl: string;
   footer_visible = false;
   error_message: string;
@@ -73,6 +73,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.logger.debug('### LoginComponent onInit');
+    this.theme = this.appflow.dark ? "dark":"light";
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     // get available wallets (we switched to a single wallet for WLT wallet)

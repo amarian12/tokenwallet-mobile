@@ -299,8 +299,16 @@ export class AppflowService {
    deleteContact(accountID:string){
      this.walletService.removeAddress(accountID);
      this._contacts.next(this.walletService.getAllAddresses());
-     
    }
+     addContact(contact:any){
+       this.walletService.addAddress(contact);
+       this._contacts.next(this.walletService.getAllAddresses());
+    }
+
+    updateContact(contact:any){
+      this.walletService.updateAddress(contact);
+      this._contacts.next(this.walletService.getAllAddresses());
+    }
 
 
    get connectedStatus(){
