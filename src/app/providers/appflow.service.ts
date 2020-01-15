@@ -160,7 +160,7 @@ export class AppflowService {
         // this.translateParams = {accountReserve: this.casinocoinService.serverInfo.reserveBaseCSC};
         // refresh Accounts
         this.logger.debug('### Appflow: Account Refresh');
-        this.casinocoinService.refreshAccounts().subscribe(accountRefreshFinished => {
+        this.casinocoinService.refreshWalletAccounts().subscribe(accountRefreshFinished => {
           if (accountRefreshFinished) {
             this._accountRefreshFinished.next(true);
             // refresh Token List

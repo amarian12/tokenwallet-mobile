@@ -726,7 +726,7 @@ export class WalletService {
               // save account to wallet
               this.addAccount(walletAccount);
               this.logger.debug('### Added new WalletAccount: ' + JSON.stringify(walletAccount));
-
+              this.saveWallet();
             }
           });
         }

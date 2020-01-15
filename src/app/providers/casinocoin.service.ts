@@ -348,6 +348,38 @@ export class CasinocoinService implements OnDestroy {
         return obj;
     }
 
+    refreshWalletAccounts(): Observable<any> {
+        const accountUpdatingSubject = new BehaviorSubject<boolean>(false);
+        this.connectSubject.subscribe( connectResult => {
+            if (connectResult === AppConstants.KEY_CONNECTED) {
+                this.logger.debug('### CasinocoinService -> refreshWalletAccounts()');
+                // make sure the wallet is openend
+                this.openWalletSubject.subscribe( async result => {
+                    if (result === AppConstants.KEY_LOADED) {
+                        const walletAccounts = this.walletService.getAllAccounts();
+                        this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Wallet Accounts: ' + JSON.stringify(walletAccounts));
+                        walletAccounts.forEach( account => {
+                            try{
+                                // upate account info
+                                this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Update Account: ' + JSON.stringify(account));
+                                this.updateAccountInfo(account.currency, account.accountID);
+                            } catch(error) {
+                                this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Error: ' + JSON.stringify(error));
+                            }
+                        });
+                        const cscWalletAccounts: Array<LokiAccount> = this.walletService.getSortedCSCAccounts('balance', true);
+                        cscWalletAccounts.forEach( cscAccount => {
+                            // update account transactions
+                            this.updateAccountTxs(cscAccount.accountID);
+                        })
+                        accountUpdatingSubject.next(true);
+                    }
+                });
+            }
+        });
+        return accountUpdatingSubject.asObservable();
+    }
+
     refreshAccounts(): Observable<any> {
         const walletPassword = this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD);
         const accountUpdatingSubject = new BehaviorSubject<boolean>(false);

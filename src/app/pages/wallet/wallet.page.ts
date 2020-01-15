@@ -225,7 +225,11 @@ export class WalletPage implements OnInit {
                      const password = result.data.password;
                      this.walletPassword = password;
                      this.logger.debug('### WalletPage: password OK adding account');
+                     // add account to wallet
                      this.walletService.addCSCAccount(password);
+                     // subscribe to account updates
+                     this.casinocoinService.subscribeAccountEvents();
+                     // refresh tokenlist
                      this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
                        if (refreshResult) {
                          this.tokenlist = this.casinocoinService.tokenlist;
