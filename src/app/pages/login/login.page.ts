@@ -205,7 +205,7 @@ export class LoginPage implements OnInit {
                        this.loginFinished = true;
                        // const walletIndex = this.availableWallets.findIndex( item => item['walletUUID'] === this.selectedWallet);
                        this.sessionStorageService.set(AppConstants.KEY_CURRENT_WALLET, this.selectedWallet);
-                       this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.walletPassword);
+                       this.sessionStorageService.set(AppConstants.KEY_WALLET_PASSWORD, this.enteredPinCode);
                        this.localStorageService.set(AppConstants.KEY_WALLET_LOCATION, this.selectedWallet.location);
                        if (this.selectedWallet.network === 'LIVE') {
                            this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, true);

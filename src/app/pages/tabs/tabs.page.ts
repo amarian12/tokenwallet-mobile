@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { take } from 'rxjs/operators';
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
 import { MarketService } from '../../providers/market.service';
@@ -49,7 +50,7 @@ export class TabsPage implements OnInit{
              ) { }
 
              ngOnInit() {
-               this.loadingMessage = "Finding Wallets and connecting to blockchain";
+               this.loadingMessage = "Connecting to blockchain and refreshing accounts";
                this.loading
                .create({
                  keyboardClose:true,
@@ -60,10 +61,7 @@ export class TabsPage implements OnInit{
                   this.appflow.tokenlist.subscribe(
                     tokenList => {
                       const tokens = tokenList;
-
                       this.logger.info('### Tabs Page: loading tokenlist: ' + JSON.stringify(tokens));
-
-
                     });
                   console.log(this.loadingMessage);
                   this.availableWallets = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
@@ -134,11 +132,13 @@ export class TabsPage implements OnInit{
                       // refresh available token list
                       this.casinocoinService.refreshAvailableTokenList();
                       this.loadingMessage = "Obtained Token List";
-                      setTimeout(() => {
-                        this.loading.dismiss();
-
-                      }, 1000);
-
+                      this.logger.debug('### Refreshing Available Tokenlist');
+                      this.appflow.accountRefreshFinished.subscribe(finished => {
+                        if (finished) {
+                          this.logger.debug('### Timeout, dismiss popup');
+                          this.loading.dismiss();
+                        }
+                      });
                     } else {
                       this.logger.debug('### DISCONECTED!');
                       this.loadingMessage = "CasinoCoin Blockchain Offline";

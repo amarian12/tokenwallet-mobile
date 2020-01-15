@@ -26,6 +26,7 @@ export class AppflowService {
   private _transctionList = new BehaviorSubject<any>({});
   private _walletBalances = new BehaviorSubject<any[]>([]);
   private _connectedStatus = new BehaviorSubject<boolean>(false);
+  private _accountRefreshFinished = new BehaviorSubject<boolean>(false);
   private _contacts = new BehaviorSubject<any[]>([]);
   // private tokenlist:Array<TokenType>;
 
@@ -161,6 +162,7 @@ export class AppflowService {
         this.logger.debug('### Appflow: Account Refresh');
         this.casinocoinService.refreshAccounts().subscribe(accountRefreshFinished => {
           if (accountRefreshFinished) {
+            this._accountRefreshFinished.next(true);
             // refresh Token List
             this.logger.debug('### Appflow: TokenList Refresh');
             this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
@@ -300,6 +302,9 @@ export class AppflowService {
 
    get connectedStatus(){
      return this._connectedStatus.asObservable()
+   }
+   get accountRefreshFinished(){
+     return this._accountRefreshFinished.asObservable()
    }
    getConectedStatus(){
      return this.connectedStatus.pipe(take(1),map(connectedStatus => {
