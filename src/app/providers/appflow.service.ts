@@ -271,6 +271,9 @@ export class AppflowService {
      return this._tokenlist.asObservable()
 
    }
+   setTokenlist(newList){
+     this._tokenlist.next(newList);
+   }
    getTokenAccount( pkID: string){
      return this.tokenlist.pipe(take(1),map(tokenList => {
         return {...tokenList.find( token => token.PK === pkID)};

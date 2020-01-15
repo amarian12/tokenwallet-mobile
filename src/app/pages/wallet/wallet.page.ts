@@ -233,6 +233,7 @@ export class WalletPage implements OnInit {
                      this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
                        if (refreshResult) {
                          this.tokenlist = this.casinocoinService.tokenlist;
+                         this.appflow.setTokenlist(this.casinocoinService.tokenlist);
                        }
                      });
 

@@ -42,8 +42,8 @@ export class TokenDetailPage implements OnInit {
          this.appflow.getTokenAccount(tokenId).subscribe(
           token => {
               this.tokenAccountLoaded = token
+              this.logger.debug("Token Detail Page: getting token account object result: "+JSON.stringify(this.tokenAccountLoaded));
           });
-         this.logger.debug("Token Detail Page: getting token account object right away: "+JSON.stringify(this.tokenAccountLoaded));
          this.appflow.transactionParams.subscribe(
            transactionParams => {
              this.fees = transactionParams.fees;
