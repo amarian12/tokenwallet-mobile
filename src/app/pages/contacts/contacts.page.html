@@ -66,7 +66,7 @@
               </ion-button>
               <ion-button  fill="clear" (click)="copyAccountID(contact.accountID)">
 
-                  <ion-icon name="clipboard"  class="icon-large"></ion-icon>
+                  <ion-icon [name]="copyIcon"  class="icon-large"></ion-icon>
 
               </ion-button>
               <ion-button  fill="clear" [routerLink]="'/tabs/contacts/edit/'+contact.accountID ">

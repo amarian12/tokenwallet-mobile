@@ -8,6 +8,7 @@ import { AppConstants } from '../../domains/app-constants';
 import { WalletService } from '../../providers/wallet.service';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { TranslateService } from '@ngx-translate/core';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-contacts',
@@ -19,6 +20,7 @@ export class ContactsPage implements OnInit {
   contacts: Array<LokiAddress> = []
   contactsEmpty = true;
   errorMessageList: string[];
+  copyIcon = 'copy';
   mainCSCAccount:LokiAccount;
   constructor(
     private logger: LogService,
@@ -99,6 +101,11 @@ export class ContactsPage implements OnInit {
 
   copyAccountID(text){
     this.clipboard.copy(text);
+    this.copyIcon = 'checkmark';
+    const finishTimer = timer(1000);
+    finishTimer.subscribe(val =>  {
+      this.copyIcon = 'copy';
+    });
   }
   onDeleteContact(accountID){
     this.alert.create({

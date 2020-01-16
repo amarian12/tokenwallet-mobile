@@ -63,7 +63,7 @@
               {{transactionLoaded.accountID}}
             </ion-text>
             <ion-button slot="end" color="primary" (click)="copyAccountID(transactionLoaded.accountID)">
-              <ion-icon slot="icon-only" name="copy"></ion-icon>
+              <ion-icon slot="icon-only" [name]="copyIcon"></ion-icon>
             </ion-button>
         </ion-item>
       </ion-col>
@@ -78,7 +78,7 @@
             {{transactionLoaded.destination}}
           </ion-text>
           <ion-button slot="end" color="primary" (click)="copyAccountID(transactionLoaded.destination)">
-            <ion-icon slot="icon-only" name="copy"></ion-icon>
+            <ion-icon slot="icon-only" [name]="copyIcon"></ion-icon>
           </ion-button>
         </ion-item>
       </ion-col>

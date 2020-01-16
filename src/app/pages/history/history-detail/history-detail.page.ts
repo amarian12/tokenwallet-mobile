@@ -7,6 +7,7 @@ import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { WalletService } from '../../../providers/wallet.service';
 import { AppConstants } from '../../../domains/app-constants';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-history-detail',
@@ -15,6 +16,7 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
 })
 export class HistoryDetailPage implements OnInit {
 
+  copyIcon = 'copy';
   transactionLoaded:any;
   currentWalletObject:any;
   constructor(
@@ -77,5 +79,10 @@ export class HistoryDetailPage implements OnInit {
   }
   copyAccountID(text){
     this.clipboard.copy(text);
+    this.copyIcon = 'checkmark';
+    const finishTimer = timer(1000);
+    finishTimer.subscribe(val =>  {
+      this.copyIcon = 'copy';
+    });
   }
 }
