@@ -373,7 +373,7 @@ export class CSCCrypto {
     const reHashedHashString = reHashedHash.toString(CryptoJS.enc.Base64);
     // generate hex entropy
 
-    const entropyHex = CryptoJS.PBKDF2(reHashedHashString, this.passwordSalt, {keySize: this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds }).toString(CryptoJS.enc.Hex);
+    const entropyHex = CryptoJS.PBKDF2(reHashedHashString, this.passwordSalt, {keySize: this.pbkdf2KeyLength, iterations: this.pbkdf2Rounds, hasher: CryptoJS.algo.SHA512 }).toString(CryptoJS.enc.Hex);
         // convert hex string to array buffer
     const entropyArray = new Uint8Array(entropyHex.match(/[\da-f]{2}/gi).map(function (h) {
       return parseInt(h, 16);
