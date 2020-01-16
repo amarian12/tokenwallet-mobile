@@ -7,6 +7,7 @@ import { AppflowService } from '../../../providers/appflow.service';
 import { TokenType } from '../../../domains/csc-types';
 import { LogService } from '../../../providers/log.service';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-token-detail',
@@ -18,6 +19,7 @@ export class TokenDetailPage implements OnInit {
   fees: string;
   accountReserve: string;
   reserveIncrement: string;
+  copyIcon: string = 'copy';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -105,6 +107,11 @@ export class TokenDetailPage implements OnInit {
   }
   copyAccountID(text){
     this.clipboard.copy(text);
+    this.copyIcon = 'checkmark';
+    const finishTimer = timer(1000);
+    finishTimer.subscribe(val =>  {
+      this.copyIcon = 'copy';
+    });
   }
   getExploreURL(){
     return  'http://testexplorer.casinocoin.org/address/' + this.tokenAccountLoaded.AccountID;
