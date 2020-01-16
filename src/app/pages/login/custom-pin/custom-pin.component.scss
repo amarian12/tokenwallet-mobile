@@ -4,12 +4,21 @@ ion-content{
   background-size: cover;
 
 }
+ion-row.pinrow{
+    background:var(--ion-color-light-shade);
+}
 ion-footer.custompin{
-  background:var(--ion-color-light);
   position:absolute;
   bottom:0;
 }
+ion-footer.custompin ion-button{
+  height: 45px;
+}
 ion-footer.trans{
   position:absolute;
-  bottom:0;
+  bottom:10vh;
+}
+h1{
+  font-weight: bold;
+  font-size: 30px;
 }

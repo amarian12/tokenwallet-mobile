@@ -59,7 +59,8 @@ export class AppComponent {
       this.dark = this.appflow.dark;
       this.language = this.appflow.language;
       this.currency = this.appflow.currency;
-      this.translate.setDefaultLang(this.language);
+      this.translate.setDefaultLang('en');
+      this.translate.use(this.language);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.appflow.connectedStatus.subscribe(
@@ -80,6 +81,9 @@ export class AppComponent {
     this.appflow.authCorrect = false;
     this.appflow.loggedIn = false;
     this.router.navigate(['/login']);
+  }
+  exit(){
+    navigator['app'].exitApp();
   }
   ionViewWillEnter(){
 

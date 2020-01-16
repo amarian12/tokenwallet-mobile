@@ -18,6 +18,7 @@ import { AppflowService } from '../../providers/appflow.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { LedgerStreamMessages, TokenType, Payment, WalletDefinition } from '../../domains/csc-types';
 import Big from 'big.js';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-wallet',
@@ -27,7 +28,7 @@ import Big from 'big.js';
 export class WalletPage implements OnInit {
   columnCount: number;
   tokenlist: Array<TokenType>
-
+  copyIcon = 'copy';
   isLoading: boolean;
   ledgers: LedgerStreamMessages[] = [];
   receipient: string;
@@ -65,7 +66,6 @@ export class WalletPage implements OnInit {
   sendAmount: string;
   destinationTag: number;
   label: string;
-  copyIcon = 'fa fa-copy';
 
   showSecretDialog = false;
   showSecret = false;
@@ -156,6 +156,11 @@ export class WalletPage implements OnInit {
                 }
                 copyAccountID(text){
                   this.clipboard.copy(text);
+                  this.copyIcon = 'checkmark';
+                  const finishTimer = timer(1000);
+                  finishTimer.subscribe(val =>  {
+                    this.copyIcon = 'copy';
+                  });
                 }
                 filterFunction(token){
                   if(token.Token == this.filterToken.toUpperCase() || this.filterToken.toUpperCase() == 'ALL'){
@@ -220,7 +225,6 @@ export class WalletPage implements OnInit {
                 }
                 async addCSCAccount(){
                   this.logger.debug('### WalletPage: add CSC account');
-                   const result = await this.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account");
 
                     const msg = "Adding CSC account to Wallet";
                      this.loading
@@ -228,11 +232,12 @@ export class WalletPage implements OnInit {
                        keyboardClose:true,
                        message:msg
                      })
-                     .then( loading => {
+                     .then( async loading => {
+                       const result = await this.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account");
 
                       loading.present();
-                      this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
                       if(result.data.state){
+                      this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
                      const password = result.data.password;
                      this.walletPassword = password;
                      this.logger.debug('### WalletPage: password OK adding account');
@@ -245,11 +250,14 @@ export class WalletPage implements OnInit {
                        if (refreshResult) {
                          this.tokenlist = this.casinocoinService.tokenlist;
                          this.appflow.setTokenlist(this.casinocoinService.tokenlist);
-                         this.loading.dismiss();
+
                        }
+                        this.loading.dismiss();
+
                      });
                    }else{
                      this.logger.debug('### WalletPage: password WRONG not adding account');
+                     this.loading.dismiss();
 
                    }
                 });//end of loading

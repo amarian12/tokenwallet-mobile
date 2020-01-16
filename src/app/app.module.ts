@@ -72,7 +72,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletSetupModule,
     BrowserModule,
     FormsModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode:"md"
+    }),
     HttpClientModule,
     CSCPipe.forRoot(),
     NativeHttpModule,
