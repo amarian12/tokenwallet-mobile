@@ -49,7 +49,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.LANGUAGE' | translate }}</ion-label>
-      <ion-select value="en" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.walletLanguage">
+      <ion-select value="en" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
         <ion-select-option value="en">{{ 'PAGES.SETTINGS.LANGUAGES.EN' | translate }}</ion-select-option>
         <ion-select-option value="es">{{ 'PAGES.SETTINGS.LANGUAGES.ES' | translate }}</ion-select-option>
         <ion-select-option value="de">{{ 'PAGES.SETTINGS.LANGUAGES.DE' | translate }}</ion-select-option>
@@ -58,7 +58,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.DISPLAY-MODE' | translate }}</ion-label>
-      <ion-select value="light" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.styleTheme">
+      <ion-select value="light" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.styleTheme" (ionChange)="themeChanged()">
         <ion-select-option value="light">{{ 'PAGES.SETTINGS.THEMES.LIGHT' | translate }}</ion-select-option>
         <ion-select-option value="dark">{{ 'PAGES.SETTINGS.THEMES.DARK' | translate }}</ion-select-option>
 
@@ -78,7 +78,7 @@
 
   </ion-button>
 
-  <ion-button  expand="block">
+  <ion-button type="reset" expand="block" (click)="discardSettings()">
     {{ 'PAGES.SETTINGS.DISCARD-SETTINGS' | translate }}
 
 

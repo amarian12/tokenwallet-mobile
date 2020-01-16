@@ -347,7 +347,10 @@ export class AppflowService {
    }
    saveWalletSettings(settings:WalletSettings){
      this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, settings);
-   }
+     }
+   getWalletSettings():WalletSettings{
+     return this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
+     }
    getTokenConsolidatedBalance(token){
      return this.walletBalances.pipe(take(1),map(walletBalances => {
        this.logger.debug('### Appflow:  finding '+token+' balance'+JSON.stringify(walletBalances));
