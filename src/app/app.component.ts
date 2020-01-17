@@ -26,7 +26,7 @@ export class AppComponent {
 
 
   constructor(
-    private appflow: AppflowService,
+    public appflow: AppflowService,
     private walletService: WalletService,
     private platform: Platform,
     private router: Router,

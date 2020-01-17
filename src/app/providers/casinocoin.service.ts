@@ -358,21 +358,30 @@ export class CasinocoinService implements OnDestroy {
                     if (result === AppConstants.KEY_LOADED) {
                         const walletAccounts = this.walletService.getAllAccounts();
                         this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Wallet Accounts: ' + JSON.stringify(walletAccounts));
-                        walletAccounts.forEach( account => {
-                            try{
-                                // upate account info
-                                this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Update Account: ' + JSON.stringify(account));
-                                this.updateAccountInfo(account.currency, account.accountID);
-                            } catch(error) {
-                                this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Error: ' + JSON.stringify(error));
-                            }
-                        });
-                        const cscWalletAccounts: Array<LokiAccount> = this.walletService.getSortedCSCAccounts('balance', true);
-                        cscWalletAccounts.forEach( cscAccount => {
-                            // update account transactions
-                            this.updateAccountTxs(cscAccount.accountID);
-                        })
-                        accountUpdatingSubject.next(true);
+                        if(walletAccounts.length > 0) {
+                            walletAccounts.forEach( account => {
+                                try{
+                                    // upate account info
+                                    this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Update Account: ' + JSON.stringify(account));
+                                    this.updateAccountInfo(account.currency, account.accountID);
+                                } catch(error) {
+                                    this.logger.debug('### CasinocoinService -> refreshWalletAccounts - Error: ' + JSON.stringify(error));
+                                }
+                            });
+                            const cscWalletAccounts: Array<LokiAccount> = this.walletService.getSortedCSCAccounts('balance', true);
+                            cscWalletAccounts.forEach( cscAccount => {
+                                // update account transactions
+                                this.updateAccountTxs(cscAccount.accountID);
+                            })
+                            accountUpdatingSubject.next(true);
+                        } else {
+                            // wallet empty, check if we can recover anything from setup
+                            this.refreshAccounts().subscribe( result =>{
+                                if(result) {
+                                    accountUpdatingSubject.next(true);
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -550,7 +559,29 @@ export class CasinocoinService implements OnDestroy {
                                         this.logger.debug('### CasinocoinService -> Account Error: ' + JSON.stringify(error));
                                         actNotFoundCount++;
                                         emptyAccountSequences.push(newAccountSequence);
-                                        if (actNotFoundCount > this.maxActNotFound) {
+                                        if(newAccountSequence === 0) {
+                                            // account with sequence 0 must always be in the wallet so create it
+                                            this.walletService.addKey(newKeyPair);
+                                            // create new account
+                                            const walletAccount: LokiAccount = {
+                                                pk: ('CSC' + newKeyPair.accountID),
+                                                accountID: newKeyPair.accountID,
+                                                balance: '0',
+                                                accountSequence: 0,
+                                                currency: 'CSC',
+                                                lastSequence: 0,
+                                                label: 'Default CSC Account',
+                                                tokenBalance: '0',
+                                                activated: false,
+                                                ownerCount: 0,
+                                                lastTxID: '',
+                                                lastTxLedger: 0
+                                            };
+                                            // save account to wallet
+                                            this.walletService.addAccount(walletAccount);
+                                            this.logger.debug('### CasinocoinService -> Refresh - We created the default account ###');
+                                            newAccountFound = false;
+                                        } else if (actNotFoundCount > this.maxActNotFound) {
                                             this.logger.debug('### CasinocoinService -> Refresh - We found our last account sequence that exists on the ledger ###');
                                             this.logger.debug('### CasinocoinService -> Refresh - emptyAccountSequences: ' + JSON.stringify(emptyAccountSequences));
                                             newAccountFound = false;
@@ -563,6 +594,7 @@ export class CasinocoinService implements OnDestroy {
                             // encrypt all keys
                             this.walletService.encryptAllKeys(walletPassword, userEmail).subscribe( encryptResult => {
                                 if (encryptResult === AppConstants.KEY_FINISHED) {
+                                    this.logger.debug('### CasinocoinService -> Refresh - Key Encryption Complete');
                                     // subcribe to all accounts again
                                     this.subscribeAccountEvents();
                                 }
