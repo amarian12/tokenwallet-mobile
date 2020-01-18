@@ -8,8 +8,8 @@ import { SessionStorageService, LocalStorageService } from 'ngx-store';
 import { AppConstants } from '../../../../domains/app-constants';
 import { WalletSetup } from '../../../../domains/csc-types';
 import { UUID } from 'angular2-uuid';
-import { IonSlides } from '@ionic/angular';
-
+import { IonSlides,  AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -35,6 +35,8 @@ export class Step1Component implements OnInit {
   constructor(
     private logger: LogService,
     private walletService: WalletService,
+    private alert: AlertController,
+    private translate: TranslateService,
     private zone: NgZone,
     private route: ActivatedRoute,
     private router: Router,
@@ -57,6 +59,7 @@ export class Step1Component implements OnInit {
     const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
     if (availableWallets != null &&  availableWallets.length >= 1) {
       this.initialWalletCreation = false;
+      this.showWarning();
     }
     this.logger.debug('### WalletSetup: There are these wallets here ' + JSON.stringify(availableWallets));
     // generate recovery words
@@ -71,6 +74,31 @@ export class Step1Component implements OnInit {
     // this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
 
     this.logger.debug('### WalletSetup: ' + JSON.stringify(this.walletService.walletSetup));
+  }
+  showWarning(){
+    this.translate.get(['PAGES.SETUP.STEP5-REMINDER-HEADER',
+                        'PAGES.SETUP.STEP5-REMINDER-SUBHEADER',
+                        'PAGES.RECOVER.WARNING',
+                      'PAGES.SETUP.STEP5-REMINDER-BUTTON']).subscribe((res: string) => {
+
+      this.alert.create({
+      header: res['PAGES.SETUP.STEP5-REMINDER-HEADER'],
+      subHeader: res['PAGES.SETUP.STEP5-REMINDER-SUBHEADER'],
+      message: res['PAGES.RECOVER.WARNING'],
+      buttons: [
+        {
+          text:res['PAGES.SETUP.STEP5-REMINDER-BUTTON'],
+          role: 'ok',
+          cssClass: 'primary',
+          handler: () => {
+
+          }
+        }
+      ]
+    }).then( alert =>  {
+        alert.present();
+      });
+    });
   }
   startSlider() {
       this.logger.debug('### INITIAL VALUE IS'+this.initialWalletCreation);

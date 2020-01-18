@@ -22,12 +22,12 @@ export class CustomPinComponent implements OnInit {
 
   @Input()  transaction: string;
   @Input()  actionMessage: string;
+  @Input()  theme: string;
   selectedWallet: WalletDefinition;
   walletPassword: string;
   walletCreationDate: string;
   walletEmail: string;
   wallets: any[] = [];
-
   returnUrl: string;
   footer_visible = false;
   error_message: string;
@@ -68,6 +68,11 @@ export class CustomPinComponent implements OnInit {
     ) {
       this.defaultAccount = this.localStorageService.get(AppConstants.KEY_DEFAULT_ACCOUNT_ID);
       this.statusBar.styleLightContent();
+      if(!this.theme){
+        this.theme = "light";
+      }
+      this.logger.debug('### Custom PIN page  Constructor... value of theme='+this.theme);
+
     }
 
   ngOnInit() {
@@ -95,9 +100,7 @@ export class CustomPinComponent implements OnInit {
   forgotPin(){
     this.router.navigate(['/wallet-setup']);
   }
-  ionViewWillEnter(){
 
-  }
   verifyPinAndLogin(decryptedPIN) {
 
 
@@ -150,6 +153,7 @@ export class CustomPinComponent implements OnInit {
   backspacePin() {
     this.enteredPinCode = this.enteredPinCode.substring(0, this.enteredPinCode.length - 1);
     this.logger.debug("##### Log in Page: Entered PIN: "+ this.enteredPinCode);
+    this.logger.debug("##### Log in Page: Theme: "+ this.theme);
   }
   async validatePincode() {
     if(this.enteredPinCode.length === 6){

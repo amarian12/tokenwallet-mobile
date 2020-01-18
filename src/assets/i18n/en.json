@@ -5,7 +5,7 @@
 			"PRIVACYLINK": "Privacy Policy",
 			"TERMSLINK": "Terms of Service",
 			"TITLE": "About CasinoCoin",
-			"VERSIONMESSAGE": "Version (Testnet)",
+			"VERSIONMESSAGE": "Version {{network}}",
 			"VERSIONTITLE": "Token Wallet:"
 		},
 		"CONTACTS": {
@@ -102,7 +102,7 @@
 				"VALIDATINGPIN":"Validating PIN"
 			},
 			"UPDATE-TITLE": "Token Wallet Update",
-			"VERSIONMESSAGE": "Version (Testnet)",
+			"VERSIONMESSAGE": "Version {{network}}",
 			"VERSIONTITLE": "Token Wallet:"
 		},
 		"TABS":{
@@ -274,7 +274,7 @@
 					"MSG-AMTINVALID":"Entered amount is not valid",
 					"MSG-DESTINVALID":"Destination AccountID is not valid",
 					"MSG-PININVALID":"Wrong PIN entered",
-					"BTN-OK":"OK"		
+					"BTN-OK":"OK"
 				}
 			},
 			"ADD-NEW-CSC-PASSWORD": "Please supply your current wallet password",

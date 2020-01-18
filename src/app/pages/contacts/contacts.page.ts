@@ -107,6 +107,17 @@ export class ContactsPage implements OnInit {
       this.copyIcon = 'copy';
     });
   }
+  addDesttag(contact:any):string {
+    if(contact.destinationTag && contact.destinationTag > 0){
+      this.logger.debug("### Contacts Page: Destination tag Found :"+JSON.stringify(contact));
+
+      return "/"+contact.destinationTag;
+
+    }else{
+      this.logger.debug("### Contacts Page: Destination tag not Found :"+JSON.stringify(contact));
+      return "";
+    }
+  }
   onDeleteContact(accountID){
     this.alert.create({
     header: this.errorMessageList['HEADER'],
