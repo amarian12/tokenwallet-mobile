@@ -48,7 +48,7 @@ export class MarketService {
               this.localStorageService.set(AppConstants.KEY_LAST_UPDATED_COININFO, 0 );
             }
             const lastupdated = this.localStorageService.get(AppConstants.KEY_LAST_UPDATED_COININFO);
-            const thishour = Math.floor(Date.now() / 900000);
+            const thishour = Math.floor(Date.now() / 240000);
 
             if( thishour > lastupdated){
               this.logger.debug("### MarketService - updating states :  lastupdated: " + lastupdated +" thishour "+ thishour);

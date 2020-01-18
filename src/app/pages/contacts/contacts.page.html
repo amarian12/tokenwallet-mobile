@@ -59,7 +59,7 @@
             </ion-item>
               </ion-card-header>
               <ion-card-content>
-              <ion-button  fill="clear" [routerLink]="'/tabs/wallet/token-send/'+mainCSCAccount.pk+'/'+contact.accountID ">
+              <ion-button  fill="clear" [routerLink]="'/tabs/wallet/token-send/'+mainCSCAccount.pk+'/'+contact.accountID+addDesttag(contact)">
 
                   <i style="font-size:2em;" class="icon-large icon-send"></i>
 

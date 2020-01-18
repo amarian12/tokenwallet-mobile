@@ -21,6 +21,7 @@ import { CSCUtil } from '../../../domains/csc-util';
 export class TokenSendPage implements OnInit {
 
 fees: string;
+theme:string;
 originAccount: string;
 accountReserve: string;
 destinationAccount: string;
@@ -86,6 +87,15 @@ balanceToSend: any;
         }else{
           this.destinationAccount = paramMap.get('destination');
           this.logger.debug("### send token page: destination: " + this.destinationAccount);
+
+          if(!paramMap.has('desttag')){
+
+            //redirect
+            return;
+          }else{
+            this.destinationTag = paramMap.get('desttag');
+            this.logger.debug("### send token page: destination: " + this.destinationTag);
+          }
         }
       }
     });
@@ -161,7 +171,7 @@ balanceToSend: any;
     // const password ='1234567';
     // check password
     const walletObject: WalletDefinition = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
-    const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to authorize transaction");
+    const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to authorize transaction", this.theme);
     if(result.data.state){
 
       // check the origin account id
@@ -280,6 +290,9 @@ balanceToSend: any;
     //   this.renderer.selectRootElement('#float-input-password').focus();
     }
   }
+  ionViewWillEnter(){
+      this.theme = this.appflow.dark ? "dark":"light";
+    }
   onCancel(){
     this.nav.navigateBack("/tabs/wallet");
   }
