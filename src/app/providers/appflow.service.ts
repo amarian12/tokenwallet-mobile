@@ -82,7 +82,7 @@ export class AppflowService {
   destinationTag: number;
   label: string;
   copyIcon = 'fa fa-copy';
-
+  network:string;
   showSecretDialog = false;
   showSecret = false;
   accountSecret: string;
@@ -138,6 +138,7 @@ export class AppflowService {
     this.currency = this.walletSettings.fiatCurrency ;
     this.logger.debug('### Appflow: consturctor() ###');
     this.columnCount = 5;
+    this.network = "TESTNET";
 
 
 
@@ -408,7 +409,7 @@ export class AppflowService {
          this.logger.debug('### WalletPage: addtoken password WRONG not adding account');
        }
    }
-   async onValidateTx(transaction,actionMessage){
+   async onValidateTx(transaction:string,actionMessage:string,theme?:string,callback?:string ){
      // console.log("cscAccounts: ",this.cscAccounts);
      // console.log("tokens: ",this.availableTokenlist);
      return this.modal
@@ -416,7 +417,8 @@ export class AppflowService {
        component: CustomPinComponent,
        componentProps: {
          transaction:transaction,
-         actionMessage:actionMessage
+         actionMessage:actionMessage,
+         theme:theme
      }}).then(
        async customPinModal => {
          customPinModal.present();
