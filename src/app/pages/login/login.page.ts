@@ -73,7 +73,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.logger.debug('### LoginComponent onInit');
-    this.theme = this.appflow.dark ? "dark":"light";
+
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     // get available wallets (we switched to a single wallet for WLT wallet)
@@ -115,6 +115,7 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/wallet-setup']);
   }
   ionViewWillEnter(){
+    this.theme = this.appflow.dark ? "dark":"light";
     this.enteredPinCode = "";
     if(this.appflow.loggedIn){
       this.displayCustomPin = true;
@@ -210,8 +211,10 @@ export class LoginPage implements OnInit {
                        this.localStorageService.set(AppConstants.KEY_WALLET_LOCATION, this.selectedWallet.location);
                        if (this.selectedWallet.network === 'LIVE') {
                            this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, true);
+                           this.appflow.network = 'CSCSLIVE';
                        } else {
                            this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, false);
+                           this.appflow.network = 'TESTNET';
                        }
                        this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.selectedWallet.passwordHash);
 

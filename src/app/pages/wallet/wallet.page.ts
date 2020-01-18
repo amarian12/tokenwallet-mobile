@@ -33,6 +33,7 @@ export class WalletPage implements OnInit {
   ledgers: LedgerStreamMessages[] = [];
   receipient: string;
   description: string;
+  theme:string;
   amount: string;
   fees: string;
   txResult: string;
@@ -211,33 +212,30 @@ export class WalletPage implements OnInit {
                       }).then(
                         async resultData => {
                           if(resultData.role === "addToken"){
-                            const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to add selected token to Account");
+                            const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to add selected token to Account", this.theme);
                             if(result.data.state){
                               this.addTokenToAccount(resultData.data.token,resultData.data.account, result.data.password);
                             }
                           }
                         });
                 }
-                async onValidateTx(transaction,actionMessage){
 
-                  return await this.appflow.onValidateTx(transaction,actionMessage);
-
-                }
                 async addCSCAccount(){
                   this.logger.debug('### WalletPage: add CSC account');
 
                     const msg = "Adding CSC account to Wallet";
+                    const result = await this.appflow.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account",this.theme, undefined);
+                    this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
+                    if(result && result.data.state){
+
                      this.loading
                      .create({
                        keyboardClose:true,
                        message:msg
                      })
                      .then( async loading => {
-                       const result = await this.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account");
 
                       loading.present();
-                      if(result.data.state){
-                      this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
                      const password = result.data.password;
                      this.walletPassword = password;
                      this.logger.debug('### WalletPage: password OK adding account');
@@ -255,17 +253,17 @@ export class WalletPage implements OnInit {
                         this.loading.dismiss();
 
                      });
-                   }else{
-                     this.logger.debug('### WalletPage: password WRONG not adding account');
-                     this.loading.dismiss();
-
-                   }
                 });//end of loading
 
+              }else{
+                this.logger.debug('### WalletPage: password WRONG not adding account');
+
+              }
 
 
                 }
                 ionViewWillEnter(){
+                    this.theme = this.appflow.dark ? "dark":"light";
                   this.activatedRoute.paramMap.subscribe(paramMap => {
 
 
