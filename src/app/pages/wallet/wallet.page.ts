@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
 import { AppflowService } from '../../providers/appflow.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { LedgerStreamMessages, TokenType, Payment, WalletDefinition } from '../../domains/csc-types';
 import Big from 'big.js';
 import { timer } from 'rxjs';
@@ -79,6 +80,7 @@ export class WalletPage implements OnInit {
   constructor(private logger: LogService,
                private walletService: WalletService,
                private activatedRoute: ActivatedRoute,
+               private social: SocialSharing,
                // private marketService: MarketService,
                private appflow: AppflowService,
                private alertCtrl: AlertController,
@@ -250,7 +252,11 @@ export class WalletPage implements OnInit {
               this.casinocoinService.subscribeAccountEvents();
               // refresh tokenlist
               this.casinocoinService.refreshAccountTokenList();
+              this.loading.dismiss();
+
+
         });//end of loading
+
 
       }else{
         this.logger.debug('### WalletPage: password WRONG not adding account');
@@ -294,6 +300,10 @@ export class WalletPage implements OnInit {
 
   addTokenToAccount(token, accountID, password) {
     this.appflow.addTokenToAccount(token,accountID,password);
+  }
+  shareAccountID(token){
+     this.logger.debug("### Share: " + token.AccountID +" and token: "+token.Token  );
+     this.social.share("CasinoCoin "+token.Token+" AccountID: " + token.AccountID, "CasinoCoin Account");
   }
 
 

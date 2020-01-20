@@ -13,6 +13,7 @@ import { CasinocoinService } from '../../providers/casinocoin.service';
 import { AppflowService } from '../../providers/appflow.service';
 import { LokiKey, LokiAccount, LokiTransaction, LokiTxStatus } from '../../domains/lokijs';
 import { WalletDefinition } from '../../domains/csc-types';
+import { TranslateService } from '@ngx-translate/core';
 import { UUID } from 'angular2-uuid';
 
 @Component({
@@ -58,11 +59,13 @@ export class RecoverMnemonicPage implements OnInit {
                 private route: ActivatedRoute,
                 private router: Router,
                 private alert: AlertController,
+                private translate: TranslateService,
                 private walletService: WalletService,
                 private casinocoinService: CasinocoinService,
                 private appflow: AppflowService,
                 private loading: LoadingController,
                 private localStorageService: LocalStorageService,
+
                 private sessionStorageService: SessionStorageService
 ) { }
 removeUndefined(obj: Object): Object {
@@ -233,7 +236,12 @@ back(){
 
 
   }
-
+  ionViewWillEnter(){
+    const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
+    if (availableWallets != null &&  availableWallets.length >= 1) {
+      this.showWarning();
+    }
+  }
   cancel() {
       this.logger.debug('### RecoverMnemonic - Cancel ###');
       this.router.navigate(['login']);
@@ -241,7 +249,7 @@ back(){
   ngOnInit() {
     this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
     this.slides.lockSwipes(true);
-    this.logger.debug('### INIT WalletSetup ###');
+    this.logger.debug('### INIT Recover Mnemonics ###');
     this.logger.debug('### RecoverMnemonic onInit');
     // get return url from route parameters or default to '/'
     this.selectedWallet = this.route.snapshot.queryParams['walletUUID'];
@@ -251,16 +259,22 @@ back(){
     this.error_message = '';
   }
   onSubmit(form){
-    //  TODO: validation
+
     let error = "";
     if(form.form.status == "INVALID"){
       if (!form.value.word1 || !form.value.word2 || !form.value.word3 || !form.value.word4 || !form.value.word5 || !form.value.word6 || !form.value.word7 || !form.value.word8 || !form.value.word9 || !form.value.word10 || !form.value.word11 || !form.value.word12) {
         this.logger.debug('### RecoverMnemonic ERROR you need to input all 12 words');
-        error += "you need to input all 12 words\n";
+        error += "you need to input all 12 words, \n";
+      }else{
+        for(let i = 1; i<12; i++){
+          if(!CSCCrypto.isExistingWord(form.value['word'+i])){
+            error+=" word "+i+" is not a valid word, \n,";
+          }
+        }
       }
       if (!form.value.email) {
         this.logger.debug('### RecoverMnemonic ERROR you need to enter an email');
-        error += "you need to enter an email\n";
+        error += "you need to enter an email,\n";
       }
       if (!form.value.pin) {
         this.logger.debug('### RecoverMnemonic ERROR you need to enter PIN');
@@ -268,18 +282,18 @@ back(){
       }else{
         if ( form.value.pin.length != 6 ) {
           this.logger.debug('### RecoverMnemonic PIN should be 6 digits');
-          error += "PIN should be 6 digits\n";
+          error += "PIN should be 6 digits,\n";
 
         }
       }
       if (!form.value.pinconfirm) {
         this.logger.debug('### RecoverMnemonic ERROR you need to enter PIN again');
-        error += "you need to enter PIN again\n";
+        error += "you need to enter PIN again,\n";
 
       }
       if (form.value.pinconfirm != form.value.pin) {
         this.logger.debug('### RecoverMnemonic both pins should be equal');
-        error += "both pins should be equal\n";
+        error += "both pins should be equal,\n";
 
       }
       const errorMessage = {
@@ -315,4 +329,30 @@ back(){
            return alert.present();
       });
   }
+  showWarning(){
+    this.translate.get(['PAGES.SETUP.STEP5-REMINDER-HEADER',
+                        'PAGES.SETUP.STEP5-REMINDER-SUBHEADER',
+                        'PAGES.RECOVER.WARNING',
+                      'PAGES.SETUP.STEP5-REMINDER-BUTTON']).subscribe((res: string) => {
+
+      this.alert.create({
+      header: res['PAGES.SETUP.STEP5-REMINDER-HEADER'],
+      subHeader: res['PAGES.SETUP.STEP5-REMINDER-SUBHEADER'],
+      message: res['PAGES.RECOVER.WARNING'],
+      buttons: [
+        {
+          text:res['PAGES.SETUP.STEP5-REMINDER-BUTTON'],
+          role: 'ok',
+          cssClass: 'primary',
+          handler: () => {
+
+          }
+        }
+      ]
+    }).then( alert =>  {
+        alert.present();
+      });
+    });
+  }
+
 }

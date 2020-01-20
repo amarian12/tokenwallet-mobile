@@ -49,8 +49,8 @@
                 <small>
                   <span class="text-large">{{transaction.timestamp | cscDate : 'dd'}} </span>
                   <span class="text-small-bottom">{{transaction.timestamp | cscDate : 'MMM' }} </span>
-                  <span class="text-large">{{transaction.timestamp | cscDate : 'HH'}} </span>
-                  <span class="text-small-top" >{{transaction.timestamp | cscDate : ':mm:ss'}}</span>
+
+                  <span class="text-small-top" >{{transaction.timestamp | cscDate : 'HH:mm:ss'}}</span>
                 </small>
               </ion-chip>
             </h3>

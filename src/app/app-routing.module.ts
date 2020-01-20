@@ -27,6 +27,7 @@ const routes: Routes = [
   // { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
   // { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'recover-mnemonic', loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule' },
+  { path: 'show-seed', loadChildren: './pages/show-seed/show-seed.module#ShowSeedPageModule' },
   // { path: 'history-detail', loadChildren: './pages/history/history-detail/history-detail.module#HistoryDetailPageModule' },
   // { path: 'add-contact', loadChildren: './pages/contacts/add-contact/add-contact.module#AddContactPageModule' },
   // { path: 'contact-detail', loadChildren: './pages/contacts/contact-detail/contact-detail.module#ContactDetailPageModule' },

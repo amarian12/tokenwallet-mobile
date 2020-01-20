@@ -16,7 +16,10 @@ import { timer } from 'rxjs';
 })
 export class HistoryDetailPage implements OnInit {
 
-  copyIcon = 'copy';
+  copyIcon: string = 'copy';
+  copyToIcon: string = 'copy';
+  copyFromIcon: string = 'copy';
+
   transactionLoaded:any;
   currentWalletObject:any;
   constructor(
@@ -84,5 +87,24 @@ export class HistoryDetailPage implements OnInit {
     finishTimer.subscribe(val =>  {
       this.copyIcon = 'copy';
     });
+  }
+  copyToAccountID(text){
+    this.clipboard.copy(text);
+    this.copyToIcon = 'checkmark';
+    const finishTimer = timer(1000);
+    finishTimer.subscribe(val =>  {
+      this.copyToIcon = 'copy';
+    });
+  }
+  copyFromAccountID(text){
+    this.clipboard.copy(text);
+    this.copyFromIcon = 'checkmark';
+    const finishTimer = timer(1000);
+    finishTimer.subscribe(val =>  {
+      this.copyFromIcon = 'copy';
+    });
+  }
+  getExploreURL(){
+    return  'http://testexplorer.casinocoin.org/tx/' + this.transactionLoaded.txID;
   }
 }
