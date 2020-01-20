@@ -161,6 +161,7 @@
 				"RUB":"RUB"
 			},
 			"SETTINGS-SAVED":"Your settings were updated correctly",
+			"SHOW-SEED":"Show seed words",
 			"NAME":"Display name",
 			"NAME-ENTER":"Enter your prefered display name or discord handle",
 			"DISPLAY-MODE":"Display theme",
@@ -173,6 +174,12 @@
 
 			"SAVE-SETTINGS":"Save changes",
 			"DISCARD-SETTINGS":"Discard changes"
+		},
+		"SEED":{
+			"TITLE":"Show Seed",
+			"INTRO": "Please write down the shown words in the exact order as they appear, together with your email address on a piece of paper or otherwise and keep it safe.",
+			"EMAIL":"Email asociated",
+			"BTN-CANCEL":"Return"
 		},
 		"RECOVER": {
 			"TITLE":"Recover Wallet with Words",

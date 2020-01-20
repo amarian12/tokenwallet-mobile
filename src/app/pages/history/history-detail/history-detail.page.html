@@ -140,7 +140,7 @@
       <i  class="white-text icon-big icon-chip" ></i>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="primary" [href]="getExploreURL()" *ngIf="transactionLoaded.validated">
+      <ion-fab-button color="primary" [href]="this.getExploreURL()" *ngIf="transactionLoaded.validated">
         <ion-icon name="search"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="primary" (click)="copyAccountID(transactionLoaded.txID)">
