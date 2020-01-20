@@ -113,7 +113,7 @@ export class LoginPage implements OnInit {
   }
   recoverWallet(){
     this.localStorageService.remove(AppConstants.KEY_SETUP_COMPLETED);
-    this.router.navigate(['/wallet-setup']);
+    this.router.navigate(['/recover-mnemonic']);
   }
   ionViewWillEnter(){
     this.theme = this.appflow.dark ? "dark":"light";

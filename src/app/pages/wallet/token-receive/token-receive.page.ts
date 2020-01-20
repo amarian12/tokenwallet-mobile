@@ -43,20 +43,16 @@ export class TokenReceivePage implements OnInit {
         if(this.tokenAccountLoaded){
           this.accountID = this.tokenAccountLoaded.AccountID;
           this.updateQRCode();
-        }else{
-
-          this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
-            if (finished) {
+        } else {
+          // token was not found yet, subscribe to tokenlist updates in case it changes
+          this.casinocoinService.tokenlistSubject.subscribe(tokenlist => {
               this.tokenAccountLoaded = this.casinocoinService.getTokenAccount(tokenId);
               this.logger.debug("Token receive Page: getting token account object after refresh: "+JSON.stringify(this.tokenAccountLoaded));
-              // get account id
-              this.accountID = this.tokenAccountLoaded.AccountID;
-              // this.cscReceiveURI = CSCUtil.generateCSCQRCodeURI({ address: this.accountID });
-              this.updateQRCode();
-
-            }
+              if(this.tokenAccountLoaded){
+                this.accountID = this.tokenAccountLoaded.AccountID;
+                this.updateQRCode();
+              }
           });
-
         }
         // this.cscReceiveURI = CSCUtil.generateCSCQRCodeURI({ address: this.accountID });
 

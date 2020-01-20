@@ -178,15 +178,15 @@ back(){
                           } else {
                               this.casinocoinService.currentServerURL = 'wss://ws01.casinocoin.org:4443';
                           }
-                          // start account refresh
-                          const refreshObservable = this.casinocoinService.refreshAccounts(this.recoveryEmail, this.walletPassword).subscribe( foundAccount => {
+                          // listen for account updates
+                          this.casinocoinService.accountSubject.subscribe( foundAccount => {
                               this.logger.debug('### Recover - foundAccount: ' + JSON.stringify(foundAccount));
-                              if(foundAccount.sequence !== undefined && foundAccount.sequence === 0){
+                              if(foundAccount.accountSequence !== undefined && foundAccount.accountSequence === 0){
                                   // we found our first account, save it and go to the dashboard
                                   this.logger.debug('### Recover - First Account Found, Save and Finish');
                                   accountsFoundFinished = true;
                                   resultMessage = 'Account found, recovery will continue in the background';
-                              } else if(foundAccount.sequence && foundAccount.sequence > 0){
+                              } else if(foundAccount.accountSequence && foundAccount.accountSequence > 0){
                                 this.logger.debug('### Recover - Account Found, Save it');
                               } else {
                                   // No accounts found !
@@ -195,13 +195,6 @@ back(){
                               }
                               if(accountsFoundFinished && !forgroundRecoveryFinished){
                                     forgroundRecoveryFinished = true;
-                                    refreshObservable.unsubscribe();
-                                    // encrypt all found keys
-                                    this.walletService.encryptAllKeys(this.walletService.walletSetup.userPassword, this.walletService.walletSetup.userEmail).subscribe( encryptResult => {
-                                        if (encryptResult === AppConstants.KEY_FINISHED) {
-                                        this.logger.debug('### Recover - Key Encryption Complete');
-                                        }
-                                    });
                                     // save the wallet
                                     this.walletService.saveWallet();
                                     // dismiss loader
@@ -226,7 +219,9 @@ back(){
                                       alert.present();
                                     });
                                 }
-                          });                        
+                          });
+                          // execute the account refresh
+                          this.casinocoinService.refreshAccounts(this.recoveryEmail, this.walletPassword);
                      }
                  });
         //      }else{

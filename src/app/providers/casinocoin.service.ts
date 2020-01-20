@@ -24,8 +24,9 @@ export class CasinocoinService implements OnDestroy {
     public currentServerURL: string;
     public accounts: Array<LokiAccount> = [];
     public accountSubject = new Subject<LokiAccount>();
-    public transactions: Array<LokiTransaction> = [];
     public transactionSubject = new Subject<LokiTransaction>();
+    public tokenlistSubject = new Subject<TokenType[]>();
+    public transactions: Array<LokiTransaction> = [];
     public lastTransactionHash: string;
     public connectSubject = new BehaviorSubject<string>(AppConstants.KEY_INIT);
     public ledgers: Array<LedgerStreamMessages> = [];
@@ -40,6 +41,7 @@ export class CasinocoinService implements OnDestroy {
     private openWalletSubject = new BehaviorSubject<string>(AppConstants.KEY_INIT);
     private  maxActNotFound = 2;
     private webWorker;
+    public accountRefreshActive = false;
 
     constructor(private logger: LogService,
                 private walletService: WalletService,
@@ -398,58 +400,64 @@ export class CasinocoinService implements OnDestroy {
         return accountUpdatingSubject.asObservable();
     }
 
-    refreshAccounts(userEmail, walletPassword): Observable<any> {
+    refreshAccounts(userEmail, walletPassword) {
         this.logger.debug('### CasinocoinService -> refreshAccounts');
-        const accountUpdatingSubject = new BehaviorSubject<boolean>(false);
-        this.connect().subscribe( result => {
-            if (result === AppConstants.KEY_CONNECTED) {
-                this.logger.debug('### CasinocoinService -> refreshAccounts - walletPassword: ' + walletPassword + ' - email: ' + userEmail);
-                // prepare cscCrypto
-                const cscCrypto = new CSCCrypto(walletPassword, userEmail);
-                const hash = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).mnemonicHash;
-                this.logger.debug('### CasinocoinService -> mnemonichash found: ' + hash);
-                const decryptedMnemonicHash = cscCrypto.decrypt(hash);
-                this.logger.debug('### CasinocoinService -> Decrypted mnemonichash: ' + decryptedMnemonicHash);
-                // empty collections
-                this.walletService.emptyCollectionsForRecovery();
-                this.webWorker.postMessage( { 
-                    cmd: 'refresh-wallet', 
-                    decryptedMnemonicHash: decryptedMnemonicHash, 
-                    email: userEmail,
-                    serverURL: this.currentServerURL
-                });
-                this.webWorker.onmessage = (event) => {
-                    this.ngZone.run(()=> {
-                        // this.logger.debug('### CasinocoinService - WebWorker Message: ' + JSON.stringify(event.data));
-                        if(event.data.sequence !== undefined) {
-                            // insert keypair
-                            this.walletService.addKey(event.data.keypair);
-                            // insert accounts
-                            event.data.accounts.forEach( account => {
-                                this.walletService.addAccount(account);
-                                this.accountSubject.next(account);
-                            });
-                            // insert transactions
-                            event.data.transactions.forEach( tx => {
-                                this.walletService.addTransaction(tx);
-                                this.transactionSubject.next(tx);
-                            });
-                            // refresh tokenlist
-                            this.refreshAccountTokenList()
-                        } else if(event.data.emptyAccountSequences !== undefined){
-                            this.logger.debug('### CasinocoinService - Refresh Finshed ###');
-                            // subscribe to account updates
-                            this.subscribeAccountEvents();
-                            this.walletService.encryptAllKeys(walletPassword, userEmail);
-                            // refresh token list
-                            this.refreshAccountTokenList();
-                        }
-                        accountUpdatingSubject.next(event.data);
+        if(this.accountRefreshActive === true) {
+            this.logger.debug('### CasinocoinService -> refreshAccounts - Account Refresh is already active ###');
+        } else {
+            this.accountRefreshActive = true;
+            this.connect().subscribe( result => {
+                if (result === AppConstants.KEY_CONNECTED) {
+                    this.logger.debug('### CasinocoinService -> refreshAccounts - walletPassword: ' + walletPassword + ' - email: ' + userEmail);
+                    // prepare cscCrypto
+                    const cscCrypto = new CSCCrypto(walletPassword, userEmail);
+                    const hash = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).mnemonicHash;
+                    this.logger.debug('### CasinocoinService -> mnemonichash found: ' + hash);
+                    const decryptedMnemonicHash = cscCrypto.decrypt(hash);
+                    this.logger.debug('### CasinocoinService -> Decrypted mnemonichash: ' + decryptedMnemonicHash);
+                    // empty collections
+                    this.walletService.emptyCollectionsForRecovery();
+                    this.webWorker.postMessage( { 
+                        cmd: 'refresh-wallet', 
+                        decryptedMnemonicHash: decryptedMnemonicHash, 
+                        email: userEmail,
+                        serverURL: this.currentServerURL
                     });
+                    this.webWorker.onmessage = (event) => {
+                        this.ngZone.run(()=> {
+                            // this.logger.debug('### CasinocoinService - WebWorker Message: ' + JSON.stringify(event.data));
+                            if(event.data.sequence !== undefined) {
+                                // insert keypair
+                                this.walletService.addKey(event.data.keypair);
+                                // insert accounts
+                                event.data.accounts.forEach( account => {
+                                    this.walletService.addAccount(account);
+                                    this.accountSubject.next(account);
+                                });
+                                // insert transactions
+                                event.data.transactions.forEach( tx => {
+                                    this.walletService.addTransaction(tx);
+                                    this.transactionSubject.next(tx);
+                                });
+                                // refresh tokenlist
+                                this.refreshAccountTokenList()
+                            } else if(event.data.emptyAccountSequences !== undefined){
+                                this.logger.debug('### CasinocoinService - Refresh Finshed ###');
+                                this.accountRefreshActive = false;
+                                // subscribe to account updates from the blockchain
+                                this.subscribeAccountEvents();
+                                // encrypt all keys
+                                this.walletService.encryptAllKeys(walletPassword, userEmail);
+                                // save the wallet
+                                this.walletService.saveWallet();
+                                // refresh token list
+                                this.refreshAccountTokenList();
+                            }
+                        });
+                    }
                 }
-            }
-        });
-        return accountUpdatingSubject.asObservable();
+            });
+        }
     }
 
     async addTransactionsToWallet(accountTxArray:Array<any>){
@@ -521,8 +529,7 @@ export class CasinocoinService implements OnDestroy {
       });
       // return resultTxs;
     }
-    refreshAccountTokenList(): Observable<any> {
-        const tokenListSubject = new BehaviorSubject<boolean>(false);
+    refreshAccountTokenList() {
         this.connectSubject.subscribe( connectResult => {
             if (connectResult === AppConstants.KEY_CONNECTED) {
                 this.logger.debug('### CasinocoinService -> refreshAccountTokenList()');
@@ -591,14 +598,14 @@ export class CasinocoinService implements OnDestroy {
                                 });
                             });
                             // set refresh finished
-                            tokenListSubject.next(true);
+                            this.tokenlistSubject.next(this.tokenlist);
                         }
                     });
                 });
             }
         });
-        return tokenListSubject.asObservable();
     }
+
     async syncDelayedTx(accountID, fromLedger){
       const accountTxArray = await this.cscAPI.getTransactions(accountID, {earliestFirst: true, minLedgerVersion:1});
       const txs = await this.addTransactionsToWallet(accountTxArray);

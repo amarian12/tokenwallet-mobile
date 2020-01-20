@@ -150,38 +150,22 @@ export class AppflowService {
           this.logger.debug('### Appflow: connectedStatus is true CONNECTED');
 
         });
-        // translation parameters
-        // this.translateParams = {accountReserve: this.casinocoinService.serverInfo.reserveBaseCSC};
+        // listen for tokenlist updates
+        this.casinocoinService.tokenlistSubject.subscribe( tokenlist => {
+          this._tokenlist.next(tokenlist);
+          this.logger.debug('### Appflow: TokenList Refresh: new tokenlist: '+JSON.stringify(tokenlist));
+          this._walletBalances.pipe(take(1)).subscribe(wallet =>{
+            this.updateBalance(this.casinocoinService.tokenlist);
+          });
+        });
+          
         // refresh Accounts
         this.logger.debug('### Appflow: Account Refresh');
         this.casinocoinService.refreshWalletAccounts().subscribe(accountRefreshFinished => {
           if (accountRefreshFinished) {
             this._accountRefreshFinished.next(true);
-            // refresh Token List
-            this.logger.debug('### Appflow: TokenList Refresh');
-            this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
-
-              if (finished) {
-                this.tokenlist.pipe(take(1)).subscribe(tokenlist => {
-                  this._tokenlist.next(this.casinocoinService.tokenlist);
-                  this.logger.debug('### Appflow: TokenList Refresh: new tokenlist: '+JSON.stringify(this.casinocoinService.tokenlist));
-                  this._walletBalances.pipe(take(1)).subscribe(wallet =>{
-                       this.updateBalance(this.casinocoinService.tokenlist);
-                  });
-
-
-                });
-
-
-                // this.numberOfTokenAccounts = new Array(this.tokenlist.length).fill(0);
-                // this.logger.debug('### Appflow TokenList: ' + JSON.stringify(this.tokenlist));
-              }
-            });
-            // this.casinocoinService.refreshAccounts(
-            //   this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail, 
-            //   this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD)).subscribe( result => {
-            //         this.logger.debug('### Appflow -> CasinocoinService -> refrehsAccounts result: ' + result);
-            // });
+            // refresh the tokenlist
+            this.casinocoinService.refreshAccountTokenList();
             // Check if user password is still in the session
             const userPass = this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD);
             if (userPass != null) {
@@ -387,23 +371,12 @@ export class AppflowService {
          return this.casinocoinService.cscAPI.submit(trustSignResult.signedTransaction);
        }).then( trustSubmitResult => {
          this.logger.debug('### Trustline Submit Result: ' + JSON.stringify(trustSubmitResult));
-         this.casinocoinService.refreshAccountTokenList().subscribe( refreshResult => {
-           if (refreshResult) {
-             this.tokenlist.pipe(take(1)).subscribe(tokenlist => {
-               this._tokenlist.next(this.casinocoinService.tokenlist);
-
-
-             });
-
-           }
-         });
-
-
+         this.casinocoinService.refreshAccountTokenList();
        });
 
-       }else{
+     } else {
          this.logger.debug('### WalletPage: addtoken password WRONG not adding account');
-       }
+     }
    }
    async onValidateTx(transaction:string,actionMessage:string,theme?:string,callback?:string ){
      // console.log("cscAccounts: ",this.cscAccounts);

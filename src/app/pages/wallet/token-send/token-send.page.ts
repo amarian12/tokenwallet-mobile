@@ -68,16 +68,14 @@ balanceToSend: any;
 
         }
         if(!this.tokenAccountLoaded){
-
-          this.casinocoinService.refreshAccountTokenList().subscribe(finished => {
-            if (finished) {
+          this.casinocoinService.tokenlistSubject.subscribe(tokenlist => {
               this.tokenAccountLoaded = this.casinocoinService.getTokenAccount(pkID);
               this.logger.debug("Send Token Page: getting token account object after refresh: "+JSON.stringify(this.tokenAccountLoaded));
-              this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
-              this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
-              this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
-
-            }
+              if(this.tokenAccountLoaded){
+                this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
+                this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
+                this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
+              }
           });
         }
         if(!paramMap.has('destination')){
