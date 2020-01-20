@@ -112,7 +112,7 @@ export class LoginPage implements OnInit {
     this.displayCustomPin = true;
   }
   recoverWallet(){
-    this.localStorageService.remove(AppConstants.KEY_SETUP_COMPLETED);
+    // this.localStorageService.remove(AppConstants.KEY_SETUP_COMPLETED);
     this.router.navigate(['/recover-mnemonic']);
   }
   ionViewWillEnter(){

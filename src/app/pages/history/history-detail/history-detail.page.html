@@ -62,8 +62,8 @@
             <ion-text color="medium">
               {{transactionLoaded.accountID}}
             </ion-text>
-            <ion-button slot="end" color="primary" (click)="copyAccountID(transactionLoaded.accountID)">
-              <ion-icon slot="icon-only" [name]="copyIcon"></ion-icon>
+            <ion-button slot="end" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
+              <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
             </ion-button>
         </ion-item>
       </ion-col>
@@ -77,8 +77,8 @@
           <ion-text color="medium">
             {{transactionLoaded.destination}}
           </ion-text>
-          <ion-button slot="end" color="primary" (click)="copyAccountID(transactionLoaded.destination)">
-            <ion-icon slot="icon-only" [name]="copyIcon"></ion-icon>
+          <ion-button slot="end" color="primary" (click)="copyToAccountID(transactionLoaded.destination)">
+            <ion-icon slot="icon-only" [name]="copyToIcon"></ion-icon>
           </ion-button>
         </ion-item>
       </ion-col>
@@ -128,10 +128,26 @@
             {{ 'PAGES.HISTORY.DOT' | translate }}
           </ion-label>
           <ion-text color="medium">
-            {{ transactionLoaded.timestamp | cscDate : ' EEEE, MMMM  d of y,  h:MM'}}
+            {{ transactionLoaded.timestamp | cscDate : ' EEEE, MMMM  d of y,  HH:mm:ss'}}
           </ion-text>
         </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button >
+      <!--i class="icon ion-ios-icon-transactions"></i-->
+      <i  class="white-text icon-big icon-chip" ></i>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="primary" [href]="getExploreURL()" *ngIf="transactionLoaded.validated">
+        <ion-icon name="search"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="primary" (click)="copyAccountID(transactionLoaded.txID)">
+        <ion-icon name="copy"></ion-icon>
+      </ion-fab-button>
+
+
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>
