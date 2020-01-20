@@ -13,7 +13,7 @@ export class AboutPage implements OnInit {
   versionNumber:string;
   constructor(
     private logger: LogService,
-    private appflow: AppflowService,
+    public appflow: AppflowService,
     private translate: TranslateService
   ) {
     this.versionNumber = this.appflow.versionNumber;

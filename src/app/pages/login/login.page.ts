@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
       private alertCtrl: AlertController,
       private statusBar: StatusBar,
       private walletService: WalletService,
-      private appflow: AppflowService,
+      public appflow: AppflowService,
       private datePipe: DatePipe,
       private translate: TranslateService,
       private decimalPipe: DecimalPipe,
@@ -111,7 +111,8 @@ export class LoginPage implements OnInit {
   enterPIN(){
     this.displayCustomPin = true;
   }
-  forgotPin(){
+  recoverWallet(){
+    this.localStorageService.remove(AppConstants.KEY_SETUP_COMPLETED);
     this.router.navigate(['/wallet-setup']);
   }
   ionViewWillEnter(){

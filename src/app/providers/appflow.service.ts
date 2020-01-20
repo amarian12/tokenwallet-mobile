@@ -140,13 +140,6 @@ export class AppflowService {
     this.columnCount = 5;
     this.network = "TESTNET";
 
-
-
-
-
-
-
-
     // refresh server list
     this.casinocoinService.updateServerList();
     // connect to CasinoCoin network
@@ -182,10 +175,13 @@ export class AppflowService {
 
                 // this.numberOfTokenAccounts = new Array(this.tokenlist.length).fill(0);
                 // this.logger.debug('### Appflow TokenList: ' + JSON.stringify(this.tokenlist));
-                // remove password from session if its still there
-                this.sessionStorageService.remove(AppConstants.KEY_WALLET_PASSWORD);
               }
             });
+            // this.casinocoinService.refreshAccounts(
+            //   this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail, 
+            //   this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD)).subscribe( result => {
+            //         this.logger.debug('### Appflow -> CasinocoinService -> refrehsAccounts result: ' + result);
+            // });
             // Check if user password is still in the session
             const userPass = this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD);
             if (userPass != null) {

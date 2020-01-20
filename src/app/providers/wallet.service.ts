@@ -809,4 +809,12 @@ export class WalletService {
     // open the wallet
     this.openWallet(walletUUID);
   }*/
+  emptyCollectionsForRecovery() {
+    if (this.transactions !== null && this.transactions !== undefined)
+      this.transactions.clear();
+    if(this.accounts !== null && this.accounts !== undefined)
+      this.accounts.clear();
+    if(this.keys !== null && this.keys !== undefined)
+      this.keys.clear();
+  }
 }

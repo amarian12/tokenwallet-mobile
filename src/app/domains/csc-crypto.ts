@@ -265,10 +265,7 @@ export class CSCCrypto {
   private static PASSPHRASE_WORD_COUNT = 12;
   private IV_LENGTH = 16; // For AES, this is always 16
   private SALT_LENGTH = 32;
-
-
   private pbkdf2KeyLength = 64;
-
   private pbkdf2Rounds = 10000;
   private passwordKey: string;
   private passwordSalt: WordArray;
