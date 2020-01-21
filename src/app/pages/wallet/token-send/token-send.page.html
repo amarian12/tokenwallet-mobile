@@ -11,7 +11,7 @@
         <ion-back-button text="" defaultHref="/tabs/wallet"></ion-back-button>
       </ion-buttons>
 
-    <ion-title>  {{ 'PAGES.WALLET.SENDTOKEN' | translate }}</ion-title>
+    <ion-title>  {{ 'PAGES.WALLET.SENDTOKEN' | translate:{ token: tokenAccountLoaded.Token} }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -19,7 +19,15 @@
 </ion-header>
 
 <ion-content>
+
   <form #sendtoken="ngForm" (ngSubmit)="onSendFormSubmit(sendtoken.form)" novalidate>
+    <ion-item [hidden]='hideContactSelect'>
+      <ion-label>Select a Contact</ion-label>
+      <ion-select name="contact" placeholder="Contact" #contactSelect     (ionChange)='setToContact()' [(ngModel)]="selectedContact">
+        <ion-select-option *ngFor="let contactEntry of contactList" [value]="contactEntry.$loki">{{contactEntry.label}} </ion-select-option>
+
+      </ion-select>
+    </ion-item>
     <ion-list *ngIf="tokenAccountLoaded">
       <ion-item>
         <ion-label position="stacked" >
@@ -45,12 +53,16 @@
         <ion-label position="floating" color="primary">
            {{ 'PAGES.WALLET.TOACCOUNT' | translate }}
         </ion-label>
-        <ion-input ngModel #toctl="ngModel"  type="text" required name="to">
+        <ion-input ngModel #toctl="ngModel"  type="text" required name="to" [(ngModel)]="toAccount">
 
         </ion-input>
         <ion-button slot="end" (click)="scanQRCode()">
            {{ 'PAGES.CONTACTS.ADD-CONTACTS-SCAN-BTN' | translate }}
         </ion-button>
+        <ion-button slot="end" (click)="contactSelected()">
+          <ion-icon name="person" slot="icon-only"></ion-icon>
+        </ion-button>
+
 
       </ion-item>
       <ion-item lines="none" color="light">
@@ -124,15 +136,13 @@
       </ion-item>
     </ion-list>
     <ion-button  type="submit"  expand="block">
-       {{ 'PAGES.WALLET.SENDTOKEN' | translate }}
+       {{ 'PAGES.WALLET.SENDTOKEN' | translate:{ token: tokenAccountLoaded.Token} }}
 
     </ion-button>
     <ion-button (click)="onCancel()" expand="block" >
        {{ 'PAGES.WALLET.CANCEL' | translate }}
 
     </ion-button>
-    <ion-label *ngIf="sendtoken.form.invalid && !sendtoken.form.untouched " color="warning">
-      WARNING!!
-    </ion-label>
+
   </form>
 </ion-content>

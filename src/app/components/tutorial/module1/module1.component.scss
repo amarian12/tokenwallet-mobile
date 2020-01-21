@@ -1,0 +1,29 @@
+i.icon{
+  line-height: 0em;
+  font-size: 2.5em;
+}
+.tab-selected i.icon{
+  line-height: 1em;
+  font-size: 2.5em;
+}
+ion-tab-bar {
+  --background: var(--ion-color-light, #36454f);
+}
+ion-content{
+  height: 100%;
+  width: 100%;
+}
+ion-avatar{
+  height: 40px;
+  width: 40px;
+  margin: 5px;
+  background: var(--ion-color-light);
+  text-align: left;
+  padding: 2px;
+}
+ion-footer {
+    position: fixed;
+    /*max-height: 35vh;*/
+    bottom: 0px;
+
+}

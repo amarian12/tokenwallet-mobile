@@ -1,20 +1,19 @@
 <ion-header>
   <ion-toolbar color="primary">
 
-    <ion-buttons slot="start" routerLink="/" routerDirection="back">
-      <ion-avatar  class="logo">
-        <img src="assets/svg/logo_icon.svg">
-      </ion-avatar>
-    </ion-buttons>
+    <ion-avatar slot="start" color="light">
+      <img src="assets/svg/logo_icon.svg">
+    </ion-avatar>
 
     <ion-title>{{ 'PAGES.DASHBOARD.TITLE' | translate }}</ion-title>
+
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+
 
     <!--ion-list-header>
     {{ 'PAGES.DASHBOARD.BALANCES-TITLE' | translate }}:
@@ -154,8 +153,38 @@
           </ion-grid>
 
     </ion-toolbar>
+
+
+
+    <ion-tab-bar slot="bottom" >
+
+      <ion-tab-button tab="dashboard">
+        <i class="icon icon-chip"></i>
+        <ion-label>{{ 'PAGES.DASHBOARD.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="wallet">
+        <div class="icon-inner">
+
+          <i class="icon ion-ios-icon-transactions "></i>
+        </div>
+        <ion-label>{{ 'PAGES.WALLET.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="history">
+        <i class="icon icon-arrows "></i>
+        <ion-label>{{ 'PAGES.HISTORY.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="contacts">
+        <i class="icon icon-users"></i>
+        <ion-label>{{ 'PAGES.CONTACTS.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <!--ion-tab-button tab="help">
+        <i class="icon icon-question"></i>
+        <ion-label>Help</ion-label>
+      </ion-tab-button-->
+
+    </ion-tab-bar>
   </ion-footer>
-
-
-
-</ion-content>

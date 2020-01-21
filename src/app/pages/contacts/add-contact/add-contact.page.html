@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
 
-      <ion-buttons slot="start">
-        <!-- ion-icon color="success" slot="icon-only" size="large" src="/assets/svg/casino-coin.svg"></ion-icon-->
-        <i class="icon-logo icon-chip"></i>
-        <!-- img class="logo-icon" src="assets/icon/csc_icon_red.png" /-->
-      </ion-buttons>
+    <ion-buttons slot="start" routerLink="/" routerDirection="back">
+      <ion-avatar  class="logo">
+        <img src="assets/svg/logo_icon.svg">
+      </ion-avatar>
+    </ion-buttons>
       <ion-buttons slot="start">
         <ion-back-button text=""></ion-back-button>
       </ion-buttons>
@@ -60,16 +60,16 @@
 
   </ion-list>
 
-  <ion-button type="submit" expand="block" (click)="addContact() " *ngIf="!editMode">
+  <ion-button class="ion-margin ion-text-capitalize" type="submit" expand="block" (click)="addContact() " *ngIf="!editMode">
     {{ 'PAGES.CONTACTS.ADD-CONTACTS-ADD-BTN' | translate }}
 
   </ion-button>
-  <ion-button type="submit" expand="block" (click)="addContact() " *ngIf="editMode">
+  <ion-button class="ion-margin ion-text-capitalize" type="submit" expand="block" (click)="addContact() " *ngIf="editMode">
     {{ 'PAGES.CONTACTS.ADD-CONTACTS-UPD-BTN' | translate }}
 
   </ion-button>
 
-  <ion-button  expand="block" (click)="onCancel() ">
+  <ion-button class="ion-margin ion-text-capitalize" expand="block" (click)="onCancel() ">
     {{ 'PAGES.CONTACTS.ADD-CONTACTS-CANCEL-BTN' | translate }}
 
 
