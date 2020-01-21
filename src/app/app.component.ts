@@ -54,6 +54,7 @@ export class AppComponent {
       } else {
 
         this.appflow.versionNumber = "0.1.0.browser";
+        this.versionNumber = this.appflow.versionNumber;
       }
       this.userName = this.appflow.userName;
       this.dark = this.appflow.dark;

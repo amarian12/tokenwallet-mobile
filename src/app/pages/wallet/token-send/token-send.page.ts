@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
-import { NavController, AlertController  } from '@ionic/angular';
+import { NavController, AlertController, IonSelect } from '@ionic/angular';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
 import { AppflowService } from '../../../providers/appflow.service';
 import { LogService } from '../../../providers/log.service';
@@ -19,18 +19,22 @@ import { CSCUtil } from '../../../domains/csc-util';
   styleUrls: ['./token-send.page.scss'],
 })
 export class TokenSendPage implements OnInit {
-
 fees: string;
+contactList: Array<any>;
+selectedContact:any;
+hideContactSelect= true;
 theme:string;
 originAccount: string;
 accountReserve: string;
 destinationAccount: string;
+toAccount: string;
 destinationTag: string;
 destinationLabel: string;
 reserveIncrement: string;
 errorMessageList: string[];
 tokenAccountLoaded: any;
 balanceToSend: any;
+@ViewChild('contactSelect',{static: false}) contactSelectEl: IonSelect;
 
   constructor(
     private walletService: WalletService,
@@ -50,7 +54,20 @@ balanceToSend: any;
         this.errorMessageList = res;
         this.logger.debug('### Add Token Page ::: Errors list: ' + JSON.stringify(this.errorMessageList));
     });
+    this.appflow.contacts.subscribe(
+      contacts => {
+        this.logger.debug('### Token Send Page. Contacts found through subject: '+ JSON.stringify(contacts));
+        this.contactList = contacts || [];
+        if (!this.contactList || this.contactList.length <= 0){
+           this.logger.debug("### Token Send Page :: Contacts length :"+JSON.stringify(this.contactList.length));
 
+          }else{
+            this.logger.debug("### Token Send Page :: Contacts length :"+JSON.stringify(this.contactList.length));
+
+
+          }
+
+    });
     this.activatedRoute.paramMap.subscribe(paramMap => {
       if(!paramMap.has('origin')){
         //redirect
@@ -293,6 +310,16 @@ balanceToSend: any;
     }
   onCancel(){
     this.nav.navigateBack("/tabs/wallet");
+  }
+  contactSelected(){
+    this.contactSelectEl.open();
+  }
+  setToContact(){
+    let contact  = this.contactList.find(contact => contact.$loki  === this.selectedContact);
+    this.toAccount = contact.accountID;
+    if(contact.destinationTag){
+      this.destinationTag = contact.destinationTag;
+    }
   }
 
 }

@@ -32,6 +32,19 @@ export class ContactsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.appflow.contacts.subscribe(
+      contacts => {
+        this.logger.debug('### Contacts. Contacts found through subject: '+ JSON.stringify(contacts));
+        this.contacts = contacts || [];
+        if (!this.contacts || this.contacts.length <= 0){
+           this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
+            this.contactsEmpty = true;
+          }else{
+            this.contactsEmpty = false;
+
+          }
+
+    });
     this.translate.get('PAGES.CONTACTS.DELETE-CONTACT').subscribe((res: string[]) => {
         this.errorMessageList = res;
         this.logger.debug('### Errors list: ' + JSON.stringify(this.errorMessageList));
@@ -53,19 +66,7 @@ export class ContactsPage implements OnInit {
   }
   ionViewWillEnter(){
 
-    this.appflow.contacts.subscribe(
-      contacts => {
-        this.logger.debug('### Contacts. Contacts found through subject: '+ JSON.stringify(contacts));
-        this.contacts = contacts || [];
-        if (!this.contacts || this.contacts.length <= 0){
-           this.logger.debug("### Contacts length :"+JSON.stringify(this.contacts.length));
-            this.contactsEmpty = true;
-          }else{
-            this.contactsEmpty = false;
 
-          }
-
-    });
 
     // // get all contact addresses
     // if(this.walletService.isWalletOpen){

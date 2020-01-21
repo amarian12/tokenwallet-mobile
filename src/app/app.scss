@@ -15,3 +15,18 @@
 html.md {
     --ion-default-font: var(--ion-font-family);
 }
+ion-avatar.logo{
+  height: 40px;
+  width: 40px;
+  margin: 5px 10px;
+  background: var(--ion-color-light);
+  text-align: left;
+  padding: 4px;
+}
+ion-avatar.logo img {
+    --border-radius: 0px;
+    float: left;
+    margin-left: -2px;
+    margin-top: -2px;
+    height: auto;
+}
