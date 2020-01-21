@@ -1,0 +1,190 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-avatar slot="start" color="light">
+      <img src="assets/svg/logo_icon.svg">
+    </ion-avatar>
+
+    <ion-title>{{ 'PAGES.DASHBOARD.TITLE' | translate }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+
+    <!--ion-list-header>
+    {{ 'PAGES.DASHBOARD.BALANCES-TITLE' | translate }}:
+    </ion-list-header-->
+      <ion-grid class="balances">
+        <ion-row  *ngFor="let balance of walletBalances" >
+          <ion-col size="8" offset="2">
+            <ion-card color="light" class="ion-no-padding ion-no-margin " [routerLink] = "'/tabs/wallet/filter/'+balance.token">
+              <ion-row>
+                <ion-col size="4">
+                  <ion-card-content >
+                    <ion-avatar >
+                      <!--ion-img [src]="balance.img">
+                      </ion-img-->
+                      <ion-img [src]="balance.img" >
+                      </ion-img>
+                    </ion-avatar>
+                  </ion-card-content >
+                </ion-col>
+                <ion-col size="8">
+                  <ion-row>
+                    <ion-col>
+                      <ion-card-header >
+                        <ion-card-subtitle >
+                          <ion-text color="primary">
+                            {{balance.token}} {{ 'PAGES.DASHBOARD.TOKEN-BALANCE' | translate }}:
+                          </ion-text>
+                        </ion-card-subtitle>
+                        <ion-card-title>
+                          {{renderCSCAmount(balance.balance) | number : '1.2-2'}}
+                        </ion-card-title>
+                      </ion-card-header>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-badge color="medium" *ngIf="balance.token === 'CSC'" > Fiat Value:</ion-badge>
+                      <ion-badge *ngIf="balance.token === 'CSC'">
+                        {{fiat_balance}}
+                      </ion-badge>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+
+
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+  <!--/ion-item-->
+
+
+
+  <ion-footer class="ion-align-self-baseline">
+    <ion-toolbar>
+          <ion-grid class="ion-padding">
+            <ion-row>
+              <ion-col size="1">
+                <ion-text color="primary">
+                  <i class="icon-arrows"></i>
+                </ion-text>
+              </ion-col>
+              <ion-col size="5">
+
+                  <ion-label>
+                    <small>
+                      <ion-text>{{'PAGES.DASHBOARD.EST-COIN-VALUE' | translate}}:
+                      </ion-text>
+                      <p>
+                        <ion-text> {{fiatValue}}
+                        </ion-text>
+                      </p>
+                    </small>
+                  </ion-label>
+
+
+              </ion-col>
+              <ion-col size="1">
+                <ion-text color="primary">
+
+                  <i class="ion-md-icon-csc"></i>
+                </ion-text>
+              </ion-col>
+              <ion-col size="5">
+
+                  <small>
+                    <ion-label>{{'PAGES.DASHBOARD.TOTAL-COIN-SUPPLY' | translate}}:
+                    </ion-label>
+                    <p>
+                      <ion-text> {{coinSupply | number : '1.2-2'}}
+                      </ion-text>
+                    </p>
+                  </small>
+
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="1">
+                <ion-text color="primary">
+                  <i class="icon-banknote " ></i>
+
+                </ion-text>
+              </ion-col>
+              <ion-col size="5">
+
+                  <small>
+                    <ion-label>{{'PAGES.DASHBOARD.ESTIMATED-CAP' | translate}}:
+                    </ion-label>
+                    <p>
+                      <ion-text> {{marketCapital}}
+                      </ion-text>
+                    </p>
+                  </small>
+
+              </ion-col>
+              <ion-col size="1">
+
+                <ion-icon color="primary" name="trending-up">
+                </ion-icon>
+              </ion-col>
+              <ion-col size="5">
+
+                  <small>
+                    <ion-label>{{'PAGES.DASHBOARD.24H-VOLUME' | translate}}:
+                    </ion-label>
+                    <p>
+                      <ion-text> {{marketVolumeUSD}}
+                      </ion-text>
+                    </p>
+                  </small>
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+    </ion-toolbar>
+
+
+
+    <ion-tab-bar slot="bottom" >
+
+      <ion-tab-button tab="dashboard">
+        <i class="icon icon-chip"></i>
+        <ion-label>{{ 'PAGES.DASHBOARD.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="wallet">
+        <div class="icon-inner">
+
+          <i class="icon ion-ios-icon-transactions "></i>
+        </div>
+        <ion-label>{{ 'PAGES.WALLET.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="history">
+        <i class="icon icon-arrows "></i>
+        <ion-label>{{ 'PAGES.HISTORY.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="contacts">
+        <i class="icon icon-users"></i>
+        <ion-label>{{ 'PAGES.CONTACTS.TITLE' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <!--ion-tab-button tab="help">
+        <i class="icon icon-question"></i>
+        <ion-label>Help</ion-label>
+      </ion-tab-button-->
+
+    </ion-tab-bar>
+  </ion-footer>
