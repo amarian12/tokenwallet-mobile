@@ -21,9 +21,9 @@ self.onmessage = function(event) {
 self.startRefresh = function(data) {
     // const walletAccounts = data.accounts;
     const decryptedMnemonicHash = data.decryptedMnemonicHash;
-    console.log('### account-refresh -> decryptedMnemonicHash: ' + decryptedMnemonicHash);
     // connect to the server
     self.cscAPI.connect().then( async () => {
+        console.log('### account-refresh -> START ###');
         // set the inital account sequence to -1 so it will start at 0
         let newAccountSequence = -1;
         let actNotFoundCount = 0;
@@ -37,16 +37,13 @@ self.startRefresh = function(data) {
             newAccountSequence = newAccountSequence + 1;
             console.log('### account-refresh -> newAccountSequence: ' + newAccountSequence);
             const newKeyPair = self.generateKeyPair(newAccountSequence, decryptedMnemonicHash, data.email);
-            console.log('### account-refresh -> check KeyPair ' + newAccountSequence + ': ' + JSON.stringify(newKeyPair));
             // check if new key pair AccountID exists on the ledger
             try {
                 const accountResult = await self.cscAPI.getAccountInfo(newKeyPair.accountID);
-                console.log('### account-refresh -> Account: ' + JSON.stringify(accountResult));
                 // create account object
                 const foundAccount = {keypair: newKeyPair, sequence: newAccountSequence, accounts: [], transactions: []};
                 // get account balances to see if we need to add token accounts
                 const accountBalances = await self.cscAPI.getBalances(newKeyPair.accountID);
-                console.log('### account-refresh -> balances: ' + JSON.stringify(accountBalances));
                 accountBalances.forEach(balance => {
                     // create new account
                     const walletAccount = {
@@ -65,12 +62,10 @@ self.startRefresh = function(data) {
                     };
                     // save account to array
                     foundAccount.accounts.push(walletAccount);
-                    console.log('### Added new WalletAccount: ' + JSON.stringify(walletAccount));
                 });
                 // get and add all account transactions
                 const accountTxArray = await self.cscAPI.getTransactions(newKeyPair.accountID, {earliestFirst: true});
                 accountTxArray.forEach( tx => {
-                    console.log('### account-refresh -> Add TX: ' + JSON.stringify(tx));
                     if (tx.type === 'payment' && tx.outcome.result === 'tesSUCCESS') {
                         let txDirection;
                         let txAccountID;
@@ -131,7 +126,6 @@ self.startRefresh = function(data) {
                 // accountResults.push(foundAccount);
                 self.postMessage(foundAccount);
             } catch ( error ) {
-                console.log('### account-refresh -> Account Error: ' + JSON.stringify(error));
                 actNotFoundCount++;
                 emptyAccountSequences.push(newAccountSequence);
                 if (actNotFoundCount > this.maxActNotFound) {

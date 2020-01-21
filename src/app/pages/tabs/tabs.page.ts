@@ -130,15 +130,23 @@ export class TabsPage implements OnInit{
 
                       });
                       // refresh available token list
-                      this.casinocoinService.refreshAvailableTokenList();
-                      this.loadingMessage = "Obtained Token List";
-                      this.logger.debug('### Refreshing Available Tokenlist');
-                      this.appflow.accountRefreshFinished.subscribe(finished => {
-                        if (finished) {
-                          this.logger.debug('### Timeout, dismiss popup');
-                          this.loading.dismiss();
+                      const availableTokenlistSubject = this.casinocoinService.refreshAvailableTokenList().subscribe( result => {
+                        this.logger.debug('### Tabs -> refreshAvailableTokenList - result: ' + result);
+                        if(result){
+                          availableTokenlistSubject.unsubscribe();
+                          this.casinocoinService.refreshAccountTokenList();
                         }
                       });
+                      this.loadingMessage = "Obtained Token List";
+                      this.logger.debug('### Refreshing Available Tokenlist');
+                      // dismiss loader
+                      this.loading.dismiss();
+                      // this.appflow.accountRefreshFinished.subscribe(finished => {
+                      //   if (finished) {
+                      //     this.logger.debug('### Timeout, dismiss popup');
+                      //     this.loading.dismiss();
+                      //   }
+                      // });
                     } else {
                       this.logger.debug('### DISCONECTED!');
                       this.loadingMessage = "CasinoCoin Blockchain Offline";

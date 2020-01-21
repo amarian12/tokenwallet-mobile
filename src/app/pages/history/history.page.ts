@@ -49,6 +49,9 @@ export class HistoryPage implements OnInit {
   ionViewWillEnter(){
     // delayed transactions get:
     if(this.walletService.isWalletOpen){
+      // get all transactions
+      this.transactions = this.walletService.getAllTransactions();
+      // get all accounts
       const accounts = this.walletService.getAllAccounts();
       this.logger.debug("### History ionViewWillEnter:  accounts: "+JSON.stringify(accounts));
       accounts.forEach(
@@ -61,9 +64,10 @@ export class HistoryPage implements OnInit {
       this.walletService.openWalletSubject.subscribe( result => {
         if (result === AppConstants.KEY_LOADED) {
           // get all transactions
+          this.transactions = this.walletService.getAllTransactions();
+          // sync any delayed transactions
           const accounts = this.walletService.getAllAccounts();
           this.logger.debug('### History Page - retreiving accounts: ' + JSON.stringify(accounts));
-
               accounts.forEach(
                 act =>  {
                   if(act.lastTxLedger > 0){
@@ -73,9 +77,8 @@ export class HistoryPage implements OnInit {
             }
       });
     }
+  }
 
-      this.transactions = this.walletService.getAllTransactions();
-    }
   getStatusIconColor(tx: LokiTransaction) {
     if (tx.validated) {
       return "success";

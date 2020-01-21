@@ -70,24 +70,14 @@ export class DashboardPage implements OnInit {
           })
       }
     });
-    this.appflow.tokenlist.subscribe(
-      tokenList => {
-        // this.tokenlist = tokenList;
-       // this.appflow.updateBalance(tokenList);
-       this.logger.debug('### Dashboard - tokenlist updated!!! token list is:'+JSON.stringify(tokenList));
-        if(tokenList){
-
-          this.appflow.updateBalance(tokenList);
-        }
-
-      });
-      this.casinocoinService.transactionSubject.subscribe(
-        tx => {
-          this.logger.debug('### Dashboard - tx updated!!! token list is:'+JSON.stringify(this.casinocoinService.tokenlist));
-          this.casinocoinService.accountSubject.pipe(take(1)).subscribe( account => {
-            this.appflow.updateBalance(this.casinocoinService.tokenlist);
-          });
-        });
+    
+    // this.casinocoinService.transactionSubject.subscribe(
+    //   tx => {
+    //     this.logger.debug('### Dashboard - tx updated!!! token list is:'+JSON.stringify(this.casinocoinService.tokenlist));
+    //     this.casinocoinService.accountSubject.pipe(take(1)).subscribe( account => {
+    //       this.appflow.updateBalance(this.casinocoinService.tokenlist);
+    //     });
+    //   });
 
     // get the complete wallet object
     // this.currentWalletObject = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);
@@ -118,23 +108,23 @@ export class DashboardPage implements OnInit {
   //       // this.electron.ipcRenderer.send('wallet-closed', true);
   //     }
   //   });
-  //   this.casinocoinService.connect().subscribe( result => {
-  //     if (result === AppConstants.KEY_CONNECTED) {
-  //       this.serverVersion = this.casinocoinService.serverInfo.buildVersion;
-  //       // this.setWalletUIConnected();
-  //       this.casinocoinService.accountSubject.subscribe( account => {
-  //         // one of the accounts got updated so update the balance
-  //         // this.doBalanceUpdate();
-  //         this.logger.debug('### CONECTED!');
-  //       });
-  //       // refresh available token list
-  //       this.casinocoinService.refreshAvailableTokenList();
-  //     } else {
-  //       this.logger.debug('### DISCONECTED!');
-  //       // we are not connected or disconnected
-  //       // this.setWalletUIDisconnected();
-  //     }
-  //   });
+    // this.casinocoinService.connectSubject.subscribe( result => {
+    //   if (result === AppConstants.KEY_CONNECTED) {
+    //     this.serverVersion = this.casinocoinService.serverInfo.buildVersion;
+    //     // this.setWalletUIConnected();
+    //     this.casinocoinService.accountSubject.subscribe( account => {
+    //       // one of the accounts got updated so update the balance
+    //       // this.doBalanceUpdate();
+    //       this.logger.debug('### CONECTED!');
+    //     });
+    //     // refresh available token list
+    //     this.casinocoinService.refreshAvailableTokenList();
+    //   } else {
+    //     this.logger.debug('### DISCONECTED!');
+    //     // we are not connected or disconnected
+    //     // this.setWalletUIDisconnected();
+    //   }
+    // });
   }
   renderCSCAmount(amount){
     return CSCUtil.dropsToCsc(amount);

@@ -182,9 +182,9 @@ back(){
                               this.casinocoinService.currentServerURL = 'wss://ws01.casinocoin.org:4443';
                           }
                           // listen for account updates
-                          this.casinocoinService.accountSubject.subscribe( foundAccount => {
+                          const accountSubscription = this.casinocoinService.accountSubject.subscribe( foundAccount => {
                               this.logger.debug('### Recover - foundAccount: ' + JSON.stringify(foundAccount));
-                              if(foundAccount.accountSequence !== undefined && foundAccount.accountSequence === 0){
+                              if(foundAccount.accountSequence !== undefined && foundAccount.accountSequence === 0 && accountsFoundFinished === false){
                                   // we found our first account, save it and go to the dashboard
                                   this.logger.debug('### Recover - First Account Found, Save and Finish');
                                   accountsFoundFinished = true;
@@ -200,6 +200,8 @@ back(){
                                     forgroundRecoveryFinished = true;
                                     // save the wallet
                                     this.walletService.saveWallet();
+                                    // unsubscribe from account updates
+                                    accountSubscription.unsubscribe();
                                     // dismiss loader
                                     this.loading.dismiss();
                                     this.alert.create({
@@ -208,9 +210,7 @@ back(){
                                       buttons: [
                                         {
                                           text: 'Ok',
-                                          handler: () => {
-                                            // cscSubscription.unsubscribe();
-                                            // this.casinocoinService.disconnect();
+                                          handler: () => {                                         
                                             // set loggedIn and authCorrect
                                             this.appflow.loggedIn = true;
                                             this.appflow.authCorrect = true;

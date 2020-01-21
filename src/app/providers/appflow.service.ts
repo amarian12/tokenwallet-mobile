@@ -143,13 +143,13 @@ export class AppflowService {
     // refresh server list
     this.casinocoinService.updateServerList();
     // connect to CasinoCoin network
-    this.casinocoinService.connectSubject.subscribe( result => {
-      if (result === AppConstants.KEY_CONNECTED) {
-        this.connectedStatus.pipe(take(1)).subscribe(connected => {
-          this._connectedStatus.next(true);
-          this.logger.debug('### Appflow: connectedStatus is true CONNECTED');
+    // this.casinocoinService.connectSubject.subscribe( result => {
+    //   if (result === AppConstants.KEY_CONNECTED) {
+    //     this.connectedStatus.pipe(take(1)).subscribe(connected => {
+    //       this._connectedStatus.next(true);
+    //       this.logger.debug('### Appflow: connectedStatus is true CONNECTED');
 
-        });
+    //     });
         // listen for tokenlist updates
         this.casinocoinService.tokenlistSubject.subscribe( tokenlist => {
           this._tokenlist.next(tokenlist);
@@ -160,36 +160,36 @@ export class AppflowService {
         });
           
         // refresh Accounts
-        this.logger.debug('### Appflow: Account Refresh');
-        this.casinocoinService.refreshWalletAccounts().subscribe(accountRefreshFinished => {
-          if (accountRefreshFinished) {
-            this._accountRefreshFinished.next(true);
-            // refresh the tokenlist
-            this.casinocoinService.refreshAccountTokenList();
-            // Check if user password is still in the session
-            const userPass = this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD);
-            if (userPass != null) {
-                this.sessionStorageService.remove(AppConstants.KEY_WALLET_PASSWORD);
-            }
-          }
-        });
+        // this.logger.debug('### Appflow: Account Refresh');
+        // this.casinocoinService.refreshWalletAccounts().subscribe(accountRefreshFinished => {
+        //   if (accountRefreshFinished) {
+        //     this._accountRefreshFinished.next(true);
+        //     // refresh the tokenlist
+        //     this.casinocoinService.refreshAccountTokenList();
+        //     // Check if user password is still in the session
+        //     const userPass = this.sessionStorageService.get(AppConstants.KEY_WALLET_PASSWORD);
+        //     if (userPass != null) {
+        //         this.sessionStorageService.remove(AppConstants.KEY_WALLET_PASSWORD);
+        //     }
+        //   }
+        // });
         // set fees
-        this.transactionParams.pipe(take(1)).subscribe(transactionParams => {
-          this._transctionParams.next({
-            fees: this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC,
-            accountReserve: this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC,
-            reserveIncrement: this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC
-          });
+    //     this.transactionParams.pipe(take(1)).subscribe(transactionParams => {
+    //       this._transctionParams.next({
+    //         fees: this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC,
+    //         accountReserve: this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC,
+    //         reserveIncrement: this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC
+    //       });
 
-        });
-      }else{
-        this.connectedStatus.pipe(take(1)).subscribe(connected => {
-          this._connectedStatus.next(false);
-          this.logger.debug('### Appflow: connectedStatus is false DISCONNECTED');
+    //     });
+    //   }else{
+    //     this.connectedStatus.pipe(take(1)).subscribe(connected => {
+    //       this._connectedStatus.next(false);
+    //       this.logger.debug('### Appflow: connectedStatus is false DISCONNECTED');
 
-        });
-      }
-    });
+    //     });
+    //   }
+    // });
     this.walletService.openWalletSubject.subscribe( result => {
       if (result === AppConstants.KEY_LOADED) {
         // get the main CSC AccountID
@@ -217,17 +217,19 @@ export class AppflowService {
 
         // subscribe to account updates
         this.casinocoinService.accountSubject.subscribe( account => {
-          this.transactionParams.pipe(take(1)).subscribe(transactionParams => {
-            this._transctionParams.next({
-              fees: this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC,
-              accountReserve: this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC,
-              reserveIncrement: this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC
-            });
+          this.logger.debug('### Appflow: accountSubject received ###');
+          this.casinocoinService.connectSubject.subscribe( result => {
+            if (result === AppConstants.KEY_CONNECTED) {
+              this.transactionParams.pipe(take(1)).subscribe(transactionParams => {
+                this._transctionParams.next({
+                  fees: this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC,
+                  accountReserve: this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC,
+                  reserveIncrement: this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC
+                });
 
+              });
+            }
           });
-          // this.fees = this.casinocoinService.serverInfo.validatedLedger.baseFeeCSC;
-          // this.accountReserve = this.casinocoinService.serverInfo.validatedLedger.reserveBaseCSC;
-          // this.reserveIncrement = this.casinocoinService.serverInfo.validatedLedger.reserveIncrementCSC;
           // refresh all CSC accounts for add token dropdown
           this._cscaccounts.next([]);
           this.walletService.getAllAccounts().forEach( element => {
