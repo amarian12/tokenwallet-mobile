@@ -56,6 +56,12 @@ export class AppComponent {
         this.appflow.versionNumber = "0.1.0.browser";
         this.versionNumber = this.appflow.versionNumber;
       }
+      // make the app go to login and auth on resume.
+      this.platform.pause.subscribe(async () => {
+          this.appflow.authCorrect = false;
+          this.appflow.loggedIn = false;
+          this.router.navigate(['/login']);
+        });
       this.userName = this.appflow.userName;
       this.dark = this.appflow.dark;
       this.language = this.appflow.language;
