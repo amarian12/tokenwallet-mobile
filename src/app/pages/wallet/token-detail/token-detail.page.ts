@@ -7,7 +7,7 @@ import { AppflowService } from '../../../providers/appflow.service';
 import { TokenType } from '../../../domains/csc-types';
 import { LogService } from '../../../providers/log.service';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -30,7 +30,8 @@ export class TokenDetailPage implements OnInit {
     private casinocoinService: CasinocoinService,
     public modal: ModalController,
     private logger: LogService,
-    private appflow: AppflowService
+    private appflow: AppflowService,
+    private tokenSubject: Subscription
   ) { }
 
   ngOnInit() {

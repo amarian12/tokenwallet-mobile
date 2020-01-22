@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.casinocoin.tokenwallet.mobile" version="0.1.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.casinocoin.tokenwallet.mobile" version="0.1.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Token Wallet</name>
     <description>Oficial Mobile Token Wallet for CasinoCoin Cryptocurrency and tokens hosted on its blockchain.</description>
     <author email="info@casinocoin.com" href="https://casinocoin.org">CasinoCoin Foundation</author>
@@ -23,6 +23,7 @@
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
+            <application android:allowBackup="false" />
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
         <allow-intent href="market:*" />
