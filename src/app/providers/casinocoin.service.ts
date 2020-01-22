@@ -42,6 +42,7 @@ export class CasinocoinService implements OnDestroy {
     private  maxActNotFound = 2;
     private webWorker;
     public accountRefreshActive = false;
+    public recoveryInProgress = false;
 
     constructor(private logger: LogService,
                 private walletService: WalletService,
@@ -452,6 +453,8 @@ export class CasinocoinService implements OnDestroy {
                                 this.walletService.saveWallet();
                                 // refresh token list
                                 this.refreshAccountTokenList();
+                                // mark recovery finished
+                                this.recoveryInProgress = false;
                             }
                         });
                     }

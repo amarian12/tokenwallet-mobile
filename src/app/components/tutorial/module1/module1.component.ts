@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Module1Component implements OnInit {
 
+  fiat_balance = "0";
+  fiatValue = "0";
+  coinSupply = "0";
+  marketCapital = "0";
+  marketVolumeUSD = "0";
+  
   constructor() { }
 
   ngOnInit() {}

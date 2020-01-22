@@ -102,7 +102,7 @@ export class AppflowService {
     private alertCtrl: AlertController,
     public modal: ModalController,
     private walletService: WalletService,
-    private cscAmountPipe: CSCAmountPipe
+    private cscAmountPipe: CSCAmountPipe 
 
   ) {
     // barcodeScanner options
@@ -194,23 +194,28 @@ export class AppflowService {
       if (result === AppConstants.KEY_LOADED) {
         // get the main CSC AccountID
         if( this.localStorageService.get(AppConstants.KEY_SETUP_COMPLETED)){
-          this.mainCSCAccountID = this.walletService.getMainAccount().accountID;
-          // this.logger.debug('### Appflow: cscmain account resulted in this '+ this.mainCSCAccount);
-          // get all CSC accounts for add token dropdown
-          this.walletService.getAllAccounts().forEach( element => {
-            if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
-               const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
-                                  this.cscAmountPipe.transform(element.balance, false, true) + ']';
-              this.cscaccounts.pipe(take(1)).subscribe(cscaccounts => {
-                this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
+          this.casinocoinService.connectSubject.subscribe( result => {
+              const mainAccount = this.walletService.getMainAccount();
+              if(mainAccount !== null){
+                this.mainCSCAccountID = mainAccount.accountID;
+                // this.logger.debug('### Appflow: cscmain account resulted in this '+ this.mainCSCAccount);
+                // get all CSC accounts for add token dropdown
+                this.walletService.getAllAccounts().forEach( element => {
+                  if (element.currency === 'CSC' && new Big(element.balance) > 0 && element.accountSequence >= 0) {
+                    const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
+                                        this.cscAmountPipe.transform(element.balance, false, true) + ']';
+                    this.cscaccounts.pipe(take(1)).subscribe(cscaccounts => {
+                      this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
 
-              });
-              this.contacts.pipe(take(1)).subscribe(contacts => {
-                this._contacts.next(this.walletService.getAllAddresses());
+                    });
+                    this.contacts.pipe(take(1)).subscribe(contacts => {
+                      this._contacts.next(this.walletService.getAllAddresses());
 
-              });
-              // this.cscAccounts.push({label: accountLabel, value: element.accountID});
-            }
+                    });
+                    // this.cscAccounts.push({label: accountLabel, value: element.accountID});
+                  }
+                });
+              }
           });
 
         }

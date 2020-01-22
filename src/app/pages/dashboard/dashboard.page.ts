@@ -29,6 +29,7 @@ export class DashboardPage implements OnInit {
   coinSupply = '40000000000';
   marketCapital = '0.00';
   marketVolumeUSD = '0.00';
+  recoveryInProgress = false;
 
   constructor(private logger: LogService,
                private walletService: WalletService,
@@ -42,7 +43,9 @@ export class DashboardPage implements OnInit {
              ) { }
 
   ngOnInit() {
+    this.recoveryInProgress = this.casinocoinService.recoveryInProgress;
     this.appflow.walletBalances.subscribe(walletBalances => {
+      this.recoveryInProgress = this.casinocoinService.recoveryInProgress;
       this.walletBalances = walletBalances;
       this.logger.debug('### Dashboard - Wallet Balances: ' + JSON.stringify(this.walletBalances));
       // this.balance = CSCUtil.dropsToCsc(this.walletBalance);

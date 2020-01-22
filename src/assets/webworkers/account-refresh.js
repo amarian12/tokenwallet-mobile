@@ -31,17 +31,31 @@ self.startRefresh = function(data) {
         let firstAccountRefresh = true;
         let newAccountFound = false;
         let accountResults = [];
+        let defaultAccount = {
+              pk: '',
+              accountID: '',
+              balance: '0',
+              accountSequence: 0,
+              currency: 'CSC',
+              lastSequence: 0,
+              label: 'Default CSC Account',
+              tokenBalance: '0',
+              activated: false,
+              ownerCount: 0,
+              lastTxID: '',
+              lastTxLedger: 0
+            };
         while (newAccountFound || firstAccountRefresh) {
             firstAccountRefresh = false;
             // increase the account sequence
             newAccountSequence = newAccountSequence + 1;
             console.log('### account-refresh -> newAccountSequence: ' + newAccountSequence);
             const newKeyPair = self.generateKeyPair(newAccountSequence, decryptedMnemonicHash, data.email);
+            // create account object
+            const foundAccount = {keypair: newKeyPair, sequence: newAccountSequence, accounts: [], transactions: []};
             // check if new key pair AccountID exists on the ledger
             try {
                 const accountResult = await self.cscAPI.getAccountInfo(newKeyPair.accountID);
-                // create account object
-                const foundAccount = {keypair: newKeyPair, sequence: newAccountSequence, accounts: [], transactions: []};
                 // get account balances to see if we need to add token accounts
                 const accountBalances = await self.cscAPI.getBalances(newKeyPair.accountID);
                 accountBalances.forEach(balance => {
@@ -128,6 +142,15 @@ self.startRefresh = function(data) {
             } catch ( error ) {
                 actNotFoundCount++;
                 emptyAccountSequences.push(newAccountSequence);
+                if(newAccountSequence === 0) {
+                    // default account is not funded, save it as default account in case there is no account found
+                    defaultAccount.pk = ('CSC' + newKeyPair.accountID);
+                    defaultAccount.accountID = newKeyPair.accountID;
+                    foundAccount.accounts.push(defaultAccount);
+                    console.log('### account-refresh -> Refresh - Empty default account with Sequence 0 !! ###');
+                    self.postMessage(foundAccount);
+                    newAccountFound = true;
+                }
                 if (actNotFoundCount > this.maxActNotFound) {
                     console.log('### account-refresh -> Refresh - We found our last account sequence that exists on the ledger ###');
                     console.log('### account-refresh -> Refresh - emptyAccountSequences: ' + JSON.stringify(emptyAccountSequences));

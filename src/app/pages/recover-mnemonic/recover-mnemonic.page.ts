@@ -100,6 +100,7 @@ back(){
     .then( loading => {
        loading.present().then( async () => {
          this.logger.debug('### Recover with words: ' + JSON.stringify(this.words));
+         this.casinocoinService.recoveryInProgress = true;
          this.logger.debug('### Network: ' + this.networkChoice);
          if (this.networkChoice === 'TEST') {
              this.walletTestNetwork = true;
@@ -188,7 +189,11 @@ back(){
                                   // we found our first account, save it and go to the dashboard
                                   this.logger.debug('### Recover - First Account Found, Save and Finish');
                                   accountsFoundFinished = true;
-                                  resultMessage = 'Account found, recovery will continue in the background';
+                                  if(foundAccount.activated === true) {
+                                    resultMessage = 'Account found, recovery will continue in the background';
+                                  } else {
+                                    resultMessage = 'First recovery Account is not activated, seed might be invalid!';
+                                  }
                               } else if(foundAccount.accountSequence && foundAccount.accountSequence > 0){
                                 this.logger.debug('### Recover - Account Found, Save it');
                               } else {
@@ -205,7 +210,7 @@ back(){
                                     // dismiss loader
                                     this.loading.dismiss();
                                     this.alert.create({
-                                      header: 'Recovery Succesful',
+                                      header: 'Recovery',
                                       message: resultMessage,
                                       buttons: [
                                         {
