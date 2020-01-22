@@ -108,18 +108,18 @@ back(){
              this.walletTestNetwork = false;
          }
          const recoveryArray = [];
-         recoveryArray.push([this.words.w1,
-                             this.words.w2,
-                             this.words.w3,
-                             this.words.w4,
-                             this.words.w5,
-                             this.words.w6,
-                             this.words.w7,
-                             this.words.w8,
-                             this.words.w9,
-                             this.words.w10,
-                             this.words.w11,
-                             this.words.w12
+         recoveryArray.push([this.words.w1.trim().toLowerCase(),
+                             this.words.w2.trim().toLowerCase(),
+                             this.words.w3.trim().toLowerCase(),
+                             this.words.w4.trim().toLowerCase(),
+                             this.words.w5.trim().toLowerCase(),
+                             this.words.w6.trim().toLowerCase(),
+                             this.words.w7.trim().toLowerCase(),
+                             this.words.w8.trim().toLowerCase(),
+                             this.words.w9.trim().toLowerCase(),
+                             this.words.w10.trim().toLowerCase(),
+                             this.words.w11.trim().toLowerCase(),
+                             this.words.w12.trim().toLowerCase()
                            ]);
          // recover the wallet
          const cscCrypto = new CSCCrypto(recoveryArray, this.recoveryEmail);
@@ -215,7 +215,7 @@ back(){
                                       buttons: [
                                         {
                                           text: 'Ok',
-                                          handler: () => {                                         
+                                          handler: () => {
                                             // set loggedIn and authCorrect
                                             this.appflow.loggedIn = true;
                                             this.appflow.authCorrect = true;
@@ -272,7 +272,7 @@ back(){
         error += "you need to input all 12 words, \n";
       }else{
         for(let i = 1; i<12; i++){
-          if(!CSCCrypto.isExistingWord(form.value['word'+i])){
+          if(!CSCCrypto.isExistingWord(form.value['word'+i].trim().toLowerCase())){
             error+=" word "+i+" is not a valid word, \n,";
           }
         }

@@ -8,6 +8,7 @@ import { TokenType } from '../../../domains/csc-types';
 import { LogService } from '../../../providers/log.service';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { timer } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-token-detail',
@@ -46,8 +47,13 @@ export class TokenDetailPage implements OnInit {
          this.appflow.getTokenAccount(tokenId).subscribe(
           token => {
               this.tokenAccountLoaded = token
-              this.logger.debug("Token Detail Page: getting token account object result: "+JSON.stringify(this.tokenAccountLoaded));
+              // this.logger.debug("Token Detail Page: getting token account object result: "+JSON.stringify(this.tokenAccountLoaded));
           });
+
+          // this.tokenlist.pipe(take(1),map(tokenList => {
+          //    return {...tokenList.find( token => token.PK === pkID)};
+          // }));
+
          this.appflow.transactionParams.subscribe(
            transactionParams => {
              this.fees = transactionParams.fees;
@@ -80,6 +86,16 @@ export class TokenDetailPage implements OnInit {
 
     });
 
+  }
+  ionViewWillEnter(){
+    this.tokenSubject = this.casinocoinService.tokenlistSubject.subscribe(
+      tokenList => {
+        let pkID = this.tokenAccountLoaded.PK;
+        this.tokenAccountLoaded = {...tokenList.find( token => token.PK === pkID)};
+        this.logger.debug("Token Detail Page: getting token account object result: "+JSON.stringify(this.tokenAccountLoaded));
+
+      }
+    );
   }
   onAddToken(){
       // console.log("cscAccounts: ",this.cscAccounts);
