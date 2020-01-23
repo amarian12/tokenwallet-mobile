@@ -76,11 +76,47 @@ removeUndefined(obj: Object): Object {
 slideChanged() {
 console.log(this.slides.getActiveIndex());
 }
-next(){
+next(form){
   this.logger.debug('### Go to step 2 triggered');
-  this.slides.lockSwipes(false);
-  this.slides.slideNext();
-  this.slides.lockSwipes(true);
+  let error = "";
+    if (!form.value.word1 || !form.value.word2 || !form.value.word3 || !form.value.word4 || !form.value.word5 || !form.value.word6 || !form.value.word7 || !form.value.word8 || !form.value.word9 || !form.value.word10 || !form.value.word11 || !form.value.word12) {
+      this.logger.debug('### RecoverMnemonic ERROR you need to input all 12 words');
+      error += "you need to input all 12 words, \n";
+    }else{
+      for(let i = 1; i<=12; i++){
+        if(!CSCCrypto.isExistingWord(form.value['word'+i].trim().toLowerCase())){
+          error+=" word "+i+" is not a valid word, \n,";
+        }
+      }
+    }
+    if (!form.value.email) {
+      this.logger.debug('### RecoverMnemonic ERROR you need to enter an email');
+      error += "you need to enter an email, \n";
+    }else{
+      if(form.controls.email.invalid){
+        this.logger.debug('### RecoverMnemonic ERROR you need to enter a valid email');
+        error += "you need to enter a valid email, \n";
+      }
+    }
+
+    const errorMessage = {
+      header:"Error",
+      subheader:"Form Validation",
+      message:error,
+      okbtn:'OK'
+    }
+    if(error === ""){
+      this.slides.lockSwipes(false);
+      this.slides.slideNext();
+      this.slides.lockSwipes(true);
+
+    }else{
+      this.displayError(errorMessage);
+      console.log(form);
+      return false;
+
+    }
+
 }
 back(){
   this.logger.debug('### Go to step 1 triggered');
