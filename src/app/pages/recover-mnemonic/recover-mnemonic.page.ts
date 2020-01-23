@@ -271,7 +271,7 @@ back(){
         this.logger.debug('### RecoverMnemonic ERROR you need to input all 12 words');
         error += "you need to input all 12 words, \n";
       }else{
-        for(let i = 1; i<12; i++){
+        for(let i = 1; i<=12; i++){
           if(!CSCCrypto.isExistingWord(form.value['word'+i].trim().toLowerCase())){
             error+=" word "+i+" is not a valid word, \n,";
           }

@@ -23,7 +23,7 @@
                   <ion-list lines="none"class="ion-no-margin ion-no-padding" >
                     <ion-item *ngFor="let odd of [1,3,5,7,9,11]; let i=index" class="ion-no-margin ion-no-padding">
                       <ion-badge [tabIndex]="-1"color="light" slot="start">{{(i+1)*2-1}}</ion-badge>
-                      <ion-input  [tabIndex]="odd" #wordCtl="ngModel" type="text" required [name]= "'word'+odd" ngModel [(ngModel)]= "words['w'+odd]"></ion-input>
+                      <ion-input  [tabIndex]="odd" #wordCtl="ngModel" type="text" mnemonicExist [name]= "'word'+odd" ngModel [(ngModel)]= "words['w'+odd]"></ion-input>
                     </ion-item>
                   </ion-list>
                 </ion-col>
@@ -31,7 +31,7 @@
                   <ion-list lines="none" class="ion-no-margin ion-no-padding">
                     <ion-item  *ngFor="let even of [2,4,6,8,10,12]; let i=index"  class="ion-no-margin ion-no-padding">
                       <ion-badge [tabIndex]="-1" color="light" slot="start">{{(i+1)*2}}</ion-badge>
-                      <ion-input  [tabIndex]="even" #wordCtl="ngModel" required [name]= "'word'+even" type="text" ngModel [(ngModel)]= "words['w'+even]"></ion-input>
+                      <ion-input  [tabIndex]="even" #wordCtl="ngModel" mnemonicExist [name]= "'word'+even" type="text" ngModel [(ngModel)]= "words['w'+even]"></ion-input>
                     </ion-item>
                   </ion-list>
                 </ion-col>
