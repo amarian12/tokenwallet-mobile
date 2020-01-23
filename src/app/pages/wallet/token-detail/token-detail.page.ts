@@ -17,6 +17,7 @@ import { filter } from 'rxjs/operators';
 })
 export class TokenDetailPage implements OnInit {
   tokenAccountLoaded: TokenType;
+  tokenListSubject: Subscription;
   fees: string;
   accountReserve: string;
   reserveIncrement: string;
@@ -30,8 +31,7 @@ export class TokenDetailPage implements OnInit {
     private casinocoinService: CasinocoinService,
     public modal: ModalController,
     private logger: LogService,
-    private appflow: AppflowService,
-    private tokenSubject: Subscription
+    private appflow: AppflowService
   ) { }
 
   ngOnInit() {
@@ -89,7 +89,7 @@ export class TokenDetailPage implements OnInit {
 
   }
   ionViewWillEnter(){
-    this.tokenSubject = this.casinocoinService.tokenlistSubject.subscribe(
+    this.tokenListSubject = this.casinocoinService.tokenlistSubject.subscribe(
       tokenList => {
         let pkID = this.tokenAccountLoaded.PK;
         this.tokenAccountLoaded = {...tokenList.find( token => token.PK === pkID)};
@@ -97,6 +97,10 @@ export class TokenDetailPage implements OnInit {
 
       }
     );
+  }
+  IonViewDidLeave(){
+    this.tokenlistSubject.unsubscribe();
+    this.logger.debug("Token Detail Page: Subscription to tokenlist closed ");
   }
   onAddToken(){
       // console.log("cscAccounts: ",this.cscAccounts);
