@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
 import { RecoverMnemonicPage } from './recover-mnemonic.page';
+import { MnemonicExistDirective } from './helpers/mnemonic-exist.directive';
 
 const routes: Routes = [
   {
@@ -23,6 +24,6 @@ const routes: Routes = [
     TranslateModule.forChild(),
     RouterModule.forChild(routes)
   ],
-  declarations: [RecoverMnemonicPage]
+  declarations: [RecoverMnemonicPage, MnemonicExistDirective]
 })
 export class RecoverMnemonicPageModule {}
