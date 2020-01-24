@@ -99,7 +99,7 @@ export class TokenDetailPage implements OnInit {
     );
   }
   IonViewDidLeave(){
-    this.tokenlistSubject.unsubscribe();
+    this.tokenListSubject.unsubscribe();
     this.logger.debug("Token Detail Page: Subscription to tokenlist closed ");
   }
   onAddToken(){

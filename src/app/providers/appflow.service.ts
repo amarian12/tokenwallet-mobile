@@ -82,7 +82,7 @@ export class AppflowService {
   destinationTag: number;
   label: string;
   copyIcon = 'fa fa-copy';
-  network:string;
+  public network = "LIVE";
   showSecretDialog = false;
   showSecret = false;
   accountSecret: string;
@@ -102,7 +102,7 @@ export class AppflowService {
     private alertCtrl: AlertController,
     public modal: ModalController,
     private walletService: WalletService,
-    private cscAmountPipe: CSCAmountPipe 
+    private cscAmountPipe: CSCAmountPipe
 
   ) {
     // barcodeScanner options
@@ -138,7 +138,7 @@ export class AppflowService {
     this.currency = this.walletSettings.fiatCurrency ;
     this.logger.debug('### Appflow: consturctor() ###');
     this.columnCount = 5;
-    this.network = "TESTNET";
+
 
     // refresh server list
     this.casinocoinService.updateServerList();
@@ -158,7 +158,7 @@ export class AppflowService {
             this.updateBalance(this.casinocoinService.tokenlist);
           });
         });
-          
+
         // refresh Accounts
         // this.logger.debug('### Appflow: Account Refresh');
         // this.casinocoinService.refreshWalletAccounts().subscribe(accountRefreshFinished => {
@@ -298,7 +298,13 @@ export class AppflowService {
       this._contacts.next(this.walletService.getAllAddresses());
     }
 
+   setConnectedStatus(status:boolean){
+     this.connectedStatus.pipe(take(1)).subscribe(connected => {
+          this._connectedStatus.next(status);
+          this.logger.debug('### TABS: connectedStatus is '+status+' '+status?'DIS':' '+'CONNECTED');
 
+        });
+   }
    get connectedStatus(){
      return this._connectedStatus.asObservable()
    }

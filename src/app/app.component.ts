@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { AppConstants } from './domains/app-constants';
 import { LogService } from './providers/log.service';
 import { AppflowService } from './providers/appflow.service';
 import { WalletService } from './providers/wallet.service';
 import { Platform } from '@ionic/angular';
+import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -32,6 +34,7 @@ export class AppComponent {
     private router: Router,
     private splashScreen: SplashScreen,
     private translate: TranslateService,
+    private localStorageService: LocalStorageService,
     private logger: LogService,
     private statusBar: StatusBar,
     private appVersion: AppVersion
@@ -56,6 +59,7 @@ export class AppComponent {
         this.appflow.versionNumber = "0.1.0.browser";
         this.versionNumber = this.appflow.versionNumber;
       }
+      this.appflow.network = this.localStorageService.get(AppConstants.KEY_PRODUCTION_NETWORK)?"LIVE":"TESTNET";
       // make the app go to login and auth on resume.
       this.platform.pause.subscribe(async () => {
           this.appflow.authCorrect = false;

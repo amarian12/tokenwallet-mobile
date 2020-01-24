@@ -120,6 +120,7 @@ export class TabsPage implements OnInit{
                     this.loadingMessage = "Connecting to CasinoCoin Blockchain";
                     if (result === AppConstants.KEY_CONNECTED) {
                       this.serverVersion = this.casinocoinService.serverInfo.buildVersion;
+                      this.appflow.setConnectedStatus(true);
                       // this.setWalletUIConnected();
                       this.casinocoinService.accountSubject.subscribe( account => {
                         // one of the accounts got updated so update the balance
@@ -149,6 +150,7 @@ export class TabsPage implements OnInit{
                       // });
                     } else {
                       this.logger.debug('### DISCONECTED!');
+                      this.appflow.setConnectedStatus(false);
                       this.loadingMessage = "CasinoCoin Blockchain Offline";
                       // we are not connected or disconnected
                       // this.setWalletUIDisconnected();
