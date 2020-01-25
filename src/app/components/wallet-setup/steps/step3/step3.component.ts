@@ -39,16 +39,15 @@ export class Step3Component implements OnInit {
     onSubmit(form: NgForm){
       if(form.form.status === 'VALID'){
         this.userFormIsValid = true;
-        this.walletService.walletSetup.userEmail = form.form.value.email;
+
+        this.walletService.walletSetup.userEmail = form.form.value.email.trim().toLowerCase();
         this.walletService.walletSetup.userPassword = form.form.value.pincode;
         // this.walletService.walletSetup.userName = form.form.value.name;
-        this.logger.debug('### Wallet setup updated:');
-        console.log(this.walletService);
+        this.logger.debug('### Wallet setup updated:'+ JSON.stringify(this.walletService.walletSetup));
+
         this.swipeNext();
       }
-      this.logger.debug('### The User form content:');
-      this.logger.debug(form.form.value);
-      this.logger.debug(form.form.status);
+      //this.logger.debug('### The User form content:'+JSON.stringify(form.form));
 
 
 

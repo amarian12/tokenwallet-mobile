@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { WalletSetupComponent } from './components/wallet-setup/wallet-setup.component';
 import { WalletSetupGuard } from './guards/wallet-setup.guard';
 import { LoginGuard } from './guards/login.guard';
+import { BackGuard } from './guards/back.guard';
 import { TabsPageRoutingModule } from './pages/tabs/tabs.router.module';
 // import { Step1Component } from './components/wallet-setup/steps/step1/step1.component';
 // import { Step2Component } from './components/wallet-setup/steps/step2/step2.component';
@@ -17,11 +18,13 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate : [LoginGuard, WalletSetupGuard]
+     canActivate : [LoginGuard, WalletSetupGuard]
+    //canActivate : [BackGuard]
   },
   {
     path: 'wallet-setup',
-    loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule)
+    loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule),
+    canActivate : [BackGuard]
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   // { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },

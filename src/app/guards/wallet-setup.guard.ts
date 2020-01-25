@@ -20,9 +20,9 @@ export class WalletSetupGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const walletAlreadySetup = this.localStorageService.get(AppConstants.KEY_SETUP_COMPLETED);
-      this.logger.debug("#### Wallet Setup is finished?: "+walletAlreadySetup);
+      this.logger.debug("#### Wallet Guard: Wallet Setup is finished?: "+walletAlreadySetup);
       if (!walletAlreadySetup){
-        this.router.navigateByUrl('/wallet-setup')
+        this.router.navigateByUrl('/wallet-setup',{replaceUrl:true})
       }
     return walletAlreadySetup;
     // return false;

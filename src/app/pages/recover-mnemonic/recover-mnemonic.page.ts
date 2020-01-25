@@ -161,7 +161,7 @@ back(){
          const cscCrypto = new CSCCrypto(recoveryArray, this.recoveryEmail);
          const walletUUID = UUID.UUID();
          this.walletService.walletSetup = {
-             userEmail: this.recoveryEmail,
+             userEmail: this.recoveryEmail.trim().toLowerCase(),
              userPassword: this.walletPassword,
              recoveryMnemonicWords: recoveryArray,
              testNetwork: this.walletTestNetwork,
@@ -255,7 +255,9 @@ back(){
                                             // set loggedIn and authCorrect
                                             this.appflow.loggedIn = true;
                                             this.appflow.authCorrect = true;
-                                            this.router.navigate(['/']);
+                                            // navigate user to Home replacing history
+                                            this.router.navigateByUrl('/',{ replaceUrl: true })
+
                                         }
                                       }
                                     ]
