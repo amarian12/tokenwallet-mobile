@@ -1,4 +1,4 @@
-<ion-card class="setup ion-padding">
+<ion-card class="setup">
   <ion-card-header>
     <ion-card-title>
       <ion-label color="primary" class="ion-text-wrap">
@@ -14,13 +14,24 @@
         </ion-col>
 
       </ion-row>
+      <ion-row>
+        <ion-col size="12" >
+          <ion-button *ngIf="!initialWalletCreation" class="csc-button" expand="block" color="secondary" (click)="cancel()"> {{ 'PAGES.RECOVER.CANCEL-BTN' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" >
+          <ion-button expand="block" class="csc-button" (click)="this.swipeNext()"> {{ 'PAGES.SETUP.STEP1-BTN-CREATE' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" >
+          <ion-button expand="block" class="csc-button" (click)="this.goToRestore()"> {{ 'PAGES.SETUP.STEP1-BTN-RECREATE-MNEMONIC' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
 
-
-          <ion-button *ngIf="!initialWalletCreation" expand="block" color="secondary" (click)="cancel()"> {{ 'PAGES.RECOVER.CANCEL-BTN' | translate }}</ion-button>
           <!-- ion-button *ngIf="!initialWalletCreation" expand="block" (click)="this.swipeNext()"> Select account</ion-button -->
-          <ion-button expand="block" (click)="this.swipeNext()"> {{ 'PAGES.SETUP.STEP1-BTN-CREATE' | translate }}</ion-button>
           <!--ion-button expand="block"> {{ 'PAGES.SETUP.STEP1-BTN-RESTORE' | translate }}</ion-button-->
-          <ion-button expand="block" (click)="this.goToRestore()"> {{ 'PAGES.SETUP.STEP1-BTN-RECREATE-MNEMONIC' | translate }}</ion-button>
 
     </ion-grid>
   </ion-card-content>

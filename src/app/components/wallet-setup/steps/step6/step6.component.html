@@ -18,20 +18,34 @@
           <ion-col>
             <ion-item >
               <ion-label position="floating">{{'PAGES.SETUP.STEP6-WORD' | translate }} {{word1}} </ion-label>
-              <ion-input ngModel #w1ctl = "ngModel" [(ngModel)]="checkWord1" clearInput name="checkword1" required="true" type="text"></ion-input>
-            </ion-item>
-            <ion-item >
-              <ion-label position="floating">{{'PAGES.SETUP.STEP6-WORD' | translate }} {{word2}} </ion-label>
-              <ion-input ngModel #w2ctl = "ngModel" [(ngModel)]="checkWord2" clearInput name="checkword2" required="true" type="text" ></ion-input>
-            </ion-item>
-            <ion-item >
-              <ion-label position="floating">{{'PAGES.SETUP.STEP6-WORD' | translate }} {{word3}} </ion-label>
-              <ion-input ngModel #w3ctl = "ngModel" [(ngModel)]="checkWord3" clearInput name="checkword3" required="true" type="text" ></ion-input>
+              <ion-input ngModel #w1ctl = "ngModel" (ionChange)="filterWord($event)" [(ngModel)]="checkWord1" clearInput name="checkword1" required="true" type="text"></ion-input>
             </ion-item>
           </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item >
+              <ion-label position="floating">{{'PAGES.SETUP.STEP6-WORD' | translate }} {{word2}} </ion-label>
+              <ion-input ngModel #w2ctl = "ngModel" (ionChange)="filterWord($event)" [(ngModel)]="checkWord2" clearInput name="checkword2" required="true" type="text" ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item >
+              <ion-label position="floating">{{'PAGES.SETUP.STEP6-WORD' | translate }} {{word3}} </ion-label>
+              <ion-input ngModel #w3ctl = "ngModel" (ionChange)="filterWord($event)" [(ngModel)]="checkWord3" clearInput name="checkword3" required="true" type="text" ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
           <ion-col size="10" offset="1">
-            <ion-button color="medium" (click)="restartSetup()" > {{ 'PAGES.SETUP.BTN-RESTART' | translate }}</ion-button>
-            <ion-button type="submit" > {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+            <ion-button  expand="block" class="csc-button" type="submit" > {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="10" offset="1">
+            <ion-button color="dark" expand="block" class="csc-button" size="small" (click)="restartSetup()" > {{ 'PAGES.SETUP.BTN-RESTART' | translate }}</ion-button>
           </ion-col>
         </ion-row>
       </form>

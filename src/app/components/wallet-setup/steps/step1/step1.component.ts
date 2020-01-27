@@ -59,7 +59,7 @@ export class Step1Component implements OnInit {
     const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
     if (availableWallets != undefined &&  availableWallets.length >= 1) {
       this.initialWalletCreation = false;
-      this.localStorageService.set(AppConstants.KEY_SETUP_COMPLETED, true);
+      // this.localStorageService.set(AppConstants.KEY_SETUP_COMPLETED, true);
       this.showWarning();
     }
     this.logger.debug('### WalletSetup: There are these wallets here ' + JSON.stringify(availableWallets));
