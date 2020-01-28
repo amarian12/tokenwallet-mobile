@@ -62,9 +62,13 @@ export class AppComponent {
       this.appflow.network = this.localStorageService.get(AppConstants.KEY_PRODUCTION_NETWORK)?"LIVE":"TESTNET";
       // make the app go to login and auth on resume.
       this.platform.pause.subscribe(async () => {
-          this.appflow.authCorrect = false;
-          this.appflow.loggedIn = false;
-          this.router.navigate(['/login']);
+          setTimeout(() =>
+          {
+            this.appflow.authCorrect = false;
+            this.appflow.loggedIn = false;
+            this.router.navigate(['/login']);
+          },
+          420000);
         });
       this.userName = this.appflow.userName;
       this.dark = this.appflow.dark;
@@ -72,7 +76,8 @@ export class AppComponent {
       this.currency = this.appflow.currency;
       this.translate.setDefaultLang('en');
       this.translate.use(this.language);
-      this.statusBar.styleDefault();
+      // this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
       this.splashScreen.hide();
       this.appflow.connectedStatus.subscribe(
         connected => {

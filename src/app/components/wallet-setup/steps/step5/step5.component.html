@@ -24,14 +24,18 @@
             <ion-item *ngFor="let even of evens; let i=index"  class="ion-no-margin ion-no-padding"> <ion-badge color="light" slot="start">{{(i+1)*2}}</ion-badge><small>{{even}}</small></ion-item>
           </ion-list>
         </ion-col>
-        <ion-item >
-          <ion-label position="stacked">{{ 'PAGES.SETUP.STEP5-EMAIL' | translate }}</ion-label>
-          <ion-input readonly disabled type="email" value="{{userEmail}}" ></ion-input>
-        </ion-item>
+      </ion-row>
+        <ion-row>
+          <ion-col size="10" offset="1">
+            <ion-item>
+              <ion-label position="stacked">{{ 'PAGES.SETUP.STEP5-EMAIL' | translate }}</ion-label>
+              <ion-input readonly  type="email" value="{{userEmail}}" ></ion-input>
+            </ion-item>
+          </ion-col>
         </ion-row>
         <ion-row>
         <ion-col size="10" offset="1">
-          <ion-button (click)="swipeNext()"> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+          <ion-button class="csc-button" expand="block" (click)="swipeNext()"> {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

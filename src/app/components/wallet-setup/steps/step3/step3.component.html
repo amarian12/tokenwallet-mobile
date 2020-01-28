@@ -27,29 +27,35 @@
 
       <form #userform="ngForm" (ngSubmit)="onSubmit(userform)" [mustMatch]="['pincode', 'pincodeconfirm']" novalidate>
         <ion-row>
-          <ion-col size-sm="6" offset-sm="3">
+          <ion-col size="10" offset="1">
             <!--ion-item >
               <ion-label position="floating">{{'PAGES.SETUP.STEP3-NAME' | translate }}</ion-label>
               <ion-input autoFocus ngModel #nctl="ngModel" clearInput required name="name" type="text" inputmode="text" ></ion-input>
             </ion-item-->
             <ion-item >
               <ion-label position="floating">{{'PAGES.SETUP.STEP3-EMAIL' | translate }}</ion-label>
-              <ion-input ngModel #ectl="ngModel" clearInput required name="email" type="email" inputmode="email" email></ion-input>
+              <ion-input ngModel #ectl="ngModel" clearInput required (ionChange)="filterWord($event)" name="email" type="email" inputmode="email" email></ion-input>
             </ion-item>
-            <ion-item *ngIf="ectl.invalid && ectl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-EMAIL' | translate }}</small></ion-item>
+          </ion-col>
+            <ion-col size="10" offset="1">
             <ion-item >
               <ion-label position="floating">{{'PAGES.SETUP.STEP3-PINCODE' | translate }}</ion-label>
-              <ion-input ngModel #pctl="ngModel" clearInput required name="pincode" type="password" pattern="[0-9]*" inputmode="tel" minlength="6" maxlength="6" ></ion-input>
+              <ion-input ngModel #pctl="ngModel" clearInput required name="pincode" type="password" pattern="[0-9]*" inputmode="numeric" minlength="6" maxlength="6" ></ion-input>
             </ion-item>
-            <ion-item *ngIf="pctl.invalid && pctl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-PIN' | translate }}</small></ion-item>
-            <ion-item >
-              <ion-label position="floating">{{'PAGES.SETUP.STEP3-REPEAT-PIN' | translate }}</ion-label>
-              <ion-input ngModel #pmctl="ngModel" clearInput required name="pincodeconfirm" type="password"  pattern="[0-9]*" inputmode="tel" minlength="6" maxlength="6" ></ion-input>
-            </ion-item>
-            <ion-item *ngIf="pmctl.value != pctl.value && pctl.touched && pmctl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-PINMATCH' | translate }}</small></ion-item>
           </ion-col>
-          <ion-col size-sm="6" offset-sm="3">
-            <ion-button type="submit" > {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
+          <ion-col size="10" offset="1">
+            <ion-item class="ion-margin-bottom">
+              <ion-label position="floating">{{'PAGES.SETUP.STEP3-REPEAT-PIN' | translate }}</ion-label>
+              <ion-input ngModel #pmctl="ngModel" clearInput required name="pincodeconfirm" type="password"  pattern="[0-9]*" inputmode="numeric" minlength="6" maxlength="6" ></ion-input>
+            </ion-item>
+            <ion-item *ngIf="ectl.invalid && ectl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-EMAIL' | translate }}</small></ion-item>
+            <ion-item *ngIf="pctl.invalid && pctl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-PIN' | translate }}</small></ion-item>
+            <ion-item *ngIf="pmctl.value != pctl.value && pctl.touched && pmctl.touched"  color="warning"><small>{{'PAGES.SETUP.STEP3-REQUIRE-PINMATCH' | translate }}</small></ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col size="10" offset="1">
+            <ion-button expand="block" class="csc-button" type="submit" > {{ 'PAGES.SETUP.BTN-CONTINUE' | translate }}</ion-button>
           </ion-col>
         </ion-row>
       </form>

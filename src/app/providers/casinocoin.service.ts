@@ -74,7 +74,7 @@ export class CasinocoinService implements OnDestroy {
         if (this.cscAPI === undefined) {
             this.logger.debug('### Define API connection for CasinocoinAPI');
             if (this.connectToProduction) {
-                this.currentServerURL = 'wss://ws01.casinocoin.org:4443';               
+                this.currentServerURL = 'wss://ws01.casinocoin.org:4443';
             } else {
                 this.currentServerURL = 'wss://wst01.casinocoin.org:4443';
             }
@@ -173,6 +173,7 @@ export class CasinocoinService implements OnDestroy {
                 });
                 this.cscAPI.on('disconnected', code => {
                     this.logger.debug('### CasinocoinService.disconnected: ' + JSON.stringify(code));
+                    this.connectSubject.next(AppConstants.KEY_DISCONNECTED);
                     this.cscAPI = undefined;
                 });
             }).catch(error => {
@@ -418,9 +419,9 @@ export class CasinocoinService implements OnDestroy {
                     this.logger.debug('### CasinocoinService -> Decrypted mnemonichash: ' + decryptedMnemonicHash);
                     // empty collections
                     this.walletService.emptyCollectionsForRecovery();
-                    this.webWorker.postMessage( { 
-                        cmd: 'refresh-wallet', 
-                        decryptedMnemonicHash: decryptedMnemonicHash, 
+                    this.webWorker.postMessage( {
+                        cmd: 'refresh-wallet',
+                        decryptedMnemonicHash: decryptedMnemonicHash,
                         email: userEmail,
                         serverURL: this.currentServerURL
                     });

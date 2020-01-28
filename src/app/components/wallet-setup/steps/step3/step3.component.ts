@@ -36,6 +36,13 @@ export class Step3Component implements OnInit {
         this.logger.debug('### The User form is not valid. Check your input');
       }
     }
+    filterWord(ctl){
+      //(ionChange)="filterWord($event)"
+      // this.words[ctl.target.children[0].name] = ctl.detail.value.trim().trim().toLowerCase();
+      ctl.target.children[0].value = ctl.detail.value.trim().toLowerCase();
+
+
+    }
     onSubmit(form: NgForm){
       if(form.form.status === 'VALID'){
         this.userFormIsValid = true;

@@ -24,12 +24,15 @@ const routes: Routes = [
   {
     path: 'wallet-setup',
     loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule),
-    canActivate : [BackGuard]
+    canActivate:[BackGuard]
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   // { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
   // { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
-  { path: 'recover-mnemonic', loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule' },
+  { path: 'recover-mnemonic',
+    loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule',
+    canActivate:[BackGuard]
+  },
   { path: 'show-seed', loadChildren: './pages/show-seed/show-seed.module#ShowSeedPageModule' },
   { path: 'tutorial',
     loadChildren: () => import('./components/tutorial/tutorial.module').then(m => m.TutorialModule)

@@ -13,6 +13,9 @@ import { WalletDefinition } from '../../domains/csc-types';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import {  MenuController } from '@ionic/angular';
+
+
 
 @Component({
   selector: 'app-login',
@@ -59,6 +62,7 @@ export class LoginPage implements OnInit {
       private statusBar: StatusBar,
       private walletService: WalletService,
       public appflow: AppflowService,
+      public menuCtrl: MenuController,
       private datePipe: DatePipe,
       private translate: TranslateService,
       private decimalPipe: DecimalPipe,
@@ -116,6 +120,7 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/recover-mnemonic']);
   }
   ionViewWillEnter(){
+    this.menuCtrl.enable(false);
     this.theme = this.appflow.dark ? "dark":"light";
     this.enteredPinCode = "";
     if(this.appflow.loggedIn){
@@ -126,6 +131,9 @@ export class LoginPage implements OnInit {
       // this.loginEntry = true;
 
     }
+  }
+  ionViewDidLeave(){
+    this.menuCtrl.enable(true);
   }
   verifyPinAndLogin(decryptedPIN) {
 

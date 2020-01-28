@@ -188,7 +188,7 @@
 			"MSG":"Please enter the 12 words given during wallet setup in the same order as they appeared. Then enter the email address used during wallet setup. Finally enter a password for the new wallet that will be created during this recovery",
 			"WARNING":"Remember that wallet will get overwitten with the wallet that's being recovered. So if you didn't make a backup, or you don't have the words safely stored, or you had imported external accounts, all might be lost and unrecoverable after you restore another wallet.",
 			"ACCEPT-BUTTON":"I Understand and want to procced",
-			"EMAIL":"Email addres",
+			"EMAIL":"Email address",
 			"NETWORK":{
 				"CHOICE":"Network",
 				"LIVE":"LIVE",

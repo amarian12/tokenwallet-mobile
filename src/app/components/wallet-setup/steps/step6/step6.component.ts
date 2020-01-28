@@ -71,6 +71,13 @@ export class Step6Component implements OnInit {
 
 
     }
+    filterWord(ctl){
+      //(ionChange)="filterWord($event)"
+      // this.words[ctl.target.children[0].name] = ctl.detail.value.trim().trim().toLowerCase();
+      ctl.target.children[0].value = ctl.detail.value.trim().toLowerCase();
+
+
+    }
     initialize(){
       this.logger.debug('### Ready sixth step. Wallet Setup ');
       this.logger.debug('### Setup -> Check mnemonic words ###');

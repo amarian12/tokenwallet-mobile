@@ -30,3 +30,23 @@ ion-avatar.logo img {
     margin-top: -2px;
     height: auto;
 }
+.alert-wrapper.sc-ion-alert-md {
+    border-radius: 9px;
+}
+ion-button.csc-button{
+  text-transform: capitalize;
+  --border-radius: 6px;
+}
+.ion-valid.item-interactive {
+        --highlight-background: var(--ion-color-dark);
+   }
+/* testing for changing validation markers and put a check. It's not trivial.
+.ion-valid.item-interactive:before {
+           content:"a";
+           position: relative;
+           color:green;
+           top:0px;
+           left:0px;
+
+      }
+*/

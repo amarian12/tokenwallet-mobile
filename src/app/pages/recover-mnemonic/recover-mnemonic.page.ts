@@ -32,18 +32,18 @@ export class RecoverMnemonicPage implements OnInit {
   error_message: string;
 
   words = {
-    w1:"",
-    w2:"",
-    w3:"",
-    w4:"",
-    w5:"",
-    w6:"",
-    w7:"",
-    w8:"",
-    w9:"",
-    w10:"",
-    w11:"",
-    w12:""
+    word1:"",
+    word2:"",
+    word3:"",
+    word4:"",
+    word5:"",
+    word6:"",
+    word7:"",
+    word8:"",
+    word9:"",
+    word10:"",
+    word11:"",
+    word12:""
   };
   recoveryEmail: string;
   walletPassword: string;
@@ -144,18 +144,18 @@ back(){
              this.walletTestNetwork = false;
          }
          const recoveryArray = [];
-         recoveryArray.push([this.words.w1.trim().toLowerCase(),
-                             this.words.w2.trim().toLowerCase(),
-                             this.words.w3.trim().toLowerCase(),
-                             this.words.w4.trim().toLowerCase(),
-                             this.words.w5.trim().toLowerCase(),
-                             this.words.w6.trim().toLowerCase(),
-                             this.words.w7.trim().toLowerCase(),
-                             this.words.w8.trim().toLowerCase(),
-                             this.words.w9.trim().toLowerCase(),
-                             this.words.w10.trim().toLowerCase(),
-                             this.words.w11.trim().toLowerCase(),
-                             this.words.w12.trim().toLowerCase()
+         recoveryArray.push([this.words.word1.trim().toLowerCase(),
+                             this.words.word2.trim().toLowerCase(),
+                             this.words.word3.trim().toLowerCase(),
+                             this.words.word4.trim().toLowerCase(),
+                             this.words.word5.trim().toLowerCase(),
+                             this.words.word6.trim().toLowerCase(),
+                             this.words.word7.trim().toLowerCase(),
+                             this.words.word8.trim().toLowerCase(),
+                             this.words.word9.trim().toLowerCase(),
+                             this.words.word10.trim().toLowerCase(),
+                             this.words.word11.trim().toLowerCase(),
+                             this.words.word12.trim().toLowerCase()
                            ]);
          // recover the wallet
          const cscCrypto = new CSCCrypto(recoveryArray, this.recoveryEmail);
@@ -290,7 +290,11 @@ back(){
       this.router.navigate(['login']);
   }
   ngOnInit() {
-    this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
+    if(this.platform.is('ios')){
+      this.slideOpts= AppConstants.SLIDE_FLIP_EFFECT;
+    }else{
+      this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
+    }
     this.slides.lockSwipes(true);
     this.logger.debug('### INIT Recover Mnemonics ###');
     this.logger.debug('### RecoverMnemonic onInit');
@@ -300,6 +304,13 @@ back(){
     this.walletTestNetwork = false;
     this.logger.debug('### RecoverMnemonic for: ' + this.selectedWallet + ' and path: ' + this.walletLocation);
     this.error_message = '';
+  }
+  filterWord(ctl){
+    //(ionChange)="filterWord(wordctl)"
+    // this.words[ctl.target.children[0].name] = ctl.detail.value.trim().trim().toLowerCase();
+    ctl.target.children[0].value = ctl.detail.value.trim().toLowerCase();
+
+
   }
   onSubmit(form){
 
