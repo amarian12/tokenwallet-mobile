@@ -21,17 +21,17 @@ const routes: Routes = [
      canActivate : [LoginGuard, WalletSetupGuard]
     //canActivate : [BackGuard]
   },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   {
     path: 'wallet-setup',
     loadChildren: () => import('./components/wallet-setup/wallet-setup.module').then(m => m.WalletSetupModule),
-    // loadChildren: './components/wallet-setup/wallet-setup.module#WalletSetupModule',
     canActivate:[BackGuard]
   },
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   // { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
   // { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'recover-mnemonic',
-    loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule'
+    loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule',
+    canActivate:[BackGuard]
   },
   { path: 'show-seed', loadChildren: './pages/show-seed/show-seed.module#ShowSeedPageModule' },
   { path: 'tutorial',

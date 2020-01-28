@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { LogService } from '../../providers/log.service';
 import { IonSlides } from '@ionic/angular';
 import { CSCCrypto } from '../../domains/csc-crypto';
+import { Platform } from '@ionic/angular';
 import { SessionStorageService, LocalStorageService } from 'ngx-store';
 import { WalletService } from '../../providers/wallet.service';
 import { AppConstants } from '../../domains/app-constants';
@@ -19,13 +20,18 @@ export class WalletSetupComponent implements OnInit {
   @ViewChild('walletSetup', { static: true }) slides: IonSlides;
   constructor(  private logger: LogService,
                 private walletService: WalletService,
+                private platform: Platform,
                 private localStorageService: LocalStorageService
               ) {
 
                 }
 
   ngOnInit() {
-    this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
+    if(this.platform.is('ios')){
+      this.slideOpts= AppConstants.SLIDE_FLIP_EFFECT;
+    }else{
+      this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
+    }
     this.slides.lockSwipes(true);
     this.logger.debug('### INIT WalletSetup ###');
 

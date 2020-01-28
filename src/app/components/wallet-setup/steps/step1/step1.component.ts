@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import { CSCCrypto } from '../../../../domains/csc-crypto';
 import { SessionStorageService, LocalStorageService } from 'ngx-store';
 import { AppConstants } from '../../../../domains/app-constants';
-import { WalletSetup } from '../../../../domains/csc-types';
+import { WalletSetup, WalletSettings } from '../../../../domains/csc-types';
 import { UUID } from 'angular2-uuid';
 import { IonSlides,  AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +20,13 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class Step1Component implements OnInit {
     initialWalletCreation = true;
+    walletSettings: WalletSettings = {
+      showNotifications: false,
+      fiatCurrency: 'USD',
+      walletUser: "",
+      walletLanguage: "en",
+      styleTheme:"light"
+    };
 @HostListener('window:ionSlidesDidLoad') sliderLoad(){
   this.zone.run(()=>{
     this.startSlider();
@@ -55,11 +62,25 @@ export class Step1Component implements OnInit {
   }
   initialize(){
     this.logger.debug('### Ready first step. Wallet Setup ');
+    this.walletSettings = this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
+    if (this.walletSettings == null){
+      // settings do not exist yet so create
+      this.walletSettings = {
+        showNotifications: false,
+        fiatCurrency: 'USD',
+        walletUser: "",
+        walletLanguage: "en",
+        styleTheme:"light"
+      };
+      this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
+      this.logger.debug('### Wallet Setup: Storing defual wallet settings ');
+    }
+
     // check if we already have a wallet
     const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
     if (availableWallets != undefined &&  availableWallets.length >= 1) {
       this.initialWalletCreation = false;
-      // this.localStorageService.set(AppConstants.KEY_SETUP_COMPLETED, true);
+      this.localStorageService.set(AppConstants.KEY_SETUP_COMPLETED, true);
       this.showWarning();
     }
     this.logger.debug('### WalletSetup: There are these wallets here ' + JSON.stringify(availableWallets));
@@ -75,6 +96,7 @@ export class Step1Component implements OnInit {
     // this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
 
     this.logger.debug('### WalletSetup: ' + JSON.stringify(this.walletService.walletSetup));
+    setTimeout(() => this.slider.update(), 100);
   }
   showWarning(){
     this.translate.get(['PAGES.SETUP.STEP5-REMINDER-HEADER',
@@ -112,6 +134,10 @@ export class Step1Component implements OnInit {
   }
   goToRestore(){
       this.router.navigate(['/recover-mnemonic']);
+  }
+  langChanged(){
+    this.translate.use(this.walletSettings.walletLanguage);
+    this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
   }
   cancel(){
       this.router.navigate(['/']);

@@ -417,12 +417,26 @@ export class AppflowService {
    async scanQRCode(){
      // Scan CasinoCoin QRCode
      const result = await this.barcodeScanner.scan().then((barcodeData) => {
-       this.logger.debug('### SEND - QR Scanned: ' + JSON.stringify(barcodeData));
-       const cscUri: CSCURI = CSCUtil.decodeCSCQRCodeURI(barcodeData.text);
+       this.logger.debug('### Appflow scanQRCode - QR Scanned: ' + JSON.stringify(barcodeData));
+       let cscUri:CSCURI;
+       if(barcodeData.text.startsWith('https://casinocoin.org')){
+          cscUri = CSCUtil.decodeCSCQRCodeURI(barcodeData.text);
+       }else if (this.casinocoinService.isValidAccountID(barcodeData.text.trim())) {
+          cscUri = {
+             address: barcodeData.text,
+             token: 'CSC'
+         };
+       }else{
+          cscUri = {
+             address: '',
+             token: ''
+         };
+         this.logger.error('### Appflow scanQRCode Error: QR not supported');
+       }
        return cscUri;
      }, (err) => {
        // An error occurred
-       this.logger.error('### SEND QR Error: ' + JSON.stringify(err));
+       this.logger.error('### Appflow scanQRCode Error: ' + JSON.stringify(err));
        return err;
      });
      return result;

@@ -121,7 +121,7 @@ balanceToSend: any;
   async scanQRCode(){
     let data = await this.appflow.scanQRCode();
     // if (!this.casinocoinService.isValidAccountID(data.trim())) {
-    // 
+    //
     // }
     this.logger.debug("#### DATA ON QR::: "+JSON.stringify(data));
     this.destinationAccount = data.address;
@@ -130,6 +130,9 @@ balanceToSend: any;
     }
     if(data.destinationTag){
       this.destinationTag = data.destinationTag;
+    }
+    if(data.amount){
+      this.balanceToSend = data.amount;
     }
 
 
