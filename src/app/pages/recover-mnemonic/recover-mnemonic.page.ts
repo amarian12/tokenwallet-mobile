@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, Platform } from '@ionic/angular';
 import { WalletService } from '../../providers/wallet.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
@@ -58,6 +58,7 @@ export class RecoverMnemonicPage implements OnInit {
   constructor(  private logger: LogService,
                 private route: ActivatedRoute,
                 private router: Router,
+                private platform: Platform,
                 private alert: AlertController,
                 private translate: TranslateService,
                 private walletService: WalletService,
