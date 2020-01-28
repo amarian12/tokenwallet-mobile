@@ -290,7 +290,11 @@ back(){
       this.router.navigate(['login']);
   }
   ngOnInit() {
-    this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
+    if(this.platform.is('ios')){
+      this.slideOpts= AppConstants.SLIDE_FLIP_EFFECT;
+    }else{
+      this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
+    }
     this.slides.lockSwipes(true);
     this.logger.debug('### INIT Recover Mnemonics ###');
     this.logger.debug('### RecoverMnemonic onInit');
@@ -305,7 +309,7 @@ back(){
     //(ionChange)="filterWord(wordctl)"
     // this.words[ctl.target.children[0].name] = ctl.detail.value.trim().trim().toLowerCase();
     ctl.target.children[0].value = ctl.detail.value.trim().toLowerCase();
-    
+
 
   }
   onSubmit(form){
