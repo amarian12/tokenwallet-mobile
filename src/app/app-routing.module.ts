@@ -30,8 +30,7 @@ const routes: Routes = [
   // { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
   // { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'recover-mnemonic',
-    loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule',
-    canActivate:[BackGuard]
+    loadChildren: './pages/recover-mnemonic/recover-mnemonic.module#RecoverMnemonicPageModule'
   },
   { path: 'show-seed', loadChildren: './pages/show-seed/show-seed.module#ShowSeedPageModule' },
   { path: 'tutorial',
