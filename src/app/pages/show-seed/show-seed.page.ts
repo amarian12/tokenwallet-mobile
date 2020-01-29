@@ -83,7 +83,7 @@ export class ShowSeedPage implements OnInit {
       this.walletEmail = this.selectedWallet.userEmail;
       const mainAccount = this.walletService.getMainAccount();
       const encryptedMnemonicWords = this.localStorageService.get(AppConstants.KEY_WALLET_MNEMONIC_WORDS);
-      let crypto = new CSCCrypto(mainAccount.accountID, this.walletEmail );
+      let crypto = new CSCCrypto(result.data.password, this.walletEmail );
       this.logger.debug('### Show seed: encwords ' + JSON.stringify(encryptedMnemonicWords));
       this.logger.debug('### Show seed: main account  ' + JSON.stringify(mainAccount));
       let decryptedWords = JSON.parse(crypto.decrypt(encryptedMnemonicWords));
