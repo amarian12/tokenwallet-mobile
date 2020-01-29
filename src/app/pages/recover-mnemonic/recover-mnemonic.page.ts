@@ -144,6 +144,8 @@ back(){
          } else {
              this.walletTestNetwork = false;
          }
+         //sanitize last resource recovery email
+         this.recoveryEmail = this.recoveryEmail.trim().toLowerCase();
          const recoveryArray = [];
          recoveryArray.push([this.words.word1.trim().toLowerCase(),
                              this.words.word2.trim().toLowerCase(),
@@ -162,7 +164,7 @@ back(){
          const cscCrypto = new CSCCrypto(recoveryArray, this.recoveryEmail);
          const walletUUID = UUID.UUID();
          this.walletService.walletSetup = {
-             userEmail: this.recoveryEmail.trim().toLowerCase(),
+             userEmail: this.recoveryEmail,
              userPassword: this.walletPassword,
              recoveryMnemonicWords: recoveryArray,
              testNetwork: this.walletTestNetwork,
@@ -176,6 +178,8 @@ back(){
          const encryptedMnemonicHash = encMnemonicCscCrypto.encrypt(mnemonicHash);
          this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.walletService.walletSetup.walletPasswordHash);
          this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, !this.walletService.walletSetup.testNetwork);
+         let encryptedMnemonicWords = encMnemonicCscCrypto .encrypt(JSON.stringify(this.walletService.walletSetup.recoveryMnemonicWords));
+         this.localStorageService.set(AppConstants.KEY_WALLET_MNEMONIC_WORDS, encryptedMnemonicWords);
          // regenerate accounts
          const accountFindFinishedSubject = new BehaviorSubject<Boolean>(false);
          let sequence = 0;

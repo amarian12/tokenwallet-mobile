@@ -99,7 +99,7 @@ export class Step7Component implements OnInit {
               lastTxLedger: 0
             };
             //save encrypted seed to db
-            let crypto = new CSCCrypto(newKeyPair.accountID, this.walletService.walletSetup.userEmail);
+            let crypto = new CSCCrypto(this.walletService.walletSetup.userPassword, this.walletService.walletSetup.userEmail);
             let encryptedMnemonicWords = crypto.encrypt(JSON.stringify(this.walletService.walletSetup.recoveryMnemonicWords));
             this.localStorageService.set(AppConstants.KEY_WALLET_MNEMONIC_WORDS, encryptedMnemonicWords);
 
