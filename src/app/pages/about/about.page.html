@@ -28,7 +28,7 @@
 
   <span [innerHTML]="'PAGES.ABOUT.ABOUTMESSAGE' | translate"> </span>
 
-<p> {{ 'PAGES.ABOUT.VERSIONTITLE' | translate }}{{versionNumber}} {{ 'PAGES.ABOUT.VERSIONMESSAGE' | translate:{ network: appflow.network } }}</p>
+<p> {{ 'PAGES.LOGIN.VERSIONMESSAGE' | translate:{ version:versionNumber, network: appflow.network } }}<</p>
   <ion-footer>
     <ion-buttons>
       <ion-button color="primary" slot="start"  href="https://casinocoin.org/terms-of-service/">{{ 'PAGES.ABOUT.TERMSLINK' | translate }}</ion-button>

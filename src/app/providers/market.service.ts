@@ -6,6 +6,7 @@ import { Observable,Subject } from 'rxjs';
 import { CoinMarketCapType, ExchangesType } from '../domains/service-types';
 import { LocalStorageService } from 'ngx-store';
 import { AppConstants } from '../domains/app-constants';
+import { WalletSettings } from '../domains/csc-types';
 // import { SelectItem } from 'primeng/components/common/selectitem';
 
 @Injectable({
@@ -25,6 +26,7 @@ export class MarketService {
     public btcPrice: number = 1;
     public cscPrice: number = 0.00000001;
     public fiatCurrency = 'USD';
+    public walletSettings:WalletSettings;
 
     constructor(private logger: LogService,
                 private http: HttpClient,
@@ -34,8 +36,12 @@ export class MarketService {
         // get the stored coin info from localstorage
         this.coinMarketInfo = this.localStorageService.get(AppConstants.KEY_COININFO);
         // this.fiatCurrency = this.localStorageService.get(AppConstants.KEY_BRM_USER).Currency;
+        this.walletSettings = this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
+        if(this.walletSettings){
+          this.fiatCurrency = this.walletSettings.fiatCurrency;
+          // this.appflow.currency = this.fiatCurrency;
 
-        this.fiatCurrency = "USD"
+        }
         this.initAutoUpdateServices();
     }
 
@@ -46,6 +52,7 @@ export class MarketService {
         this.checkInterval = setInterval(() => {
             if(!this.localStorageService.get(AppConstants.KEY_LAST_UPDATED_COININFO)){
               this.localStorageService.set(AppConstants.KEY_LAST_UPDATED_COININFO, 0 );
+              this.updateCoinInfo();
             }
             const lastupdated = this.localStorageService.get(AppConstants.KEY_LAST_UPDATED_COININFO);
             const thishour = Math.floor(Date.now() / 240000);
@@ -98,9 +105,12 @@ export class MarketService {
                     price_btc: coinInfo.price_btc,
                     price_fiat: coinInfo['price_' + this.fiatCurrency.toLowerCase()],
                     market_24h_volume_usd: coinInfo['24h_volume_usd'],
+                    market_24h_volume_fiat: coinInfo['24h_volume_' + this.fiatCurrency.toLowerCase()],
                     market_cap_usd: coinInfo.market_cap_usd,
+                    market_cap_fiat: coinInfo['market_cap_' + this.fiatCurrency.toLowerCase()],
                     available_supply: coinInfo.available_supply,
                     total_supply: coinInfo.total_supply,
+                    selected_fiat: this.fiatCurrency,
                     last_updated: coinInfo.last_updated
                 }
                 // store in localstorage

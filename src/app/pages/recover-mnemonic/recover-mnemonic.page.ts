@@ -166,7 +166,7 @@ back(){
          this.walletService.walletSetup = {
              userEmail: this.recoveryEmail,
              userPassword: this.walletPassword,
-             recoveryMnemonicWords: recoveryArray,
+             recoveryMnemonicWords: recoveryArray[0],
              testNetwork: this.walletTestNetwork,
              walletUUID: walletUUID,
              walletPasswordHash: this.walletService.generateWalletPasswordHash(walletUUID, this.walletPassword),
@@ -296,8 +296,9 @@ back(){
   }
   ngOnInit() {
     if(this.platform.is('ios')){
-      this.slideOpts= AppConstants.SLIDE_FLIP_EFFECT;
+      this.slideOpts='';
     }else{
+      // this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
       this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
     }
     this.slides.lockSwipes(true);
