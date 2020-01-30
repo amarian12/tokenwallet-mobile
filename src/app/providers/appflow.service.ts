@@ -7,6 +7,7 @@ import { takeUntil, take, filter, map } from 'rxjs/operators';
 import { CSCAmountPipe } from '../domains/csc.pipes';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import { AppConstants } from '../domains/app-constants';
 import { CasinocoinService } from './casinocoin.service';
 import { CSCUtil } from '../domains/csc-util';
@@ -82,7 +83,7 @@ export class AppflowService {
   destinationTag: number;
   label: string;
   copyIcon = 'fa fa-copy';
-  public network = "LIVE";
+  public network = "Production";
   showSecretDialog = false;
   showSecret = false;
   accountSecret: string;
@@ -100,13 +101,14 @@ export class AppflowService {
     private sessionStorageService: SessionStorageService,
     private casinocoinService: CasinocoinService,
     private alertCtrl: AlertController,
+    private net: Network,
     public modal: ModalController,
     private walletService: WalletService,
     private cscAmountPipe: CSCAmountPipe
 
   ) {
     // barcodeScanner options
-
+  
     // this.barcodeScannerOptions = {
     //      preferFrontCamera : true, // iOS and Android
     //      showFlipCameraButton : true, // iOS and Android

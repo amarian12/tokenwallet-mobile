@@ -5,7 +5,7 @@
 			"PRIVACYLINK": "Privacy Policy",
 			"TERMSLINK": "Terms of Service",
 			"TITLE": "About CasinoCoin",
-			"VERSIONMESSAGE": "Version {{network}}",
+			"VERSIONMESSAGE": "Wallet Version {{version}} {{network}}",
 			"VERSIONTITLE": "Token Wallet:"
 		},
 		"CONTACTS": {
@@ -102,7 +102,7 @@
 				"VALIDATINGPIN":"Validating PIN"
 			},
 			"UPDATE-TITLE": "Token Wallet Update",
-			"VERSIONMESSAGE": "Version {{network}}",
+			"VERSIONMESSAGE": "Wallet Version {{version}} {{network}}",
 			"VERSIONTITLE": "Token Wallet:"
 		},
 		"TABS":{

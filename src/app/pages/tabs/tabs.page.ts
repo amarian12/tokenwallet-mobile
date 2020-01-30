@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { CasinocoinService } from '../../providers/casinocoin.service';
 import { LogService } from '../../providers/log.service';
+import { Network } from '@ionic-native/network/ngx';
 import { MarketService } from '../../providers/market.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
@@ -37,6 +38,7 @@ export class TabsPage implements OnInit{
   constructor(
                private logger: LogService,
                private router: Router,
+               private net: Network,
                private walletService: WalletService,
                private appflow: AppflowService,
                private marketService: MarketService,
@@ -116,7 +118,7 @@ export class TabsPage implements OnInit{
                       // this.electron.ipcRenderer.send('wallet-closed', true);
                     }
                   });
-                  this.casinocoinService.connect().subscribe( result => {
+                  let cscconnect = this.casinocoinService.connectSubject.subscribe( result => {
                     this.loadingMessage = "Connecting to CasinoCoin Blockchain";
                     if (result === AppConstants.KEY_CONNECTED) {
                       this.serverVersion = this.casinocoinService.serverInfo.buildVersion;
@@ -137,25 +139,46 @@ export class TabsPage implements OnInit{
                           availableTokenlistSubject.unsubscribe();
                           this.casinocoinService.refreshAccountTokenList();
                         }
+                        this.loading.dismiss();
                       });
                       this.loadingMessage = "Obtained Token List";
                       this.logger.debug('### Refreshing Available Tokenlist');
                       // dismiss loader
-                      this.loading.dismiss();
                       // this.appflow.accountRefreshFinished.subscribe(finished => {
                       //   if (finished) {
                       //     this.logger.debug('### Timeout, dismiss popup');
                       //     this.loading.dismiss();
                       //   }
                       // });
-                    } else {
+                    } else if (result === AppConstants.KEY_DISCONNECTED){
                       this.logger.debug('### DISCONECTED!');
                       this.appflow.setConnectedStatus(false);
                       this.loadingMessage = "CasinoCoin Blockchain Offline";
+
+                      this.loading.dismiss();
+                      this.logger.debug('### TABS PAGE: DISCONECTED type of net:'+this.net.type);
+                      if (this.net.type == 'none'){
+                        this.logger.debug('### TABS PAGE: no network, trying when we have network');
+                        let con = this.net.onConnect().subscribe(() => {
+
+                              this.logger.debug('###TABS PAGE: CONECTED! network was connected  again :-)');
+                              // alert("FirstPage connected again!");
+                              this.casinocoinService.connect();
+                              con.unsubscribe();
+                         });
+
+                      }else{
+                        this.logger.debug('### TABS PAGE: DISCONECTED type of net:'+this.net.type);
+                        this.logger.debug('### TABS PAGE: Trying to reconnect onr more time');
+                        this.casinocoinService.connect();
+
+                      }
+
                       // we are not connected or disconnected
                       // this.setWalletUIDisconnected();
                     }
                   });
+                  this.casinocoinService.connect();
 
 
 

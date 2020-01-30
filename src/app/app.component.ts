@@ -4,6 +4,7 @@ import { LogService } from './providers/log.service';
 import { AppflowService } from './providers/appflow.service';
 import { WalletService } from './providers/wallet.service';
 import { Platform } from '@ionic/angular';
+import { Network } from '@ionic-native/network/ngx';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -34,6 +35,7 @@ export class AppComponent {
     private router: Router,
     private splashScreen: SplashScreen,
     private translate: TranslateService,
+    private net: Network,
     private localStorageService: LocalStorageService,
     private logger: LogService,
     private statusBar: StatusBar,
@@ -46,6 +48,7 @@ export class AppComponent {
   initializeApp() {
 
     this.platform.ready().then(() => {
+      
       this.logger.debug('### App initialized::::::::::::::');
       // debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');
@@ -56,10 +59,10 @@ export class AppComponent {
         });
       } else {
 
-        this.appflow.versionNumber = "0.1.0.browser";
+        this.appflow.versionNumber = "0.1.10.browser";
         this.versionNumber = this.appflow.versionNumber;
       }
-      this.appflow.network = this.localStorageService.get(AppConstants.KEY_PRODUCTION_NETWORK)?"LIVE":"TESTNET";
+      this.appflow.network = this.localStorageService.get(AppConstants.KEY_PRODUCTION_NETWORK)?"Production":"Testnet";
       // make the app go to login and auth on resume.
       this.platform.pause.subscribe(async () => {
           setTimeout(() =>

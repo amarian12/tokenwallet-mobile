@@ -5,6 +5,7 @@ import { WalletSettings } from '../../domains/csc-types';
 import { TranslateService } from '@ngx-translate/core';
 import { AppflowService } from '../../providers/appflow.service';
 import { LogService } from '../../providers/log.service';
+import { MarketService } from '../../providers/market.service';
 
 @Component({
   selector: 'app-settings',
@@ -19,6 +20,7 @@ walletSettings: WalletSettings
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
+    private marketService: MarketService,
     private alert: AlertController
 
   ) { }
@@ -62,5 +64,8 @@ walletSettings: WalletSettings
   }
   langChanged(){
     this.translate.use(this.walletSettings.walletLanguage);
+  }
+  currencyChanged(){
+    this.marketService.changeCurrency(this.walletSettings.fiatCurrency);
   }
 }

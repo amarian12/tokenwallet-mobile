@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -95,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     StatusBar,
     SplashScreen,
+    Network,
     WalletService,
     CasinocoinService,
     LogService,

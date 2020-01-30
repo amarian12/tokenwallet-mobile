@@ -28,7 +28,7 @@ export class WalletSetupComponent implements OnInit {
 
   ngOnInit() {
     if(this.platform.is('ios')){
-      this.slideOpts= AppConstants.SLIDE_FLIP_EFFECT;
+      '';
     }else{
       this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
     }

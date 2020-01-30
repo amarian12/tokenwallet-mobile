@@ -53,10 +53,10 @@ export class DashboardPage implements OnInit {
       const coinInfo = this.marketService.getCoinInfo();
       this.logger.debug('### Dashboard - Wallet coinInfo: ' + JSON.stringify(coinInfo));
       if(coinInfo){
-        this.fiatValue  = coinInfo.price_usd ;
+        this.fiatValue  = coinInfo.price_fiat ;
         this.coinSupply = coinInfo.total_supply;
-        this.marketCapital = coinInfo.market_cap_usd;
-        this.marketVolumeUSD = coinInfo.market_24h_volume_usd;
+        this.marketCapital = coinInfo.market_cap_fiat;
+        this.marketVolumeUSD = coinInfo.market_24h_volume_fiat;
       }
       if(walletBalances){
           walletBalances.forEach( wallet =>{
@@ -73,7 +73,7 @@ export class DashboardPage implements OnInit {
           })
       }
     });
-    
+
     // this.casinocoinService.transactionSubject.subscribe(
     //   tx => {
     //     this.logger.debug('### Dashboard - tx updated!!! token list is:'+JSON.stringify(this.casinocoinService.tokenlist));
