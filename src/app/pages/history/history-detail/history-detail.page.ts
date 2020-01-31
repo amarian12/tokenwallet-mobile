@@ -105,6 +105,7 @@ export class HistoryDetailPage implements OnInit {
     });
   }
   getExploreURL(){
-    return  'http://testexplorer.casinocoin.org/tx/' + this.transactionLoaded.txID;
+    return 'https://csc.observer/transaction/'+this.transactionLoaded.txID+'?testnet=true';
+    //return  'http://testexplorer.casinocoin.org/tx/' + this.transactionLoaded.txID;
   }
 }

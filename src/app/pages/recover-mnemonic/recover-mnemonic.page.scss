@@ -10,3 +10,10 @@ ion-card{
   --background: var(--ion-color-light);
   border-radius: 10px;
 }
+ion-card{
+    --background: var(--ion-color-light-tint);
+    border-radius: 10px;
+}
+ion-item{
+  --background: var(--ion-color-light-tint);
+}

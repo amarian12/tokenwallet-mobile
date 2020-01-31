@@ -140,11 +140,11 @@ export class TabsPage implements OnInit{
                         if(result){
                           availableTokenlistSubject.unsubscribe();
                           this.casinocoinService.refreshAccountTokenList();
-                          this.loading.dismiss();
                         }
                       });
                       this.loadingMessage = "Obtained Token List";
                       this.logger.debug('### Refreshing Available Tokenlist');
+                      this.loading.dismiss();
                       // dismiss loader
                       // this.appflow.accountRefreshFinished.subscribe(finished => {
                       //   if (finished) {

@@ -153,7 +153,9 @@ export class TokenDetailPage implements OnInit {
     });
   }
   getExploreURL(){
-    return  'http://testexplorer.casinocoin.org/address/' + this.tokenAccountLoaded.AccountID;
+    return  'https://csc.observer/account/'+this.tokenAccountLoaded.AccountID+'?testnet=true';
+    //return  'http://testexplorer.casinocoin.org/address/' + this.tokenAccountLoaded.AccountID;
+
   }
 
 

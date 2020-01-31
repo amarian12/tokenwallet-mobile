@@ -36,7 +36,7 @@
         maxlength="35">
 
       </ion-input>
-      <ion-button slot="end" (click)="scanQRCode()">
+      <ion-button class="csc-button"  color="primary" slot="end" (click)="scanQRCode()">
         {{ 'PAGES.CONTACTS.ADD-CONTACTS-SCAN-BTN' | translate }}
       </ion-button>
     </ion-item>
@@ -59,21 +59,33 @@
     </ion-item>
 
   </ion-list>
+ <ion-grid>
+   <ion-row *ngIf="!editMode">
+     <ion-col size="8" offset="2">
+       <ion-button class="csc-button" expand="block" color="primary" type="submit" (click)="addContact() " >
+         {{ 'PAGES.CONTACTS.ADD-CONTACTS-ADD-BTN' | translate }}
 
-  <ion-button class="ion-margin ion-text-capitalize" type="submit" expand="block" (click)="addContact() " *ngIf="!editMode">
-    {{ 'PAGES.CONTACTS.ADD-CONTACTS-ADD-BTN' | translate }}
+       </ion-button>
+     </ion-col>
+   </ion-row>
+   <ion-row *ngIf="editMode">
+     <ion-col size="8" offset="2">
+       <ion-button class="csc-button" expand="block" color="primary" type="submit" (click)="addContact() " >
+         {{ 'PAGES.CONTACTS.ADD-CONTACTS-UPD-BTN' | translate }}
 
-  </ion-button>
-  <ion-button class="ion-margin ion-text-capitalize" type="submit" expand="block" (click)="addContact() " *ngIf="editMode">
-    {{ 'PAGES.CONTACTS.ADD-CONTACTS-UPD-BTN' | translate }}
+       </ion-button>
 
-  </ion-button>
+     </ion-col>
+   </ion-row>
+   <ion-row>
+     <ion-col size="8" offset="2">
+       <ion-button class="csc-button" expand="block" color="primary" fill="outline" (click)="onCancel() ">
+         {{ 'PAGES.CONTACTS.ADD-CONTACTS-CANCEL-BTN' | translate }}
+       </ion-button>
+     </ion-col>
+   </ion-row>
+ </ion-grid>
 
-  <ion-button class="ion-margin ion-text-capitalize" expand="block" (click)="onCancel() ">
-    {{ 'PAGES.CONTACTS.ADD-CONTACTS-CANCEL-BTN' | translate }}
-
-
-  </ion-button>
 
 
 </ion-content>

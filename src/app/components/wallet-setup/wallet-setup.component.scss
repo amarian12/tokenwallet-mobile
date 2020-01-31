@@ -4,7 +4,7 @@ ion-slides div{
 }
 
 ion-slides{
-  background: url(/assets/bg/bg_chips_w_98_b.jpg) center bottom;
+  background: var(--csc-background-setup);
   background-size: cover;
   min-height: 100%;
   display: flex;

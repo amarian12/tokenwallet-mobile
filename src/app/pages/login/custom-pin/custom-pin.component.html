@@ -1,23 +1,24 @@
 
 
 <ion-content fullscreen>
-  <ion-grid class="intro" *ngIf="!loginEntry" >
-		<ion-row class="intro-logo">
-
-      <ion-col  size="2" offset="5" class="ion-text-center">
-        <ion-img src="assets/svg/logo_icon.svg" ></ion-img>
+  <ion-grid   *ngIf="!loginEntry">
+		<ion-row class="ion-padding-top ion-align-items-center ion-margin-top">
+      <ion-col size="6" offset="3" class="ion-text-center">
+        <ion-img  src="/assets/svg/casinocoin_logo_side_menu.png" ></ion-img>
       </ion-col>
 		</ion-row>
-    <ion-row>
-      <ion-col class="ion-text-center">
-        <ion-label color="primary"> CasinoCoin
-        </ion-label>
-        <ion-label [color]="theme">
-          <h1>
-            {{ actionMessage }}
-          </h1>
-        </ion-label>
-      </ion-col>
+    <ion-row  style="flex-grow:1;" class="ion-align-items-end ion-padding-bottom">
+      <ion-row style="width:100%;"  class="ion-padding-bottom ion-margin-bottom">
+        <ion-col class="ion-text-center">
+          <ion-item  color="light">
+            <ion-label color ="dark">
+
+                {{ actionMessage }}
+
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-row>
 
 
@@ -39,40 +40,40 @@
 
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length > 0">
-            <ion-icon [color]="theme" name="radio-button-on" ></ion-icon>
+            <ion-icon color ="dark" name="radio-button-on" ></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length > 1">
-            <ion-icon [color]="theme" name="radio-button-on"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-on"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length > 2">
-            <ion-icon [color]="theme" name="radio-button-on"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-on"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length > 3">
-            <ion-icon [color]="theme" name="radio-button-on"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-on"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length > 4">
-            <ion-icon [color]="theme" name="radio-button-on"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-on"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length > 5">
-            <ion-icon [color]="theme" name="radio-button-on"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-on"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length < 1">
-            <ion-icon [color]="theme" name="radio-button-off" ></ion-icon>
+            <ion-icon color ="dark" name="radio-button-off" ></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length < 2">
-            <ion-icon [color]="theme" name="radio-button-off"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-off"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length < 3">
-            <ion-icon [color]="theme" name="radio-button-off"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-off"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length < 4">
-            <ion-icon [color]="theme" name="radio-button-off"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-off"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length < 5">
-            <ion-icon [color]="theme" name="radio-button-off"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-off"></ion-icon>
           </ion-col>
           <ion-col size="1" *ngIf="enteredPinCode.length < 6">
-            <ion-icon [color]="theme" name="radio-button-off"></ion-icon>
+            <ion-icon color ="dark" name="radio-button-off"></ion-icon>
           </ion-col>
           <!--ion-col size="1" *ngIf="enteredPinCode.length > 6">
             <ion-icon color="primary" name="square"></ion-icon>

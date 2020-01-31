@@ -72,11 +72,11 @@ export class LoginPage implements OnInit {
     ) {
       this.defaultAccount = this.localStorageService.get(AppConstants.KEY_DEFAULT_ACCOUNT_ID);
       this.statusBar.styleLightContent();
-      this.versionNumber = this.appflow.versionNumber;
     }
 
   ngOnInit() {
-    this.logger.debug('### LoginComponent onInit');
+    this.versionNumber = this.appflow.versionNumber;
+    this.logger.debug('### LoginComponent onIni version number:'+this.versionNumber);
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

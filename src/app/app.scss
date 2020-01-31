@@ -39,10 +39,15 @@ ion-button.csc-button{
   height: 52px;
   font-size:15px;
 }
-.ion-valid.item-interactive {
-        --highlight-background: var(--ion-color-dark);
-   }
+ion-button.csc-button.button-outline {
+
+  background: white;
+  border-radius: 12px;
+}
 /* testing for changing validation markers and put a check. It's not trivial.
+.ion-valid.item-interactive {
+--highlight-background: var(--ion-color-dark);
+}
 .ion-valid.item-interactive:before {
            content:"a";
            position: relative;
