@@ -81,11 +81,11 @@
                   <ion-list>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN' | translate }}</ion-label>
-                      <ion-input ngModel  [tabIndex]="'14'" required style="-webkit-text-security:disc" pattern="[0-9]*" #pin="ngModel" name="pin" type="number" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
+                      <ion-input ngModel  [tabIndex]="'14'" required style="-webkit-text-security:disc" pattern="[0-9]*" #pin="ngModel" name="pin" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
                     </ion-item>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN-CONFIRM' | translate }}</ion-label>
-                      <ion-input ngModel [tabIndex]="'15'" required style="-webkit-text-security:disc" pattern="[0-9]*" #pinconfirm="ngModel" name="pinconfirm" type="number" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "confirmWalletPassword" ></ion-input>
+                      <ion-input ngModel [tabIndex]="'15'" required style="-webkit-text-security:disc" pattern="[0-9]*" #pinconfirm="ngModel" name="pinconfirm" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "confirmWalletPassword" ></ion-input>
                     </ion-item>
                   </ion-list>
                 </ion-col >
@@ -129,7 +129,7 @@
                 <ion-col>
                     <ion-item *ngIf="email.invalid && email.touched"  color="warning" ><small>email is not a valid email</small></ion-item>
                     <ion-item *ngIf="pin.invalid && pin.touched"  color="warning" ><small>PIN should be 6 digits</small></ion-item>
-                    <ion-item *ngIf="pinconfirm.invalid && pinconfirm.touched"  color="warning" ><small>both PIN should be equal</small></ion-item>
+                    <ion-item *ngIf="pinconfirm.value != pin.value && pinconfirm.touched"  color="warning" ><small>both PIN should be equal</small></ion-item>
 
                 </ion-col>
               </ion-row>
