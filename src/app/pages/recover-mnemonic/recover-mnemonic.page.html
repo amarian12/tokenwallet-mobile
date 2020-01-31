@@ -81,7 +81,7 @@
                   <ion-list>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN' | translate }}</ion-label>
-                      <ion-input ngModel  [tabIndex]="'14'" required style="-webkit-text-security:disc" pattern="\\d*" #pin="ngModel" name="pin" type="number" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
+                      <ion-input ngModel  [tabIndex]="'14'" required style="-webkit-text-security:disc" pattern="[0-9]*" #pin="ngModel" name="pin" type="number" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
                     </ion-item>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN-CONFIRM' | translate }}</ion-label>
