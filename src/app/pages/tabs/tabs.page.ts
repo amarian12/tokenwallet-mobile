@@ -11,6 +11,7 @@ import { CSCUtil } from '../../domains/csc-util';
 import { AppConstants } from '../../domains/app-constants';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
+import { NotificationService, SeverityType } from '../../providers/notification.service';
 import { AppflowService } from '../../providers/appflow.service';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { WalletSettings, WalletDefinition, LedgerStreamMessages } from '../../domains/csc-types';
@@ -45,6 +46,7 @@ export class TabsPage implements OnInit{
                private loading: LoadingController,
                private datePipe: DatePipe,
                private casinocoinService: CasinocoinService,
+               private notificationService: NotificationService,
                private sessionStorageService: SessionStorageService,
                private localStorageService: LocalStorageService,
                private currencyPipe: CurrencyPipe,
@@ -138,8 +140,8 @@ export class TabsPage implements OnInit{
                         if(result){
                           availableTokenlistSubject.unsubscribe();
                           this.casinocoinService.refreshAccountTokenList();
+                          this.loading.dismiss();
                         }
-                        this.loading.dismiss();
                       });
                       this.loadingMessage = "Obtained Token List";
                       this.logger.debug('### Refreshing Available Tokenlist');
@@ -151,31 +153,32 @@ export class TabsPage implements OnInit{
                       //   }
                       // });
                     } else if (result === AppConstants.KEY_DISCONNECTED){
-                      this.logger.debug('### DISCONECTED!');
+
+                        this.logger.debug('### DISCONECTED!');
+                        // this.notificationService.addMessage( {severity: SeverityType.error,
+                        //                                       title: 'Connection Error',
+                        //                                       body: 'CasinoCoin Blockchain was disconnected.'
+                        //                                      });
+
                       this.appflow.setConnectedStatus(false);
                       this.loadingMessage = "CasinoCoin Blockchain Offline";
+                      this.logger.debug('### TABS PAGE: TRYNG TO CONNECT type of net:'+this.net.type);
 
                       this.loading.dismiss();
-                      this.logger.debug('### TABS PAGE: DISCONECTED type of net:'+this.net.type);
-                      if (this.net.type == 'none'){
-                        this.logger.debug('### TABS PAGE: no network, trying when we have network');
-                        let con = this.net.onConnect().subscribe(() => {
-
-                              this.logger.debug('###TABS PAGE: CONECTED! network was connected  again :-)');
-                              // alert("FirstPage connected again!");
-                              this.casinocoinService.connect();
-                              con.unsubscribe();
-                         });
-
-                      }else{
-                        this.logger.debug('### TABS PAGE: DISCONECTED type of net:'+this.net.type);
-                        this.logger.debug('### TABS PAGE: Trying to reconnect onr more time');
-                        this.casinocoinService.connect();
-
-                      }
 
                       // we are not connected or disconnected
                       // this.setWalletUIDisconnected();
+                    }else{
+                      if (this.net.type == 'none'){
+                        this.logger.debug('### INIT BUT NOT CONNECTED!');
+                        // this.notificationService.addMessage( {severity: SeverityType.error,
+                        //   title: 'Connection Error',
+                        //   body: 'CasinoCoin Blockchain was unable to connect.'
+                        // });
+                        this.loading.dismiss();
+
+
+                      }
                     }
                   });
                   this.casinocoinService.connect();

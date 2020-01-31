@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AppConstants } from './domains/app-constants';
+import { NotificationService, SeverityType } from './providers/notification.service';
+import { CasinocoinService} from './providers/casinocoin.service';
 import { LogService } from './providers/log.service';
 import { AppflowService } from './providers/appflow.service';
 import { WalletService } from './providers/wallet.service';
@@ -31,6 +33,8 @@ export class AppComponent {
   constructor(
     public appflow: AppflowService,
     private walletService: WalletService,
+    private notificationService: NotificationService,
+    private casinocoinService: CasinocoinService,
     private platform: Platform,
     private router: Router,
     private splashScreen: SplashScreen,
@@ -48,7 +52,36 @@ export class AppComponent {
   initializeApp() {
 
     this.platform.ready().then(() => {
-      
+      // let con = this.net.onConnect().subscribe(() => {
+      //
+      //       this.logger.debug('###MainApp: CONECTED! network was connected  again :-)');
+      //       this.notificationService.addMessage( {severity: SeverityType.info,
+      //                                             title: 'Network found!',
+      //                                             body: 'App will try to connect to CasinoCoin Blockchain Now.'
+      //                                            });
+      //       // alert("FirstPage connected again!");
+      //        this.casinocoinService.connect();
+      //
+      //  });
+      //  let discon = this.net.onDisconnect().subscribe(() => {
+      //
+      //    if (this.net.type == 'none'){
+      //      this.logger.debug('### MainApp: no network, trying when we have network');
+      //      this.notificationService.addMessage( {severity: SeverityType.error,
+      //                                            title: 'No network found',
+      //                                            body: 'App will try to connect to CasinoCoin Blockchain as soon as a network connection is detected.'
+      //                                           });
+      //
+      //
+      //    }else{
+      //      this.logger.debug('### MainApp: DISCONECTED type of net:'+this.net.type);
+      //      this.logger.debug('### MainApp: Trying to reconnect one more time');
+      //      // this.casinocoinService.connect();
+      //
+      //    }
+      //
+      //
+      //   });
       this.logger.debug('### App initialized::::::::::::::');
       // debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');

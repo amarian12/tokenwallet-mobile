@@ -35,7 +35,9 @@ ion-avatar.logo img {
 }
 ion-button.csc-button{
   text-transform: capitalize;
-  --border-radius: 6px;
+  --border-radius: 11px;
+  height: 52px;
+  font-size:15px;
 }
 .ion-valid.item-interactive {
         --highlight-background: var(--ion-color-dark);
