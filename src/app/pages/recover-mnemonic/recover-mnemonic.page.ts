@@ -128,6 +128,7 @@ back(){
   recover(){
     let message = "processing recovery";
     let error = "";
+    this.walletPassword = ""+this.walletPassword+"";
     console.log(this.words);
     this.loading
     .create({

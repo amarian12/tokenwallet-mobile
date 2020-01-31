@@ -4,7 +4,7 @@ ion-content{
 
 }
 ion-grid{
-  background: var(--ion-background-login);
+  background: var(--csc-background-login);
   background-size: cover;
   display: flex;
   flex-flow: column;
@@ -38,6 +38,6 @@ h1{
   height: 100%;
   display: flex;
   flex-flow: column;
-  background: url(/assets/bg/bg_chips_w_98.jpg) center bottom;
+  background: var(--csc-background-login);
   background-size: cover;
 }
