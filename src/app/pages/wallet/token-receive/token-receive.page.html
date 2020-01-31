@@ -29,9 +29,14 @@
             {{ tokenAccountLoaded?.AccountID }}
           </ion-note>
         </ion-item>
-        <ion-item lines="none" class="ion-margin ion-justify-content-center">
-
-          <qrcode [qrdata]="cscReceiveURI" [size]="256" [level]="'L'"></qrcode>
+        <ion-item lines="none">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9" offset="1">
+                <qrcode [qrdata]="cscReceiveURI" [size]="256" [level]="'L'"></qrcode>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-item>
         <ion-item >
           <ion-label >
@@ -58,9 +63,19 @@
           </ion-input>
         </ion-item>
       </ion-list>
-      <ion-button expand="block" (click)=updateQRCode() >{{ 'PAGES.WALLET.UPDATEQR' | translate }}</ion-button>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8" offset="2">
+            <ion-button class="csc-button" expand="block" color="primary" (click)=updateQRCode() >{{ 'PAGES.WALLET.UPDATEQR' | translate }}</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="8" offset="2">
+            <ion-button class="csc-button" expand="block" color="primary" fill="outline"  (click)=shareAccountID() >{{ 'PAGES.WALLET.SHARESTRING' | translate }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
       <!--ion-button expand="block" (click)=shareAccountID() >{{ 'PAGES.WALLET.SHAREQR' | translate }}</ion-button-->
-      <ion-button expand="block" (click)=shareAccountID() >{{ 'PAGES.WALLET.SHARESTRING' | translate }}</ion-button>
 
 
     </ion-card-content>

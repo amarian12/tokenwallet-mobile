@@ -75,7 +75,7 @@ export class Step1Component implements OnInit {
       this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
       this.logger.debug('### Wallet Setup: Storing defual wallet settings ');
     }
-
+  
     // check if we already have a wallet
     const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
     if (availableWallets != undefined &&  availableWallets.length >= 1) {

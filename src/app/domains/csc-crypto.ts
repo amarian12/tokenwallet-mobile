@@ -273,6 +273,7 @@ export class CSCCrypto {
 
   // accept a password or mnemonic array as input
   constructor(password?: string | Array<string> | undefined, salt?: string) {
+     // console.log("::::::::::PASSWORD:::::::",password);
     if (Array.isArray(password)) {
       // use mnemonic array
       const mnemonicString = password.join();

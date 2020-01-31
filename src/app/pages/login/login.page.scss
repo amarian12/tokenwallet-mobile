@@ -1,7 +1,15 @@
 ion-content{
   --background : none;
-  background: url(/assets/bg/bg_chips_c_100.jpg) center bottom;
+
+
+}
+ion-grid{
+  background: var(--csc-background-login);
   background-size: cover;
+  height: calc(100% - 200px);
+}
+.custompin ion-grid{
+  background: transparent;
 
 }
 ion-row.pinrow{
@@ -16,9 +24,16 @@ ion-footer.custompin ion-button{
 }
 ion-footer.trans{
   position:absolute;
-  bottom:10vh;
+  bottom:0;
 }
 h1{
   font-weight: bold;
   font-size: 30px;
+}
+.intro{
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  background: var(--csc-background-login);
+  background-size: cover;
 }

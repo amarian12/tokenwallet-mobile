@@ -66,7 +66,10 @@
     --ion-color-light-contrast: #000000;
     --ion-color-light-contrast-rgb: 0,0,0;
     --ion-color-light-shade: #d9dadd;
-    --ion-color-light-tint: #f8f9fb;
+    --ion-color-light-tint: #ffffff;
+
+    --csc-background-login: url(/assets/bg/bg_chips_w_98.jpg) center bottom;
+    --csc-background-setup: url(/assets/bg/bg_chips_w_98_b.jpg) center bottom;
   }
   :root[mode=md] {
      --ion-font-family: Europa-Regular, Europa-Bold;
@@ -150,7 +153,11 @@
     --ion-color-light-contrast: #ffffff;
     --ion-color-light-contrast-rgb: 255,255,255;
     --ion-color-light-shade: #1e2023;
-    --ion-color-light-tint: #383a3e;
+    --ion-color-light-tint: #000000;
+
+    --csc-background-login: url(/assets/bg/bg_chips_black.jpg) center bottom;
+    --csc-background-setup: url(/assets/bg/bg_chips_black_2.jpg) center bottom;
+
   }
 
   /*

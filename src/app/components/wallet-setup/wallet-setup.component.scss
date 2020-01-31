@@ -4,7 +4,7 @@ ion-slides div{
 }
 
 ion-slides{
-  background: url(/assets/bg/bg_chips_c_100.jpg) center bottom;
+  background: var(--csc-background-setup);
   background-size: cover;
   min-height: 100%;
   display: flex;
@@ -12,5 +12,8 @@ ion-slides{
 }
 ion-card.setup {
     min-height: 80vh;
-    border-radius: 6px;
+}
+ion-card{
+    --background: var(--ion-color-light);
+    border-radius: 10px;
 }

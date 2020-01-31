@@ -77,7 +77,7 @@ export class Step7Component implements OnInit {
           this.logger.debug('### WalletSetup - mnemonicHash: ' + mnemonicHash);
           this.logger.debug('### Active - cryptparams Password: ' + this.walletService.walletSetup.userPassword + ' email: '+ this.walletService.walletSetup.userEmail);
         this.logger.debug('### Create result: ' + createResult + ' KEY_FINISHED: '+ AppConstants.KEY_FINISHED);
-          const encMnemonicCscCrypto = new CSCCrypto(this.walletService.walletSetup.userPassword, this.walletService.walletSetup.userEmail);
+          const encMnemonicCscCrypto = new CSCCrypto(''+this.walletService.walletSetup.userPassword+'', this.walletService.walletSetup.userEmail);
           const encryptedMnemonicHash = encMnemonicCscCrypto.encrypt(mnemonicHash);
           const newKeyPair: LokiTypes.LokiKey = cscCrypto.generateKeyPair(0);
           if (newKeyPair.accountID.length > 0) {
