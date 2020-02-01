@@ -1,6 +1,6 @@
 <ion-content fullscreen>
-  <form #recoverform="ngForm"  (ngSubmit)="onSubmit(recoverform)" novalidate>
-  <!--form #recoverform="ngForm" (ngSubmit)="onSubmit(userform)" [mustMatch]="['pincode', 'pincodeconfirm']" novalidate -->
+  <!--form #recoverform="ngForm"  (ngSubmit)="onSubmit(recoverform)" novalidate-->
+  <form #recoverform="ngForm" (ngSubmit)="onSubmit(recoverform)" [mustMatch]="['pincode','pincodeconfirm']" novalidate>
     <ion-slides  fullscreen pager="true" [options]="slideOpts" #recoverFromWords (ionSlideTransitionEnd)="slideChanged()" class="ion-align-items-center">
       <ion-slide>
         <ion-card class="setup">
@@ -20,8 +20,8 @@
             <ion-grid>
               <ion-row>
                 <ion-col size="6" class="ion-no-margin ion-no-padding">
-                  <ion-list lines="inset"class="ion-no-margin ion-no-padding" >
-                    <ion-item *ngFor="let odd of [1,3,5,7,9,11]; let i=index">
+                  <ion-list lines="none" class="ion-no-margin ion-no-padding" >
+                    <ion-item lines="inset" *ngFor="let odd of [1,3,5,7,9,11]; let i=index">
                       <ion-label >
                         <ion-badge [tabIndex]="-1"color="light" slot="start">{{(i+1)*2-1}}</ion-badge>
                       </ion-label>
@@ -30,8 +30,8 @@
                   </ion-list>
                 </ion-col>
                 <ion-col size="6" class="ion-no-margin ion-no-padding" >
-                  <ion-list lines="inset" class="ion-no-margin ion-no-padding">
-                    <ion-item  *ngFor="let even of [2,4,6,8,10,12]; let i=index" >
+                  <ion-list lines="none" class="ion-no-margin ion-no-padding">
+                    <ion-item  lines="inset" *ngFor="let even of [2,4,6,8,10,12]; let i=index" >
                       <ion-label>
                         <ion-badge [tabIndex]="-1" color="light" slot="start">{{(i+1)*2}}</ion-badge>
                       </ion-label>
@@ -81,11 +81,11 @@
                   <ion-list>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN' | translate }}</ion-label>
-                      <ion-input ngModel  [tabIndex]="'14'" required style="-webkit-text-security:disc" pattern="[0-9]*" #pin="ngModel" name="pin" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
+                      <ion-input ngModel required clearInput style="-webkit-text-security:disc" pattern="[0-9]*" #pin="ngModel" name="pincode" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
                     </ion-item>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN-CONFIRM' | translate }}</ion-label>
-                      <ion-input ngModel [tabIndex]="'15'" required style="-webkit-text-security:disc" pattern="[0-9]*" #pinconfirm="ngModel" name="pinconfirm" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "confirmWalletPassword" ></ion-input>
+                      <ion-input ngModel required clearInput style="-webkit-text-security:disc" pattern="[0-9]*" #pinconfirm="ngModel" name="pincodeconfirm" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "confirmWalletPassword" ></ion-input>
                     </ion-item>
                   </ion-list>
                 </ion-col >
