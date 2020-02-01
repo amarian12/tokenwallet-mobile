@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonSlides, Platform } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
 import { WalletService } from '../../providers/wallet.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
@@ -319,12 +320,24 @@ back(){
 
 
   }
-  onSubmit(form){
+  onSubmit(form: NgForm){
 
     let error = "";
-    if (form.value.pinconfirm != form.value.pin) {
+    // console.log("ERROR IS ",error);
+    // console.log("FORM :: ",form);
+    // console.log("FORM VALUES ARE ",form.value);
+    // console.log("FORM STATUS IS ",form.status);
+    // console.log("PINCODE ",form.value.pincode);
+    // console.log("PINCODECONFIRM",form.value.pincodeconfirm);
+    // console.log("EMAIL",form.value.email);
+    // console.log("EMAIL TRIMMED",form.value.email.trim());
+    // console.log("EMAIL BOTH TO SEE SPACES :::::::::::::::"+form.value.email+"::::::::::::"+form.value.email.trim()+"::::::::::::");
+
+    if (form.value.pinconfirm !== form.value.pincode) {
       this.logger.debug('### RecoverMnemonic both pins should be equal');
       error += "both pins should be equal,\n";
+      console.log("NOW ERROR IS ",error);
+
 
     }
     if(form.form.status == "INVALID"){
@@ -342,11 +355,11 @@ back(){
         this.logger.debug('### RecoverMnemonic ERROR you need to enter an email');
         error += "you need to enter an email,\n";
       }
-      if (!form.value.pin) {
+      if (!form.value.pincode) {
         this.logger.debug('### RecoverMnemonic ERROR you need to enter PIN');
         error += "you need to enter a PIN\n";
       }else{
-        if ( form.value.pin.length != 6 ) {
+        if ( form.value.pincode.length != 6 ) {
           this.logger.debug('### RecoverMnemonic PIN should be 6 digits');
           error += "PIN should be 6 digits,\n";
 
@@ -357,11 +370,13 @@ back(){
         error += "you need to enter PIN again,\n";
 
       }
-      if (form.value.pinconfirm != form.value.pin) {
+      if (form.value.pinconfirm !== form.value.pin) {
         this.logger.debug('### RecoverMnemonic both pins should be equal');
         error += "both pins should be equal,\n";
 
       }
+    }
+    if(error !== ""){
       const errorMessage = {
         header:"Error",
         subheader:"Form Validation",
@@ -371,9 +386,10 @@ back(){
       this.displayError(errorMessage);
       console.log(form.form);
       return false;
-    }
 
-    this.recover();
+    }
+    console.log("IT WILL RECOVER!")
+    // this.recover();
   }
   displayError(error){
     this.alert.create({

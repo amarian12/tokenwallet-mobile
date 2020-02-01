@@ -12,10 +12,9 @@ import { Step6Component} from './steps/step6/step6.component';
 import { Step7Component} from './steps/step7/step7.component';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { MustMatchDirective } from './helpers/must-match.directive';
 import { WalletSetupModalComponent } from './helpers/wallet-setup-modal/wallet-setup-modal.component';
 import { WalletSetupAlertComponent } from './helpers/wallet-setup-alert/wallet-setup-alert.component';
-import { MnemonicValidDirective } from './helpers/mnemonic-valid.directive';
+import { ValidatorsModule } from '../../directives/validators/validators.module';
 
 @NgModule({
   declarations: [
@@ -28,14 +27,13 @@ import { MnemonicValidDirective } from './helpers/mnemonic-valid.directive';
     Step6Component,
     Step7Component,
     WalletSetupModalComponent,
-    WalletSetupAlertComponent,
-    MustMatchDirective,
-    MnemonicValidDirective
+    WalletSetupAlertComponent
   ],
   imports: [
     FormsModule,
     CommonModule,
     IonicModule,
+    ValidatorsModule,
     TranslateModule.forChild(),
     WalletSetupRoutingModule
   ],

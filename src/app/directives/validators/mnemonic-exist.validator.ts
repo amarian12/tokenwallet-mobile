@@ -1,5 +1,5 @@
 import { FormControl, ValidationErrors } from '@angular/forms';
-import { CSCCrypto } from '../../../domains/csc-crypto';
+import { CSCCrypto } from '../../domains/csc-crypto';
 
 // custom validator to check that two fields match
 export function MnemonicExistValidate(ctl: FormControl):ValidationErrors {
