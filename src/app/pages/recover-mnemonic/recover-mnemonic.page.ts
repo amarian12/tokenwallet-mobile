@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IonSlides, Platform } from '@ionic/angular';
-import { NgForm } from '@angular/forms';
+import { IonSlides } from '@ionic/angular';
 import { WalletService } from '../../providers/wallet.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
@@ -59,7 +58,6 @@ export class RecoverMnemonicPage implements OnInit {
   constructor(  private logger: LogService,
                 private route: ActivatedRoute,
                 private router: Router,
-                private platform: Platform,
                 private alert: AlertController,
                 private translate: TranslateService,
                 private walletService: WalletService,
@@ -129,7 +127,6 @@ back(){
   recover(){
     let message = "processing recovery";
     let error = "";
-    this.walletPassword = ""+this.walletPassword+"";
     console.log(this.words);
     this.loading
     .create({
@@ -146,8 +143,6 @@ back(){
          } else {
              this.walletTestNetwork = false;
          }
-         //sanitize last resource recovery email
-         this.recoveryEmail = this.recoveryEmail.trim().toLowerCase();
          const recoveryArray = [];
          recoveryArray.push([this.words.word1.trim().toLowerCase(),
                              this.words.word2.trim().toLowerCase(),
@@ -163,12 +158,12 @@ back(){
                              this.words.word12.trim().toLowerCase()
                            ]);
          // recover the wallet
-         const cscCrypto = new CSCCrypto(recoveryArray, this.recoveryEmail);
+         const cscCrypto = new CSCCrypto(recoveryArray, this.recoveryEmail.trim().toLowerCase());
          const walletUUID = UUID.UUID();
          this.walletService.walletSetup = {
-             userEmail: this.recoveryEmail,
+             userEmail: this.recoveryEmail.trim().toLowerCase(),
              userPassword: this.walletPassword,
-             recoveryMnemonicWords: recoveryArray[0],
+             recoveryMnemonicWords: recoveryArray,
              testNetwork: this.walletTestNetwork,
              walletUUID: walletUUID,
              walletPasswordHash: this.walletService.generateWalletPasswordHash(walletUUID, this.walletPassword),
@@ -180,8 +175,6 @@ back(){
          const encryptedMnemonicHash = encMnemonicCscCrypto.encrypt(mnemonicHash);
          this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.walletService.walletSetup.walletPasswordHash);
          this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, !this.walletService.walletSetup.testNetwork);
-         let encryptedMnemonicWords = encMnemonicCscCrypto .encrypt(JSON.stringify(this.walletService.walletSetup.recoveryMnemonicWords));
-         this.localStorageService.set(AppConstants.KEY_WALLET_MNEMONIC_WORDS, encryptedMnemonicWords);
          // regenerate accounts
          const accountFindFinishedSubject = new BehaviorSubject<Boolean>(false);
          let sequence = 0;
@@ -262,9 +255,7 @@ back(){
                                             // set loggedIn and authCorrect
                                             this.appflow.loggedIn = true;
                                             this.appflow.authCorrect = true;
-                                            // navigate user to Home replacing history
-                                            this.router.navigateByUrl('/',{ replaceUrl: true })
-
+                                            this.router.navigate(['/']);
                                         }
                                       }
                                     ]
@@ -274,7 +265,7 @@ back(){
                                 }
                           });
                           // execute the account refresh
-                          this.casinocoinService.refreshAccounts(this.recoveryEmail, this.walletPassword);
+                          this.casinocoinService.refreshAccounts(this.recoveryEmail.trim().toLowerCase(), this.walletPassword);
                      }
                  });
         //      }else{
@@ -297,12 +288,7 @@ back(){
       this.router.navigate(['login']);
   }
   ngOnInit() {
-    if(this.platform.is('ios')){
-      this.slideOpts='';
-    }else{
-      // this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
-      this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
-    }
+    this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
     this.slides.lockSwipes(true);
     this.logger.debug('### INIT Recover Mnemonics ###');
     this.logger.debug('### RecoverMnemonic onInit');
@@ -313,33 +299,9 @@ back(){
     this.logger.debug('### RecoverMnemonic for: ' + this.selectedWallet + ' and path: ' + this.walletLocation);
     this.error_message = '';
   }
-  filterWord(ctl){
-    //(ionChange)="filterWord(wordctl)"
-    // this.words[ctl.target.children[0].name] = ctl.detail.value.trim().trim().toLowerCase();
-    ctl.target.children[0].value = ctl.detail.value.trim().toLowerCase();
-
-
-  }
-  onSubmit(form: NgForm){
-
+  onSubmit(form){
+    console.log("### RecoverMnemonic Form: ",form);
     let error = "";
-    // console.log("ERROR IS ",error);
-    // console.log("FORM :: ",form);
-    // console.log("FORM VALUES ARE ",form.value);
-    // console.log("FORM STATUS IS ",form.status);
-    // console.log("PINCODE ",form.value.pincode);
-    // console.log("PINCODECONFIRM",form.value.pincodeconfirm);
-    // console.log("EMAIL",form.value.email);
-    // console.log("EMAIL TRIMMED",form.value.email.trim());
-    // console.log("EMAIL BOTH TO SEE SPACES :::::::::::::::"+form.value.email+"::::::::::::"+form.value.email.trim()+"::::::::::::");
-
-    if (form.value.pinconfirm !== form.value.pincode) {
-      this.logger.debug('### RecoverMnemonic both pins should be equal');
-      error += "both pins should be equal,\n";
-      console.log("NOW ERROR IS ",error);
-
-
-    }
     if(form.form.status == "INVALID"){
       if (!form.value.word1 || !form.value.word2 || !form.value.word3 || !form.value.word4 || !form.value.word5 || !form.value.word6 || !form.value.word7 || !form.value.word8 || !form.value.word9 || !form.value.word10 || !form.value.word11 || !form.value.word12) {
         this.logger.debug('### RecoverMnemonic ERROR you need to input all 12 words');
@@ -362,21 +324,18 @@ back(){
         if ( form.value.pincode.length != 6 ) {
           this.logger.debug('### RecoverMnemonic PIN should be 6 digits');
           error += "PIN should be 6 digits,\n";
-
         }
       }
-      if (!form.value.pinconfirm) {
+      if (!form.value.pincodeconfirm) {
         this.logger.debug('### RecoverMnemonic ERROR you need to enter PIN again');
         error += "you need to enter PIN again,\n";
 
       }
-      if (form.value.pinconfirm !== form.value.pin) {
+      if (form.value.pincodeconfirm != form.value.pincode) {
         this.logger.debug('### RecoverMnemonic both pins should be equal');
         error += "both pins should be equal,\n";
 
       }
-    }
-    if(error !== ""){
       const errorMessage = {
         header:"Error",
         subheader:"Form Validation",
@@ -384,12 +343,23 @@ back(){
         okbtn:'OK'
       }
       this.displayError(errorMessage);
-      console.log(form.form);
       return false;
-
+    } else {
+      if (form.value.pincodeconfirm != form.value.pincode) {
+        this.logger.debug('### RecoverMnemonic both pins should be equal');
+        error += "both pins should be equal,\n";
+        const errorMessage = {
+          header:"Error",
+          subheader:"Form Validation",
+          message:error,
+          okbtn:'OK'
+        }
+        this.displayError(errorMessage);
+        return false;
+      }
     }
-    console.log("IT WILL RECOVER!")
-    // this.recover();
+
+    this.recover();
   }
   displayError(error){
     this.alert.create({
