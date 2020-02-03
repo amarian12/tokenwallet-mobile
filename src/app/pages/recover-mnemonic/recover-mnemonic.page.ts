@@ -297,7 +297,7 @@ back(){
       this.router.navigate(['login']);
   }
   ngOnInit() {
-    if(this.platform.is('ios')){
+    if(this.platform.is('ios')|| this.platform.is('desktop')){
       this.slideOpts='';
     }else{
       // this.slideOpts= AppConstants.SLIDE_CUBE_EFFECT;
@@ -333,7 +333,7 @@ back(){
     // console.log("EMAIL TRIMMED",form.value.email.trim());
     // console.log("EMAIL BOTH TO SEE SPACES :::::::::::::::"+form.value.email+"::::::::::::"+form.value.email.trim()+"::::::::::::");
 
-  
+
     if(form.form.status == "INVALID"){
       if (!form.value.word1 || !form.value.word2 || !form.value.word3 || !form.value.word4 || !form.value.word5 || !form.value.word6 || !form.value.word7 || !form.value.word8 || !form.value.word9 || !form.value.word10 || !form.value.word11 || !form.value.word12) {
         this.logger.debug('### RecoverMnemonic ERROR you need to input all 12 words');

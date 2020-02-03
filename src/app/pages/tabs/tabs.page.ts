@@ -9,6 +9,8 @@ import { MarketService } from '../../providers/market.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { CSCUtil } from '../../domains/csc-util';
 import { AppConstants } from '../../domains/app-constants';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../providers/wallet.service';
 import { NotificationService, SeverityType } from '../../providers/notification.service';
@@ -50,6 +52,8 @@ export class TabsPage implements OnInit{
                private sessionStorageService: SessionStorageService,
                private localStorageService: LocalStorageService,
                private currencyPipe: CurrencyPipe,
+               private platform: Platform,
+               private statusBar: StatusBar,
                private translate: TranslateService
              ) { }
 
@@ -199,6 +203,20 @@ export class TabsPage implements OnInit{
                  this.logger.debug('### CSC Price: ' + this.marketService.cscPrice + ' BTC: ' + this.marketService.btcPrice + ' Fiat: ' + this.marketService.coinMarketInfo.price_fiat);
                  const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
                  this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
+               }
+             }
+             ionViewWillEnter(){
+               if (this.platform.is('ios')){
+                 // this.statusBar.overlaysWebView(false);
+                 // this.statusBar.backgroundColorByHexString("#be0a09");
+                 this.statusBar.styleLightContent();
+               }
+             }
+             ionViewDidLeave(){
+               if (this.platform.is('ios')){
+                 // this.statusBar.overlaysWebView(false);
+                 // this.statusBar.backgroundColorByHexString("#be0a09");
+                 this.statusBar.styleDefault();
                }
              }
 

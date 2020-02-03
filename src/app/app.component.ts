@@ -113,7 +113,13 @@ export class AppComponent {
       this.translate.setDefaultLang('en');
       this.translate.use(this.language);
       // this.statusBar.styleDefault();
-      this.statusBar.styleLightContent();
+      if (this.platform.is('ios')){
+        // this.statusBar.overlaysWebView(false);
+        // this.statusBar.backgroundColorByHexString("#be0a09");
+        this.statusBar.styleDefault();
+      }else{
+        this.statusBar.styleLightContent();
+      }
       this.splashScreen.hide();
       this.appflow.connectedStatus.subscribe(
         connected => {
