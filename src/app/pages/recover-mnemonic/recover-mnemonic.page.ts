@@ -333,7 +333,7 @@ back(){
     // console.log("EMAIL TRIMMED",form.value.email.trim());
     // console.log("EMAIL BOTH TO SEE SPACES :::::::::::::::"+form.value.email+"::::::::::::"+form.value.email.trim()+"::::::::::::");
 
-    if (form.value.pinconfirm !== form.value.pincode) {
+    if (form.value.pincodeconfirm !== form.value.pincode) {
       this.logger.debug('### RecoverMnemonic both pins should be equal');
       error += "both pins should be equal,\n";
       console.log("NOW ERROR IS ",error);
@@ -365,12 +365,12 @@ back(){
 
         }
       }
-      if (!form.value.pinconfirm) {
+      if (!form.value.pincodeconfirm) {
         this.logger.debug('### RecoverMnemonic ERROR you need to enter PIN again');
         error += "you need to enter PIN again,\n";
 
       }
-      if (form.value.pinconfirm !== form.value.pin) {
+      if (form.value.pincodeconfirm !== form.value.pin) {
         this.logger.debug('### RecoverMnemonic both pins should be equal');
         error += "both pins should be equal,\n";
 
@@ -388,8 +388,8 @@ back(){
       return false;
 
     }
-    console.log("IT WILL RECOVER!")
-    // this.recover();
+    // console.log("IT WILL RECOVER!")
+    this.recover();
   }
   displayError(error){
     this.alert.create({
