@@ -182,7 +182,6 @@ export class Step7Component implements OnInit {
 
     }
     closeSetup() {
-      // navigate user to Home replacing history
       this.router.navigate(['/']);
     }
 }

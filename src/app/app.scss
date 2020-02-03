@@ -44,6 +44,14 @@ ion-button.csc-button.button-outline {
   background: white;
   border-radius: 12px;
 }
+
+.spinning{
+animation: spin 0.7s infinite linear;
+}
+@keyframes spin {
+0% { transform: rotate(0deg);}
+100% { transform: rotate(360deg);}
+}
 /* testing for changing validation markers and put a check. It's not trivial.
 .ion-valid.item-interactive {
 --highlight-background: var(--ion-color-dark);
