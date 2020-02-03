@@ -1,6 +1,6 @@
 <ion-content fullscreen>
-  <form #recoverform="ngForm"  (ngSubmit)="onSubmit(recoverform)" novalidate>
-  <!--form #recoverform="ngForm" (ngSubmit)="onSubmit(userform)" [mustMatch]="['pincode', 'pincodeconfirm']" novalidate -->
+  <!--form #recoverform="ngForm"  (ngSubmit)="onSubmit(recoverform)" novalidate-->
+  <form #recoverform="ngForm" (ngSubmit)="onSubmit(recoverform)" [mustMatch]="['pincode','pincodeconfirm']" novalidate>
     <ion-slides  fullscreen pager="true" [options]="slideOpts" #recoverFromWords (ionSlideTransitionEnd)="slideChanged()" class="ion-align-items-center">
       <ion-slide>
         <ion-card class="setup">
@@ -20,18 +20,22 @@
             <ion-grid>
               <ion-row>
                 <ion-col size="6" class="ion-no-margin ion-no-padding">
-                  <ion-list lines="none"class="ion-no-margin ion-no-padding" >
-                    <ion-item *ngFor="let odd of [1,3,5,7,9,11]; let i=index" class="ion-no-margin ion-no-padding">
-                      <ion-badge [tabIndex]="-1"color="light" slot="start">{{(i+1)*2-1}}</ion-badge>
-                      <ion-input  [tabIndex]="odd" #wordCtl="ngModel" type="text" mnemonicExist [name]= "'word'+odd" ngModel [(ngModel)]= "words['word'+odd]"></ion-input>
+                  <ion-list lines="none" class="ion-no-margin ion-no-padding" >
+                    <ion-item lines="inset" *ngFor="let odd of [1,3,5,7,9,11]; let i=index">
+                      <ion-label >
+                        <ion-badge [tabIndex]="-1"color="light" slot="start">{{(i+1)*2-1}}</ion-badge>
+                      </ion-label>
+                      <ion-input  [tabIndex]="odd" #wordCtl="ngModel" (ionChange)="filterWord($event)" type="text" mnemonicExist [name]= "'word'+odd" ngModel [(ngModel)]= "words['word'+odd]"></ion-input>
                     </ion-item>
                   </ion-list>
                 </ion-col>
                 <ion-col size="6" class="ion-no-margin ion-no-padding" >
                   <ion-list lines="none" class="ion-no-margin ion-no-padding">
-                    <ion-item  *ngFor="let even of [2,4,6,8,10,12]; let i=index"  class="ion-no-margin ion-no-padding">
-                      <ion-badge [tabIndex]="-1" color="light" slot="start">{{(i+1)*2}}</ion-badge>
-                      <ion-input  [tabIndex]="even" #wordCtl="ngModel" mnemonicExist [name]= "'word'+even" type="text" ngModel [(ngModel)]= "words['word'+even]"></ion-input>
+                    <ion-item  lines="inset" *ngFor="let even of [2,4,6,8,10,12]; let i=index" >
+                      <ion-label>
+                        <ion-badge [tabIndex]="-1" color="light" slot="start">{{(i+1)*2}}</ion-badge>
+                      </ion-label>
+                      <ion-input  [tabIndex]="even" #wordCtl="ngModel" (ionChange)="filterWord($event)" mnemonicExist [name]= "'word'+even" type="text" ngModel [(ngModel)]= "words['word'+even]"></ion-input>
                     </ion-item>
                   </ion-list>
                 </ion-col>
@@ -40,16 +44,16 @@
                 <ion-col size="12">
                   <ion-item >
                     <ion-label position="stacked">{{ 'PAGES.RECOVER.EMAIL' | translate }}</ion-label>
-                    <ion-input ngModel #email="ngModel" [tabIndex]="'13'" required type="email" name="email" [(ngModel)]= "recoveryEmail" email ></ion-input>
+                    <ion-input ngModel #email="ngModel" (ionChange)="filterWord($event)" [tabIndex]="'13'" required type="email" name="email" [(ngModel)]= "recoveryEmail" email ></ion-input>
                   </ion-item>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col offset="1" size="4" >
-                  <ion-button [tabIndex]="'17'" (click)="cancel()" color="medium"> {{ 'PAGES.RECOVER.CANCEL-BTN' | translate }}</ion-button>
+                  <ion-button [tabIndex]="'17'" class="csc-button" (click)="cancel()" color="primary" fill="outline"> {{ 'PAGES.RECOVER.CANCEL-BTN' | translate }}</ion-button>
                 </ion-col>
                 <ion-col size="7">
-                  <ion-button [tabIndex]="'18'" (click)="next(recoverform.form)"> {{ 'PAGES.RECOVER.NEXT-BTN' | translate }}</ion-button>
+                  <ion-button [tabIndex]="'18'" class="csc-button" (click)="next(recoverform.form)"> {{ 'PAGES.RECOVER.NEXT-BTN' | translate }}</ion-button>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -77,11 +81,11 @@
                   <ion-list>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN' | translate }}</ion-label>
-                      <ion-input ngModel  [tabIndex]="'14'" required  #pincode="ngModel" name="pincode" type="password" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
+                      <ion-input ngModel required clearInput style="-webkit-text-security:disc" pattern="[0-9]*" #pin="ngModel" name="pincode" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "walletPassword" ></ion-input>
                     </ion-item>
                     <ion-item >
                       <ion-label position="stacked">{{ 'PAGES.RECOVER.PIN-CONFIRM' | translate }}</ion-label>
-                      <ion-input ngModel [tabIndex]="'15'" required  #pincodeconfirm="ngModel" name="pincodeconfirm" type="password" minlength="6" maxlength="6" [(ngModel)]= "confirmWalletPassword" ></ion-input>
+                      <ion-input ngModel required clearInput style="-webkit-text-security:disc" pattern="[0-9]*" #pinconfirm="ngModel" name="pincodeconfirm" type="text" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]= "confirmWalletPassword" ></ion-input>
                     </ion-item>
                   </ion-list>
                 </ion-col >
@@ -124,8 +128,8 @@
               <ion-row>
                 <ion-col>
                     <ion-item *ngIf="email.invalid && email.touched"  color="warning" ><small>email is not a valid email</small></ion-item>
-                    <ion-item *ngIf="pincode.invalid && pincode.touched"  color="warning" ><small>PIN should be 6 digits</small></ion-item>
-                    <ion-item *ngIf="pincodeconfirm.invalid && pincodeconfirm.touched"  color="warning" ><small>both PIN should be equal</small></ion-item>
+                    <ion-item *ngIf="pin.invalid && pin.touched"  color="warning" ><small>PIN should be 6 digits</small></ion-item>
+                    <ion-item *ngIf="pinconfirm.value != pin.value && pinconfirm.touched"  color="warning" ><small>both PIN should be equal</small></ion-item>
 
                 </ion-col>
               </ion-row>
