@@ -1,6 +1,6 @@
 <ion-content fullscreen>
   <!--form #recoverform="ngForm"  (ngSubmit)="onSubmit(recoverform)" novalidate-->
-  <form #recoverform="ngForm" (ngSubmit)="onSubmit(recoverform)" [mustMatch]="['pincode','pincodeconfirm']" novalidate>
+  <form   #recoverform="ngForm" (ngSubmit)="onSubmit(recoverform)" [mustMatch]="['pincode','pincodeconfirm']" novalidate>
     <ion-slides  fullscreen pager="true" [options]="slideOpts" #recoverFromWords (ionSlideTransitionEnd)="slideChanged()" class="ion-align-items-center">
       <ion-slide>
         <ion-card class="setup">
