@@ -333,13 +333,7 @@ back(){
     // console.log("EMAIL TRIMMED",form.value.email.trim());
     // console.log("EMAIL BOTH TO SEE SPACES :::::::::::::::"+form.value.email+"::::::::::::"+form.value.email.trim()+"::::::::::::");
 
-    if (form.value.pincodeconfirm !== form.value.pincode) {
-      this.logger.debug('### RecoverMnemonic both pins should be equal');
-      error += "both pins should be equal,\n";
-      console.log("NOW ERROR IS ",error);
-
-
-    }
+  
     if(form.form.status == "INVALID"){
       if (!form.value.word1 || !form.value.word2 || !form.value.word3 || !form.value.word4 || !form.value.word5 || !form.value.word6 || !form.value.word7 || !form.value.word8 || !form.value.word9 || !form.value.word10 || !form.value.word11 || !form.value.word12) {
         this.logger.debug('### RecoverMnemonic ERROR you need to input all 12 words');
@@ -370,7 +364,7 @@ back(){
         error += "you need to enter PIN again,\n";
 
       }
-      if (form.value.pincodeconfirm !== form.value.pin) {
+      if (form.value.pincodeconfirm !== form.value.pincode) {
         this.logger.debug('### RecoverMnemonic both pins should be equal');
         error += "both pins should be equal,\n";
 
