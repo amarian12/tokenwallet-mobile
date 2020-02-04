@@ -8,6 +8,7 @@ import { CustomPinComponent } from './pages/login/custom-pin/custom-pin.componen
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 // import { EloMenuController } from './providers/custommenu.service';
 // LoggerModule
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
@@ -109,6 +110,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MenuController,
     NotificationService,
     BarcodeScanner,
+    FingerprintAIO,
     SocialSharing,
     MarketService,
     LocalStorageService,

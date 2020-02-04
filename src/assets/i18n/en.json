@@ -83,10 +83,12 @@
 			"DOT": "Date of transaction",
 			"FEE": "Fee",
 			"FROM": "From",
+			"TXDIRECTION": "Direction",
 			"NOT-VALIDATED": "Not validated",
 			"TITLE": "History",
 			"TO": "To",
-			"TRANSACTIONID": "Tansaction ID",
+			"DESCRIPTION":"Description",
+			"TRANSACTIONID": "Transaction ID",
 			"VALIDATED": "Validated"
 		},
 		"LOGIN": {

@@ -45,14 +45,11 @@
 
           <ion-label >
             <h3>{{transaction.amount | cscAmount : false : true}} {{transaction.currency}}
-              <ion-chip size>
+              <ion-badge class="date-badge" color="light">
                 <small>
-                  <span class="text-large">{{transaction.timestamp | cscDate : 'dd'}} </span>
-                  <span class="text-small-bottom">{{transaction.timestamp | cscDate : 'MMM' }} </span>
-
-                  <span class="text-small-top" >{{transaction.timestamp | cscDate : 'HH:mm:ss'}}</span>
+                  <span class="text-large">{{transaction.timestamp | cscDate : 'dd MMM yy HH:mm:ss'}}</span>
                 </small>
-              </ion-chip>
+              </ion-badge>
             </h3>
               <small>
                   {{ 'PAGES.HISTORY.FROM' | translate }}
@@ -67,9 +64,9 @@
               </small>
 
           </ion-label>
-          <ion-text   [color]="getTXDirectionColor(transaction)">
+          <ion-text slot="start"  [color]="getTXDirectionColor(transaction)">
 
-            <i style="margin:0.3em;" [class]=" getDirectionIcon(transaction)"></i>
+            <i style="margin:0.1em;" [class]=" getDirectionIcon(transaction)"></i>
           </ion-text>
         </ion-item>
     </ion-item-group>

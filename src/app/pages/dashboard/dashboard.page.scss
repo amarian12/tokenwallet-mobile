@@ -1,11 +1,11 @@
 
 .balances{
-  max-height: 55vh;
+  max-height: calc(60vh - 56px);
   overflow: scroll;
 }
 ion-footer {
     position: fixed;
-    max-height: 35vh;
+    max-height: calc(40vh - 56px);
     bottom: 0px;
 
 }

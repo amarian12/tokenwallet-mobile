@@ -140,7 +140,7 @@
       <ion-fab-button color="primary" [routerLink]="'/tabs/wallet/token-receive/'+tokenAccountLoaded.PK" >
         <i class="icon icon-receive" ></i>
       </ion-fab-button>
-      <ion-fab-button color="primary" [href]="getExploreURL()" *ngIf="tokenAccountLoaded.Activated">
+      <ion-fab-button color="primary" (click)="openObserverURL()" *ngIf="tokenAccountLoaded.Activated">
         <ion-icon name="search"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="primary" (click)="copyAccountID(tokenAccountLoaded.AccountID)">
