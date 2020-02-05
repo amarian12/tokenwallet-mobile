@@ -181,7 +181,7 @@ export class CustomPinComponent implements OnInit {
                        this.logger.debug('### checkWalletHash: OK');
 
 
-                       this.modal.dismiss( {state:true, password: this.enteredPinCode, message:"hola" }, "txResult" );
+                       this.modal.dismiss( {state:true, password: this.enteredPinCode, email:this.walletEmail, hash: this.selectedWallet.mnemonicHash , message:"hola" }, "txResult" );
 
 
 

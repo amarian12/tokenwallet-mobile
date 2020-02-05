@@ -231,36 +231,53 @@ export class WalletPage implements OnInit {
           this.logger.debug('### WalletPage: add CSC account');
 
             const msg = "Adding CSC account to Wallet";
-            const result = await this.appflow.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account",this.theme, undefined);
-            this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(result));
-            if(result && result.data.state){
+            // creating loader into a callback to pass to onValidateTx function so the loader pops at the right time!
+            const callbackNOW = (data) => {
 
-              this.loading
-              .create({
-                keyboardClose:true,
-                message:msg
-              })
-              .then( async loading => {
+              let result = data;
+              this.logger.debug('### WalletPage:  result is: '+JSON.stringify(result));
+              if(result.data && result.data.state){
+                    this.loading
+                    .create({
+                      keyboardClose:true,
+                      message:msg
+                    })
+                    .then( loading => {
 
-              loading.present();
-              const password = result.data.password;
-              this.walletPassword = password;
-              this.logger.debug('### WalletPage: password OK adding account');
-              // add account to wallet
-              this.walletService.addCSCAccount(password);
-              // subscribe to account updates
-              this.casinocoinService.subscribeAccountEvents();
-              // refresh tokenlist
-              this.casinocoinService.refreshAccountTokenList();
-              this.loading.dismiss();
+                    loading.present().then(() => {
+
+                      let password = result.data.password;
+                      this.logger.debug('### WalletPage: password OK adding account');
+                      // add account to wallet
+                      this.walletService.addCSCAccount(password);
+                      // subscribe to account updates
+                      this.casinocoinService.subscribeAccountEvents();
+                      // refresh tokenlist
+                      this.casinocoinService.refreshAccountTokenList();
+                      this.loading.dismiss();
+                    });
+                  });//end of loading
+                }else{
+                  this.logger.debug('### WalletPage: password WRONG not adding account result is: '+JSON.stringify(result));
+                  let alert = this.alertCtrl.create({
+                    header: 'ERROR',
+                    subHeader: "Account could not be created. Verify your connection or make sure your PIN is correct.",
+                    buttons: ['OK']
+                  }).then( alert =>{
+                    alert.present();
+
+                  });
+                }
+                return data;
+            }
+            const final = await this.appflow.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account",this.theme, callbackNOW);
+            this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(final));
 
 
-        });//end of loading
 
 
-      }else{
-        this.logger.debug('### WalletPage: password WRONG not adding account');
-      }
+
+
   }
 
   ionViewWillEnter(){

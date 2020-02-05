@@ -43,6 +43,7 @@ export class AppConstants {
     public static JUMIO_RESULT = 'jumioResult';
     public static LOGGED_IN = 'loggedIn';
     public static KEY_WALLET_SETTINGS = 'walletSettings';
+    public static KEY_WALLET_FAIO_ENABLED = 'settingsFaioEnabled';
     public static SLIDE_COVER_EFFECT = {
             slidesPerView: 3,
             coverflowEffect: {

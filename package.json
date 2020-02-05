@@ -11,9 +11,14 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "preinstall": "npx npm-force-resolutions"
   },
   "private": true,
+  "resolutions": {
+    "https-proxy-agent": "^2.2.3",
+    "serialize-javascript": "^2.1.1"
+  },
   "dependencies": {
     "@angular/common": "~8.1.2",
     "@angular/compiler": "~8.1.2",
@@ -132,7 +137,7 @@
       "cordova-plugin-local-notification": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-fingerprint-aio": {
-        "FACEID_USAGE_DESCRIPTION": "This app requires faceID for authentication"
+        "FACEID_USAGE_DESCRIPTION": "This app requires faceID for authentication when it is enabled"
       },
       "cordova-plugin-inappbrowser": {}
     },

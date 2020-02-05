@@ -142,6 +142,17 @@ export class AddContactPage implements OnInit {
     try {
       //add address in lokijs
       console.log(this.walletService.isWalletOpen);
+      if(!this.casinocoinService.cscAPI){
+        const errorDisconnected = {
+          header:this.errorMessageList['HEADER'],
+          subheader:this.errorMessageList['SUBHEADER'],
+          message:this.errorMessageList['MSGDISCONNECTED'],
+          okbtn:this.errorMessageList['OK']
+        }
+        this.displayError(errorDisconnected);
+
+        return false;
+      }
       if(this.casinocoinService.isValidAccountID(this.contact.accountID)){
         if(this.editMode){
           this.appflow.updateContact(this.contact);

@@ -23,6 +23,7 @@
 				"MSGACCTIDREQUIRED":"Account ID must be entered",
 				"MSGNAMEREQUIRED":"You must enter a name for the contact",
 				"MSGINVALIDACCTID":"This is not a valid account ID. Please check it and try again",
+				"MSGDISCONNECTED":"This won't work without connection to blockchain. Please check your network and try again",
 				"MSGALREADYADDED":"Account ID was already added to Contacts",
 				"OK":"Ok"
 			},
@@ -172,8 +173,8 @@
 				"DARK":"Dark theme"
 
 			},
+			"FINGERPRINT":"Enable Touch ID",
 			"DISPLAY-MODE-ENTER":"Select your prefered theme",
-
 			"SAVE-SETTINGS":"Save changes",
 			"DISCARD-SETTINGS":"Discard changes"
 		},

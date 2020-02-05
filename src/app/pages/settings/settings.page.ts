@@ -6,6 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppflowService } from '../../providers/appflow.service';
 import { LogService } from '../../providers/log.service';
 import { MarketService } from '../../providers/market.service';
+import { CSCCrypto } from '../../domains/csc-crypto';
+import { AppConstants } from '../../domains/app-constants';
+import { LocalStorageService } from 'ngx-store';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +16,8 @@ import { MarketService } from '../../providers/market.service';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-walletSettings: WalletSettings
+walletSettings: WalletSettings;
+enableFaio: boolean;
   constructor(
     private appflow:AppflowService,
     private logger:LogService,
@@ -21,9 +25,15 @@ walletSettings: WalletSettings
     private router: Router,
     private translate: TranslateService,
     private marketService: MarketService,
+    public localStorageService: LocalStorageService,
     private alert: AlertController
 
-  ) { }
+  ) {
+
+    this.enableFaio = this.localStorageService.get(AppConstants.KEY_WALLET_FAIO_ENABLED)?
+                      this.localStorageService.get(AppConstants.KEY_WALLET_FAIO_ENABLED):false;
+
+  }
 
   ngOnInit() {
     this.walletSettings = this.appflow.walletSettings;
@@ -67,5 +77,47 @@ walletSettings: WalletSettings
   }
   currencyChanged(){
     this.marketService.changeCurrency(this.walletSettings.fiatCurrency);
+  }
+  async touchIdChanged(){
+    let callbackFaio:any;
+    // this.enableFaio != this.enableFaio;
+    const wordEnable = this.enableFaio?"enable":"disable";
+    this.logger.debug(" ### Settings Page :: enable FAIO value: " + this.enableFaio);
+    if(this.enableFaio){
+      callbackFaio = (res) => {
+        this.logger.debug(" ### Settings Page :: examine response: " + JSON.stringify(res));
+        if(res.data.state){
+          const enteredPinCode = res.data.password;
+          const walletEmail = res.data.email;
+          const hash = res.data.hash;
+          this.logger.debug(" ### Settings Page :: Crypto params for enabling FAIO: hash:" + hash +" email:"+walletEmail+" pin:"+enteredPinCode);
+          let cscCrypto = new CSCCrypto(hash, walletEmail);
+          const encryptedPIN = cscCrypto.encrypt(enteredPinCode);
+          this.localStorageService.set(AppConstants.KEY_WALLET_ENCRYPTED_PIN, encryptedPIN);
+          this.logger.debug(" ### Settings Page :: Successfully enabled FAIO: " + encryptedPIN);
+          return res;
+        }else{
+          this.logger.debug(" ### Settings Page :: Failed enabling FAIO  BAD PIN?");
+          this.enableFaio != this.enableFaio;
+          return res;
+        }
+      }
+
+    }else{
+      callbackFaio = (res) => {
+        if(res.data.state){
+          this.localStorageService.set(AppConstants.KEY_WALLET_ENCRYPTED_PIN, "");
+          this.logger.debug(" ### Settings Page :: Successfully disabled FAIO");
+          return res;
+        }else{
+          this.logger.debug(" ### Settings Page :: Failed disabling FAIO  fingerprint error?");
+          this.enableFaio != this.enableFaio;
+          return res;
+        }
+
+      }
+    }
+    const final = await this.appflow.onValidateTx("toggleFaio","Authenticate to "+wordEnable+" device fingerprint authentication",this.walletSettings.styleTheme, callbackFaio);
+    this.localStorageService.set(AppConstants.KEY_WALLET_FAIO_ENABLED, this.enableFaio);
   }
 }
