@@ -92,7 +92,7 @@ export class AppComponent {
         });
       } else {
 
-        this.appflow.versionNumber = "0.1.10.browser";
+        this.appflow.versionNumber = "0.1.15.browser";
         this.versionNumber = this.appflow.versionNumber;
       }
       this.appflow.network = this.localStorageService.get(AppConstants.KEY_PRODUCTION_NETWORK)?"Production":"Testnet";

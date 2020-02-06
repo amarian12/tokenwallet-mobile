@@ -49,7 +49,11 @@ export class Step1Component implements OnInit {
     private router: Router,
     private localStorageService: LocalStorageService
 
-  ) { }
+  ) {
+      this.translate.setDefaultLang("en");
+      this.translate.use("en");
+
+  }
 
   ngOnInit() {
 
@@ -63,7 +67,7 @@ export class Step1Component implements OnInit {
   initialize(){
     this.logger.debug('### Ready first step. Wallet Setup ');
     this.walletSettings = this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
-    if (this.walletSettings == null){
+    if (!this.walletSettings){
       // settings do not exist yet so create
       this.walletSettings = {
         showNotifications: false,
@@ -73,9 +77,10 @@ export class Step1Component implements OnInit {
         styleTheme:"light"
       };
       this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
+
       this.logger.debug('### Wallet Setup: Storing defual wallet settings ');
     }
-  
+
     // check if we already have a wallet
     const availableWallets: Array<any> = this.localStorageService.get(AppConstants.KEY_AVAILABLE_WALLETS);
     if (availableWallets != undefined &&  availableWallets.length >= 1) {
@@ -96,7 +101,11 @@ export class Step1Component implements OnInit {
     // this.walletService.walletSetup.backupLocation = this.electron.remote.getGlobal('vars.backupLocation');
 
     this.logger.debug('### WalletSetup: ' + JSON.stringify(this.walletService.walletSetup));
-    setTimeout(() => this.slider.update(), 100);
+    setTimeout(() => {
+      this.slider.update();
+      // this.translate.use(this.walletSettings.walletLanguage);
+      this.langChanged();
+    }, 1000);
   }
   showWarning(){
     this.translate.get(['PAGES.SETUP.STEP5-REMINDER-HEADER',
@@ -124,11 +133,12 @@ export class Step1Component implements OnInit {
     });
   }
   startSlider() {
-      this.logger.debug('### INITIAL VALUE IS'+this.initialWalletCreation);
+      this.logger.debug('### Start Slider Step 1: initialWalletCreation is '+this.initialWalletCreation);
       this.slider.getActiveIndex().then(
      (index)=>{
        if(index == 0){
          this.initialize();
+
        }
       });
   }
@@ -140,6 +150,7 @@ export class Step1Component implements OnInit {
     this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
   }
   cancel(){
+
       this.router.navigate(['/']);
   }
 }
