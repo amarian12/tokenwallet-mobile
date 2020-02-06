@@ -85,6 +85,12 @@
 			"FEE": "Fee",
 			"FROM": "From",
 			"TXDIRECTION": "Direction",
+			"TRANSACTIONS":{
+				"TXINCOMING": "Incoming transaction",
+				"TXOUTGOING": "Outgoing transaction",
+				"TXOWN": "Own wallet transaction",
+				"TXCRNROUND": "Set CRN Round transaction"	
+			},
 			"NOT-VALIDATED": "Not validated",
 			"TITLE": "History",
 			"TO": "To",

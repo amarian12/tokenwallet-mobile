@@ -416,8 +416,7 @@ export class AppflowService {
               return algo;
             }
 
-         }
-         );
+         });
        }).then(
          async resultData => {
 

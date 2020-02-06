@@ -209,6 +209,7 @@ back(){
          const encryptedMnemonicHash = encMnemonicCscCrypto.encrypt(mnemonicHash);
          this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.walletService.walletSetup.walletPasswordHash);
          this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, !this.walletService.walletSetup.testNetwork);
+         this.appflow.network = this.walletService.walletSetup.testNetwork?"Testnet":"Production";
          let encryptedMnemonicWords = encMnemonicCscCrypto .encrypt(JSON.stringify(this.walletService.walletSetup.recoveryMnemonicWords));
          this.localStorageService.set(AppConstants.KEY_WALLET_MNEMONIC_WORDS, encryptedMnemonicWords);
          // regenerate accounts

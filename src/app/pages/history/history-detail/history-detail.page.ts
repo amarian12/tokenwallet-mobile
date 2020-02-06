@@ -7,6 +7,7 @@ import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { WalletService } from '../../../providers/wallet.service';
 import { AppConstants } from '../../../domains/app-constants';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { timer } from 'rxjs';
 
@@ -20,13 +21,14 @@ export class HistoryDetailPage implements OnInit {
   copyIcon: string = 'copy';
   copyToIcon: string = 'copy';
   copyFromIcon: string = 'copy';
-
+  transactionTypes: string[] = [];
   transactionLoaded:any;
   currentWalletObject:any;
   constructor(
     private walletService: WalletService,
     private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard,
+    private translate: TranslateService,
     private casinocoinService: CasinocoinService,
     private sessionStorageService: SessionStorageService,
     private localStorageService: LocalStorageService,
@@ -35,6 +37,10 @@ export class HistoryDetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.translate.get('PAGES.HISTORY.TRANSACTIONS').subscribe((res: string[]) => {
+        this.transactionTypes = res;
+        this.logger.debug('### History Detail Page :::  Transaction Types: ' + JSON.stringify(this.transactionTypes));
+    });
     this.activatedRoute.paramMap.subscribe(paramMap => {
       if(!paramMap.has('transactionId')){
         //redirect
@@ -119,6 +125,7 @@ export class HistoryDetailPage implements OnInit {
     this.iab.create(link, "_system");
     //return  'http://testexplorer.casinocoin.org/tx/' + this.transactionLoaded.txID;
   }
+
   getTXDirectionColor(tx: any) {
     if (tx.direction === AppConstants.KEY_WALLET_TX_OUT) {
       // outgoing tx
@@ -132,6 +139,22 @@ export class HistoryDetailPage implements OnInit {
     }
   }
 
+  getDirectionText(tx: any) {
+    if (tx.direction === AppConstants.KEY_WALLET_TX_OUT) {
+      // outgoing tx
+      return this.transactionTypes["TXOUTGOING"];
+    } else if (tx.direction === AppConstants.KEY_WALLET_TX_IN) {
+      // incomming tx
+      if (tx.transactionType === 'SetCRNRound') {
+        return this.transactionTypes["TXCRNROUND"];
+      } else {
+        return this.transactionTypes["TXINCOMING"];
+      }
+    } else {
+      // wallet tx
+      return this.transactionTypes["TXOWN"];
+    }
+  }
   getDirectionIcon(tx: any) {
     if (tx.direction === AppConstants.KEY_WALLET_TX_OUT) {
       // outgoing tx
@@ -139,13 +162,13 @@ export class HistoryDetailPage implements OnInit {
     } else if (tx.direction === AppConstants.KEY_WALLET_TX_IN) {
       // incomming tx
       if (tx.transactionType === 'SetCRNRound') {
-        return "icon ion-md-icon-plus";
+        return "icon icon-bancknote";
       } else {
         return "icon ion-md-icon-plus";
       }
     } else {
       // wallet tx
-      return "icon ion-md-icon-minus";
+      return "icon icon-arrows";
     }
   }
 }
