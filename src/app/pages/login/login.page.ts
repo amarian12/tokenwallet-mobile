@@ -5,6 +5,7 @@ import { AppflowService } from '../../providers/appflow.service';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { timer, Subscription } from 'rxjs';
 import { CSCUtil } from '../../domains/csc-util';
+import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
 import { CSCCrypto } from '../../domains/csc-crypto';
 import { AppConstants } from '../../domains/app-constants';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
@@ -29,6 +30,7 @@ export class LoginPage implements OnInit {
   walletEmail: string;
   wallets: any[] = [];
   theme: string;
+  encryptedPIN:string;
   returnUrl: string;
   footer_visible = false;
   error_message: string;
@@ -42,7 +44,7 @@ export class LoginPage implements OnInit {
   quitFromLogin = false;
   loginFinished = false;
   quitListener: Subscription;
-
+  fingerprintOptions:FingerprintOptions;
   update_dialog_visible = false;
   autoUpdateRunning = false;
   downloadedBytes = 0;
@@ -60,6 +62,7 @@ export class LoginPage implements OnInit {
       private loading: LoadingController,
       private alertCtrl: AlertController,
       private statusBar: StatusBar,
+      private faio: FingerprintAIO,
       private walletService: WalletService,
       public appflow: AppflowService,
       public menuCtrl: MenuController,
@@ -70,7 +73,8 @@ export class LoginPage implements OnInit {
       public localStorageService: LocalStorageService
 
     ) {
-      this.defaultAccount = this.localStorageService.get(AppConstants.KEY_DEFAULT_ACCOUNT_ID);
+      this.defaultAccount = this.localStorageService.get(AppConstants.KEY_WALLET_PASSWORD_HASH);
+      this.logger.debug('### LoginComponent constructor default acc:'+this.defaultAccount);
       this.statusBar.styleLightContent();
     }
 
@@ -113,6 +117,36 @@ export class LoginPage implements OnInit {
 
   }
   enterPIN(){
+    // WIP ::: this is for the fingerprint. It will be ready soon!!!
+    // if (this.localStorageService.get(AppConstants.KEY_WALLET_ENCRYPTED_PIN)){
+    //   this.encryptedPIN = this.localStorageService.get(AppConstants.KEY_WALLET_ENCRYPTED_PIN);
+    //   console.log("params for crypto",this.defaultAccount, this.walletEmail);
+    //   let cscCrypto = new CSCCrypto(this.defaultAccount, this.walletEmail);
+    //   this.enteredPinCode = cscCrypto.decrypt(this.encryptedPIN);
+    //
+    // }else{
+    //   this.enteredPinCode = "123456";
+    //   console.log("params for crypto",this.defaultAccount, this.walletEmail);
+    //   let cscCrypto = new CSCCrypto(this.defaultAccount, this.walletEmail);
+    //   this.encryptedPIN =  cscCrypto.encrypt(this.enteredPinCode);
+    //   this.localStorageService.set(AppConstants.KEY_WALLET_ENCRYPTED_PIN,this.encryptedPIN);
+    // }
+    // this.fingerprintOptions = {
+    //     title: 'Token Wallet XXX',
+    //     subtitle: 'CasinoCoin', //Only necessary for Android
+    //     description: 'Provide your authentication via fingerprint',
+    //     fallbackButtonTitle: 'Use PIN Instead',
+    //     // disableBackup:true  //Only for Android(optional)
+    // }
+    // this.faio.isAvailable().then(result =>{
+    //   console.log('RESULT',result);
+    // if(result === "finger")
+    // {
+    //     this.faio.show(this.fingerprintOptions)
+    //     .then((result: any) => console.log(result))
+    //     .catch((error: any) => console.log(error));
+    // }
+    // });
     this.displayCustomPin = true;
   }
   recoverWallet(){

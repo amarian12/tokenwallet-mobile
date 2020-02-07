@@ -40,8 +40,8 @@
         <ion-col size="12" >
           <ion-item>
             <ion-label>{{ 'PAGES.SETTINGS.LANGUAGE' | translate }}</ion-label>
-            <ion-select value="en" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
-              <ion-select-option value="en">{{ 'PAGES.SETTINGS.LANGUAGES.EN' | translate }}</ion-select-option>
+            <ion-select  okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
+              <ion-select-option selected="true" value="en">{{ 'PAGES.SETTINGS.LANGUAGES.EN' | translate }}</ion-select-option>
               <ion-select-option value="es">{{ 'PAGES.SETTINGS.LANGUAGES.ES' | translate }}</ion-select-option>
               <ion-select-option value="de">{{ 'PAGES.SETTINGS.LANGUAGES.DE' | translate }}</ion-select-option>
               <ion-select-option value="fr">{{ 'PAGES.SETTINGS.LANGUAGES.FR' | translate }}</ion-select-option>

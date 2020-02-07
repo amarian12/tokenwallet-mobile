@@ -7,6 +7,7 @@ import { AppflowService } from '../../../providers/appflow.service';
 import { TokenType } from '../../../domains/csc-types';
 import { LogService } from '../../../providers/log.service';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Subscription, timer } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -31,6 +32,7 @@ export class TokenDetailPage implements OnInit {
     private casinocoinService: CasinocoinService,
     public modal: ModalController,
     private logger: LogService,
+    public iab: InAppBrowser,
     private appflow: AppflowService
   ) { }
 
@@ -157,6 +159,11 @@ export class TokenDetailPage implements OnInit {
     //return  'http://testexplorer.casinocoin.org/address/' + this.tokenAccountLoaded.AccountID;
 
   }
-
+  openObserverURL(){
+    const link = 'https://csc.observer/account/'+this.tokenAccountLoaded.AccountID+'?testnet=true';
+    this.logger.debug('### Wallet Token Detail Page:  open Observer URL : ' + link);
+    this.iab.create(link, "_system");
+    //return  'http://testexplorer.casinocoin.org/tx/' + this.transactionLoaded.txID;
+  }
 
 }

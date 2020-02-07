@@ -100,7 +100,36 @@ next(form){
         error += "you need to enter a valid email, \n";
       }
     }
+    let checkWords = [];
+    for(let i=1;i<=12;i++){
+      checkWords.push(form.value["word"+i]);
+    }
 
+    let checkequal = arrwrds => {
+        if(arrwrds.length == 0){
+
+          return false;
+        }
+        console.log("array of words",arrwrds);
+
+        let word = arrwrds.pop();;
+        console.log("check word ", word);
+
+        console.log("array...: "+ word + "<...with popped word resulted in: ", arrwrds);
+        console.log("array includes "+word+"? ",arrwrds.includes(word))
+        if(arrwrds.includes(word)){
+          return true;
+        }else{
+          return checkequal(arrwrds);
+        }
+    }
+
+    const repeated = checkequal(checkWords);
+
+    if(repeated){
+      this.logger.debug('### RecoverMnemonic ERROR you need to enter a valid email');
+      error += "your seed is invalid, it should not have repeating words, \n";
+    }
     const errorMessage = {
       header:"Error",
       subheader:"Form Validation",
@@ -180,6 +209,7 @@ back(){
          const encryptedMnemonicHash = encMnemonicCscCrypto.encrypt(mnemonicHash);
          this.localStorageService.set(AppConstants.KEY_WALLET_PASSWORD_HASH, this.walletService.walletSetup.walletPasswordHash);
          this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, !this.walletService.walletSetup.testNetwork);
+         this.appflow.network = this.walletService.walletSetup.testNetwork?"Testnet":"Production";
          let encryptedMnemonicWords = encMnemonicCscCrypto .encrypt(JSON.stringify(this.walletService.walletSetup.recoveryMnemonicWords));
          this.localStorageService.set(AppConstants.KEY_WALLET_MNEMONIC_WORDS, encryptedMnemonicWords);
          // regenerate accounts

@@ -77,6 +77,7 @@ export class ShowSeedPage implements OnInit {
   }
   async ionViewWillEnter(){
     this.theme = this.appflow.dark ? "dark":"light";
+
     const result = await this.appflow.onValidateTx("addCSCAccount","Enter your PIN to access your seed words",this.theme, undefined);
     if(result && result.data.state){
       this.selectedWallet = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET);

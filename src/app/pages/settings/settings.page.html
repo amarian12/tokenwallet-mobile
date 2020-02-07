@@ -65,6 +65,11 @@
       </ion-select>
 
     </ion-item>
+    <ion-item>
+      <ion-label>{{ 'PAGES.SETTINGS.FINGERPRINT' | translate }}</ion-label>
+    <ion-toggle [(ngModel)]="enableFaio" (click)="touchIdChanged()"></ion-toggle>
+
+    </ion-item>
     <ion-item-divider>
       <ion-note>
         {{ 'PAGES.SETTINGS.DISPLAY-MODE-ENTER' | translate }}

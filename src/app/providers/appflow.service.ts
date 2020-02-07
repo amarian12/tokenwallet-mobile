@@ -20,6 +20,8 @@ import Big from 'big.js';
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class AppflowService {
   private _tokenlist = new BehaviorSubject<TokenType[]>([]);
   private _cscaccounts = new BehaviorSubject<any[]>([]);
@@ -108,7 +110,7 @@ export class AppflowService {
 
   ) {
     // barcodeScanner options
-  
+
     // this.barcodeScannerOptions = {
     //      preferFrontCamera : true, // iOS and Android
     //      showFlipCameraButton : true, // iOS and Android
@@ -393,7 +395,8 @@ export class AppflowService {
          this.logger.debug('### WalletPage: addtoken password WRONG not adding account');
      }
    }
-   async onValidateTx(transaction:string,actionMessage:string,theme?:string,callback?:string ){
+
+   async onValidateTx(transaction:string,actionMessage:string,theme?:string, callback?:TxvlFunction ){
      // console.log("cscAccounts: ",this.cscAccounts);
      // console.log("tokens: ",this.availableTokenlist);
      return this.modal
@@ -406,12 +409,22 @@ export class AppflowService {
      }}).then(
        async customPinModal => {
          customPinModal.present();
-         return await customPinModal.onDidDismiss();
+         return await customPinModal.onDidDismiss().then( algo => {
+            if(callback){
+              return callback(algo);
+            }else{
+              return algo;
+            }
+
+         });
        }).then(
          async resultData => {
-           if(resultData.role === "txResult"){
-             this.logger.debug("#### wallet: txREsult: " + JSON.stringify(resultData.data))
-             return await resultData;
+
+           let res = await resultData;
+           this.logger.debug("#### wallet: resultData: " + JSON.stringify(res));
+           if( res.role === "txResult"){
+             this.logger.debug("#### wallet: txREsult: " + JSON.stringify(res));
+             return res;
              // this.addTokenToAccount(resultData.data.token,resultData.data.account)
            }
          });
@@ -473,4 +486,8 @@ export class AppflowService {
 
    }
 
+}
+
+export interface TxvlFunction {
+  (smth?:any):any;
 }

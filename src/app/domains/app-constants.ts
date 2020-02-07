@@ -8,6 +8,7 @@ export class AppConstants {
     public static KEY_WALLET_MNEMONIC_RECOVERY = 'mnemonicRecovery';
     public static KEY_WALLET_MNEMONIC_HASH = 'mnemonicHash';
     public static KEY_WALLET_MNEMONIC_WORDS = 'mnemonicWords';
+    public static KEY_WALLET_ENCRYPTED_PIN = 'encPINcode';
     public static KEY_WALLET_PASSWORD_HASH = 'walletPasswordHash';
     public static KEY_WALLET_EMAIL = 'walletEmailAddress';
     public static KEY_PRODUCTION_NETWORK = 'productionNetwork';
@@ -42,6 +43,7 @@ export class AppConstants {
     public static JUMIO_RESULT = 'jumioResult';
     public static LOGGED_IN = 'loggedIn';
     public static KEY_WALLET_SETTINGS = 'walletSettings';
+    public static KEY_WALLET_FAIO_ENABLED = 'settingsFaioEnabled';
     public static SLIDE_COVER_EFFECT = {
             slidesPerView: 3,
             coverflowEffect: {

@@ -34,7 +34,7 @@ import { ValidatorsModule } from '../../directives/validators/validators.module'
     CommonModule,
     IonicModule,
     ValidatorsModule,
-    TranslateModule.forChild(),
+    TranslateModule.forChild({}),
     WalletSetupRoutingModule
   ],
   exports:[

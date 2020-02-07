@@ -63,22 +63,28 @@
               </ion-note>
             </p>
           </ion-label>
-          <ion-badge *ngIf="token.Activated" color="success" slot="end"><ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon></ion-badge>
-          <ion-badge *ngIf="!token.Activated" color="danger" slot="end"><ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon></ion-badge>
+          <ion-badge *ngIf="token.Activated" color="success" class="token-acc-status">
+              active
+            <!--ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon -->
+          </ion-badge>
+          <ion-badge *ngIf="!token.Activated" color="danger" class="token-acc-status">
+            inactive
+            <!--ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon-->
+          </ion-badge>
         </ion-item>
         <ion-item-options>
-          <ion-item-option color="tertiary" [routerLink]="'token-send/'+token?.PK " >
+          <ion-item-option class="csc-button"  color="primary" [routerLink]="'token-send/'+token?.PK " >
              <i class="icon icon-send" slot="icon-only"></i>
           </ion-item-option>
-          <ion-item-option color="primary" [routerLink]="'token-receive/'+token?.PK ">
+          <ion-item-option class="csc-button" color="primary" [routerLink]="'token-receive/'+token?.PK ">
              <i class="icon icon-receive" slot="icon-only" ></i>
 
           </ion-item-option>
-          <ion-item-option color="secondary" (click)= "copyAccountID(token?.AccountID)">
+          <ion-item-option class="csc-button"  color="primary" (click)= "copyAccountID(token?.AccountID)">
              <ion-icon [name]="copyIcon" slot="icon-only" ></ion-icon >
 
           </ion-item-option>
-          <ion-item-option color="primary" (click)= "shareAccountID(token)">
+          <ion-item-option class="csc-button" color="primary" (click)= "shareAccountID(token)">
              <ion-icon name="share" slot="icon-only" ></ion-icon >
 
           </ion-item-option>

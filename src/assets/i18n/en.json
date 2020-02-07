@@ -23,6 +23,7 @@
 				"MSGACCTIDREQUIRED":"Account ID must be entered",
 				"MSGNAMEREQUIRED":"You must enter a name for the contact",
 				"MSGINVALIDACCTID":"This is not a valid account ID. Please check it and try again",
+				"MSGDISCONNECTED":"This won't work without connection to blockchain. Please check your network and try again",
 				"MSGALREADYADDED":"Account ID was already added to Contacts",
 				"OK":"Ok"
 			},
@@ -83,10 +84,18 @@
 			"DOT": "Date of transaction",
 			"FEE": "Fee",
 			"FROM": "From",
+			"TXDIRECTION": "Direction",
+			"TRANSACTIONS":{
+				"TXINCOMING": "Incoming transaction",
+				"TXOUTGOING": "Outgoing transaction",
+				"TXOWN": "Own wallet transaction",
+				"TXCRNROUND": "Set CRN Round transaction"	
+			},
 			"NOT-VALIDATED": "Not validated",
 			"TITLE": "History",
 			"TO": "To",
-			"TRANSACTIONID": "Tansaction ID",
+			"DESCRIPTION":"Description",
+			"TRANSACTIONID": "Transaction ID",
 			"VALIDATED": "Validated"
 		},
 		"LOGIN": {
@@ -170,8 +179,8 @@
 				"DARK":"Dark theme"
 
 			},
+			"FINGERPRINT":"Enable Touch ID",
 			"DISPLAY-MODE-ENTER":"Select your prefered theme",
-
 			"SAVE-SETTINGS":"Save changes",
 			"DISCARD-SETTINGS":"Discard changes"
 		},
