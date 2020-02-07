@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddTokenComponent } from '../add-token/add-token.component';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
+import { WalletService } from '../../../providers/wallet.service';
 import { AppflowService } from '../../../providers/appflow.service';
 import { TokenType } from '../../../domains/csc-types';
 import { LogService } from '../../../providers/log.service';
@@ -30,7 +31,9 @@ export class TokenDetailPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard,
     private casinocoinService: CasinocoinService,
+    private walletService: WalletService,
     public modal: ModalController,
+    public alert: AlertController,
     private logger: LogService,
     public iab: InAppBrowser,
     private appflow: AppflowService
@@ -165,5 +168,46 @@ export class TokenDetailPage implements OnInit {
     this.iab.create(link, "_system");
     //return  'http://testexplorer.casinocoin.org/tx/' + this.transactionLoaded.txID;
   }
+  async editLabel(){
+    let editbox = await this.alert.create({
+      header: 'Account Label',
+      subHeader: "You can modify your Account Label here.",
+      inputs:[{
+          name: 'label',
+          type: 'text',
+          id: 'label',
+          value: this.tokenAccountLoaded.AccountLabel
+        },],
+        buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (data) => {
+            this.logger.debug("### Token Detail Page:: Edit label cancelled");
 
+
+          }
+        }, {
+          text: 'Ok',
+          handler: (data) => {
+            this.tokenAccountLoaded.AccountLabel = data.label;
+
+            let account = this.walletService.getAccount(this.tokenAccountLoaded.Token, this.tokenAccountLoaded.AccountID);
+            this.logger.debug("### Token Detail Page:: Succesfully retrieved token Account from collection"+JSON.stringify(account));
+            account.label = data.label;
+            //update on tokenlist from casinocoinservice
+            const item = this.casinocoinService.tokenlist.find(token => token.PK == this.tokenAccountLoaded.PK);
+            const itemIndex = this.casinocoinService.tokenlist.indexOf(item);
+            this.casinocoinService.tokenlist[itemIndex] = this.tokenAccountLoaded;
+            //update on collection
+             this.walletService.updateAccount(account);
+             this.logger.debug("### Token Detail Page:: Succesfully updated token Account with new label"+JSON.stringify(this.tokenAccountLoaded));
+          }
+        }
+      ]
+
+    });
+    await editbox.present();
+  }
 }

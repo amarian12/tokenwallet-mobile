@@ -127,18 +127,13 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="ion-text-wrap">
-        <ion-item class="ion-text-wrap">
+      <ion-col >
+        <ion-item >
           <ion-label position="stacked" color="primary">
             {{ 'PAGES.HISTORY.TRANSACTIONID' | translate }}
           </ion-label>
-          <ion-label  color="medium" class="ion-text-wrap">
-            {{ transactionLoaded.txID }}
-            <!--small>
-
-            </small-->
-
-          </ion-label>
+          <ion-textarea auto-grow="true"  color="medium" class="ion-text-wrap" value="{{ transactionLoaded.txID }} " readonly>
+          </ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>

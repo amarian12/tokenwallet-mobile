@@ -139,7 +139,7 @@
                     <ion-label>{{'PAGES.DASHBOARD.ESTIMATED-CAP' | translate}}:
                     </ion-label>
                     <p>
-                      <ion-text> {{marketCapital}}
+                      <ion-text> {{marketCapital | number : '1.2-2'}}
                       </ion-text>
                     </p>
                   </small>
@@ -156,7 +156,7 @@
                     <ion-label>{{'PAGES.DASHBOARD.24H-VOLUME' | translate}}:
                     </ion-label>
                     <p>
-                      <ion-text> {{marketVolumeUSD}}
+                      <ion-text> {{marketVolumeUSD | number : '1.2-2'}}
                       </ion-text>
                     </p>
                   </small>

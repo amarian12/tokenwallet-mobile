@@ -89,7 +89,7 @@
 				"TXINCOMING": "Incoming transaction",
 				"TXOUTGOING": "Outgoing transaction",
 				"TXOWN": "Own wallet transaction",
-				"TXCRNROUND": "Set CRN Round transaction"	
+				"TXCRNROUND": "Set CRN Round transaction"
 			},
 			"NOT-VALIDATED": "Not validated",
 			"TITLE": "History",
@@ -322,7 +322,7 @@
 			"NOT-ENOUGH-CSC": "Not enough CSC to create a transaction.",
 			"PASSWORD": "Wallet Password",
 			"RECEIVE": "Receive",
-			"RECEIVETOKEN": "Receive token",
+			"RECEIVETOKEN": "Receive {{token}}",
 			"RESERVED": "Reserved",
 			"SAVE": "Save",
 			"SELECT-CSC-ACCOUNT": "Select the CasinoCoin account to add the token to:",

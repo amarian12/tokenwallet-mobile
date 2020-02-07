@@ -300,7 +300,7 @@ export class WalletPage implements OnInit {
 
       }
       const newTokenList = [];
-      this.tokenlist.forEach(token => {
+      this.casinocoinService.tokenlist.forEach(token => {
         if(this.filterFunction(token)){
           newTokenList.push(token);
         }
