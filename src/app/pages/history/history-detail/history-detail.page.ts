@@ -171,4 +171,5 @@ export class HistoryDetailPage implements OnInit {
       return "icon icon-arrows";
     }
   }
+
 }
