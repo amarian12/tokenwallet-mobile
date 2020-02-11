@@ -3,3 +3,10 @@
     line-height: 0em;
     text-indent: -0.04em;
 }
+ion-item-option.csc-button{
+    // border-right: solid 1px;
+    // border-color: var(--ion-color-light);
+    border-color: var(--ion-color-light-shade);
+    background: var(--ion-color-light);
+    color: var(--ion-color-primary);
+}

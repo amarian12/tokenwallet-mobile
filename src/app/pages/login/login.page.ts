@@ -210,6 +210,14 @@ export class LoginPage implements OnInit {
     //   }
     // });
   }
+  handlePinKb(evt){
+    this.enteredPinCode = evt.detail.value;
+    this.logger.debug("##### Log in Page: Entered PIN: "+ this.enteredPinCode);
+    if (this.enteredPinCode.length === 6) {
+      this.logger.debug("##### Log in Page: Validate PIN ");
+      this.validatePincode();
+    }
+  }
   handlePinInput(pin:string){
     this.enteredPinCode += pin;
     this.logger.debug("##### Log in Page: Entered PIN: "+ this.enteredPinCode);

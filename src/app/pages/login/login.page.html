@@ -78,7 +78,10 @@
           <!-- simple divider --->
         </ion-col>
       </ion-row>
-      <ion-row class="pinrow" >
+      <ion-row>
+        <ion-input ngModel #pmctl="ngModel" clearInput required name="pincodeconfirm" type="text"  style="-webkit-text-security:disc" pattern="[0-9]*" inputmode="numeric" minlength="6" maxlength="6" autoFocus (ionChange)="handlePinKb($event)"></ion-input>
+      </ion-row>
+      <!-- ion-row class="pinrow" >
         <ion-col class="ion-text-center ion-no-padding">
           <ion-button  expand="block" strong="true" color="light"  (click)="handlePinInput('1')">1</ion-button>
         </ion-col>
@@ -123,7 +126,7 @@
             <ion-icon name="backspace"></ion-icon>
           </ion-button>
         </ion-col>
-      </ion-row>
+      </ion-row-->
     </ion-grid>
 
   </ion-footer>

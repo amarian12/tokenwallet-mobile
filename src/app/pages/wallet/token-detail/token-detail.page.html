@@ -40,17 +40,25 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-item>
-          <ion-label position="stacked" color="primary">
-             {{ 'PAGES.WALLET.ACCOUNTID' | translate }}
-          </ion-label>
-            <ion-note>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label position="stacked" color="primary">
+              {{ 'PAGES.WALLET.ACCOUNTID' | translate }}
+            </ion-label>
+            <ion-text color="medium">
               {{tokenAccountLoaded.AccountID}}
-            </ion-note>
-            <ion-button slot="end" color="primary" (click)="copyFromAccountID(tokenAccountLoaded.AccountID)">
+            </ion-text>
+            <!--ion-button slot="end" color="primary" (click)="copyFromAccountID(tokenAccountLoaded.AccountID)">
               <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
-            </ion-button>
-        </ion-item>
+            </ion-button-->
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option class="csc-button" color="primary" (click)="copyFromAccountID(tokenAccountLoaded.AccountID)">
+               <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
+
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-col>
     </ion-row>
     <ion-row>

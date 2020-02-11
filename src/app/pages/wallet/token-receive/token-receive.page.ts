@@ -64,7 +64,7 @@ export class TokenReceivePage implements OnInit {
   }
   shareAccountID(){
      this.logger.debug("### Share: " + this.tokenAccountLoaded.AccountID +" and token: "+this.tokenAccountLoaded.Token  );
-     this.social.share("CasinoCoin "+this.tokenAccountLoaded.Token+" AccountID: " + this.tokenAccountLoaded.AccountID, "CasinoCoin BRM Account");
+     this.social.share("CasinoCoin "+this.tokenAccountLoaded.Token+" AccountID: " + this.tokenAccountLoaded.AccountID, " ");
   }
 
   updateQRCode() {
