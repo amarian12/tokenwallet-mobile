@@ -1,12 +1,17 @@
-
+ion-content{
+  display:flex;
+  height:calc(100vh - 112px);
+}
 .balances{
-  max-height: calc(60vh - 56px);
-  overflow: scroll;
+  flex:1 1 auto;
+  // max-height: calc(60vh - 56px);
+  overflow: auto;
 }
 ion-footer {
-    position: fixed;
+    flex: 0 0 auto;
+    min-height:min-content;
     max-height: calc(40vh - 56px);
-    bottom: 0px;
+
 
 }
 .balances ion-card-content{

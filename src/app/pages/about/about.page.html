@@ -31,8 +31,8 @@
 <p> {{ 'PAGES.LOGIN.VERSIONMESSAGE' | translate:{ version:versionNumber, network: appflow.network } }}<</p>
   <ion-footer>
     <ion-buttons>
-      <ion-button color="primary" slot="start"  href="https://casinocoin.org/terms-of-service/">{{ 'PAGES.ABOUT.TERMSLINK' | translate }}</ion-button>
-      <ion-button color="primary" slot="end"  href="https://casinocoin.org/privacy-policy/" >{{ 'PAGES.ABOUT.PRIVACYLINK' | translate }}</ion-button>
+      <ion-button color="primary" slot="start"    (click)="openCSCURL('terms-of-service')" >{{ 'PAGES.ABOUT.TERMSLINK' | translate }}</ion-button>
+      <ion-button color="primary" slot="end"  (click)="openCSCURL('privacy-policy')" >{{ 'PAGES.ABOUT.PRIVACYLINK' | translate }}</ion-button>
     </ion-buttons>
   </ion-footer>
 

@@ -182,7 +182,9 @@
 			"FINGERPRINT":"Enable Touch ID",
 			"DISPLAY-MODE-ENTER":"Select your prefered theme",
 			"SAVE-SETTINGS":"Save changes",
-			"DISCARD-SETTINGS":"Discard changes"
+			"DISCARD-SETTINGS":"Discard changes",
+			"OK-BTN":"Ok",
+			"CANCEL-BTN":"Cancel"
 		},
 		"SEED":{
 			"TITLE":"Show Seed",

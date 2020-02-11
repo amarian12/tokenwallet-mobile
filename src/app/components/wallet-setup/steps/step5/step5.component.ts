@@ -16,6 +16,7 @@ import { WalletSetupAlertComponent } from '../../helpers/wallet-setup-alert/wall
   styleUrls: ['./step5.component.scss'],
 })
 export class Step5Component implements OnInit {
+  initializedStep:boolean;
   odds: string[] = [];
   evens: string[] = [];
   userEmail: string = "";
@@ -43,12 +44,15 @@ export class Step5Component implements OnInit {
       private alert: AlertController,
       private logger: LogService,
       private walletService: WalletService
-    ) { }
+    ) {
+      this.initializedStep = false;
+    }
 
     ngOnInit() {
 
     }
     onDisplay() {
+      this.initializedStep = true;
       this.userEmail = this.walletService.walletSetup.userEmail;
       this.logger.debug('### loaded email '+ this.userEmail);
       this.translate.get(['PAGES.SETUP.STEP5-REMINDER-HEADER',
@@ -103,6 +107,7 @@ export class Step5Component implements OnInit {
                     this.logger.debug('### Go to step 6 triggered');
                     this.slider.lockSwipes(false);
                     this.slider.slideNext();
+                    this.initializedStep = false;
                     this.slider.lockSwipes(true);
 
                   }
@@ -115,6 +120,8 @@ export class Step5Component implements OnInit {
 
     }
     initialize(){
+      // Ugly hack to keep the labels on form hidden so they won't show on old devices on quirky 3d rendered before they show here.
+
       this.odds = [];
       this.evens = [];
       const arr = this.walletService.walletSetup.recoveryMnemonicWords;

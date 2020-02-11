@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, NgZone, HostListener } from '@angular/core';
 import { LogService } from '../../../../providers/log.service';
 import { WalletService } from '../../../../providers/wallet.service';
 import { DatePipe } from '@angular/common';
@@ -12,32 +12,46 @@ import { IonSlides } from '@ionic/angular';
 })
 export class Step2Component implements OnInit {
   disclaimerAccepted:boolean;
+  initializedStep:boolean;
 
   @HostListener('window:ionSlideTransitionEnd') slideChanged() {
       this.slider.getActiveIndex().then(
      (index)=>{
        if(index == 1){
-          this.onDisplay();
+         this.zone.run(() => {
+           this.initialize();
+         });
        }
       });
   }
   @Input() slider: IonSlides;
-    constructor(private logger: LogService,) { }
+    constructor(
+      private zone: NgZone,
+      private logger: LogService
+    ) {
+      this.initializedStep = false;
+
+    }
 
 
     ngOnInit(){}
 
-    onDisplay() {
+    initialize() {
       this.logger.debug('### Ready second step. Wallet Setup ');
+      // Ugly hack to hide the disclaimer textarea hidden so it won't show on old devices on quirky 3d rendered before it shows here.
+      this.initializedStep = true;
+
     }
     swipeNext(){
       this.logger.debug('### Go to step 3 triggered');
       if(this.disclaimerAccepted){
         this.slider.lockSwipes(false);
         this.slider.slideNext();
+        this.initializedStep = false;
         this.slider.lockSwipes(true);
       }else{
         this.logger.debug('### You need to accept the agreement to continue');
+        this.initializedStep = true;
 
       }
     }

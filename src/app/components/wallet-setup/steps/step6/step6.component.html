@@ -12,7 +12,7 @@
     </ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
-    <ion-grid>
+    <ion-grid *ngIf="initializedStep">
       <form #wordsForm = "ngForm" (ngSubmit)="onSubmit(wordsForm)" [mnemonicValid]="['checkword1', 'checkword2', 'checkword3', getMnemonic(word1), getMnemonic(word2), getMnemonic(word3) ]" novalidate>
         <ion-row>
           <ion-col>

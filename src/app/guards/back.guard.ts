@@ -23,7 +23,8 @@ export class BackGuard implements  CanActivate{
       const walletAlreadySetup = this.localStorageService.get(AppConstants.KEY_SETUP_COMPLETED);
       this.logger.debug("#### BackGuard Wallet Setup is finished?: "+walletAlreadySetup);
       if (walletAlreadySetup){
-        this.router.navigateByUrl('/',{replaceUrl:true})
+        this.logger.debug("#### BackGuard redirect to /tabs: ");
+        this.router.navigateByUrl('/tabs');
       }
       return !walletAlreadySetup;
 

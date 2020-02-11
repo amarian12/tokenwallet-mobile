@@ -13,7 +13,7 @@ import { IonSlides } from '@ionic/angular';
   styleUrls: ['./step6.component.scss'],
 })
 export class Step6Component implements OnInit {
-
+  initializedStep:boolean;
   public word1: number;
   public word2: number;
   public word3: number;
@@ -37,7 +37,9 @@ export class Step6Component implements OnInit {
       private logger: LogService,
       private zone: NgZone,
       private walletService: WalletService
-    ) { }
+    ) {
+        this.initializedStep = false;
+      }
 
     ngOnInit() {
 
@@ -47,6 +49,7 @@ export class Step6Component implements OnInit {
       this.logger.debug('### Go to step 7 triggered');
       this.slider.lockSwipes(false);
       this.slider.slideNext();
+      this.initializedStep = false;
       this.slider.lockSwipes(true);
     }
     getMnemonic(key:number){
@@ -79,6 +82,7 @@ export class Step6Component implements OnInit {
 
     }
     initialize(){
+      this.initializedStep = true;
       this.logger.debug('### Ready sixth step. Wallet Setup ');
       this.logger.debug('### Setup -> Check mnemonic words ###');
       // generate 3 random picks from the 12 words
@@ -98,6 +102,7 @@ export class Step6Component implements OnInit {
       this.logger.debug("### Setup -> Setup process starting over again:");
         this.slider.lockSwipes(false);
        this.slider.slideTo(0);
+       this.initializedStep = false;
        this.slider.lockSwipes(true);
     }
 }

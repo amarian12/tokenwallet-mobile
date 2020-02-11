@@ -18,7 +18,7 @@ import { WalletDefinition } from '../../../../domains/csc-types';
   styleUrls: ['./step7.component.scss'],
 })
 export class Step7Component implements OnInit {
-
+  initializedStep:boolean;
   statusMessage: string;
   defaultKeyPair: LokiTypes.LokiKey;
   setupFinished: boolean;
@@ -43,7 +43,10 @@ export class Step7Component implements OnInit {
       private sessionStorageService: SessionStorageService,
       private walletService: WalletService
 
-    ) { }
+    ) {
+      this.initializedStep =false;
+
+    }
 
     ngOnInit() {
 
@@ -53,12 +56,14 @@ export class Step7Component implements OnInit {
       this.logger.debug('### Go to step 2 triggered');
       this.slider.lockSwipes(false);
       this.slider.slideNext();
+      this.initializedStep =false;
       this.slider.lockSwipes(true);
     }
     backToStart(){
       this.logger.debug('### Go to step 1 triggered');
       this.slider.lockSwipes(false);
-      this.slider.slideTo(1);
+      this.slider.slideTo(0);
+      this.initializedStep =false;
       this.slider.lockSwipes(true);
     }
     finishSetup(){
@@ -170,7 +175,7 @@ export class Step7Component implements OnInit {
       });//end create wallet.
     }
     initialize(){
-      this.logger.debug('### OnInit: Step 7');
+      this.initializedStep = true;
       this.setupFinished = false;
       this.translate.get('PAGES.SETUP.STEP7-STATUS-FINALIZING').subscribe((res: string) => {
         this.statusMessage = res;

@@ -34,7 +34,7 @@
     </ion-item-divider>
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.CURRENCY' | translate }}</ion-label>
-      <ion-select value="USD" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.fiatCurrency">
+      <ion-select value="USD" okText="{{ 'PAGES.SETTINGS.OK-BTN' | translate }}" cancelText="{{ 'PAGES.SETTINGS.CANCEL-BTN' | translate }}" [(ngModel)]="walletSettings.fiatCurrency">
         <ion-select-option value="USD">{{ 'PAGES.SETTINGS.CURRENCIES.USD' | translate }}</ion-select-option>
         <ion-select-option value="EUR">{{ 'PAGES.SETTINGS.CURRENCIES.EUR' | translate }}</ion-select-option>
         <ion-select-option value="GBP">{{ 'PAGES.SETTINGS.CURRENCIES.GBP' | translate }}</ion-select-option>
@@ -49,7 +49,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.LANGUAGE' | translate }}</ion-label>
-      <ion-select value="en" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
+      <ion-select value="en" okText="{{ 'PAGES.SETTINGS.OK-BTN' | translate }}" cancelText="{{ 'PAGES.SETTINGS.CANCEL-BTN' | translate }}" [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
         <ion-select-option value="en">{{ 'PAGES.SETTINGS.LANGUAGES.EN' | translate }}</ion-select-option>
         <ion-select-option value="es">{{ 'PAGES.SETTINGS.LANGUAGES.ES' | translate }}</ion-select-option>
         <ion-select-option value="de">{{ 'PAGES.SETTINGS.LANGUAGES.DE' | translate }}</ion-select-option>
@@ -58,16 +58,11 @@
     </ion-item>
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.DISPLAY-MODE' | translate }}</ion-label>
-      <ion-select value="light" okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.styleTheme" (ionChange)="themeChanged()">
+      <ion-select value="light" okText="{{ 'PAGES.SETTINGS.OK-BTN' | translate }}" cancelText="{{ 'PAGES.SETTINGS.CANCEL-BTN' | translate }}" [(ngModel)]="walletSettings.styleTheme" (ionChange)="themeChanged()">
         <ion-select-option value="light">{{ 'PAGES.SETTINGS.THEMES.LIGHT' | translate }}</ion-select-option>
         <ion-select-option value="dark">{{ 'PAGES.SETTINGS.THEMES.DARK' | translate }}</ion-select-option>
 
       </ion-select>
-
-    </ion-item>
-    <ion-item>
-      <ion-label>{{ 'PAGES.SETTINGS.FINGERPRINT' | translate }}</ion-label>
-    <ion-toggle [(ngModel)]="enableFaio" (click)="touchIdChanged()"></ion-toggle>
 
     </ion-item>
     <ion-item-divider>
@@ -75,6 +70,12 @@
         {{ 'PAGES.SETTINGS.DISPLAY-MODE-ENTER' | translate }}
       </ion-note>
     </ion-item-divider>
+
+    <ion-item>
+      <ion-label>{{ 'PAGES.SETTINGS.FINGERPRINT' | translate }}</ion-label>
+    <ion-toggle [(ngModel)]="enableFaio" (click)="touchIdChanged()"></ion-toggle>
+
+    </ion-item>
 
 
   </ion-list>
