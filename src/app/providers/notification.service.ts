@@ -15,6 +15,9 @@ export enum SeverityType {
     error = 'Error',
     warning = 'Warning'
 }
+export interface Callback {
+  (smth?:any):any;
+}
 
 export interface NotificationType {
     severity?: SeverityType;
@@ -41,7 +44,7 @@ export class NotificationService {
         this.logger.debug('### NotificationService - Native Support?: ' + this.nativeNotificationSupported);
     }
 
-    async addMessage(msg: NotificationType) {
+    async addMessage(msg: NotificationType, callback?:Callback) {
         // it is an error
         let icon = "star";
         let color = "primary";
@@ -82,7 +85,17 @@ export class NotificationService {
             }
           ]
         });
+    
         toast.present();
+        return await toast.onDidDismiss().then( data => {
+           if(callback){
+             return callback(data);
+           }else{
+             return data;
+           }
+
+        });
+
         this.logger.debug('### Toast notification sent');
 
         this.localNotifications.schedule([{

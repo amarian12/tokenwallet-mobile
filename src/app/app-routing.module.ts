@@ -36,6 +36,7 @@ const routes: Routes = [
   { path: 'tutorial',
     loadChildren: () => import('./components/tutorial/tutorial.module').then(m => m.TutorialModule)
   },
+  { path: 'import-account', loadChildren: './pages/import-account/import-account.module#ImportAccountPageModule' },
   // { path: 'history-detail', loadChildren: './pages/history/history-detail/history-detail.module#HistoryDetailPageModule' },
   // { path: 'add-contact', loadChildren: './pages/contacts/add-contact/add-contact.module#AddContactPageModule' },
   // { path: 'contact-detail', loadChildren: './pages/contacts/contact-detail/contact-detail.module#ContactDetailPageModule' },

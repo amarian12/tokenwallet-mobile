@@ -553,6 +553,10 @@ export class CasinocoinService implements OnDestroy {
                             this.logger.debug('### CasinocoinService - CSC Accounts: ' + JSON.stringify(accountList));
                             accountList.forEach( account => {
                                 this.logger.debug('### CasinocoinService Account: ' + JSON.stringify(account));
+                                let external = false;
+                                if(account.accountSequence < 0){
+                                  external = true;
+                                }
                                 // Add CSC account
                                 const cscToken: TokenType = {
                                     PK: 'CSC' + account.accountID,
@@ -563,6 +567,7 @@ export class CasinocoinService implements OnDestroy {
                                     TokenBalance: '0',
                                     OwnerCount: account.ownerCount,
                                     AccountLabel: account.label,
+                                    External:external,
                                     CoinValue: '0.0002',
                                     ContactEmail: 'info@casinocoin.org',
                                     Flags: 0,
@@ -593,6 +598,11 @@ export class CasinocoinService implements OnDestroy {
                                             listItem.TotalSupply = token.ConfigData['TotalSupply'];
                                             listItem.Website = token.ConfigData['Website'];
                                             listItem.AccountID = tokenAccount.accountID;
+                                            if(tokenAccount.accountSequence < 0){
+                                              listItem.External = true;
+                                            }else{
+                                              listItem.External = false;
+                                            }
                                             listItem.Activated = tokenAccount.activated;
                                             listItem.Balance = tokenAccount.balance;
                                             listItem.TokenBalance = tokenAccount.tokenBalance;

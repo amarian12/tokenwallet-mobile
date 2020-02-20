@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, ElementRef, ViewChild, SimpleChanges, NgZone } from '@angular/core';
 import { LogService } from '../../providers/log.service';
 import { WalletService } from '../../providers/wallet.service';
 import { AppflowService } from '../../providers/appflow.service';
@@ -23,7 +23,7 @@ import {  MenuController } from '@ionic/angular';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnChanges {
   selectedWallet: WalletDefinition;
   walletPassword: string;
   walletCreationDate: string;
@@ -36,6 +36,7 @@ export class LoginPage implements OnInit {
   error_message: string;
   errorMessageList: string[];
   displayCustomPin = false;
+  displayKbPin = false;
   defaultAccount: string;
   loginDisable = false;
   loginEntry = false;
@@ -63,6 +64,7 @@ export class LoginPage implements OnInit {
       private alertCtrl: AlertController,
       private statusBar: StatusBar,
       private faio: FingerprintAIO,
+      private zone: NgZone,
       private walletService: WalletService,
       public appflow: AppflowService,
       public menuCtrl: MenuController,
@@ -77,7 +79,14 @@ export class LoginPage implements OnInit {
       this.logger.debug('### LoginComponent constructor default acc:'+this.defaultAccount);
       this.statusBar.styleLightContent();
     }
+  @ViewChild('test', { static:false }) test: ElementRef;
 
+  ngOnChanges(changes: SimpleChanges){
+      if(changes.items) {
+      this.test.nativeElement.firstChild['autofocus'] = 'true';
+      console.log("this was triggered!!");
+    }
+ }
   ngOnInit() {
     this.versionNumber = this.appflow.versionNumber;
     this.logger.debug('### LoginComponent onIni version number:'+this.versionNumber);
@@ -116,8 +125,62 @@ export class LoginPage implements OnInit {
     this.walletEmail = this.selectedWallet.userEmail;
 
   }
-  enterPIN(){
+  async enterPIN(){
     // WIP ::: this is for the fingerprint. It will be ready soon!!!
+    const usebiometrics = !!(this.localStorageService.get(AppConstants.KEY_WALLET_ENCRYPTED_PIN) && (this.localStorageService.get(AppConstants.KEY_WALLET_ENCRYPTED_PIN) !== ""));
+    if (usebiometrics){
+      this.encryptedPIN = this.localStorageService.get(AppConstants.KEY_WALLET_ENCRYPTED_PIN);
+       console.log("params for crypto",this.selectedWallet.mnemonicHash, this.walletEmail);
+       console.log("CPIN",this.encryptedPIN);
+       let cscCrypto = new CSCCrypto(this.selectedWallet.mnemonicHash, this.walletEmail);
+       console.log("Cryp",this.encryptedPIN);
+       this.enteredPinCode = cscCrypto.decrypt(this.encryptedPIN);
+       console.log("PIN",this.enteredPinCode);
+       this.fingerprintOptions = {
+           title: 'Token Wallet XXX',
+           subtitle: 'CasinoCoin', //Only necessary for Android
+           description: 'Provide your authentication via fingerprint',
+           fallbackButtonTitle: 'Use PIN Instead',
+           // disableBackup:true  //Only for Android(optional)
+       }
+       this.faio.isAvailable().then(result =>{
+         console.log('RESULT',result);
+       if(result === "finger")
+       {
+           this.faio.show(this.fingerprintOptions)
+           .then((result: any) => {
+             console.log("FAIO",result);
+             if(result === "biometric_success"){
+               // this.zone.run(() => {
+                 this.enteredPinCode = cscCrypto.decrypt(this.encryptedPIN);
+                 console.log("Cryp",this.encryptedPIN);
+                 console.log("PIN",this.enteredPinCode);
+                 this.validatePincode();
+               // });
+             }
+
+           })
+           .catch(async (error: any) => {
+             this.error_message = this.errorMessageList['IMPOSSIBLE'] + error;
+             let alert = await this.alertCtrl.create({
+               header: 'ERROR',
+               subHeader: this.error_message,
+               buttons: ['Dismiss']
+             });
+             console.log(error);
+             await alert.present();
+             });
+           }
+       });
+
+
+    }else{
+      if(this.appflow.walletSettings.enableOSKB){
+         this.displayKbPin = true;
+       }else{
+         this.displayCustomPin = true;
+       }
+    }
     // if (this.localStorageService.get(AppConstants.KEY_WALLET_ENCRYPTED_PIN)){
     //   this.encryptedPIN = this.localStorageService.get(AppConstants.KEY_WALLET_ENCRYPTED_PIN);
     //   console.log("params for crypto",this.defaultAccount, this.walletEmail);
@@ -131,23 +194,8 @@ export class LoginPage implements OnInit {
     //   this.encryptedPIN =  cscCrypto.encrypt(this.enteredPinCode);
     //   this.localStorageService.set(AppConstants.KEY_WALLET_ENCRYPTED_PIN,this.encryptedPIN);
     // }
-    // this.fingerprintOptions = {
-    //     title: 'Token Wallet XXX',
-    //     subtitle: 'CasinoCoin', //Only necessary for Android
-    //     description: 'Provide your authentication via fingerprint',
-    //     fallbackButtonTitle: 'Use PIN Instead',
-    //     // disableBackup:true  //Only for Android(optional)
-    // }
-    // this.faio.isAvailable().then(result =>{
-    //   console.log('RESULT',result);
-    // if(result === "finger")
-    // {
-    //     this.faio.show(this.fingerprintOptions)
-    //     .then((result: any) => console.log(result))
-    //     .catch((error: any) => console.log(error));
-    // }
-    // });
-    this.displayCustomPin = true;
+
+    //
   }
   recoverWallet(){
     // this.localStorageService.remove(AppConstants.KEY_SETUP_COMPLETED);
@@ -157,14 +205,31 @@ export class LoginPage implements OnInit {
     this.menuCtrl.enable(false);
     this.theme = this.appflow.dark ? "dark":"light";
     this.enteredPinCode = "";
+
+  }
+  ionViewDidLoad(){
+    this.logger.debug("##### Log in Page: Appflow is logged in?: "+ this.appflow.loggedIn);
     if(this.appflow.loggedIn){
-      this.displayCustomPin = true;
+      if(this.appflow.walletSettings.enableOSKB){
+        this.displayKbPin = true;
+      }else{
+        this.displayCustomPin = true;
+      }
+
       // this.loginEntry = false;
     }else{
-      this.displayCustomPin = false;
+      if(this.appflow.walletSettings.enableOSKB){
+        this.displayKbPin = false;
+      }else{
+
+        this.displayCustomPin = false;
+      }
       // this.loginEntry = true;
 
     }
+    this.logger.debug("##### Log in Page: is OSKB ENABLED?: "+ this.appflow.walletSettings.enableOSKB);
+    this.logger.debug("##### Log in Page: is displayCustomPin enabled?: "+ this.displayKbPin);
+    this.logger.debug("##### Log in Page: is displayKbPin enabled?: "+ this.displayCustomPin);
   }
   ionViewDidLeave(){
     this.menuCtrl.enable(true);
@@ -300,7 +365,9 @@ export class LoginPage implements OnInit {
 
                      await alert.onDidDismiss().then(() => {
                        this.enteredPinCode = "";
+                       // this.cancelPin();
                        this.showCustomPin();
+
                        // setTimeout(() => {
                        //   this.pinCodeViewChild.setFocus();
                        // }, 200);
@@ -317,10 +384,17 @@ export class LoginPage implements OnInit {
   cancelPin() {
     this.enteredPinCode = "";
     this.displayCustomPin = false;
+    this.displayKbPin = false;
     this.loginDisable = false;
   }
   showCustomPin() {
-    this.displayCustomPin = true;
+    // this.displayKbPin = true;
+    if(this.appflow.walletSettings.enableOSKB){
+      this.displayKbPin = true;
+    }else{
+      this.displayCustomPin = true;
+    }
+
     // let modal = this.modalCtrl.create(CustomPinComponent, { pageTitle: "Enter PIN code" });
     // modal.present();
     // modal.onDidDismiss(data => {

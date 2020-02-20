@@ -8,7 +8,7 @@ import { CSCCrypto } from '../../../domains/csc-crypto';
 import { AppConstants } from '../../../domains/app-constants';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { WalletDefinition } from '../../../domains/csc-types';
+import { WalletDefinition, WalletSettings } from '../../../domains/csc-types';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
@@ -32,6 +32,7 @@ export class CustomPinComponent implements OnInit {
   footer_visible = false;
   error_message: string;
   displayCustomPin = false;
+  displayKbPin = false;
   defaultAccount: string;
   loginDisable = false;
   loginEntry = false;
@@ -40,7 +41,14 @@ export class CustomPinComponent implements OnInit {
   quitFromLogin = false;
   loginFinished = false;
   quitListener: Subscription;
-
+  walletSettings: WalletSettings = {
+    enableOSKB: false,
+    showNotifications: false,
+    fiatCurrency: 'USD',
+    walletUser: "",
+    walletLanguage: "en",
+    styleTheme:"light"
+  };
   update_dialog_visible = false;
   autoUpdateRunning = false;
   downloadedBytes = 0;
@@ -68,6 +76,7 @@ export class CustomPinComponent implements OnInit {
     ) {
       this.defaultAccount = this.localStorageService.get(AppConstants.KEY_DEFAULT_ACCOUNT_ID);
       this.statusBar.styleLightContent();
+
       if(!this.theme){
         this.theme = "light";
       }
@@ -76,6 +85,12 @@ export class CustomPinComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.walletSettings = this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
+    if(this.walletSettings.enableOSKB){
+      this.displayKbPin = true;
+    }else{
+      this.displayCustomPin = true;
+    }
     this.logger.debug('### %%%%%%%%%%%%%%%%%Custom PIN page  onInit');
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -141,6 +156,14 @@ export class CustomPinComponent implements OnInit {
         // });
     //   }
     // });
+  }
+  handlePinKb(evt){
+    this.enteredPinCode = evt.detail.value;
+    this.logger.debug("##### Log in Page: Entered PIN: "+ this.enteredPinCode);
+    if (this.enteredPinCode.length === 6) {
+      this.logger.debug("##### Log in Page: Validate PIN ");
+      this.validatePincode();
+    }
   }
   handlePinInput(pin:string){
     this.enteredPinCode += pin;
@@ -224,10 +247,16 @@ export class CustomPinComponent implements OnInit {
   }
   cancelPin() {
     this.enteredPinCode = "";
-    this.modal.dismiss();
+    this.displayCustomPin = false;
+    this.displayKbPin = false;
+    this.loginDisable = false;
   }
   showCustomPin() {
-    this.displayCustomPin = true;
+    if(this.walletSettings.enableOSKB){
+      this.displayKbPin = true;
+    }else{
+      this.displayCustomPin = true;
+    }
     // let modal = this.modalCtrl.create(CustomPinComponent, { pageTitle: "Enter PIN code" });
     // modal.present();
     // modal.onDidDismiss(data => {

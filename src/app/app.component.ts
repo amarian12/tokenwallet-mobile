@@ -141,6 +141,8 @@ export class AppComponent {
     this.logger.debug('### App component: LOGOUT!!!: ');
     this.appflow.authCorrect = false;
     this.appflow.loggedIn = false;
+    this.walletService.closeWallet();
+    this.casinocoinService.disconnect();
     this.router.navigate(['/login']);
   }
   exit(){

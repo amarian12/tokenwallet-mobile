@@ -13,6 +13,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
+    <preference name="orientation" value="portrait" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
@@ -133,5 +134,4 @@
     <plugin name="cordova-plugin-fingerprint-aio" spec="~3.0.1">
         <variable name="FACEID_USAGE_DESCRIPTION" value="This app requires faceID for authentication when it is enabled" />
     </plugin>
-    <engine name="android" spec="^8.1.0" />
 </widget>

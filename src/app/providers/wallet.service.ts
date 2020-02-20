@@ -694,7 +694,8 @@ export class WalletService {
     }
   }
 
-  addCSCAccount(password: string) {
+ addCSCAccount(password: string, label?:string):LokiTypes.LokiAccount {
+          let account:LokiTypes.LokiAccount;
           const userEmail = this.sessionStorageService.get(AppConstants.KEY_CURRENT_WALLET).userEmail;
           const newAccountSequence = this.getAccountsMaxSequence() + 1;
           this.logger.debug('### newAccountSequence: ' + newAccountSequence);
@@ -717,7 +718,7 @@ export class WalletService {
                   currency: 'CSC',
                   tokenBalance: '0',
                   lastSequence: 0,
-                  label: 'CSC Account',
+                  label: label?label:'CSC Account',
                   activated: false,
                   ownerCount: 0,
                   lastTxID: '',
@@ -727,8 +728,11 @@ export class WalletService {
               this.addAccount(walletAccount);
               this.logger.debug('### Added new WalletAccount: ' + JSON.stringify(walletAccount));
               this.saveWallet();
+              //return account object
+              account = walletAccount;
             }
           });
+          return account;
         }
 
        addTokenToAccount(token, password, accountID){

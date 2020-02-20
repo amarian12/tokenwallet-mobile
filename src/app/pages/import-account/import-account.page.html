@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start" routerLink="/" routerDirection="back">
+      <ion-avatar  class="logo">
+        <img src="assets/svg/logo_icon.svg">
+      </ion-avatar>
+    </ion-buttons>
+      <ion-buttons slot="start">
+        <ion-back-button text=""></ion-back-button>
+      </ion-buttons>
+
+    <ion-title> {{ 'PAGES.IMPORT.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item-divider>
+      <ion-text class="ion-margin">
+        {{ 'PAGES.IMPORT.INTRO' | translate }}
+
+      </ion-text >
+    </ion-item-divider>
+    <ion-item>
+      <ion-label position="floating">
+      {{ 'PAGES.IMPORT.ACCOUNT-LABEL' | translate }}
+      </ion-label>
+      <ion-input type="text" required name="label" [(ngModel)]="accountToImport.label">
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        {{ 'PAGES.IMPORT.ACCOUNT-SECRET' | translate }}
+
+
+      </ion-label>
+      <ion-input type="text" required name="secret" [(ngModel)]="accountToImport.secret" minlength="25"
+        maxlength="35">
+
+      </ion-input>
+      <ion-button class="csc-button"  color="primary" slot="end" (click)="scanQRCode()">
+        {{ 'PAGES.IMPORT.SCAN' | translate }}
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'PAGES.IMPORT.IMPORT-TYPE' | translate }}</ion-label>
+      <ion-select value="funds" okText="{{ 'PAGES.IMPORT.OK-BTN' | translate }}" cancelText="{{ 'PAGES.IMPORT.CANCEL-BTN' | translate }}" [(ngModel)]="importTypeSelected" (ionChange)="typeChanged($event)">
+        <ion-select-option value="account">{{ 'PAGES.IMPORT.IMPORT-ACCOUNT' | translate }}</ion-select-option>
+        <ion-select-option value="funds">{{ 'PAGES.IMPORT.IMPORT-FUNDS' | translate }}</ion-select-option>
+      </ion-select>
+
+    </ion-item>
+    <ion-item-divider>
+      <ion-note>
+        {{ importingTypeLegend }}
+      </ion-note>
+    </ion-item-divider>
+
+  </ion-list>
+ <ion-grid>
+   <ion-row >
+     <ion-col size="8" offset="2">
+       <ion-button class="csc-button" expand="block" color="primary" type="submit" (click)="beginImportProcess()" >
+         {{ 'PAGES.IMPORT.PROCEED' | translate }}
+
+       </ion-button>
+     </ion-col>
+   </ion-row>
+
+   <ion-row>
+     <ion-col size="8" offset="2">
+       <ion-button class="csc-button" expand="block" color="primary" fill="outline" (click)="onCancel() ">
+         {{ 'PAGES.IMPORT.CANCEL-BTN' | translate }}
+       </ion-button>
+     </ion-col>
+   </ion-row>
+ </ion-grid>
+
+
+
+</ion-content>

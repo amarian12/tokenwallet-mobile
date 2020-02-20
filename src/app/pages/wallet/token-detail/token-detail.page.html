@@ -31,9 +31,9 @@
           <ion-label position="stacked" color="primary">
             {{ 'PAGES.WALLET.ACCOUNT-LABEL' | translate }}
           </ion-label>
-            <ion-note>
+            <ion-text color="medium">
               {{tokenAccountLoaded.AccountLabel}}
-            </ion-note>
+            </ion-text>
         </ion-item>
       </ion-col>
 
@@ -62,17 +62,19 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="4">
+      <ion-col size="12">
         <ion-item>
           <ion-label position="stacked" color="primary">
             {{ 'PAGES.WALLET.TOKEN' | translate }}
           </ion-label>
-          <ion-note>
+          <ion-text color="medium">
             {{tokenAccountLoaded.FullName}}
-          </ion-note>
+          </ion-text>
         </ion-item>
       </ion-col>
-      <ion-col size="8">
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
         <ion-item>
           <ion-label position="stacked" color="primary">
              {{ 'PAGES.WALLET.BALANCE' | translate }}
@@ -114,12 +116,12 @@
           <ion-label position="stacked" color="primary">
             {{ 'PAGES.WALLET.STATUS' | translate }}
           </ion-label>
-            <ion-note color="danger" *ngIf="!tokenAccountLoaded.Activated">
+            <ion-text color="danger" *ngIf="!tokenAccountLoaded.Activated">
                {{ 'PAGES.WALLET.INACTIVE' | translate }}
-            </ion-note>
-            <ion-note color="success" *ngIf="tokenAccountLoaded.Activated">
+            </ion-text>
+            <ion-text color="success" *ngIf="tokenAccountLoaded.Activated">
                {{ 'PAGES.WALLET.ACTIVE' | translate }}
-            </ion-note>
+            </ion-text>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -150,6 +152,10 @@
       </ion-fab-button>
       <ion-fab-button color="primary" (click)="openObserverURL()" *ngIf="tokenAccountLoaded.Activated">
         <ion-icon name="search"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="primary" (click)="getSecret()" >
+        <ion-icon name="key"></ion-icon>
+
       </ion-fab-button>
       <ion-fab-button color="primary" (click)="copyAccountID(tokenAccountLoaded.AccountID)">
         <ion-icon name="copy"></ion-icon>

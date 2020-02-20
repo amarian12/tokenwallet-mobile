@@ -9,8 +9,13 @@
 .token-acc-status{
     display: block;
     position: absolute;
+    margin:0;
     top: 6px;
     right: 10px;
+}
+.token-acc-status ion-badge{
+    margin:0 2px;
+
 }
 ion-item-option.csc-button{
     border-right: solid 1px;

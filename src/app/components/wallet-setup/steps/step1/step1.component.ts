@@ -22,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class Step1Component implements OnInit {
     initialWalletCreation = true;
     walletSettings: WalletSettings = {
+      enableOSKB: false,
       showNotifications: false,
       fiatCurrency: 'USD',
       walletUser: "",
@@ -75,6 +76,7 @@ export class Step1Component implements OnInit {
     if (!this.walletSettings){
       // settings do not exist yet so create
       this.walletSettings = {
+        enableOSKB: false,
         showNotifications: false,
         fiatCurrency: 'USD',
         walletUser: "",

@@ -23,7 +23,7 @@
       <ion-label position="floating">
       {{ 'PAGES.SETTINGS.NAME' | translate }}
       </ion-label>
-      <ion-input type="text" name="contactname" [(ngModel)]="walletSettings.walletUser" >
+      <ion-input type="text" name="contactname" [(ngModel)]="walletSettings.walletUser" (ionChange)="settingChanged()">
 
       </ion-input>
     </ion-item>
@@ -34,7 +34,7 @@
     </ion-item-divider>
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.CURRENCY' | translate }}</ion-label>
-      <ion-select value="USD" okText="{{ 'PAGES.SETTINGS.OK-BTN' | translate }}" cancelText="{{ 'PAGES.SETTINGS.CANCEL-BTN' | translate }}" [(ngModel)]="walletSettings.fiatCurrency">
+      <ion-select value="USD" okText="{{ 'PAGES.SETTINGS.OK-BTN' | translate }}" cancelText="{{ 'PAGES.SETTINGS.CANCEL-BTN' | translate }}" [(ngModel)]="walletSettings.fiatCurrency" (ionChange)="settingChanged()">
         <ion-select-option value="USD">{{ 'PAGES.SETTINGS.CURRENCIES.USD' | translate }}</ion-select-option>
         <ion-select-option value="EUR">{{ 'PAGES.SETTINGS.CURRENCIES.EUR' | translate }}</ion-select-option>
         <ion-select-option value="GBP">{{ 'PAGES.SETTINGS.CURRENCIES.GBP' | translate }}</ion-select-option>
@@ -65,15 +65,14 @@
       </ion-select>
 
     </ion-item>
-    <ion-item-divider>
-      <ion-note>
-        {{ 'PAGES.SETTINGS.DISPLAY-MODE-ENTER' | translate }}
-      </ion-note>
-    </ion-item-divider>
-
     <ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.FINGERPRINT' | translate }}</ion-label>
     <ion-toggle [(ngModel)]="enableFaio" (click)="touchIdChanged()"></ion-toggle>
+
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'PAGES.SETTINGS.CUSTOMPIN' | translate }}</ion-label>
+    <ion-toggle [(ngModel)]="walletSettings.enableOSKB" (ionChange)="enableOSKBChanged()"></ion-toggle>
 
     </ion-item>
 
@@ -89,15 +88,8 @@
     </ion-row>
     <ion-row>
       <ion-col size="8" offset="2">
-        <ion-button class="csc-button" type="submit" expand="block" (click)="saveSettings() " >
-          {{ 'PAGES.SETTINGS.SAVE-SETTINGS' | translate }}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8" offset="2">
-        <ion-button class="csc-button" expand="block" color="primary" fill="outline"  type="reset" expand="block" (click)="discardSettings()">
-          {{ 'PAGES.SETTINGS.DISCARD-SETTINGS' | translate }}
+        <ion-button class="csc-button" expand="block" color="primary" fill="outline"  type="submit" expand="block" routerLink="/import-account" >
+          {{ 'PAGES.IMPORT.TITLE' | translate }}
         </ion-button>
       </ion-col>
     </ion-row>

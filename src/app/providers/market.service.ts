@@ -16,6 +16,7 @@ export class MarketService {
 
     private coinmarketCapURLCSC: string = "https://api.coinmarketcap.com/v1/ticker/casinocoin/";
     // private coinmarketCapURLBTC: string = "https://api.coinmarketcap.com/v1/ticker/bitcoin/";
+
     private exchangesURL: string = "https://api.casinocoin.org/1.0.0/info/exchanges/all";
     // private coinmarketCapURLCSC: string = "https://brmdev.duoex.com/info/coininfo";
     // private exchangesURL: string = "https://brmdev.duoex.com/info/exchanges/all";
@@ -115,7 +116,7 @@ export class MarketService {
                 }
                 // store in localstorage
                 this.localStorageService.set(AppConstants.KEY_COININFO, this.coinMarketInfo);
-                this.logger.debug("### KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK   MarketService - Recorded new coininfo: " + JSON.stringify(this.coinMarketInfo));
+                this.logger.debug("###  MarketService - Recorded new coininfo: " + JSON.stringify(this.coinMarketInfo));
                 // put onto subject
                 // serviceResponse.next(this.coinMarketInfo);
             }

@@ -45,23 +45,36 @@ enableFaio: boolean;
       this.walletSettings.styleTheme = "dark";
     }else{
       this.walletSettings.styleTheme = "light";
+      this.logger.debug(" ### Settings Page :: Current Settings: " + JSON.stringify(this.walletSettings));
     }
+
   }
   saveSettings(){
     this.logger.debug(" ### Settings Page :: Settings to be saved : " + JSON.stringify(this.walletSettings));
     this.logger.debug(" ### Settings Page :: Settings on appflow : " + JSON.stringify(this.appflow.walletSettings));
     this.appflow.saveWalletSettings(this.walletSettings);
-    this.themeChanged();
-    this.langChanged();
-    this.router.navigate(['/']);
+    // this.themeChanged();
+    // this.langChanged();
+    // this.router.navigate(['/']);
   }
-  discardSettings(){
-    this.logger.debug(" ### Settings Page :: Settings to be discarded : " + JSON.stringify(this.walletSettings));
-    this.walletSettings = this.appflow.getWalletSettings();
-
+  restoreDefaultSettings(){
+    this.logger.debug(" ### Settings Page :: Settings to be reverted : " + JSON.stringify(this.walletSettings));
+    this.walletSettings = {
+      enableOSKB: false,
+      showNotifications: false,
+      fiatCurrency: 'USD',
+      walletUser: "",
+      walletLanguage: "en",
+      styleTheme:"light"
+    };
 
     this.logger.debug(" ### Settings Page :: Reverting to Settings: " + JSON.stringify(this.walletSettings));
-    this.router.navigate(['/']);
+    // this.router.navigate(['/']);
+
+  }
+  settingChanged(){
+    this.logger.debug(" ### Settings Page :: Changing settings: " + this.walletSettings.walletUser);
+    this.saveSettings();
 
   }
   themeChanged(){
@@ -71,19 +84,26 @@ enableFaio: boolean;
       this.appflow.dark = true;
 
     }
+    this.saveSettings();
   }
   langChanged(){
     this.translate.use(this.walletSettings.walletLanguage);
+    this.saveSettings();
   }
   currencyChanged(){
     this.marketService.changeCurrency(this.walletSettings.fiatCurrency);
+    this.saveSettings();
+  }
+  enableOSKBChanged(){
+    // this.walletSettings.enableOSKB = !this.walletSettings.enableOSKB;
+    this.saveSettings();
   }
   async touchIdChanged(){
     let callbackFaio:any;
     // this.enableFaio != this.enableFaio;
-    const wordEnable = this.enableFaio?"enable":"disable";
+    const wordEnable = this.enableFaio?"disable":"enable";
     this.logger.debug(" ### Settings Page :: enable FAIO value: " + this.enableFaio);
-    if(this.enableFaio){
+    if(!this.enableFaio){
       callbackFaio = (res) => {
         this.logger.debug(" ### Settings Page :: examine response: " + JSON.stringify(res));
         if(res.data.state){
@@ -95,6 +115,7 @@ enableFaio: boolean;
           const encryptedPIN = cscCrypto.encrypt(enteredPinCode);
           this.localStorageService.set(AppConstants.KEY_WALLET_ENCRYPTED_PIN, encryptedPIN);
           this.logger.debug(" ### Settings Page :: Successfully enabled FAIO: " + encryptedPIN);
+          this.logger.debug(" ### Settings Page :: Successfully enabled FAIO faio:"+this.enableFaio);
           return res;
         }else{
           this.logger.debug(" ### Settings Page :: Failed enabling FAIO  BAD PIN?");
@@ -107,7 +128,8 @@ enableFaio: boolean;
       callbackFaio = (res) => {
         if(res.data.state){
           this.localStorageService.set(AppConstants.KEY_WALLET_ENCRYPTED_PIN, "");
-          this.logger.debug(" ### Settings Page :: Successfully disabled FAIO");
+
+          this.logger.debug(" ### Settings Page :: Successfully disabled FAIO faio:"+this.enableFaio);
           return res;
         }else{
           this.logger.debug(" ### Settings Page :: Failed disabling FAIO  fingerprint error?");
