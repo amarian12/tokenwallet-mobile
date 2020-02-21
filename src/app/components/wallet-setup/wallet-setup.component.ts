@@ -37,7 +37,17 @@ export class WalletSetupComponent implements OnInit {
 
 
   }
+  ionViewDidLoad(){
+    this.backToStart();
+  }
+
   slideChanged() {
   console.log(this.slides.getActiveIndex());
+  }
+  backToStart(){
+    this.logger.debug('### Go to step 1 triggered');
+    this.slides.lockSwipes(false);
+    this.slides.slideTo(0);
+    this.slides.lockSwipes(true);
   }
 }

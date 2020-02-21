@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonSlides, Platform } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
@@ -65,6 +66,7 @@ export class RecoverMnemonicPage implements OnInit {
                 private walletService: WalletService,
                 private casinocoinService: CasinocoinService,
                 private appflow: AppflowService,
+                private location: Location,
                 private loading: LoadingController,
                 private localStorageService: LocalStorageService,
 
@@ -323,8 +325,8 @@ back(){
     }
   }
   cancel() {
-      this.logger.debug('### RecoverMnemonic - Cancel ###');
-      this.router.navigate(['login']);
+      this.logger.debug('### RecoverMnemonic - Cancel by location back.###');
+      this.location.back();
   }
   ngOnInit() {
     if(this.platform.is('ios')|| this.platform.is('desktop')){

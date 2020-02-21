@@ -15,6 +15,11 @@
 html.md {
     --ion-default-font: var(--ion-font-family);
 }
+// fix for outlined app mail logo.
+ion-header ion-buttons:focus,
+ion-header ion-avatar:focus{
+  outline: none;
+}
 ion-avatar.logo{
   height: 40px;
   width: 40px;

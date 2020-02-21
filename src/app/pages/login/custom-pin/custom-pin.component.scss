@@ -3,15 +3,16 @@ ion-content{
 
 
 }
-ion-grid{
+ion-grid.custom{
   background: var(--csc-background-login);
   background-size: cover;
-  display: flex;
-  flex-flow: column;
   height: calc(100% - 200px);
 }
-
-
+ion-grid.full{
+  background: var(--csc-background-login);
+  background-size: cover;
+  height: calc(100% - 70px);
+}
 .custompin ion-grid{
   background: transparent;
 
@@ -21,6 +22,7 @@ ion-row.pinrow{
 }
 ion-footer.custompin{
   position:absolute;
+
   bottom:0;
 }
 ion-footer.custompin ion-button{
@@ -40,4 +42,17 @@ h1{
   flex-flow: column;
   background: var(--csc-background-login);
   background-size: cover;
+}
+
+ion-footer.kbpin {
+  position:absolute;
+  bottom:0;
+  height: 70px;
+  overflow: hidden;
+}
+ion-footer.kbpinm ion-input {
+  visibility: hidden;
+}
+ion-input{
+  color:var(--ion-color-light);
 }

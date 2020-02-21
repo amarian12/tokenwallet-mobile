@@ -1,7 +1,7 @@
 
 
 <ion-content fullscreen>
-  <ion-grid [class.intro]="!displayCustomPin"  *ngIf="!loginEntry">
+  <ion-grid [class.intro]="!displayCustomPin && !displayKbPin"  [class.full]="displayKbPin"   [class.custom]="displayCustomPin" *ngIf="!loginEntry">
 		<ion-row class="ion-padding-top ion-align-items-center ion-margin-top">
       <ion-col size="6" offset="3" class="ion-text-center">
         <ion-img *ngIf="theme == 'light'" src="/assets/svg/side-logo.svg" ></ion-img>
@@ -9,7 +9,7 @@
       </ion-col>
 		</ion-row>
 
-    <ion-row *ngIf="!displayCustomPin" style="flex-grow:1;" class="ion-align-items-center">
+    <ion-row *ngIf="!displayCustomPin && !displayKbPin" style="flex-grow:1;" class="ion-align-items-center">
       <ion-row style="width:100%;">
         <ion-col size="10" offset="1">
           <ion-button  class="csc-button" expand="block" (click)="enterPIN()" color="primary"  [disabled]="loginDisable"> Login </ion-button>
@@ -22,13 +22,68 @@
     </ion-row>
 
 
-      <ion-row class="ion-margin-bottom" *ngIf="!displayCustomPin">
+      <ion-row class="ion-margin-bottom" *ngIf="!displayCustomPin && !displayKbPin">
         <ion-col size="10" offset="1">
           <p style="text-align: center;">{{ 'PAGES.LOGIN.VERSIONMESSAGE' | translate:{ version:versionNumber, network: appflow.network } }}</p>
 
         </ion-col>
       </ion-row>
     </ion-grid>
+  <ion-footer class="kbpin" *ngIf="displayKbPin">
+    <ion-grid class="ion-text-center ion-no-padding">
+      <ion-row>
+        <ion-col size="3" >
+
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length > 0">
+          <ion-icon color ="dark" name="radio-button-on" ></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length > 1">
+          <ion-icon color ="dark" name="radio-button-on"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length > 2">
+          <ion-icon color ="dark" name="radio-button-on"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length > 3">
+          <ion-icon color ="dark" name="radio-button-on"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length > 4">
+          <ion-icon color ="dark" name="radio-button-on"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length > 5">
+          <ion-icon color ="dark" name="radio-button-on"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length < 1">
+          <ion-icon color ="dark" name="radio-button-off" ></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length < 2">
+          <ion-icon color ="dark" name="radio-button-off"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length < 3">
+          <ion-icon color ="dark" name="radio-button-off"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length < 4">
+          <ion-icon color ="dark" name="radio-button-off"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length < 5">
+          <ion-icon color ="dark" name="radio-button-off"></ion-icon>
+        </ion-col>
+        <ion-col size="1" *ngIf="enteredPinCode.length < 6">
+          <ion-icon color ="dark" name="radio-button-off"></ion-icon>
+        </ion-col>
+        <!--ion-col size="1" *ngIf="enteredPinCode.length > 6">
+          <ion-icon color="primary" name="square"></ion-icon>
+        </ion-col-->
+        <ion-col size="3" >
+          <!-- simple divider --->
+        </ion-col>
+      </ion-row>
+      <ion-row >
+        <ion-input ngModel #pinctl="ngModel" #test required name="pincodeconfirm" type="text"  style="-webkit-text-security:disc" pattern="[0-9]*" inputmode="numeric" minlength="6" maxlength="6" autoFocus="true" [(ngModel)]="enteredPinCode" (ionChange)="handlePinKb($event)" (ionBlur)="cancelPin()" ></ion-input>
+      </ion-row>
+    </ion-grid>
+
+  </ion-footer>
   <ion-footer class="custompin" *ngIf="displayCustomPin">
     <ion-grid class="ion-text-center ion-no-padding">
       <ion-row>

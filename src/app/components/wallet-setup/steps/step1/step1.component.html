@@ -3,7 +3,7 @@
     <ion-grid>
       <ion-row class="ion-padding-bottom">
         <ion-col size="8" offset="2" class="ion-text-center">
-          <ion-img  src="/assets/svg/casinocoin_logo_side_menu.png" ></ion-img>
+          <img  src="/assets/svg/casinocoin_logo_side_menu.png" />
         </ion-col>
       </ion-row>
       </ion-grid>
@@ -40,7 +40,7 @@
         <ion-col size="12" >
           <ion-item>
             <ion-label>{{ 'PAGES.SETTINGS.LANGUAGE' | translate }}</ion-label>
-            <ion-select  okText="Okay" cancelText="Dismiss" [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
+            <ion-select  okText="{{ 'PAGES.SETTINGS.OK-BTN' | translate }}" cancelText="{{ 'PAGES.SETTINGS.CANCEL-BTN' | translate }}"  [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
               <ion-select-option selected="true" value="en">{{ 'PAGES.SETTINGS.LANGUAGES.EN' | translate }}</ion-select-option>
               <ion-select-option value="es">{{ 'PAGES.SETTINGS.LANGUAGES.ES' | translate }}</ion-select-option>
               <ion-select-option value="de">{{ 'PAGES.SETTINGS.LANGUAGES.DE' | translate }}</ion-select-option>

@@ -14,9 +14,11 @@ export class LoginGuard implements  CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      this.logger.debug("#### loggedIn?: "+this.appflow.loggedIn);
-      this.logger.debug("#### Auth correct?: "+this.appflow.authCorrect);
+      this.logger.debug("#### Login Guard ::: loggedIn?: "+this.appflow.loggedIn);
+      this.logger.debug("#### Login Guard ::: Auth correct?: "+this.appflow.authCorrect);
     if(!this.appflow.authCorrect){
+
+      this.logger.debug("#### Login guard Redirect to Login!");
       this.router.navigateByUrl('/login');
     }
 

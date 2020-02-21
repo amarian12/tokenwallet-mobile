@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LokiKey} from '../../../domains/lokijs';
+import { CSCCrypto }  from '../../../domains/csc-crypto';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddTokenComponent } from '../add-token/add-token.component';
 import { CasinocoinService } from '../../../providers/casinocoin.service';
@@ -23,9 +25,11 @@ export class TokenDetailPage implements OnInit {
   fees: string;
   accountReserve: string;
   reserveIncrement: string;
+  copySecret: string = 'copy';
   copyIcon: string = 'copy';
   copyToIcon: string = 'copy';
   copyFromIcon: string = 'copy';
+  theme:string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -93,6 +97,46 @@ export class TokenDetailPage implements OnInit {
     });
 
   }
+  async getSecret(){
+
+    const result = await this.appflow.onValidateTx("ImportAccount","Enter PIN to authorize obtaining secret",this.theme);
+    if(result && result.data.state){
+      const secretsCSCCrypto = new CSCCrypto(result.data.password, result.data.email);
+      const actKey: LokiKey = this.walletService.getKey(this.tokenAccountLoaded.AccountID);
+      const actDecryptedSecret = secretsCSCCrypto.decrypt(actKey.secret);
+      console.log(actDecryptedSecret);
+      let secretmodal = await this.alert.create({
+        header: 'Show secret',
+        subHeader: "this is the secret for "+this.tokenAccountLoaded.AccountLabel,
+        message: "<small>"+actDecryptedSecret+"</small>",
+          buttons: [
+          {
+            text: 'Copy',
+            role: 'copy',
+            cssClass: 'secondary',
+            handler: (data) => {
+              this.logger.debug("### Token Detail Page:: secret copied");
+              // console.log(this);
+
+              this.copySecretString(actDecryptedSecret);
+
+            }
+          }, {
+            text: 'Ok',
+            handler: (data) => {
+              this.logger.debug("### Token Detail Page:: secret copied");
+
+            }
+          }
+        ]
+
+      });
+      await secretmodal.present();
+
+    }
+    // console.log(result);
+
+  }
   ionViewWillEnter(){
     this.tokenListSubject = this.casinocoinService.tokenlistSubject.subscribe(
       tokenList => {
@@ -102,11 +146,13 @@ export class TokenDetailPage implements OnInit {
 
       }
     );
+      this.theme = this.appflow.dark ? "dark":"light";
   }
   IonViewDidLeave(){
     this.tokenListSubject.unsubscribe();
     this.logger.debug("Token Detail Page: Subscription to tokenlist closed ");
   }
+
   onAddToken(){
       // console.log("cscAccounts: ",this.cscAccounts);
       // console.log("tokens: ",this.availableTokenlist);
@@ -132,6 +178,14 @@ export class TokenDetailPage implements OnInit {
   }
   getTotalReserved(tokenObject) {
     return Number(this.accountReserve) + (Number(tokenObject.OwnerCount) *  Number(this.reserveIncrement));
+  }
+  copySecretString(text){
+    this.clipboard.copy(text);
+    this.copySecret = 'checkmark';
+    const finishTimer = timer(1000);
+    finishTimer.subscribe(val =>  {
+      this.copySecret = 'copy';
+    });
   }
   copyAccountID(text){
     this.clipboard.copy(text);

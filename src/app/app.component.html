@@ -44,11 +44,6 @@
                 <ion-icon slot="icon-only"  name="log-out"></ion-icon>
               </ion-button>
 
-              <ion-button slot="end"  size="small" color="medium" (click)="exit()">
-                <!--ion-icon slot="icon-only" name="log-out"></ion-icon-->
-                <ion-icon slot="icon-only" src="/assets/svg/logout.svg" ></ion-icon>
-              </ion-button>
-
           </ion-item-divider>
           </ion-menu-toggle>
           <ion-menu-toggle >
@@ -128,16 +123,6 @@
               <ion-label>{{ 'PAGES.MENU.SHOW-TUTORIAL' | translate }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list lines="none">
-          <ion-item>
-            <ion-label>
-              {{ 'PAGES.MENU.DARKTHEME' | translate }}
-            </ion-label>
-
-            <ion-toggle [(ngModel)]="appflow.dark"></ion-toggle>
-          </ion-item>
         </ion-list>
         <ion-item-divider>
           <p> {{ 'PAGES.LOGIN.VERSIONMESSAGE' | translate:{ version:versionNumber, network: appflow.network } }}</p>

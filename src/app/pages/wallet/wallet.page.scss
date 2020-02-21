@@ -9,13 +9,18 @@
 .token-acc-status{
     display: block;
     position: absolute;
+    margin:0;
     top: 6px;
     right: 10px;
 }
+.token-acc-status ion-badge{
+    margin:0 2px;
+
+}
 ion-item-option.csc-button{
     border-right: solid 1px;
-    border-color: var(--ion-color-light);
-    // border-color: var(--ion-color-light-shade);
-    // background: var(--ion-color-light);
-    // color: var(--ion-color-primary);
+    // border-color: var(--ion-color-light);
+    border-color: var(--ion-color-light-shade);
+    background: var(--ion-color-light);
+    color: var(--ion-color-primary);
 }

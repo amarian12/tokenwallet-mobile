@@ -34,6 +34,7 @@ export class AppflowService {
   // private tokenlist:Array<TokenType>;
 
   walletSettings: WalletSettings = {
+    enableOSKB: false,
     showNotifications: false,
     fiatCurrency: 'USD',
     walletUser: "",
@@ -128,6 +129,7 @@ export class AppflowService {
     if (this.walletSettings == null){
       // settings do not exist yet so create
       this.walletSettings = {
+        enableOSKB: false,
         showNotifications: false,
         fiatCurrency: 'USD',
         walletUser: "",
@@ -440,6 +442,13 @@ export class AppflowService {
           cscUri = {
              address: barcodeData.text,
              token: 'CSC'
+         };
+
+       }else if (this.casinocoinService.cscAPI.isValidSecret(barcodeData.text.trim())){
+          cscUri = {
+             address: "secret",
+             token: 'CSC',
+             secret: barcodeData.text
          };
        }else{
           cscUri = {

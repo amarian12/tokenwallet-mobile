@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener, NgZone } from '@angular/core';
 import { LogService } from '../../../../providers/log.service';
 import { WalletService } from '../../../../providers/wallet.service';
+import { MarketService } from '../../../../providers/market.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { CSCCrypto } from '../../../../domains/csc-crypto';
@@ -21,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class Step1Component implements OnInit {
     initialWalletCreation = true;
     walletSettings: WalletSettings = {
+      enableOSKB: false,
       showNotifications: false,
       fiatCurrency: 'USD',
       walletUser: "",
@@ -42,6 +44,7 @@ export class Step1Component implements OnInit {
   constructor(
     private logger: LogService,
     private walletService: WalletService,
+    private marketService: MarketService,
     private alert: AlertController,
     private translate: TranslateService,
     private zone: NgZone,
@@ -50,6 +53,7 @@ export class Step1Component implements OnInit {
     private localStorageService: LocalStorageService
 
   ) {
+      this.logger.debug('### First Step constructor. Setting Language to es ');
       this.translate.setDefaultLang("en");
       this.translate.use("en");
 
@@ -67,9 +71,12 @@ export class Step1Component implements OnInit {
   initialize(){
     this.logger.debug('### Ready first step. Wallet Setup ');
     this.walletSettings = this.localStorageService.get(AppConstants.KEY_WALLET_SETTINGS);
+    this.logger.debug('### WalletSetup first step. Bringing wallet settings: '+JSON.stringify(this.walletSettings));
+
     if (!this.walletSettings){
       // settings do not exist yet so create
       this.walletSettings = {
+        enableOSKB: false,
         showNotifications: false,
         fiatCurrency: 'USD',
         walletUser: "",
@@ -78,7 +85,7 @@ export class Step1Component implements OnInit {
       };
       this.localStorageService.set(AppConstants.KEY_WALLET_SETTINGS, this.walletSettings);
 
-      this.logger.debug('### Wallet Setup: Storing defual wallet settings ');
+      this.logger.debug('### Wallet Setup: Storing default wallet settings ');
     }
 
     // check if we already have a wallet
@@ -87,6 +94,9 @@ export class Step1Component implements OnInit {
       this.initialWalletCreation = false;
       this.localStorageService.set(AppConstants.KEY_SETUP_COMPLETED, true);
       this.showWarning();
+    }else{
+      //get our frist coinInfo into the wallet so when we finish set up or recovery, the coininfo is loaded properly.
+      // this.marketService.updateCoinInfo();
     }
     this.logger.debug('### WalletSetup: There are these wallets here ' + JSON.stringify(availableWallets));
     // generate recovery words

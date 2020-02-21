@@ -291,12 +291,13 @@ export class WalletPage implements OnInit {
       }
       if(!paramMap.has('filterToken')){
         this.filterToken = 'ALL';
-        console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS NOT FOUND FILTER:::::: ", this.filterToken);
+        this.logger.debug('### WalletPage: ionViewWillEnter ::::: not found any filter. Applying ALL ');
 
 
       }else{
         this.filterToken = paramMap.get('filterToken');
-        console.log("@@@@@@@@@@@@@@@@@@@@    THIS IS FOUND FILTER:::::: ", this.filterToken);
+        this.logger.debug('### WalletPage: ionViewWillEnter ::::: found filter:'+ this.filterToken);
+
 
       }
       const newTokenList = [];
@@ -308,7 +309,8 @@ export class WalletPage implements OnInit {
       this.tokenlist = newTokenList;
       if(!paramMap.has('result')){
         this.txResult = paramMap.get('filterToken');
-        console.log("@@@@@@@@@@@@@@@@@@@@    RESULT ", this.txResult);
+        this.logger.debug('### WalletPage: ionViewWillEnter ::::: filterFunction result:'+ this.txResult);
+
       }
       this.isLoading = false;
    });

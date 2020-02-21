@@ -24,7 +24,7 @@
 
 <ion-content>
   <ion-grid *ngIf="transactionLoaded">
-    <ion-row>
+    <!--ion-row>
       <ion-col size="12">
         <ion-item>
           <ion-label position="stacked" color="primary">
@@ -40,35 +40,57 @@
         </ion-item>
       </ion-col>
 
-    </ion-row>
+    </ion-row-->
     <ion-row>
       <ion-col>
-        <ion-item>
-          <ion-label position="stacked" color="primary">
-            {{ 'PAGES.HISTORY.FROM' | translate }}:
-          </ion-label>
-            <ion-note >
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label position="stacked" color="primary">
+              {{ 'PAGES.HISTORY.FROM' | translate }}:
+            </ion-label>
+            <ion-text  *ngIf="transactionLoaded.direction !== 'incommingTX'">
               {{transactionLoaded.accountID}}
-            </ion-note>
-            <ion-button class="csc-button" slot="end" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
+            </ion-text>
+            <ion-text   color="medium" *ngIf="transactionLoaded.direction == 'incommingTX'">
+              {{transactionLoaded.accountID}}
+            </ion-text>
+            <!--ion-button class="csc-button" slot="end" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
               <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
-            </ion-button>
-        </ion-item>
+            </ion-button -->
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option class="csc-button" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
+               <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
+
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col >
+        <ion-item-sliding>
         <ion-item>
           <ion-label position="stacked" color="primary">
             {{ 'PAGES.HISTORY.TO' | translate }}
           </ion-label>
-          <ion-note>
+          <ion-text  *ngIf="transactionLoaded.direction == 'incommingTX'">
             {{transactionLoaded.destination}}
-          </ion-note>
-          <ion-button class="csc-button" slot="end" color="primary" (click)="copyToAccountID(transactionLoaded.destination)">
+          </ion-text>
+          <ion-text color="medium" *ngIf="transactionLoaded.direction !== 'incommingTX'">
+            {{transactionLoaded.destination}}
+          </ion-text>
+          <!--ion-button class="csc-button" slot="end" color="primary" (click)="copyToAccountID(transactionLoaded.destination)">
             <ion-icon slot="icon-only" [name]="copyToIcon"></ion-icon>
-          </ion-button>
+          </ion-button-->
         </ion-item>
+        <ion-item-options>
+          <ion-item-option class="csc-button" color="primary" (click)="copyToAccountID(transactionLoaded.destination)">
+             <ion-icon slot="icon-only" [name]="copyToIcon"></ion-icon>
+
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -128,13 +150,21 @@
     </ion-row>
     <ion-row>
       <ion-col >
-        <ion-item >
-          <ion-label position="stacked" color="primary">
-            {{ 'PAGES.HISTORY.TRANSACTIONID' | translate }}
-          </ion-label>
-          <ion-textarea auto-grow="true"  color="medium" class="ion-text-wrap" value="{{ transactionLoaded.txID }} " readonly>
-          </ion-textarea>
-        </ion-item>
+        <ion-item-sliding>
+          <ion-item >
+            <ion-label position="stacked" color="primary">
+              {{ 'PAGES.HISTORY.TRANSACTIONID' | translate }}
+            </ion-label>
+            <ion-textarea auto-grow="true"  color="medium" class="ion-text-wrap" value="{{ transactionLoaded.txID }} " readonly>
+            </ion-textarea>
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option class="csc-button" color="primary" (click)="copyAccountID(transactionLoaded.txID)">
+               <ion-icon slot="icon-only" [name]="copyIcon"></ion-icon>
+
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-col>
     </ion-row>
     <ion-row>

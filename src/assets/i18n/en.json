@@ -54,7 +54,8 @@
 			"BUY": "Buy",
 			"LAST": "Last",
 			"LAST-UPDATE": "Last Update",
-			"NO-EXCHANGES": "No Exchanges to show.",
+			"NO-EXCHANGES": "No Exchanges to show",
+			"NO-EXCHANGES-MESSAGE": "The service could be down for maintenance, or you might have a connection problem. Why else wouldn't we have exchanges?",
 			"SELL": "Sell",
 			"TITLE": "Exchanges",
 			"VISIT": "visit",
@@ -97,6 +98,41 @@
 			"DESCRIPTION":"Description",
 			"TRANSACTIONID": "Transaction ID",
 			"VALIDATED": "Validated"
+		},
+		"IMPORT":{
+			"TITLE":"Import Account",
+			"ACCOUNT-LABEL": "Label",
+			"KEY": "Import Account from Private Key",
+			"SCAN": "Scan",
+			"INTRO": "Please provide the Secret for the account you want to import. Select any label. Select a type of import, either importing by moving funds (recoverable), or importing the account as external (not recoverable).",
+			"LEGENDS":{
+				"WARNING": "Please provide the Secret for the account you want to import, You can enter a label of your choice or leave the default one. Depending on your choice, the funds belonging to the account for the given secret will be moved to a new account in this wallet and as such you will be able to use the same seed for recovering this account among the others on the wallet. Otherwise you the account will be imported with the key and you will be able to use it on the wallet, but it will not be included in the recovery from words with the seed you are using on the present wallet; you will have to keep a backup of the key to be able to access this account if you ever lose access to this wallet.",
+				"KEY-EXISTING": "Import to existing account in this wallet (account will be recoverable from words)",
+				"KEY-ADD": "Add account from secret to this wallet (account will not be included in recovery from words!)",
+				"HEADER":"Error",
+				"SUBHEADER":"Unexpected Error",
+				"VSUBHEADER":"Invalid Information",
+				"NEEDSECRET":"You need to provide a secret",
+				"NOTENOUGH":"Not enough CSC in the source account to handle all required transactions",
+				"NEEDLABEL":"Empty label is not allowed, please provide one",
+				"WRONGSECRET":"Wrong account secret. Please check it and try again",
+				"ALREADYADDED":"that secret belongs to an account already added to this wallet",
+				"TRANSFERERROR":" Something went wrong with transfers. Check your connections and verify your accounts to try again",
+				"DISCONNECTED":"You are currently disconnected from the blockchain. Please check your connection and try again",
+				"OKBTN":"Ok",
+				"WHEADER":"Attention",
+				"WSUBHEADER":"Read before proceeding",
+				"CANCELBTN":"Cancel",
+				"PROCEEDBTN":"I Understand"
+			},
+			"ACCOUNT-SECRET": "Account Secret",
+			"IMPORT-TYPE": "Type of import",
+			"IMPORT-ACCOUNT": "As External (key)",
+			"IMPORT-FUNDS": "Funds (recoverable)",
+			"PROCEED": "Start Importing",
+			"OK-BTN": "OK",
+			"CANCEL-BTN": "Cancel"
+
 		},
 		"LOGIN": {
 			"CREATED-ON": "Created on",
@@ -151,6 +187,7 @@
 			"LANGUAGE":"Language",
 			"CURRENCY":"Currency",
 			"OS-DETECTED":"System settings",
+			"CUSTOMPIN":"Enable OS Keypad",
 			"LANGUAGES":{
 					"EN":"English",
 					"ES":"Spanish",
@@ -182,7 +219,9 @@
 			"FINGERPRINT":"Enable Touch ID",
 			"DISPLAY-MODE-ENTER":"Select your prefered theme",
 			"SAVE-SETTINGS":"Save changes",
-			"DISCARD-SETTINGS":"Discard changes"
+			"DISCARD-SETTINGS":"Discard changes",
+			"OK-BTN":"Ok",
+			"CANCEL-BTN":"Cancel"
 		},
 		"SEED":{
 			"TITLE":"Show Seed",

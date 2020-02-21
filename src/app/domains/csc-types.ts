@@ -157,6 +157,7 @@ export interface CSCURI {
     amount?: string;
     destinationTag?: number;
     label?: string;
+    secret?:string;
 }
 
 export interface WalletSetup {
@@ -181,6 +182,7 @@ export interface WalletDefinition {
 }
 
 export interface WalletSettings {
+    enableOSKB: boolean;
     showNotifications: boolean;
     fiatCurrency: string;
     walletUser: string;
@@ -214,6 +216,7 @@ export interface TokenType {
     Website: string;
     AccountID: string;
     Activated: boolean;
+    External: boolean;
     Balance: string;
     OwnerCount: number;
     TokenBalance: string;
