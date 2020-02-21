@@ -46,10 +46,10 @@ export class AppComponent {
     private appVersion: AppVersion
   ) {
     this.initializeApp();
-
+    console.log("AAAAA");
   }
 
-  initializeApp() {
+  async initializeApp() {
 
     this.platform.ready().then(() => {
       // let con = this.net.onConnect().subscribe(() => {
@@ -85,22 +85,25 @@ export class AppComponent {
       this.logger.debug('### App initialized::::::::::::::');
       // this.logger.debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');
+      this.translate.setDefaultLang('en');
       this.logger.debug('### Setting default lang: en');
       if (this.platform.is('cordova')) {
-        this.appVersion.getVersionNumber().then(value => {
-          this.appflow.versionNumber = value;
-          this.versionNumber = this.appflow.versionNumber;
+        this.appVersion.getVersionNumber().then( async value => {
+          this.appflow.versionNumber = await value;
+          this.logger.debug('### Version number from plugin: '+value);
+          this.versionNumber =  this.appflow.versionNumber;
         });
       } else {
 
         this.appflow.versionNumber = "0.1.15.browser";
         this.versionNumber = this.appflow.versionNumber;
       }
+      this.logger.debug('### Version number here: '+ this.versionNumber);
+      this.logger.debug('### Version number appflow: '+this.appflow.versionNumber);
       this.userName = this.appflow.userName;
       this.dark = this.appflow.dark;
       this.language = this.appflow.language;
       this.currency = this.appflow.currency;
-      this.translate.setDefaultLang('en');
       this.translate.use(this.language);
       this.appflow.network = this.localStorageService.get(AppConstants.KEY_PRODUCTION_NETWORK)?"Production":"Testnet";
       // this.statusBar.styleDefault();

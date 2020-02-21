@@ -78,8 +78,8 @@
           <!-- simple divider --->
         </ion-col>
       </ion-row>
-      <ion-row #test>
-        <ion-input ngModel #pmctl="ngModel" required name="pincodeconfirm" type="text"  style="-webkit-text-security:disc" pattern="[0-9]*" inputmode="numeric" minlength="6" maxlength="6" autoFocus="true" [(ngModel)]="enteredPinCode" (ionChange)="handlePinKb($event)"></ion-input>
+      <ion-row >
+        <ion-input ngModel #pinctl="ngModel" #test required name="pincodeconfirm" type="text"  style="-webkit-text-security:disc" pattern="[0-9]*" inputmode="numeric" minlength="6" maxlength="6" autoFocus="true" [(ngModel)]="enteredPinCode" (ionChange)="handlePinKb($event)" (ionBlur)="cancelPin()" ></ion-input>
       </ion-row>
     </ion-grid>
 
