@@ -50,7 +50,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{ 'PAGES.IMPORT.IMPORT-TYPE' | translate }}</ion-label>
-      <ion-select value="funds" okText="{{ 'PAGES.IMPORT.OK-BTN' | translate }}" cancelText="{{ 'PAGES.IMPORT.CANCEL-BTN' | translate }}" [(ngModel)]="importTypeSelected" (ionChange)="typeChanged($event)">
+      <ion-select value="funds" okText="{{ 'PAGES.IMPORT.OK-BTN' | translate }}" cancelText="{{ 'PAGES.IMPORT.CANCEL-BTN' | translate }}" [(ngModel)]="importTypeSelected" (ionChange)="typeChanged()">
         <ion-select-option value="account">{{ 'PAGES.IMPORT.IMPORT-ACCOUNT' | translate }}</ion-select-option>
         <ion-select-option value="funds">{{ 'PAGES.IMPORT.IMPORT-FUNDS' | translate }}</ion-select-option>
       </ion-select>

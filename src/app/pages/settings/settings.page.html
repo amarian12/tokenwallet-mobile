@@ -70,11 +70,12 @@
     <ion-toggle [(ngModel)]="enableFaio" (click)="touchIdChanged()"></ion-toggle>
 
     </ion-item>
-    <ion-item>
+    <!--  *** Hiding option for changing to the old custom virtual keypad  ****-->
+    <!--ion-item>
       <ion-label>{{ 'PAGES.SETTINGS.CUSTOMPIN' | translate }}</ion-label>
     <ion-toggle [(ngModel)]="walletSettings.enableOSKB" (ionChange)="enableOSKBChanged()"></ion-toggle>
 
-    </ion-item>
+    </ion-item-->
 
 
   </ion-list>

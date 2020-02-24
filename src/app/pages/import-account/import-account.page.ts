@@ -50,8 +50,28 @@ export class ImportAccountPage implements OnInit {
   ) {
 
   }
-  scanQRCode(){
-    console.log("SCAN QR!!!!");
+  async scanQRCode(){
+    let data = await this.appflow.scanQRCode();
+    this.logger.debug("#### Import Account Page ::: DATA ON QR::: "+JSON.stringify(data));
+      if(data.address === "secret"){
+        this.accountToImport.secret = data.secret;
+        this.logger.debug("#### Import Account Page ::: Secret loaded to form ");
+
+      }else{
+        this.logger.debug("#### Import Account Page ::: This is not a valid paper wallet QR ");
+        const errorWrongQR = {
+          header:this.errorMessageList['HEADER'],
+          subheader:this.errorMessageList['VSUBHEADER'],
+          message:this.errorMessageList['QRINVALID'],
+          okbtn:this.errorMessageList['OKBTN']
+        }
+        this.displayError(errorWrongQR);
+
+
+      }
+
+
+
   }
   beginImportProcess(){
     this.logger.debug('### Import Account Page ::: Validating form before processing Import');
@@ -788,5 +808,6 @@ export class ImportAccountPage implements OnInit {
     Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key]);
     return obj;
   }
+
 
 }

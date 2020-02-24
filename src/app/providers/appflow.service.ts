@@ -34,7 +34,7 @@ export class AppflowService {
   // private tokenlist:Array<TokenType>;
 
   walletSettings: WalletSettings = {
-    enableOSKB: false,
+    enableOSKB: true,
     showNotifications: false,
     fiatCurrency: 'USD',
     walletUser: "",
@@ -129,7 +129,7 @@ export class AppflowService {
     if (this.walletSettings == null){
       // settings do not exist yet so create
       this.walletSettings = {
-        enableOSKB: false,
+        enableOSKB: true,
         showNotifications: false,
         fiatCurrency: 'USD',
         walletUser: "",

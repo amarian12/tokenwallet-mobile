@@ -157,7 +157,7 @@ export interface CSCURI {
     amount?: string;
     destinationTag?: number;
     label?: string;
-    secret?:string;
+    secret?: string;
 }
 
 export interface WalletSetup {

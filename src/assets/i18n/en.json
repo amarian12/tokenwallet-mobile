@@ -118,6 +118,7 @@
 				"WRONGSECRET":"Wrong account secret. Please check it and try again",
 				"ALREADYADDED":"that secret belongs to an account already added to this wallet",
 				"TRANSFERERROR":" Something went wrong with transfers. Check your connections and verify your accounts to try again",
+				"QRINVALID":"This does not seem like a valid secret's QR. Verify that you are using the secret portion from a valid CSC paper wallet",
 				"DISCONNECTED":"You are currently disconnected from the blockchain. Please check your connection and try again",
 				"OKBTN":"Ok",
 				"WHEADER":"Attention",
