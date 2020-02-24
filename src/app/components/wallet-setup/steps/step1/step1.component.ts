@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class Step1Component implements OnInit {
     initialWalletCreation = true;
     walletSettings: WalletSettings = {
-      enableOSKB: false,
+      enableOSKB: true,
       showNotifications: false,
       fiatCurrency: 'USD',
       walletUser: "",
