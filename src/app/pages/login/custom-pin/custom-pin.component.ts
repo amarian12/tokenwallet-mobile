@@ -173,7 +173,7 @@ export class CustomPinComponent implements OnInit {
        }
        this.faio.isAvailable().then(result =>{
          console.log('RESULT',result);
-       if(result === "finger" || result == "face")
+       if(result === "finger" || result == "face"  || result == "biometric" )
        {
            this.faio.show(this.fingerprintOptions)
            .then((result: any) => {

@@ -148,15 +148,15 @@ export class LoginPage implements OnInit {
        this.enteredPinCode = cscCrypto.decrypt(this.encryptedPIN);
        console.log("PIN",this.enteredPinCode);
        this.fingerprintOptions = {
-           title: 'Token Wallet XXX',
-           subtitle: 'CasinoCoin', //Only necessary for Android
-           description: 'Provide your authentication via fingerprint',
+           title: 'Casinocoin',
+           subtitle: 'Wallet', //Only necessary for Android
+           description: 'Provide your biometric authentication',
            fallbackButtonTitle: 'Use PIN Instead',
-           // disableBackup:true  //Only for Android(optional)
+           disableBackup:true  //Only for Android(optional)
        }
        this.faio.isAvailable().then(result =>{
          console.log('RESULT',result);
-       if(result === "finger" || result == "face")
+       if(result === "finger" || result == "face" || result == "biometric" )
        {
            this.faio.show(this.fingerprintOptions)
            .then((result: any) => {
