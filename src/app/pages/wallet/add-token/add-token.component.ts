@@ -17,10 +17,10 @@ import { TokenType } from '../../../domains/csc-types';
 export class AddTokenComponent implements OnInit {
   @Input() tokenlist: Array<TokenType>;
   @Input() cscAccounts: Array<any>;
+  @Input() selectedCSCAccount: LokiAccount;
   availableTokenlist: Array<TokenType> = [];
   addTokenAccountSelected: boolean ;
   selectedCSCAccountID: string;
-  selectedCSCAccount: LokiAccount;
   selectedToken:TokenType;
 
 
@@ -34,10 +34,19 @@ export class AddTokenComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.selectedCSCAccount){
+      this.selectedCSCAccountID = this.selectedCSCAccount.accountID;
+      this.logger.debug('### add token modal ::: selectedAccountID: ' + this.selectedCSCAccount);
+      this.getCSCAccountInfo();
+    }else{
+      this.logger.debug('### add token modal ::: notfoundAccount ');
+
+    }
+  }
 
   getCSCAccountInfo() {
-    this.logger.debug('### getCSCAccountInfo: ' + this.selectedCSCAccount);
+    this.logger.debug('### getCSCAccountInfo: ' + JSON.stringify(this.selectedCSCAccount));
     this.casinocoinService.refreshAvailableTokenList().subscribe( availableFinished => {
       if (availableFinished) {
         this.availableTokenlist = [];

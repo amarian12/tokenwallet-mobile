@@ -348,7 +348,7 @@ back(){
   filterWord(ctl){
     //(ionChange)="filterWord(wordctl)"
     // this.words[ctl.target.children[0].name] = ctl.detail.value.trim().trim().toLowerCase();
-    ctl.target.children[0].value = ctl.detail.value.trim().toLowerCase();
+    ctl.target.children[0].value = ctl.detail.value.trim().toLowerCase().trim();
 
 
   }

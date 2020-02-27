@@ -65,15 +65,15 @@
           </ion-label>
           <ion-label class="token-acc-status">
             <ion-badge *ngIf="token.External " color="tertiary" >
-              external
+              {{ 'PAGES.WALLET.EXTERNAL' | translate }}
               <!--ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon -->
             </ion-badge>
             <ion-badge *ngIf="token.Activated" color="success" >
-              active
+              {{ 'PAGES.WALLET.ACTIVE' | translate }}
               <!--ion-icon src="/assets/svg/CSC_BRM_check.svg"></ion-icon -->
             </ion-badge>
             <ion-badge *ngIf="!token.Activated" color="danger" >
-              inactive
+              {{ 'PAGES.WALLET.INACTIVE' | translate }}
               <!--ion-icon src="/assets/svg/CSC_BRM_close.svg"></ion-icon-->
             </ion-badge>
           </ion-label>
@@ -117,7 +117,7 @@
       <!-- ion-fab-button color="primary" >
         <i  class="primary-text icon icon-banknote"></i>
       </ion-fab-button -->
-      <ion-fab-button color="primary" (click) = "onAddToken('1')">
+      <ion-fab-button color="primary" (click) = "onAddToken()">
         <ion-icon name="pricetag"></ion-icon><sup><i  class="primary-text icon ion-md-icon-plus" ></i> </sup>
       </ion-fab-button>
       <ion-fab-button color="primary" (click) = "addCSCAccount()">

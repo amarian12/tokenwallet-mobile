@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start" routerLink="/" routerDirection="back">
+      <ion-avatar  class="logo">
+        <img src="assets/svg/logo_icon.svg">
+      </ion-avatar>
+    </ion-buttons>
+      <ion-buttons slot="start">
+        <ion-back-button text=""></ion-back-button>
+      </ion-buttons>
+
+    <ion-title> {{ 'PAGES.CHANGE-PIN.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<form #pinform="ngForm" (ngSubmit)="onSubmit(pinform.form)" [mustMatch]="['pincode', 'pincodeconfirm']" novalidate>
+  <ion-list>
+    <ion-item-divider>
+      <ion-text class="ion-margin">
+        {{ 'PAGES.CHANGE-PIN.INTRO' | translate }}
+
+      </ion-text >
+    </ion-item-divider>
+    <ion-item >
+      <ion-label  position="floating">{{ 'PAGES.CHANGE-PIN.EMAIL' | translate }}</ion-label>
+      <ion-input ngModel #ectl="ngModel" clearInput required (ionChange)="filterWord($event)" name="email" type="email" inputmode="email" email [(ngModel)]="form.email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+      {{ 'PAGES.CHANGE-PIN.PIN-CODE' | translate }}
+      </ion-label>
+      <ion-input ngModel #pctl="ngModel" clearInput required name="pincode" type="text"  style="-webkit-text-security:disc" pattern="[0-9]*"  inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]="form.pincode"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        {{ 'PAGES.CHANGE-PIN.PIN-CODE-CONFIRM' | translate }}
+
+
+      </ion-label>
+      <ion-input ngModel #pmctl="ngModel" clearInput required name="pincodeconfirm" type="text"  style="-webkit-text-security:disc" pattern="[0-9]*" inputmode="numeric" minlength="6" maxlength="6" [(ngModel)]="form.pincodeconfirm"></ion-input>
+
+    </ion-item>
+    <ion-item *ngIf="ectl.invalid && ectl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-EMAIL' | translate }}</small></ion-item>
+    <ion-item *ngIf="pctl.invalid && pctl.touched"  color="warning" ><small>{{'PAGES.SETUP.STEP3-REQUIRE-PIN' | translate }}</small></ion-item>
+    <ion-item *ngIf="pmctl.value != pctl.value && pctl.touched && pmctl.touched"  color="warning"><small>{{'PAGES.SETUP.STEP3-REQUIRE-PINMATCH' | translate }}</small></ion-item>
+
+
+  </ion-list>
+ <ion-grid>
+   <ion-row >
+     <ion-col size="8" offset="2">
+       <ion-button class="csc-button" expand="block" color="primary" type="submit" >
+         {{ 'PAGES.CHANGE-PIN.BTN-CHGPIN' | translate }}
+
+       </ion-button>
+     </ion-col>
+   </ion-row>
+
+   <ion-row>
+     <ion-col size="8" offset="2">
+       <ion-button class="csc-button" expand="block" color="primary" fill="outline" (click)="onCancel() ">
+         {{ 'PAGES.CHANGE-PIN.BTN-CANCEL' | translate }}
+       </ion-button>
+     </ion-col>
+   </ion-row>
+ </ion-grid>
+</form>
+
+
+
+</ion-content>
