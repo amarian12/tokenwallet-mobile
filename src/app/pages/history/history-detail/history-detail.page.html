@@ -174,7 +174,7 @@
             {{ 'PAGES.HISTORY.DOT' | translate }}
           </ion-label>
           <ion-text color="medium">
-            {{ transactionLoaded.timestamp | cscDate : ' EEEE, MMMM  d of y,  HH:mm:ss'}}
+            {{ transactionLoaded.timestamp | cscDate : 'long' : '' : translate.currentLang}}
           </ion-text>
         </ion-item>
       </ion-col>
