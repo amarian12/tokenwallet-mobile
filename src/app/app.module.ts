@@ -124,10 +124,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     { provide: LOCALE_ID,
       useFactory: () => {
         var localStorageService = new LocalStorageService;
-        return (localStorageService.get(AppConstants.KEY_WALLET_SETTINGS).walletLanguage ?
+        return (localStorageService.get(AppConstants.KEY_WALLET_SETTINGS) &&
+                localStorageService.get(AppConstants.KEY_WALLET_SETTINGS).walletLanguage ?
                 localStorageService.get(AppConstants.KEY_WALLET_SETTINGS).walletLanguage :
                 "en" );
-        
+
       },
       deps:[AppflowService]
     }

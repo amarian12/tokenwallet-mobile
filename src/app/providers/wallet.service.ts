@@ -468,7 +468,17 @@ export class WalletService {
   // Contacts Collection
   // #########################################
 
-
+  isContact(accountID: string): boolean {
+    if(this.isWalletOpen){
+      if(this.addressbook.count() > 0){
+        return (this.addressbook.findOne({'accountID': {'$eq': accountID}}) != null);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
   addAddress(newAddress: LokiTypes.LokiAddress): LokiTypes.LokiAddress{
     console.log(this.addressbook)
     let insertedAddress = this.addressbook.insert(newAddress);

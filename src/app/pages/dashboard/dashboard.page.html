@@ -56,7 +56,7 @@
                           </ion-text>
                         </ion-card-subtitle>
                         <ion-card-title>
-                          {{renderCSCAmount(balance.balance) | currency :'CSC': 'symbol':  '1.2-2': translate?.currentLang }}
+                          {{renderCSCAmount(balance.balance) | currency : "("+balance.token+")" : 'symbol':  '1.2-2': translate?.currentLang }}
                         </ion-card-title>
                       </ion-card-header>
                     </ion-col>

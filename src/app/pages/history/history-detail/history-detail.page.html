@@ -41,6 +41,54 @@
       </ion-col>
 
     </ion-row-->
+    <ion-row *ngIf="transactionLoaded.sourceLabel">
+      <ion-col>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label position="stacked" color="primary">
+              {{ 'PAGES.HISTORY.FROM' | translate }}:
+            </ion-label>
+
+            <ion-text   color="medium">
+              {{transactionLoaded.sourceLabel}}
+            </ion-text>
+            <!--ion-button class="csc-button" slot="end" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
+              <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
+            </ion-button -->
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option class="csc-button" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
+               <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
+
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="transactionLoaded.destinationLabel">
+      <ion-col>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label position="stacked" color="primary">
+              {{ 'PAGES.HISTORY.TO' | translate }}:
+            </ion-label>
+            <ion-text >
+              {{transactionLoaded.destinationLabel}}
+            </ion-text>
+
+            <!--ion-button class="csc-button" slot="end" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
+              <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
+            </ion-button -->
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option class="csc-button" color="primary" (click)="copyFromAccountID(transactionLoaded.accountID)">
+               <ion-icon slot="icon-only" [name]="copyFromIcon"></ion-icon>
+
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col>
         <ion-item-sliding>
