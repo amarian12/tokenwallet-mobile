@@ -56,14 +56,14 @@
                           </ion-text>
                         </ion-card-subtitle>
                         <ion-card-title>
-                          {{renderCSCAmount(balance.balance) | currency : "("+balance.token+")" : 'symbol':  '1.2-2': translate?.currentLang }}
+                          {{renderCSCAmount(balance.balance) | number :'1.2-2': translate?.currentLang }}  {{"("+balance.token+")"}}
                         </ion-card-title>
                       </ion-card-header>
                     </ion-col>
                   </ion-row>
                   <ion-row>
                     <ion-col>
-                      <ion-badge color="medium" *ngIf="balance.token === 'CSC'" >{{ 'PAGES.DASHBOARD.FIAT-VALUE' | translate }}: </ion-badge>
+                      <ion-badge color="medium" *ngIf="balance.token === 'CSC'" >{{ 'PAGES.DASHBOARD.FIAT-VALUE' | translate }} </ion-badge>
                       <ion-badge *ngIf="balance.token === 'CSC'">
                         {{fiat_balance}}
                       </ion-badge>

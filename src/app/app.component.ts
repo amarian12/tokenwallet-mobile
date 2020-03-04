@@ -5,7 +5,7 @@ import { CasinocoinService} from './providers/casinocoin.service';
 import { LogService } from './providers/log.service';
 import { AppflowService } from './providers/appflow.service';
 import { WalletService } from './providers/wallet.service';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,6 +50,7 @@ export class AppComponent {
     private casinocoinService: CasinocoinService,
     private platform: Platform,
     private router: Router,
+    private alertCtrl: AlertController,
     private splashScreen: SplashScreen,
     private translate: TranslateService,
     private net: Network,
@@ -179,5 +180,26 @@ export class AppComponent {
   }
   ionViewWillEnter(){
 
+  }
+  async showErrorTutorial(){
+    
+
+    let list:string[];
+
+    await this.translate.get(["PAGES.WALLET.ERROR-TITLE",
+                        "PAGES.WALLET.ERROR-MSG",
+                        "PAGES.WALLET.ERROR-OK",
+                        "PAGES.TUTORIAL.DISABLED",
+                  ]).subscribe( (res: string[]) => {
+                          list  = res;
+                          this.logger.debug("### Wallet Page ::: error message list strings :" + JSON.stringify(list));
+                        });
+    let alert = await this.alertCtrl.create({
+      header: list['PAGES.WALLET.ERROR-TITLE'],
+      subHeader: list['PAGES.WALLET.ERROR-MSG'],
+      message: list['PAGES.TUTORIAL.DISABLED'],
+      buttons: [list['PAGES.WALLET.ERROR-OK']]
+    });
+    await alert.present();
   }
 }

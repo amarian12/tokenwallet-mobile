@@ -339,6 +339,9 @@
 			"STEP7-TITLE": "Completing Wallet Setup",
 			"TITLE": "CasinoCoin Token Wallet"
 		},
+		"TUTORIAL":{
+			"DISABLED":"Tutorial Tour is temporarily disabled."
+		},
 		"WALLET": {
 			"ACCOUNT": "account",
 			"ACCOUNT-BALANCE": "Account Balance",
