@@ -91,8 +91,12 @@ enableFaio: boolean;
     this.saveSettings();
   }
   currencyChanged(){
-    this.marketService.changeCurrency(this.walletSettings.fiatCurrency);
     this.saveSettings();
+    this.marketService.changeCurrency(this.walletSettings.fiatCurrency);
+    this.logger.debug(" ### Settings Page :: changing currency to: " + this.walletSettings.fiatCurrency);
+    const checkInterval = setInterval(() => {
+      this.appflow.refreshBalance();
+    }, 1000);
   }
   enableOSKBChanged(){
     // this.walletSettings.enableOSKB = !this.walletSettings.enableOSKB;

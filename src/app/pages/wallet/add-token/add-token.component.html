@@ -8,7 +8,7 @@
       <ion-list>
           <ion-item>
             <ion-label position="floating">{{ 'PAGES.WALLET.ADD-TOKEN-ACCOUNT' | translate }}:</ion-label>
-            <ion-select  ngModel #account="ngModel" name="account" [(ngModel)]="selectedCSCAccount" interface="popover" (ionChange) = "getCSCAccountInfo()" >
+            <ion-select  ngModel #account="ngModel" name="account" [(ngModel)]="selectedCSCAccountID" interface="popover" (ionChange) = "getCSCAccountInfo()" >
               <ion-select-option *ngFor="let account of cscAccounts" value="{{account.value}}">{{account.label}}</ion-select-option>
 
             </ion-select>

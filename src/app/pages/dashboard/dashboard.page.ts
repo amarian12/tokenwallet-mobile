@@ -53,10 +53,10 @@ export class DashboardPage implements OnInit {
       const coinInfo = this.marketService.getCoinInfo();
       this.logger.debug('### Dashboard - Wallet coinInfo: ' + JSON.stringify(coinInfo));
       if(coinInfo){
-        this.fiatValue  = coinInfo.price_fiat ;
+        this.fiatValue  = this.currencyPipe.transform(coinInfo.price_fiat, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-8', this.translate.currentLang);
         this.coinSupply = coinInfo.total_supply;
-        this.marketCapital = coinInfo.market_cap_fiat;
-        this.marketVolumeUSD = coinInfo.market_24h_volume_fiat;
+        this.marketCapital = this.currencyPipe.transform(coinInfo.market_cap_fiat, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2',this.translate.currentLang);
+        this.marketVolumeUSD =  this.currencyPipe.transform(coinInfo.market_24h_volume_fiat, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2',this.translate.currentLang);
       }
       if(walletBalances){
           walletBalances.forEach( wallet =>{
@@ -65,7 +65,7 @@ export class DashboardPage implements OnInit {
               if (this.marketService.coinMarketInfo != null && this.marketService.coinMarketInfo.price_fiat !== undefined) {
                 const fiatValue = balanceCSC.times(new Big(this.marketService.coinMarketInfo.price_fiat)).toString();
                 this.balance = balanceCSC.toString();
-                this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2');
+                this.fiat_balance = this.currencyPipe.transform(fiatValue, this.marketService.coinMarketInfo.selected_fiat, 'symbol', '1.2-2',this.translate.currentLang);
                 this.logger.debug('### Dashboard - wallet balance: ' + wallet.balance + ' BTC: ' + this.marketService.btcPrice + ' FiatValue: ' + this.fiatValue);
               }
 

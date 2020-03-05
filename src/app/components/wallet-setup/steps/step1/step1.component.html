@@ -41,10 +41,10 @@
           <ion-item>
             <ion-label>{{ 'PAGES.SETTINGS.LANGUAGE' | translate }}</ion-label>
             <ion-select  okText="{{ 'PAGES.SETTINGS.OK-BTN' | translate }}" cancelText="{{ 'PAGES.SETTINGS.CANCEL-BTN' | translate }}"  [(ngModel)]="walletSettings.walletLanguage" (ionChange)="langChanged()">
-              <ion-select-option selected="true" value="en">{{ 'PAGES.SETTINGS.LANGUAGES.EN' | translate }}</ion-select-option>
-              <ion-select-option value="es">{{ 'PAGES.SETTINGS.LANGUAGES.ES' | translate }}</ion-select-option>
-              <ion-select-option value="de">{{ 'PAGES.SETTINGS.LANGUAGES.DE' | translate }}</ion-select-option>
-              <ion-select-option value="fr">{{ 'PAGES.SETTINGS.LANGUAGES.FR' | translate }}</ion-select-option>
+              <ion-select-option selected="true" value="en">English</ion-select-option>
+              <ion-select-option value="es">Español</ion-select-option>
+              <ion-select-option value="de">Deutsch</ion-select-option>
+              <ion-select-option value="fr">Français</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-col>

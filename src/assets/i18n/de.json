@@ -55,9 +55,10 @@
 			"LAST": "Zuletzt",
 			"LAST-UPDATE": "Letzte Aktualisierung",
 			"NO-EXCHANGES": "Es können keine Börsen angezeigt werden.",
+			"NO-EXCHANGES-MESSAGE":"Der Dienst könnte wegen Wartungsarbeiten ausfallen, oder Sie könnten ein Verbindungsproblem haben.",
 			"SELL": "Verkaufen",
 			"TITLE": "Börsen",
-			"VISIT": "Besuchen",
+			"VISIT": "Besuche",
 			"VOLUME": "Volumen"
 		},
 		"HELP": {
@@ -97,6 +98,41 @@
 			"DESCRIPTION":"Beschreibung",
 			"TRANSACTIONID": "Transaktions ID",
 			"VALIDATED": "Validiert"
+		},
+		"IMPORT":{
+			"TITLE":"Konto importieren",
+			"ACCOUNT-LABEL": "Bezeichnung",
+			"KEY": "Konto mit Private Key importieren",
+			"SCAN": "Scan",
+			"INTRO": "Bitte geben Sie das Secret für das Konto an, das Sie importieren möchten. Wählen Sie ein beliebige Bezeichnung aus. Wählen Sie die Art des Imports aus. Entweder Import durch Bewegung von Coins auf Ihr bestehndes Konto (Werthaltig) oder Import des Kontos als externes Konto (nicht Werthaltig).",
+			"LEGENDS":{
+				"WARNING": "Bitte geben Sie das Secret für das Konto an, das Sie importieren möchten. Sie können eine Bezeichnung Ihrer Wahl eingeben oder beim Standard belassen. Je nach Ihrer Wahl werden die Coins, die zum Konto für das eingegebene Secret gelten, auf ein neues Konto in diesem Wallet verschoben, und als solches können Sie dieselben Wortlisten für die Wiederherstellung dieses Kontos unter den anderen auf der Wallet verwenden. Andernfalls wird das Konto mit dem Private Key importiert und Sie können es in den Wallet verwenden. Jedoch wird es bei einer Wiederherstellung über die Wortliste nicht berücksichtigt. Sie müssen eine Sicherheitskopie des Private Keys aufbewahren, um auf dieses Konto zugreifen zu können, falls Sie jemals den Zugang zu diesem Wallet verlieren.",
+				"KEY-EXISTING": "In bestehendes Konto innerhalb diesem Wallet importieren. (Konto kann durch Wallet Wortliste wiederhergestellt werden!)",
+				"KEY-ADD": "Konto über Secret dem Wallet hinzufügen. (Konto kann später nicht durch Wallet Wortliste wiederhergestellt werden!)",
+				"HEADER":"Fehler",
+				"SUBHEADER":"Unerwarteter Fehler",
+				"VSUBHEADER":"Falsche Informationen",
+				"NEEDSECRET":"Sie müssen ein Secret angeben.",
+				"NOTENOUGH":"Nicht genügend CasinoCoin Coins im Quellkonto um alle notwendigen Transaktionen durchzuführen. ",
+				"NEEDLABEL":"Eine leere Bezeichnung ist nicht erlaubt! Bitte füllen Sie das Feld!",
+				"WRONGSECRET":"Konto Secret falsch! Bitte prüfen Sie Ihre Eingabe und probieren es erneut.",
+				"ALREADYADDED":"Das Konto mit dem angegebenen Secret existiert bereits in diesem Wallet!",
+				"TRANSFERERROR":"Es ist ein Fehler beim Transfer aufgetreten. Prüfen Sie Ihre Verbindung und Ihr Konto. Anschließend probieren Sie es erneut.",
+				"QRINVALID":"Dies scheint kein gültiger QR-Code für die Wortliste zu sein. Bitte überprüfen Sie, ob es sich hierbei um einen gültigen QR-Code von einem CasinoCoin Paperwallet handelt.",
+				"DISCONNECTED":"Sie sind derzeit von der Blockchain/Netzwerk getrennt. Bitte überprüfen Sie Ihre Verbindung und probieren Sie es erneut.",
+				"OKBTN":"Ok",
+				"WHEADER":"Achtung",
+				"WSUBHEADER":"Lesen Sie vor dem Fortfahren",
+				"CANCELBTN":"Abbrechen",
+				"PROCEEDBTN":"Ich habe verstanden"
+			},
+			"ACCOUNT-SECRET": "Account Secret",
+			"IMPORT-TYPE": "Type of import",
+			"IMPORT-ACCOUNT": "As External (key)",
+			"IMPORT-FUNDS": "Funds (recoverable)",
+			"PROCEED": "Start Importing",
+			"OK-BTN": "OK",
+			"CANCEL-BTN": "Cancel"
 		},
 		"LOGIN": {
 			"CREATED-ON": "Erstellt am",
@@ -150,6 +186,8 @@
 			"TITLE": "Einstellungen",
 			"LANGUAGE":"Sprache",
 			"CURRENCY":"Währung",
+			"CUSTOMPIN":"OS-Tastatur aktivieren",
+			"OK-BTN":"Ok",
 			"OS-DETECTED":"Systemeinstellungen",
 			"LANGUAGES":{
 					"EN":"Englisch",
@@ -157,6 +195,7 @@
 					"FR":"Französisch",
 					"DE":"Deutsch"
 			},
+			"CANCEL-BTN":"Abbrechen",
 			"CURRENCIES":{
 				"USD":"USD",
 				"EUR":"EUR",

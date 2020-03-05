@@ -244,9 +244,14 @@ export class AppflowService {
           // refresh all CSC accounts for add token dropdown
           this._cscaccounts.next([]);
           this.walletService.getAllAccounts().forEach( element => {
-            if (element.currency === 'CSC' && new Big(element.balance) > 0  && element.accountSequence >= 0) {
-               const accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
-                                  this.cscAmountPipe.transform(element.balance, false, true) + ']';
+            if (element.currency === 'CSC' && new Big(element.balance) > 0 ) {
+                let accountLabel = "";
+                if (element.label === 'CSC Account'){
+                  accountLabel = element.accountID.substring(0, 10) + '...' + ' [Balance: ' +
+                  this.cscAmountPipe.transform(element.balance, false, true) + ']';
+                }else{
+                  accountLabel = element.label;
+                }
                 this.cscaccounts.pipe(take(1)).subscribe(cscaccounts => {
                   this._cscaccounts.next(cscaccounts.concat({label: accountLabel, value: element.accountID}));
 
@@ -464,6 +469,10 @@ export class AppflowService {
        return err;
      });
      return result;
+   }
+   refreshBalance(){
+     this.logger.debug('### Appflow will refresh balances');
+     this.updateBalance(this.casinocoinService.tokenlist);
    }
    updateBalance(tokenlist){
       this.walletBalances.pipe(take(1)).subscribe(walletBalances => {

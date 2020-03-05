@@ -60,22 +60,6 @@ export class HistoryPage implements OnInit {
             this.casinocoinService.syncDelayedTx(act.accountID,1);
           }
         });
-    }else{
-      this.walletService.openWalletSubject.subscribe( result => {
-        if (result === AppConstants.KEY_LOADED) {
-          // get all transactions
-          this.transactions = this.walletService.getAllTransactions();
-          // sync any delayed transactions
-          const accounts = this.walletService.getAllAccounts();
-          this.logger.debug('### History Page - retreiving accounts: ' + JSON.stringify(accounts));
-              accounts.forEach(
-                act =>  {
-                  if(act.lastTxLedger > 0){
-                    this.casinocoinService.syncDelayedTx(act.accountID,1);
-                  }
-                });
-            }
-      });
     }
   }
 

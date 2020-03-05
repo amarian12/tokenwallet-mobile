@@ -48,6 +48,7 @@ export class WalletPage implements OnInit {
   showAddCSCDialog: boolean;
   signAndSubmitIcon: string;
   translateParams = {accountReserve: '10'};
+  errorMessageList:string[];
   cscBalance: string;
   canActivateToken: boolean;
   currentToken: TokenType;
@@ -113,6 +114,16 @@ export class WalletPage implements OnInit {
               this.cscAccounts = cscAccounts;
 
             });
+            this.translate.get(["PAGES.WALLET.ERROR-TITLE",
+                                "PAGES.WALLET.ERROR-MSG",
+                                "PAGES.WALLET.ERROR-OK",
+                                "PAGES.WALLET.ERROR-ACT-ACC-TOKEN",
+                                "PAGES.WALLET.PIN-ACT-TOKEN",
+                                "PAGES.WALLET.ADDING-ACCOUNT",
+                                "PAGES.WALLET.ERROR-ADD-ACT"]).subscribe( (res: string[]) => {
+                                  this.errorMessageList = res;
+                                  this.logger.debug("### Wallet Page ::: error message list strings :" + JSON.stringify(this.errorMessageList));
+                                });
     }
   async presentActionSheet() {
       await this.translate.get(["PAGES.WALLET.SHOW-ADD-ACCOUNT",
@@ -131,7 +142,7 @@ export class WalletPage implements OnInit {
                   text: res['PAGES.WALLET.SHOW-ADD-TOKEN'],
                   icon: 'add-circle',
                   handler: () => {
-                    this.onAddToken('1');
+                    this.onAddToken();
                   }
                 }, {
                   text: res['PAGES.WALLET.SHOW-LEDGERS'],
@@ -178,22 +189,32 @@ export class WalletPage implements OnInit {
       }
     }
 
-    async onAddToken(accountID){
-        var accountsAval = [];
-        if(accountID !== "1" ){
-          accountsAval = [{ label:"provided Account", value:accountID}];
+    async onAddToken(accountID?:string){
+        var params = {};
+        if(accountID){
+          console.log("account: ",accountID);
+          let selectedAccount = this.walletService.getAccount('CSC', accountID);
+          params = {
+            cscAccounts:this.cscAccounts,
+            availableTokenlist:this.availableTokenlist,
+            selectedCSCAccount:selectedAccount
+          };
         }else{
-          accountsAval = this.cscAccounts;
+          params = {
+            cscAccounts:this.cscAccounts,
+            availableTokenlist:this.availableTokenlist
+          };
         }
         console.log("cscAccounts: ",this.cscAccounts);
         console.log("tokens: ",this.availableTokenlist);
-        if(accountsAval.length == 0){
+        if(this.cscAccounts.length == 0){
           console.log("ERROR NO ACCOUNTS ACTIVE: ",this.availableTokenlist);
           this.logger.debug("#### wallet: There are not active account for adding a token");
           let alert = await this.alertCtrl.create({
-            header: 'ERROR',
-            subHeader: "You don't have any active account for adding a token.",
-            buttons: ['OK']
+            header: this.errorMessageList['PAGES.WALLET.ERROR-TITLE'],
+            subHeader: this.errorMessageList['PAGES.WALLET.ERROR-MSG'],
+            message: this.errorMessageList['PAGES.WALLET.ERROR-ACT-ACC-TOKEN'],
+            buttons: this.errorMessageList['PAGES.WALLET.ERROR-OK']
           });
           await alert.present();
 
@@ -208,10 +229,7 @@ export class WalletPage implements OnInit {
         this.modal
         .create({
           component: AddTokenComponent,
-          componentProps: {
-            cscAccounts:accountsAval,
-            availableTokenlist:this.availableTokenlist
-          }
+          componentProps:params
         }).then(
           addTokenModal => {
             addTokenModal.present();
@@ -219,7 +237,7 @@ export class WalletPage implements OnInit {
           }).then(
             async resultData => {
               if(resultData.role === "addToken"){
-                const result = await this.appflow.onValidateTx("addToken", "Enter your PIN to add selected token to Account", this.theme);
+                const result = await this.appflow.onValidateTx("addToken", this.errorMessageList['PAGES.WALLET.PIN-ACT-TOKEN'], this.theme);
                 if(result.data.state){
                   this.addTokenToAccount(resultData.data.token,resultData.data.account, result.data.password);
                 }
@@ -230,7 +248,7 @@ export class WalletPage implements OnInit {
         async addCSCAccount(){
           this.logger.debug('### WalletPage: add CSC account');
 
-            const msg = "Adding CSC account to Wallet";
+            const msg = this.errorMessageList['PAGES.WALLET.ADDING-ACCOUNT'];
             // creating loader into a callback to pass to onValidateTx function so the loader pops at the right time!
             const callbackNOW = (data) => {
 
@@ -260,9 +278,10 @@ export class WalletPage implements OnInit {
                 }else{
                   this.logger.debug('### WalletPage: password WRONG not adding account result is: '+JSON.stringify(result));
                   let alert = this.alertCtrl.create({
-                    header: 'ERROR',
-                    subHeader: "Account could not be created. Verify your connection or make sure your PIN is correct.",
-                    buttons: ['OK']
+                    header: this.errorMessageList['PAGES.WALLET.ERROR-TITLE'],
+                    subHeader: this.errorMessageList['PAGES.WALLET.ERROR-MSG'],
+                    message: this.errorMessageList['PAGES.WALLET.ERROR-ADD-ACT'],
+                    buttons: this.errorMessageList['PAGES.WALLET.ERROR-OK'],
                   }).then( alert =>{
                     alert.present();
 
@@ -270,7 +289,7 @@ export class WalletPage implements OnInit {
                 }
                 return data;
             }
-            const final = await this.appflow.onValidateTx("addCSCAccount","Enter your PIN to add a new CSC Account",this.theme, callbackNOW);
+            const final = await this.appflow.onValidateTx("addCSCAccount",this.errorMessageList['PAGES.WALLET.PIN-ADD-ACCT'],this.theme, callbackNOW);
             this.logger.debug('### WalletPage: add CSC account RESULT::::: '+JSON.stringify(final));
 
 
@@ -287,6 +306,7 @@ export class WalletPage implements OnInit {
         //redirect
       }else{
         const accountID = paramMap.get('toAccount');
+
         this.onAddToken(accountID);
       }
       if(!paramMap.has('filterToken')){
@@ -322,7 +342,11 @@ export class WalletPage implements OnInit {
   }
   shareAccountID(token){
      this.logger.debug("### Share: " + token.AccountID +" and token: "+token.Token  );
-     this.social.share("CasinoCoin "+token.Token+" AccountID: " + token.AccountID, "CasinoCoin Account");
+     // this.social.share("CasinoCoin "+token.Token+" AccountID: " + token.AccountID, "CasinoCoin Account");
+     this.translate.get('PAGES.WALLET.SHARE-MSG', {token: token.Token, accountID:token.AccountID}).subscribe(res => {
+          this.logger.debug("### Wallet Page ::: Resulting share string : " + res  );
+          this.social.share(res);
+      });
   }
 
 

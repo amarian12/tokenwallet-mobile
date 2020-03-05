@@ -55,6 +55,8 @@ export interface LokiTransaction {
     amount: string;
     currency: string;
     destination: string;
+    sourceLabel?:string;
+    destinationLabel?:string;
     destinationTag?: number;
     invoiceID?: string;
     fee: string;

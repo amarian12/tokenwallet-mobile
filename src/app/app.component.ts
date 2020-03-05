@@ -5,7 +5,7 @@ import { CasinocoinService} from './providers/casinocoin.service';
 import { LogService } from './providers/log.service';
 import { AppflowService } from './providers/appflow.service';
 import { WalletService } from './providers/wallet.service';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
 import { LocalStorageService, SessionStorageService } from 'ngx-store';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,6 +13,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { registerLocaleData } from '@angular/common';
+import localeEsCo from '@angular/common/locales/es-CO';
+import localeEsEs from '@angular/common/locales/es';
+import localeEsUS from '@angular/common/locales/es-US';
+import localeEsMX from '@angular/common/locales/es-MX';
+import localeDeDe from '@angular/common/locales/de';
+import localeDeCH from '@angular/common/locales/de-CH';
+import localeEnGB from '@angular/common/locales/en-GB';
+import localeEnUS from '@angular/common/locales/en';
+import localeEnCA from '@angular/common/locales/en-CA';
+import localeEnAU from '@angular/common/locales/en-AU';
+import localeFrFr from '@angular/common/locales/fr';
+import localeFrCA from '@angular/common/locales/fr-CA';
 // import { EloMenuController } from './providers/custommenu.service';
 
 
@@ -37,6 +50,7 @@ export class AppComponent {
     private casinocoinService: CasinocoinService,
     private platform: Platform,
     private router: Router,
+    private alertCtrl: AlertController,
     private splashScreen: SplashScreen,
     private translate: TranslateService,
     private net: Network,
@@ -83,6 +97,19 @@ export class AppComponent {
       //
       //   });
       this.logger.debug('### App initialized::::::::::::::');
+      registerLocaleData(localeEsCo, 'es-CO');
+      registerLocaleData(localeEsEs, 'es');
+      registerLocaleData(localeEsUS, 'es-US');
+      registerLocaleData(localeEsMX, 'es-MX');
+      registerLocaleData(localeDeDe, 'de');
+      registerLocaleData(localeDeCH, 'de-CH');
+      registerLocaleData(localeEnGB, 'en-GB');
+      registerLocaleData(localeEnUS, 'en');
+      registerLocaleData(localeEnCA, 'en-CA');
+      registerLocaleData(localeEnAU, 'en-AU');
+      registerLocaleData(localeFrFr, 'fr');
+      registerLocaleData(localeFrCA, 'fr-CA');
+
       // this.logger.debug('### AppConfig: ' + JSON.stringify(AppConfig));
       this.logger.debug('### Setting default lang: en');
       this.translate.setDefaultLang('en');
@@ -153,5 +180,26 @@ export class AppComponent {
   }
   ionViewWillEnter(){
 
+  }
+  async showErrorTutorial(){
+    
+
+    let list:string[];
+
+    await this.translate.get(["PAGES.WALLET.ERROR-TITLE",
+                        "PAGES.WALLET.ERROR-MSG",
+                        "PAGES.WALLET.ERROR-OK",
+                        "PAGES.TUTORIAL.DISABLED",
+                  ]).subscribe( (res: string[]) => {
+                          list  = res;
+                          this.logger.debug("### Wallet Page ::: error message list strings :" + JSON.stringify(list));
+                        });
+    let alert = await this.alertCtrl.create({
+      header: list['PAGES.WALLET.ERROR-TITLE'],
+      subHeader: list['PAGES.WALLET.ERROR-MSG'],
+      message: list['PAGES.TUTORIAL.DISABLED'],
+      buttons: [list['PAGES.WALLET.ERROR-OK']]
+    });
+    await alert.present();
   }
 }

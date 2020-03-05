@@ -148,10 +148,10 @@ export class LoginPage implements OnInit {
        this.enteredPinCode = cscCrypto.decrypt(this.encryptedPIN);
        console.log("PIN",this.enteredPinCode);
        this.fingerprintOptions = {
-           title: 'Casinocoin',
-           subtitle: 'Wallet', //Only necessary for Android
-           description: 'Provide your biometric authentication',
-           fallbackButtonTitle: 'Use PIN Instead',
+           title: this.errorMessageList['BIOMETRIC-TITLE'],
+           subtitle: this.errorMessageList['BIOMETRIC-SUBTITLE'], //Only necessary for Android
+           description: this.errorMessageList['BIOMETRIC-LEGEND'],
+           fallbackButtonTitle: this.errorMessageList['BIOMETRIC-FALLBACK'],
            disableBackup:true  //Only for Android(optional)
        }
        this.faio.isAvailable().then(result =>{
@@ -172,11 +172,12 @@ export class LoginPage implements OnInit {
 
            })
            .catch(async (error: any) => {
-             this.error_message = this.errorMessageList['IMPOSSIBLE'] + error;
+             this.error_message = this.errorMessageList['IMPOSSIBLE'] + error.message;
              let alert = await this.alertCtrl.create({
-               header: 'ERROR',
-               subHeader: this.error_message,
-               buttons: ['Dismiss']
+               header: this.errorMessageList['HEADER'],
+               subHeader: this.errorMessageList['SUBHEADER'],
+               message: this.error_message,
+               buttons: [this.errorMessageList['BTN-DISMISS']]
              });
              console.log(error);
              await alert.present();
@@ -185,11 +186,12 @@ export class LoginPage implements OnInit {
        }).catch(async (error: any) => {
          this.error_message = this.errorMessageList['IMPOSSIBLE'] + error.message;
          let alert = await this.alertCtrl.create({
-           header: 'ERROR',
-           subHeader: this.error_message,
+           header: this.errorMessageList['HEADER'],
+           subHeader: this.errorMessageList['SUBHEADER'],
+           message: this.error_message,
            buttons: [
              {
-               text: 'Use Pin',
+               text: this.errorMessageList['USEPIN'],
                role: 'pin',
                cssClass: 'secondary',
                handler: (data) => {
@@ -201,7 +203,7 @@ export class LoginPage implements OnInit {
                  // console.log(this);
                }
              }, {
-               text: 'Ok',
+               text: this.errorMessageList['BTN-OK'],
                handler: (data) => {
                  this.logger.debug("### Log In Page:: OK");
 
@@ -390,7 +392,7 @@ export class LoginPage implements OnInit {
                        this.localStorageService.set(AppConstants.KEY_WALLET_LOCATION, this.selectedWallet.location);
                        if (this.selectedWallet.network === 'LIVE') {
                            this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, true);
-                           this.appflow.network = 'CSCSLIVE';
+                           this.appflow.network = 'PRODUCTION';
                        } else {
                            this.localStorageService.set(AppConstants.KEY_PRODUCTION_NETWORK, false);
                            this.appflow.network = 'TESTNET';
@@ -420,9 +422,10 @@ export class LoginPage implements OnInit {
                      this.loading.dismiss();
                      this.logger.debug('### will throw alert: '+this.error_message);
                      let alert = await this.alertCtrl.create({
-                       header: 'ERROR',
-                       subHeader: this.error_message,
-                       buttons: ['Dismiss']
+                       header: this.errorMessageList['HEADER'],
+                       subHeader: this.errorMessageList['SUBHEADER'],
+                       message: this.error_message,
+                       buttons: [this.errorMessageList['BTN-DISMISS']]
                      });
                      await alert.present();
 

@@ -65,7 +65,7 @@ export class MarketService {
 
             }
 
-        }, 120000);
+        }, 1000);
         // get exchanges
         this.getExchanges();
         // run a timer to get the exchange info every set interval of 60 seconds
@@ -76,6 +76,8 @@ export class MarketService {
 
     changeCurrency(currency) {
         this.fiatCurrency = currency;
+        this.logger.debug("### MarketService - currency changed to: " + this.fiatCurrency);
+        this.logger.debug("### MarketService - start updating coininfo " );
         this.updateCoinInfo();
     }
 
@@ -84,6 +86,8 @@ export class MarketService {
     }
 
     updateCoinInfo(){
+
+        this.logger.debug("### MarketService -  updating coininfo started" );
         let options = {
             headers: new HttpHeaders().set('Content-Type', 'application/json')
         };
@@ -93,8 +97,9 @@ export class MarketService {
             this.logger.debug("### MarketService - added proxy - API: " + this.coinmarketCapURLCSC);
         }
         // let serviceResponse = new Subject<CoinMarketCapType>();
+        this.logger.debug("### MarketService -  connect to coinmarketcap service" );
         this.http.get(this.coinmarketCapURLCSC + "?convert=" + this.fiatCurrency, options).subscribe(result => {
-            this.logger.debug("### MarketService: " + JSON.stringify(result));
+            this.logger.debug("### MarketService: coinInfo retreived" + JSON.stringify(result));
             let coinInfo = result[0];
             if(coinInfo){
                 this.coinMarketInfo = {

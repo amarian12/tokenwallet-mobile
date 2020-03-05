@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,6 +22,7 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
 // import { AuthGuard } from './auth-guard';
 import { CasinocoinService } from './providers/casinocoin.service';
 import { LogService } from './providers/log.service';
+import { AppflowService } from './providers/appflow.service';
 import { WebStorageModule, LocalStorageService, SessionStorageService, CookiesStorageService } from 'ngx-store';
 import { WalletService } from './providers/wallet.service';
 import { NotificationService } from './providers/notification.service';
@@ -35,6 +36,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppConstants } from './domains/app-constants';
 import { WalletSetupModule} from './components/wallet-setup/wallet-setup.module';
 import { CSCPipe } from "./domains/app-pipes.module";
 import { HttpBackend, HttpXhrBackend } from '@angular/common/http';
@@ -119,6 +121,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     CookiesStorageService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HttpBackend, useClass: NativeHttpFallback, deps: [Platform, NativeHttpBackend, HttpXhrBackend]},
+    { provide: LOCALE_ID,
+      useFactory: () => {
+        var localStorageService = new LocalStorageService;
+        return (localStorageService.get(AppConstants.KEY_WALLET_SETTINGS) &&
+                localStorageService.get(AppConstants.KEY_WALLET_SETTINGS).walletLanguage ?
+                localStorageService.get(AppConstants.KEY_WALLET_SETTINGS).walletLanguage :
+                "en" );
+
+      },
+      deps:[AppflowService]
+    }
   ],
   bootstrap: [AppComponent]
 })

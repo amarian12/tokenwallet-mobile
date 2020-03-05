@@ -468,7 +468,17 @@ export class WalletService {
   // Contacts Collection
   // #########################################
 
-
+  isContact(accountID: string): boolean {
+    if(this.isWalletOpen){
+      if(this.addressbook.count() > 0){
+        return (this.addressbook.findOne({'accountID': {'$eq': accountID}}) != null);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
   addAddress(newAddress: LokiTypes.LokiAddress): LokiTypes.LokiAddress{
     console.log(this.addressbook)
     let insertedAddress = this.addressbook.insert(newAddress);
@@ -543,12 +553,16 @@ export class WalletService {
     allKeys.forEach( (element, index, array) => {
       if (!element.encrypted) {
         // encrypt private key
+        console.log(" not encrypted... ", element);
         const cryptedKey = cscCrypto.encrypt(element.privateKey);
         array[index].privateKey = cryptedKey;
         // encrypt secret
         const cryptedSecret = cscCrypto.encrypt(element.secret);
         array[index].secret = cryptedSecret;
         array[index].encrypted = true;
+        console.log(" encrypting... ", element);
+      }else{
+        console.log("elem was encrypted", element);
       }
       if (index === (array.length - 1)) {
         encryptSubject.next(AppConstants.KEY_FINISHED);
@@ -579,6 +593,7 @@ export class WalletService {
             secret: decodedSecret,
             encrypted: false
           };
+          this.logger.debug('Decrypted[' + index + ']: ' + JSON.stringify(decodedKey));
           decryptedKeys.push(decodedKey);
         }
       });

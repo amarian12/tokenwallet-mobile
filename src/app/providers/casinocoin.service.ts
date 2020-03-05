@@ -474,16 +474,31 @@ export class CasinocoinService implements OnDestroy {
                 // this.logger.debug('### Recover - transaction: ' + JSON.stringify(tx));
                 let txDirection: string;
                 let txAccountID: string;
+                let txDestinationLabel: string;
+                let txSourceLabel:string;
+
                 if (this.walletService.isAccountMine(tx.specification['destination'].address)) {
                     txDirection = AppConstants.KEY_WALLET_TX_IN;
                     txAccountID = tx.specification['destination'].address;
+                    txDestinationLabel = this.walletService.getAccount(
+                                            tx.outcome['deliveredAmount'].currency,
+                                            tx.specification['destination'].address
+                                          ).label;
                     if (this.walletService.isAccountMine(tx.specification['source'].address)) {
                         txDirection = AppConstants.KEY_WALLET_TX_BOTH;
                         txAccountID = tx.specification['source'].address;
+                        txSourceLabel = this.walletService.getAccount(
+                                            tx.outcome['deliveredAmount'].currency,
+                                            tx.specification['source'].address
+                                          ).label;
                     }
                 } else if (this.walletService.isAccountMine(tx.specification['source'].address)) {
                     txDirection = AppConstants.KEY_WALLET_TX_OUT;
                     txAccountID = tx.specification['source'].address;
+                    txSourceLabel = this.walletService.getAccount(
+                                          tx.outcome['deliveredAmount'].currency,
+                                          tx.specification['source'].address
+                                        ).label;
                 }
                 // create new transaction object
                 const dbTX: LokiTransaction = {
@@ -495,6 +510,8 @@ export class CasinocoinService implements OnDestroy {
                     flags: 0,
                     lastLedgerSequence: tx.outcome.ledgerVersion,
                     sequence: tx.sequence,
+                    sourceLabel:txSourceLabel,
+                    destinationLabel:txDestinationLabel,
                     signingPubKey: '',
                     timestamp: CSCUtil.iso8601ToCasinocoinTime(tx.outcome.timestamp),
                     transactionType: tx.type,
@@ -633,13 +650,42 @@ export class CasinocoinService implements OnDestroy {
     addTxToWallet(tx, validated, inLedger, currency): LokiTransaction {
         this.logger.debug('### CasinocoinService - addTxToWallet');
         let txDirection: string;
+        let txDestinationLabel: string;
+        let txSourceLabel: string;
+        txDestinationLabel = tx.Destnation;
+        txSourceLabel = tx.Address;
+
         if (this.walletService.isAccountMine(tx.Destination)) {
             txDirection = AppConstants.KEY_WALLET_TX_IN;
+            txDestinationLabel = this.walletService.getAccount(
+                                    currency,
+                                    tx.Destination
+                                  ).label;
             if (this.walletService.isAccountMine(tx.Account)) {
                 txDirection = AppConstants.KEY_WALLET_TX_BOTH;
+                txSourceLabel = this.walletService.getAccount(
+                                        currency,
+                                        tx.Account
+                                      ).label;
             }
         } else if (this.walletService.isAccountMine(tx.Account)) {
             txDirection = AppConstants.KEY_WALLET_TX_OUT;
+            txSourceLabel = this.walletService.getAccount(
+                                    currency,
+                                    tx.Account
+                                  ).label;
+        }
+        // check addressbook.
+        if (this.walletService.isContact(tx.Destination)) {
+          txDestinationLabel = this.walletService.getAddress(
+                                    tx.Destination
+                                  ).label;
+
+        } else if (this.walletService.isContact(tx.Account)) {
+
+            txSourceLabel = this.walletService.getAddress(
+                                    tx.Account
+                                  ).label;
         }
         // create new transaction object
         const dbTX: LokiTransaction = {
@@ -647,6 +693,8 @@ export class CasinocoinService implements OnDestroy {
             amount: typeof tx.Amount === 'string' ? tx.Amount : CSCUtil.cscToDrops(tx.Amount.value),
             currency: currency,
             destination: tx.Destination,
+            destinationLabel:txDestinationLabel,
+            sourceLabel: txSourceLabel,
             fee: tx.Fee,
             flags: tx.Flags,
             lastLedgerSequence: tx.LastLedgerSequence,
@@ -715,20 +763,20 @@ export class CasinocoinService implements OnDestroy {
                 this.notificationService.addMessage(
                     {title: 'Incoming Transaction',
                     body: 'You received ' + this.decimalPipe.transform(amountString, '1.2-8') +
-                    ' ' + currency + ' from ' + dbTX.accountID});
+                    ' ' + currency + ' from ' + dbTX.sourceLabel});
             } else if (dbTX.direction === AppConstants.KEY_WALLET_TX_OUT) {
                 this.updateAccountInfo(currency, dbTX.accountID);
                 this.notificationService.addMessage(
                     {title: 'Outgoing Transaction', body: 'You sent ' +
                     this.decimalPipe.transform(amountString, '1.2-8') +
-                    ' ' + currency + ' to ' + dbTX.destination});
+                    ' ' + currency + ' to ' + dbTX.destinationLabel});
             } else {
                 this.updateAccountInfo(currency, dbTX.destination);
                 this.updateAccountInfo(currency, dbTX.accountID);
                 this.notificationService.addMessage(
                     {title: 'Wallet Transaction',
                     body: 'You sent ' + this.decimalPipe.transform(amountString, '1.2-8') +
-                        ' ' + currency + ' to your own address ' + dbTX.destination});
+                        ' ' + currency + ' to your own address ' + dbTX.destinationLabel});
             }
         } else {
             this.notificationService.addMessage(
@@ -937,16 +985,31 @@ export class CasinocoinService implements OnDestroy {
                                     this.logger.debug('### CasinocoinService -> Add TX: ' + JSON.stringify(tx));
                                     let txDirection: string;
                                     let txAccountID: string;
+                                    let txSourceLabel: string;
+                                    let txDestinationLabel: string;
                                     if (this.walletService.isAccountMine(tx.specification['destination'].address)) {
                                         txDirection = AppConstants.KEY_WALLET_TX_IN;
                                         txAccountID = tx.specification['destination'].address;
+                                        txDestinationLabel = this.walletService.getAccount(
+                                                                tx.outcome['deliveredAmount'].currency,
+                                                                tx.specification['source'].address
+                                                              ).label;
                                         if (this.walletService.isAccountMine(tx.specification['source'].address)) {
                                             txDirection = AppConstants.KEY_WALLET_TX_BOTH;
                                             txAccountID = tx.specification['source'].address;
+                                            txSourceLabel = this.walletService.getAccount(
+                                                                    tx.outcome['deliveredAmount'].currency,
+                                                                    tx.specification['source'].address
+                                                                  ).label;
+
                                         }
                                     } else if (this.walletService.isAccountMine(tx.specification['source'].address)) {
                                         txDirection = AppConstants.KEY_WALLET_TX_OUT;
                                         txAccountID = tx.specification['source'].address;
+                                        txSourceLabel = this.walletService.getAccount(
+                                                                tx.outcome['deliveredAmount'].currency,
+                                                                tx.specification['source'].address
+                                                              ).label;
                                     }
                                     // create new transaction object
                                     const dbTX: LokiTransaction = {

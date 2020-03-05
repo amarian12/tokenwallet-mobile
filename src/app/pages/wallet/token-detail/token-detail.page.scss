@@ -10,3 +10,9 @@ ion-item-option.csc-button{
     background: var(--ion-color-light);
     color: var(--ion-color-primary);
 }
+.ion-text-wrap{
+  width:90%;
+}
+ion-item.item-label.item-label-stacked {
+    --inner-padding-end: 4px;
+}

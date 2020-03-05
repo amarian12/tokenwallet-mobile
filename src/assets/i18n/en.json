@@ -8,6 +8,24 @@
 			"VERSIONMESSAGE": "Wallet Version {{version}} {{network}}",
 			"VERSIONTITLE": "Token Wallet:"
 		},
+		"CHANGE-PIN":{
+			"TITLE":"Change your PIN",
+			"PIN-CODE":"Enter your new PIN",
+			"PIN-CODE-CONFIRM":"Enter your PIN again",
+			"EMAIL":"Wallet email",
+			"INTRO":"Enter the email used when you created the wallet, add your new pin in both fields, then tap on the Change PIN button to start changing your PIN",
+			"ERRORS":{
+				"PINLENGHT":"Your PIN must be exactly 6 characters long",
+				"PINNOTEQUAL":"Both PIN inputs must be equal",
+				"EMAIL":"Provide the email used when creating this wallet. This security measure can't be avoided",
+				"EMAILINVALID":"The email you provided is not valid, please try again",
+				"UNKNOWN":"Strange error ocurred",
+				"BIOMETRICS":"You are using biometric authentication. For changing you PIN, Please disable it and try again"
+			},
+			"SUCCESS":"Your PIN was successfully changed.",
+			"BTN-CHGPIN":"Change PIN",
+			"BTN-CANCEL":"Cancel"
+		},
 		"CONTACTS": {
 			"ADD-CONTACTS-ACCOUNT-LABEL": "AccountID:",
 			"ADD-CONTACTS-ADD-BTN": "Add contact",
@@ -46,6 +64,8 @@
 			"COININFO": "Coin Information",
 			"EST-COIN-VALUE": "Estimated CSC value",
 			"ESTIMATED-CAP": "Market capital",
+			"RECOVER-PROGRESS":"Wallet Recovery in Progress",
+			"FIAT-VALUE":"Fiat Value:",
 			"TITLE": "Dashboard",
 			"TOKEN-BALANCE": "Balance",
 			"TOTAL-COIN-SUPPLY": "Total CSC supply"
@@ -145,7 +165,17 @@
 			"ERRORS":{
 				"IMPOSSIBLE":"Unkown and very strange error!",
 				"INVALIDPIN":"You entered an invalid PIN. Please retry!",
-				"VALIDATINGPIN":"Validating PIN"
+				"VALIDATINGPIN":"Validating PIN",
+				"BIOMETRIC-TITLE":"CasinCoin",
+				"BIOMETRIC-SUBTITLE":"Wallet",
+				"BIOMETRIC-LEGEND":"Provide your biometric authentication",
+				"BIOMETRIC-FALLBACK":"Use PIN instead",
+				"HEADER":"ERROR",
+				"SUBHEADER":"An error ocurred",
+				"BTN-DISMISS":"Dismiss",
+				"BTN-OK":"OK",
+				"USEPIN":"Use PIN"
+
 			},
 			"UPDATE-TITLE": "Token Wallet Update",
 			"VERSIONMESSAGE": "Wallet Version {{version}} {{network}}",
@@ -217,7 +247,7 @@
 				"DARK":"Dark theme"
 
 			},
-			"FINGERPRINT":"Enable Touch ID",
+			"FINGERPRINT":"Enable Biometric ID",
 			"DISPLAY-MODE-ENTER":"Select your prefered theme",
 			"SAVE-SETTINGS":"Save changes",
 			"DISCARD-SETTINGS":"Discard changes",
@@ -267,7 +297,7 @@
 			"STEP2-TITLE": "Accept the Disclaimer",
 			"STEP3-EMAIL": "Email",
 			"STEP3-EMAIL-PASSWORD": "Email and Password",
-			"STEP3-INTRO-TEXT": "Please enter your email address and a wallet password. Keep your PIN/password in a safe place, without it your wallet can not be opened or used anymore!",
+			"STEP3-INTRO-TEXT": "Please enter your email address and a wallet PIN. Keep your PIN in a safe place, without it your wallet can not be opened or used anymore! Remember the email you will enter here, we do not store it, we won't know it, but along the 12 seed words it's the only failback to recover access to your coins in case something happens",
 			"STEP3-NAME": "Name",
 			"STEP3-PASSWORD": "Wallet password",
 			"STEP3-PINCODE": "Wallet Pin Code",
@@ -309,6 +339,9 @@
 			"STEP7-TITLE": "Completing Wallet Setup",
 			"TITLE": "CasinoCoin Token Wallet"
 		},
+		"TUTORIAL":{
+			"DISABLED":"Tutorial Tour is temporarily disabled."
+		},
 		"WALLET": {
 			"ACCOUNT": "account",
 			"ACCOUNT-BALANCE": "Account Balance",
@@ -339,6 +372,15 @@
 			"ADD-TOKEN": "Add Token",
 			"ADD-TOKEN-ACCOUNT": "For account",
 			"AMOUNT": "Amount",
+			"ACTIVE":"active",
+			"INACTIVE":"inactive",
+			"EXTERNAL":"external",
+			"ERROR-ACT-ACC-TOKEN":"You don't have any active account for adding a token.",
+			"PIN-ACT-TOKEN":"Enter your PIN to add selected token to Account",
+			"PIN-ADD-ACCT":"Enter your PIN to add a new CSC Account",
+			"ADDING-ACCOUNT":"Adding CSC account to Wallet",
+			"ERROR-ADD-ACT":"Account could not be created. Verify your connection or make sure your PIN is correct",
+			"SHARE-MSG":"This is my CasinCoin {{token}} Account.  AccountID:  {{accountID}} ",
 			"AMOUNTRESERVED": "Amount Reserved",
 			"AVAILABLE": "Available",
 			"BALANCE": "Balance",

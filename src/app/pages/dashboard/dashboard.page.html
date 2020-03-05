@@ -20,7 +20,7 @@
           </ion-text>
         </ion-col>
         <ion-col size="10">
-          <ion-text color="primary">Wallet Recovery in Progress</ion-text>
+          <ion-text color="primary">{{ 'PAGES.DASHBOARD.RECOVER-PROGRESS' | translate }}</ion-text>
         </ion-col>
       </ion-row>
   </ion-grid>
@@ -56,14 +56,14 @@
                           </ion-text>
                         </ion-card-subtitle>
                         <ion-card-title>
-                          {{renderCSCAmount(balance.balance) | number : '1.2-2'}}
+                          {{renderCSCAmount(balance.balance) | number :'1.2-2': translate?.currentLang }}  {{"("+balance.token+")"}}
                         </ion-card-title>
                       </ion-card-header>
                     </ion-col>
                   </ion-row>
                   <ion-row>
                     <ion-col>
-                      <ion-badge color="medium" *ngIf="balance.token === 'CSC'" > Fiat Value:</ion-badge>
+                      <ion-badge color="medium" *ngIf="balance.token === 'CSC'" >{{ 'PAGES.DASHBOARD.FIAT-VALUE' | translate }} </ion-badge>
                       <ion-badge *ngIf="balance.token === 'CSC'">
                         {{fiat_balance}}
                       </ion-badge>
@@ -95,16 +95,16 @@
               </ion-col>
               <ion-col size="5">
 
-                  <ion-label>
+
                     <small>
-                      <ion-text>{{'PAGES.DASHBOARD.EST-COIN-VALUE' | translate}}:
-                      </ion-text>
+                      <ion-label>{{'PAGES.DASHBOARD.EST-COIN-VALUE' | translate}}:
+                        </ion-label>
                       <p>
                         <ion-text> {{fiatValue}}
                         </ion-text>
                       </p>
                     </small>
-                  </ion-label>
+
 
 
               </ion-col>
@@ -120,7 +120,7 @@
                     <ion-label>{{'PAGES.DASHBOARD.TOTAL-COIN-SUPPLY' | translate}}:
                     </ion-label>
                     <p>
-                      <ion-text> {{coinSupply | number : '1.2-2'}}
+                      <ion-text> {{coinSupply | currency :'CSC': 'symbol': '1.2-2': translate?.currentLang}}
                       </ion-text>
                     </p>
                   </small>
@@ -140,7 +140,7 @@
                     <ion-label>{{'PAGES.DASHBOARD.ESTIMATED-CAP' | translate}}:
                     </ion-label>
                     <p>
-                      <ion-text> {{marketCapital | number : '1.2-2'}}
+                      <ion-text> {{marketCapital }}
                       </ion-text>
                     </p>
                   </small>
@@ -157,7 +157,7 @@
                     <ion-label>{{'PAGES.DASHBOARD.24H-VOLUME' | translate}}:
                     </ion-label>
                     <p>
-                      <ion-text> {{marketVolumeUSD | number : '1.2-2'}}
+                      <ion-text> {{marketVolumeUSD }}
                       </ion-text>
                     </p>
                   </small>
